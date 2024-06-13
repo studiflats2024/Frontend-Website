@@ -1,0 +1,48 @@
+<header class="header">
+  <div class="container">
+    <!-- <div class="logo">
+      <span class="logo-text">ST</span>
+      <img src="logo.png" alt="Studiflats Logo">
+      <span class="logo-text">DIFLATS</span>
+    </div> -->
+    <!-- <div class="logo-container">
+      <div class="logo">
+        <div class="logo-text-container">
+          <span class="logo-text">ST</span>
+          <img src="logo.png" alt="Studiflats Logo" class="logo-image">
+          <div class="exclamation-container">
+            <div class="exclamation-dot"></div>
+            <div class="exclamation-line"></div>
+          </div>
+          <span class="logo-text">DIFLATS</span>
+        </div>
+      </div>
+    </div> -->
+    <div class="logo-container">
+      <div class="logo-text right">ST</div>
+      <img src="logo.png" alt="Studiflats Logo" class="logo-image">
+      <div class="exclamation-container">
+        <!-- <div class="logo-text left">D</div> -->
+        <svg class="exclamation-mark" width="15" height="15" viewBox="-2 1 10 20" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="5" cy="18" r="3.5" fill="#333" />
+          <rect x="4" y="0" width="2" height="14" fill="#333" />
+        </svg>
+      </div>
+      <span class="logo-text left">DIFLATS</span>
+    </div>
+
+    <nav class="nav">
+      <ul>
+        <li><a routerLink="/">Home</a></li>
+        <li><a routerLink="/properties">Properties</a></li>
+        <li><a routerLink="/about">About Us</a></li>
+        <li><a routerLink="/contact">Contact</a></li>
+      </ul>
+    </nav>
+    <div class="auth-buttons">
+      <button class="search-btn out" (click)="toggleSearch()"><i class="fas fa-search"></i></button>
+      <button class="sign-in-btn">Sign in</button>
+      <button class="language-btn"><i class="fa fa-globe"></i></button>
+    </div>
+  </div>
+</header>
