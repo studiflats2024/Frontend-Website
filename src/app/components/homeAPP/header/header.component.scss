@@ -18,12 +18,7 @@
 }
 
 
-// .logo-text {
-//   font-size: 20px;
-//   font-weight: 900;
-//   color: #333;
-//   font-family: Arial, sans-serif;
-// }
+
 
 .logo-container {
   display: flex;
@@ -42,7 +37,7 @@
   line-height: 15px;
   letter-spacing:2px;
   color: #333;
-  font-family: Arial, sans-serif; /* Adjust the font family as needed */
+  font-family: Arial, sans-serif;
 }
 .right{
  margin-left: -16px;
@@ -59,12 +54,10 @@
 
 .exclamation-mark {
   position: absolute;
-  top: -14px; /* Adjust this value as needed to place the exclamation mark above the "D" */
-  left: 20px; /* Adjust this value to align with the "D" */
+  top: -14px;
+  left: 20px;
 }
-// .logo img {
-//   height: 50px;
-// }
+
 .nav{
   height: 52px;
 }
@@ -77,11 +70,7 @@
 .nav ul li {
   margin-left: 40px;
 }
-// .nav ul li a {
-//   text-decoration: none;
-//   color: #333;
-//   font-weight: bold;
-// }
+
 .nav ul li a {
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
@@ -104,12 +93,7 @@
   cursor: pointer;
   font-size: 16px;
 }
-// .sign-in-btn {
-//   background-color: #007bff;
-//   color: white;
-//   padding: 5px 10px;
-//   border-radius: 4px;
-// }
+ 
 .sign-in-btn {
   background-color: #08509d;
   color: white;
@@ -147,6 +131,7 @@
 .search-btn i {
   color: white;
   font-size: 15px;
+
 
 }
 
