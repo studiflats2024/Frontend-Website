@@ -1,0 +1,129 @@
+ 
+.out{
+  background-color: #e9f0f7;
+  padding-top: 30px;
+}
+.footer{
+
+}
+.footer-top {
+  background-color: #e9f0f7;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.logo-container {
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.logo-image {
+  height: 50px;
+  position:absolute;
+}
+
+.logo-text {
+ margin-top: 20px;
+  font-size: 15px;
+  font-weight: 900;
+  line-height: 15px;
+  letter-spacing:2px;
+  color: #333;
+  font-family: Arial, sans-serif;
+}
+.right{
+ margin-left: -16px;
+}
+.left{
+  margin-left: 25px;
+}
+
+.exclamation-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.exclamation-mark {
+  position: absolute;
+  top: -14px;
+  left: 20px;
+}
+
+.contact-list li {
+  list-style: none;
+}
+
+.contact-list li i {
+  margin-right: 10px;
+  color:#08509d;
+}
+
+.bottom-footer-color {
+  background-color: #08509d;
+  color: white;
+
+}
+
+.footer-bottom a {
+  text-decoration: none;
+  color: white;
+  margin-right: 15px;
+}
+
+.payment-methods img {
+  width: 40px;
+  height: auto;
+}
+li a{
+  text-decoration:none !important;
+}
+
+.pageslist li{
+margin-bottom:10px;
+}
+.followup{
+  width:118px !important;
+
+}
+.followup i{
+  font-size:20px;
+  margin-top:10px;
+  color:#08509d;
+}
+.app{
+  height:30px !important;
+  width:200px !important;
+}
+h5{
+  font-size:18px;
+}
+.payv{
+  width:80px ;
+  margin-right:15px !important;
+
+}
+.paym{
+  width:50px ;
+  margin-right:10px !important;
+
+}
+.paya{
+  width:40px ;
+  border:solid 1px black;
+  // padding:1px 2px !important;
+  border-radius:3px;
+
+}
+
+// .paya .apple{
+//   margin-right:60px !important;
+// }
+
+
+ .color{
+  background-color:#08509d;
+ }
+
+
