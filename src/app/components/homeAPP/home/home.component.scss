@@ -6,12 +6,20 @@
   color: white;
 }
 
+.fixed{
+  position: fixed;
+  top:0px;
+  width: 100%;
+  z-index: 88;
+}
+
+
 .fixed-search-bar {
   position: fixed;
   top: 72px;
   width: 100%;
   left: 0;
-  z-index: 9;
+  z-index: 11;
   // padding-top: 15px;
   background-color: white;
 }

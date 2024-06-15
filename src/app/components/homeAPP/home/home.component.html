@@ -1,10 +1,12 @@
 
 
-
+<div class="fixed">
  <app-header (toggleSearchEvent)="toggleSearch()"></app-header>
+</div>
 <div *ngIf="searchVisible" class="fixed-search-bar">
   <app-search-bar class="mod"></app-search-bar>
 </div>
+
 
 <div class="hero-section">
   <div class="overlay"></div>
