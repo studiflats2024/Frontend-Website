@@ -9,7 +9,7 @@ import { HomeAPPRoutingModule } from './homeAPP-routing.module';
 @NgModule({
   declarations: [
     HeaderComponent,
-    FooterComponent,
+    // FooterComponent,
     HomeComponent,
     SearchBarComponent
   ],

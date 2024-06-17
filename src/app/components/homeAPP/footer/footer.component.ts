@@ -11,7 +11,7 @@
 // }
 
 
-import { Component , EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'app-footer',
@@ -19,6 +19,6 @@ import { Component , EventEmitter, Output } from '@angular/core';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent {
-  
+
 }
 

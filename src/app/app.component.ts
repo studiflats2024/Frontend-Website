@@ -14,7 +14,13 @@ export class AppComponent implements OnInit {
   title = 'StudiFlats';
   message: any = null;
 
-   
+
+
+  searchVisible: boolean = false;
+
+  toggleSearch() {
+    this.searchVisible = !this.searchVisible;
+  }
 
 
 

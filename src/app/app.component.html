@@ -1,3 +1,10 @@
-<router-outlet >
- 
- </router-outlet>
+
+<div class="fixed">
+  <app-header (toggleSearchEvent)="toggleSearch()"></app-header>
+ </div>
+ <div *ngIf="searchVisible" class="fixed-search-bar">
+   <app-search-bar class="mod"></app-search-bar>
+ </div>
+
+<router-outlet ></router-outlet>
+<app-footer></app-footer>
