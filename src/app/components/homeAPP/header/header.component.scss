@@ -8,16 +8,21 @@
   // position: relative;
   z-index: 10;
 }
-.container {
+.add {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
+  flex-wrap: nowrap;
+  // align-items: center;
+  // max-width: 1200px;
   margin: 0 auto;
   padding: 0 20px;
 }
 
-
+.logo-position{
+  position: fixed;
+   top: 20px;
+   left: 20px;
+}
 
 
 .logo-container {
@@ -58,17 +63,21 @@
   left: 20px;
 }
 
+
+
 .nav{
-  height: 52px;
+  // height: 52px;
+  // margin-left: 180px;
 }
 .nav ul {
+  margin-left: calc((100vw - 900px) / 2) !important;
   display: flex;
   list-style: none;
-  margin-top: 15px;
-  padding: 0;
+  margin-top: 10px;
+  // padding-right: 100px !important;
 }
 .nav ul li {
-  margin-left: 40px;
+  margin-left: 40px !important;
 }
 
 .nav ul li a {
@@ -83,6 +92,9 @@
 .auth-buttons {
   display: flex;
   align-items: center;
+   position: fixed;
+   top: 20px;
+   right: 20px;
 }
 .search-btn,
 .sign-in-btn,
@@ -134,5 +146,127 @@
 
 
 }
+
+
+
+
+
+.fix-logo{
+  margin-left: 30px;
+}
+
+.navbar-nav{
+  z-index: 1999;
+}
+
+.fix-auth-buttons{
+
+}
+
+
+
+@media (max-width: 1350px) {
+  .nav{
+    // height: 100px;
+    margin-left: 40px;
+  }
+
+  .auth-buttons{
+
+    margin-right: 60px !important;
+    // margin-bottom: 8px !important;
+  }
+  .navbar-toggler{
+    position: fixed;
+    right: 20px;
+    top: 15px;
+  }
+  .language-btn{
+    display: none;
+  }
+
+  .sign-in-btn {
+    height: 35px;
+    width: 120px;
+
+    font-size: 11px;
+    font-weight:300;
+
+
+  }
+
+  .logo-container {
+    position: fixed;
+    left: 20px;
+    top: 15px;
+  }
+
+  .nav ul {
+    margin-left: calc((100vw - 1350px) / 2);
+  }
+
+}
+
+@media (max-width: 1024px) {
+  // .header{
+  //   padding: 30px;
+  // }
+
+  .nav ul {
+    margin-left: calc((100vw - 800px) / 2) !important;
+  }
+
+}
+
+@media (max-width: 990px) {
+
+   .header{
+    padding: 30px;
+  }
+  .search{
+    display: block !important;
+    position: fixed;
+    right: 90px;
+    top: 15px;
+   }
+}
+
+@media (max-width: 768px) {
+  .auth-buttons{
+
+    position: relative;
+
+    margin-right: 60px !important;
+    // margin-bottom: 8px !important;
+  }
+   .header{
+    padding: 30px;
+  }
+
+
+
+}
+
+@media (max-width: 400px) {
+  .auth-buttons{
+   
+    position: relative;
+
+    margin-right: 60px !important;
+    // margin-bottom: 8px !important;
+  }
+   .header{
+    padding: 30px;
+  }
+
+  .nav ul {
+     position: relative;
+     top :30px;
+     left:100px;
+  }
+
+}
+
+
 
 

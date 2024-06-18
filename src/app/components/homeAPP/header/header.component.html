@@ -1,31 +1,51 @@
-<header class="header">
-  <div class="container">
+ 
+  <header class="header">
+    <div class="container add">
 
-    <div class="logo-container">
-      <div class="logo-text right">ST</div>
-      <img src="logo.png" alt="Studiflats Logo" class="logo-image">
-      <div class="exclamation-container">
-        <!-- <div class="logo-text left">D</div> -->
-        <svg class="exclamation-mark" width="15" height="15" viewBox="-2 1 10 20" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="5" cy="18" r="3.5" fill="#333" />
-          <rect x="4" y="0" width="2" height="14" fill="#333" />
-        </svg>
-      </div>
-      <span class="logo-text left">DIFLATS</span>
+<nav class="navbar navbar-expand-lg navbar-light">
+<div class="logo-position">
+  <div class="logo-container fix-logo">
+    <div class="logo-text right">ST</div>
+    <img src="logo.png" alt="Studiflats Logo" class="logo-image">
+    <div class="exclamation-container">
+
+      <svg class="exclamation-mark" width="15" height="15" viewBox="-2 1 10 20" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="5" cy="18" r="3.5" fill="#333" />
+        <rect x="4" y="0" width="2" height="14" fill="#333" />
+      </svg>
     </div>
+    <span class="logo-text left">DIFLATS</span>
+  </div>
+  <!-- <a class="navbar-brand" href="#">Navbar</a> -->
+</div>
 
-    <nav class="nav">
-      <ul>
-        <li><a routerLink="/">Home</a></li>
-        <li><a routerLink="/properties">Properties</a></li>
-        <li><a routerLink="/about">About Us</a></li>
-        <li><a routerLink="/contact">Contact</a></li>
-      </ul>
-    </nav>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <button class="search-btn out  d-none search" (click)="toggleSearch()"><i class="fas fa-search thin-icon"></i></button>
+  <div class="nav collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item" ><a class="nav-link" routerLink="/">Home</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/properties">Properties</a></li>
+      <li class="nav-item"><a class="nav-link" routerLink="/about">AboutUs</a></li>
+      <li class="nav-item" ><a class="nav-link" routerLink="/contact">Contact</a></li>
+    </ul>
     <div class="auth-buttons">
+
       <button class="search-btn out" (click)="toggleSearch()"><i class="fas fa-search thin-icon"></i></button>
       <button class="sign-in-btn">Sign in</button>
       <button class="language-btn"><i class="fa fa-globe"></i></button>
+
     </div>
   </div>
+
+
+</nav>
+
+
+</div>
+
+
 </header>
+<!-- </div> -->
