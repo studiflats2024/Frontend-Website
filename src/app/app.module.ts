@@ -11,12 +11,14 @@ import { HomeAPPModule } from './components/homeAPP/homeAPP.module';
 import { CommonModule } from '@angular/common';
 
 
+
+
 @NgModule({
   declarations: [
     AppComponent,
     //  HeaderComponent,
      FooterComponent,
-    // SearchBarComponent
+
 
   ],
   imports: [

@@ -1,0 +1,86 @@
+<div class="container">
+  <!-- <div class="filter-bar">
+    <div class="filter-item">Price</div>
+    <div class="filter-item">Type of place</div>
+    <div class="filter-item">Wifi</div>
+    <div class="filter-item">Amenities</div>
+    <div class="filter-item">Filters</div>
+  </div> -->
+  <div class="filter-bar">
+    <div class="filter-item">
+      <button pButton type="button" label="Price" icon="pi pi-chevron-down" iconPos="right"></button>
+    </div>
+    <div class="filter-item">
+      <button pButton type="button" label="Type of place" icon="pi pi-chevron-down" iconPos="right"></button>
+    </div>
+    <div class="filter-item">
+      <button pButton type="button" label="Wifi"></button>
+    </div>
+    <div class="filter-item">
+      <button pButton type="button" label="Amenities"></button>
+    </div>
+    <div class="filter-item">
+      <button pButton type="button" label="Filters" icon="pi pi-sliders-h" iconPos="left"></button>
+    </div>
+  </div>
+  <div class="divider"></div>
+  <div class="available-apartments">+100 apartments available</div>
+  <div class="divider wid"></div>
+
+
+  <div class="main-content">
+    <div class="apartment-list mt-3">
+      <div *ngFor="let apartment of apartments" class="apartment-card">
+        <img [src]="apartment.image" alt="{{ apartment.title }}" class="apartment-image">
+        <div class="apartment-content">
+          <div class="apartment-header">
+            <div class="apartment-title">{{ apartment.title }}</div>
+            <i class="pi pi-heart"></i>
+          </div>
+          <div class="apartment-location">
+            <i class="pi pi-map-marker"></i>
+            <span>{{ apartment.address }}</span>
+          </div>
+          <div class="divider"></div>
+          <div class="apartment-details">
+            <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid">{{ apartment.beds }} beds</div>
+            <div class="detail-item"><i class="pi pi-user"></i>{{ apartment.persons }} persons</div>
+            <div class="detail-item"><i class="pi pi-home"></i>{{ apartment.size }} m²</div>
+          </div>
+          <!-- <div class="apartment-amenities">
+            <span *ngFor="let amenity of apartment.amenities">{{ amenity }} </span>
+          </div> -->
+          <div class="amenities">
+            <span *ngFor="let amenity of apartment.amenities; let last = last">
+              <ng-container *ngIf="amenity === 'Wifi'; else regularAmenity">
+                <i class="pi pi-wifi"></i> {{ amenity }}
+              </ng-container>
+              <ng-template #regularAmenity>
+                {{ amenity }}
+              </ng-template>
+              <span *ngIf="!last" class="dot">·</span>
+            </span>
+          </div>
+
+
+
+
+          <div class="divider"></div>
+          <div class="apartment-footer">
+            <div class="review">
+              <span class="rating">{{ apartment.rating }}</span>
+              <i class="pi pi-star"></i>
+              <span class="review-count">({{ apartment.reviews }} reviews)</span>
+            </div>
+            <div class="price">
+              <span>{{ apartment.price }}€</span>/month
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="map">
+      <img [src]="mapImage" alt="Map" (click)="navigateToMap()">
+    </div>
+  </div>
+</div>

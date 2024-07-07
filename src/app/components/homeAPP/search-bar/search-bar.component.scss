@@ -104,6 +104,8 @@
   -moz-border-radius: 10px;
   -ms-border-radius: 10px;
   -o-border-radius: 10px;
+
+  padding-bottom: 10px;
 }
 
 .search-fields {
@@ -226,7 +228,7 @@
 
 .search-button:hover {
   background-color: #0056b3;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);  
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
 .search-button i {
