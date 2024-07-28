@@ -9,6 +9,7 @@
 .fixed{
   position: fixed;
   top:0px;
+
   width: 100%;
   z-index: 88;
 }
@@ -16,13 +17,15 @@
 
 .fixed-search-bar {
   position: fixed;
-  top: 72px;
+  top: 90px;
   width: 100%;
   left: 0;
   z-index: 11;
   // padding-top: 15px;
   background-color: white;
 }
+
+
 
 .mod {
   width: 100%;

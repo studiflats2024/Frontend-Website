@@ -91,6 +91,7 @@ button .p-button-icon-right, button .p-button-icon-left {
   /* height: 258px; */
   margin-bottom: 20px;
   margin-right: 20px;
+  height: 270px;
 }
 
 .apartment-image {
@@ -221,3 +222,334 @@ button .p-button-icon-right, button .p-button-icon-left {
   margin: 0 5px;
 }
 
+.card {
+  border-radius: 8px;
+  border: 1px solid #CECECE;
+}
+
+.input-group-text {
+  background-color: #E5E7EF;
+}
+
+.price-input-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  border-radius: 5px;
+  border: 1px solid #E5E7EF;
+}
+.price-input-addon {
+  position: absolute;
+  top:10px;
+  left: 20px;
+  color: #495057;
+  font-size: 1rem;
+}
+
+.price-input {
+  padding-left: 25px;
+  width: 100%;
+}
+
+.price-label {
+  display: block;
+  color: #AEAEAE;
+  font-size: 14px;
+  font-family: Inter, sans-serif;
+  font-weight: 400;
+  text-align: center;
+  margin-top: 8px;
+}
+
+.p-inputgroup-addon {
+  background: #f0f0f0;
+}
+
+.p-button-secondary {
+  width: 45%;
+}
+
+.p-button-primary {
+  width: 45%;
+}
+
+
+
+
+
+
+
+.border-custom {
+  width: 100%;
+  height: 40px;
+  padding-top: 1.60px;
+  padding-bottom: 1.60px;
+  padding-left: 9.60px;
+  padding-right: 1.60px;
+  border-radius: 5px;
+  border: 1px #E5E7EF solid;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+.input-custom {
+  width: 100%;
+  height: 36.80px;
+  padding: 6.40px 5px;
+  background: white;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.container-custom {
+  flex: 1 1 0;
+  align-self: stretch;
+  padding-top: 0.80px;
+  padding-bottom: 0.80px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.currency {
+  width: 13.19px;
+  height: 15px;
+  color: #343434;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  line-height: 15px;
+  word-wrap: break-word;
+}
+.value-input {
+  width: 100%;
+  height: 100%;
+  border: none;
+  color: black;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  word-wrap: break-word;
+  padding: 0;
+}
+.value-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+
+.p-button-clear {
+  color: #343434;
+  padding-left:0;
+  background: none;
+  border: none;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 900;
+  box-shadow: none !important;
+}
+
+.p-button-apply {
+  color: #fff;
+  width: 60%;
+  background-color: #0056b3;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+.p-button-apply:hover {
+  background-color: #004085;
+}
+
+
+.picker-div {
+   position:absolute;
+   top:40%;
+   left :8%;
+   z-index: 1000;
+   display: flex;
+width: 300px;
+height: 292px;
+padding: 12px 10px 13px 10px;
+justify-content: center;
+align-items: center;
+border-radius: 8px;
+border: 1px solid var(--Neutral-Neutral80, #CECECE);
+background: #FFF;
+box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.20);
+}
+
+.picker-div-guest{
+  width:250px;
+  /* height: 150px; */
+  position:absolute;
+  top:40%;
+  left :25%;
+  z-index: 1000;
+  display: inline-flex;
+padding: 23px 17.91px 11.2px 20px;
+flex-direction: column;
+justify-content: flex-end;
+align-items: flex-start;
+gap: 23.01px;
+border-radius: 8px;
+border: 1px solid var(--Neutral-Neutral80, #CECECE);
+background: #FFF;
+box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.20);
+}
+
+
+
+.fix{
+
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  border:none;
+  width: 150px;
+
+
+
+}
+
+:host ::ng-deep .p-inputnumber .p-inputnumber-input {
+
+  text-align: center;
+
+  border: none;
+  outline: none;
+  font-size: 16px;
+  width: 40px;
+}
+
+:host ::ng-deep .p-inputnumber .p-inputnumber-button {
+  margin: auto;
+  background: #EDF1F4;
+  color:#374151;
+  /* border: 1px solid #ccc; */
+  border:none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+:host ::ng-deep .p-inputnumber .p-inputnumber-button-minus {
+  margin-right: 5px;
+  color:#B5BEC5 !important;
+  border-radius: 13px;
+border: 1px solid #E5E9ED;
+
+background: #EDF1F4;
+
+}
+
+:host ::ng-deep .p-inputnumber .p-inputnumber-button-plus {
+  margin-left: 5px;
+  color:#374151;
+  border-radius: 13px;
+border: 1px solid #E5E9ED;
+
+background: #EDF1F4;
+}
+/* :host ::ng-deep .p-inputnumber .p-inputnumber-button-plus .pi{
+
+  color:#374151;
+
+} */
+
+:host ::ng-deep .pi-minus{
+
+  color:#B5BEC5;
+
+}
+
+
+
+:host ::ng-deep .p-inputnumber .guest-label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+
+
+
+/*
+.TypeOfPlace {
+  width: 300px;
+  height: auto;
+  padding: 10px 15px 19px 15px;
+  background: white;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.20);
+  border-radius: 8px;
+  border: 1px #CECECE solid;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  display: inline-flex;
+}
+
+h6 {
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: 500;
+}
+
+.form-check-label {
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: 500;
+  color: #343434;
+  text-transform: capitalize;
+} */
+
+
+
+.TypeOfPlace {
+  width: 300px;
+  height: auto;
+  background: white;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.20);
+  border-radius: 8px;
+  border: 1px #CECECE solid;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  display: flex;
+}
+
+.Heading3AllApartmentsIncludeWifi {
+  width: 100%;
+  height: auto;
+  color: #7B8389;
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: 500;
+}
+
+.form-check-input {
+  margin-left: 0;
+}
+
+.p-checkbox .p-checkbox-box {
+  border-radius: 50%;
+  border: 1px solid #B5BEC5;
+}
+
+.p-checkbox .p-checkbox-box.p-highlight {
+  background: #1151B4;
+  border-color: #1151B4;
+}
+
+.p-checkbox .p-checkbox-icon {
+  color: white;
+}

@@ -1,22 +1,72 @@
-<div class="search-bar">
+<div class="search-bar smooth-transition"  (click)="onSearchBarClick($event)">
   <div class="search-fields">
     <div class="field">
       <label for="city">City</label>
-      <input type="text" id="city" placeholder="Where are you going?">
+      <input type="text" id="city" placeholder="Where are you going?" (focus)="showPicker('city')">
+      <div *ngIf="activePicker === 'city'" class="date-picker">
+        <ul>
+          <li>Charlottenburg-Berlin</li>
+          <li>Wannsee-Berlin</li>
+          <li>Tempelhof-Berlin</li>
+          <li>Schöneberg-Berlin</li>
+          <li>Mitte-Berlin</li>
+          <li>Friedrichshain-Berlin</li>
+        </ul>
+      </div>
     </div>
     <div class="field">
       <label for="check-in date">Check in</label>
       <!-- <input type="date" id="check-in" placeholder="Add dates"> -->
-      <input type="text" class="date-input" placeholder="Add dates" aria-label="Check in">
+      <!-- <input type="text" class="date-input" placeholder="Add dates" aria-label="Check in" (focus)="showPicker('check-in')"> -->
+      <p-calendar [(ngModel)]="checkInDate" placeholder="Add dates" (focus)="showPicker('check-in')"></p-calendar>
     </div>
     <div class="field date">
       <label for="check-out">Check out</label>
       <!-- <input type="date" id="check-out" placeholder="Add dates"> -->
-      <input type="text" class="date-input" placeholder="Add dates" aria-label="Check out">
+      <!-- <input type="text" class="date-input" placeholder="Add dates" aria-label="Check out" (focus)="showPicker('check-out')"> -->
+      <p-calendar [(ngModel)]="checkOutDate" placeholder="Add dates" (focus)="showPicker('check-out')"></p-calendar>
     </div>
     <div class="field">
       <label for="guests">Guests</label>
-      <input type="number" id="guests" placeholder="Add guests">
+      <!-- <input type="number" id="guests" placeholder="Add guests" (focus)="showPicker('guests')"> -->
+      <input type="text" (focus)="onFocusGuests()" [placeholder]="guests > 0 ? guests : 'Add guests'" (keydown)="onGuestsKeyDown($event)">
+      <div *ngIf="showGuestsPicker" class="guests-picker"  (keydown)="onGuestsKeyDown($event)">
+        <!-- <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="1" [max]="10"  buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal"  incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" >
+          <ng-template pTemplate="prepend">
+            <span class="guest-label">Guests</span>
+          </ng-template>
+ </p-inputNumber> -->
+
+ <p-floatLabel>
+
+  <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;  position: absolute !important;
+  top: 100%;
+  z-index: 1000;
+  background: white;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex;
+width: 200px;
+padding: 0px 8px;
+">
+
+    <span>Guests</span>
+    <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+
+    </p-inputNumber>
+  </div>
+</p-floatLabel>
+
+        <!-- <p-floatLabel>
+
+          <label for="number-input">Number</label>
+           <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="1" [max]="10"  buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal"  incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus" > </p-inputNumber>
+      </p-floatLabel> -->
+
+
+      </div>
     </div>
     <div class="field">
       <button class="search-button"><i class="fa fa-search"></i> Search</button>

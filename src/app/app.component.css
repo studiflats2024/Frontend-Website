@@ -10,7 +10,7 @@
 
 .fixed-search-bar {
   position: fixed;
-  top: 92px;
+  top: 75px;
   width: 100%;
   left: 0;
   z-index: 11;
@@ -20,6 +20,9 @@
 
 .mod {
   width: 100%;
+}
+.smooth-transition {
+  transition: all 1s ease;
 }
 
 @media (max-width: 990px) {

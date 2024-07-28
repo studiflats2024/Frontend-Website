@@ -5,6 +5,10 @@ import { FooterComponent } from './footer/footer.component';
 import { HomeComponent } from './home/home.component';
 import { SearchBarComponent } from './search-bar/search-bar.component';
 import { HomeAPPRoutingModule } from './homeAPP-routing.module';
+import { FormsModule } from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 @NgModule({
   declarations: [
@@ -15,7 +19,11 @@ import { HomeAPPRoutingModule } from './homeAPP-routing.module';
   ],
   imports: [
     CommonModule,
-    HomeAPPRoutingModule
+    HomeAPPRoutingModule,
+    FormsModule,
+    CalendarModule,
+    InputNumberModule,
+    FloatLabelModule
   ],
   exports: [
     HeaderComponent,

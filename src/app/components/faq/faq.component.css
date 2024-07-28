@@ -1,4 +1,4 @@
-.contacts {
+/* .contacts {
   width: 100%;
   padding: 130px 79px 88px 78px;
   background: #F6F6F6;
@@ -15,7 +15,7 @@
 }
 .header {
   text-align: center;
-  /* margin-bottom: 20px; */
+
 }
 .header h1 {
   font-size: 36px;
@@ -48,7 +48,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* padding: 24px 60px; */
+
 }
 .faq-title {
   font-size: 24px;
@@ -70,4 +70,173 @@
 }
 :host ::ng-deep .p-card .p-card-content {
   padding: 0 !important;
+} */
+
+
+
+
+
+
+
+
+/* src/app/components/faq/faq.component.css */
+/* .contacts {
+  margin: 0 auto;
+  padding: 20px;
+  max-width: 800px;
+}
+
+.frame {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.header h1 {
+  margin-bottom: 10px;
+}
+
+.header p {
+  margin-bottom: 20px;
+  color: #666;
+}
+
+.faq-content {
+  padding: 10px 0;
+} */
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.header {
+  text-align: center;
+  margin: 40px;
+
+}
+.header h1 {
+  font-size: 36px;
+  font-family: Inter;
+  font-weight: 600;
+  color: #313033;
+  margin: 0;
+}
+.header p {
+  font-size: 16px;
+  font-family: Inter;
+  font-weight: 400;
+  color: #313033;
+}
+
+
+ :host ::ng-deep .p-accordion .p-accordion-header {
+  /* background-color: #f8f9fa; */
+
+  border-radius: 5px;
+  /* margin-bottom: 15px; */
+}
+
+
+
+/* :host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  font-weight: bold;
+  color: #212529;
+  text-decoration: none;
+
+} */
+
+:host ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  font-weight: bold;
+  color: #212529;
+  text-decoration: none;
+  background: #ffffff ;
+  margin: 0px 78px;
+  margin-bottom: 30 !important;
+}
+
+
+:host ::ng-deep .p-accordion .p-accordion-content {
+  /* padding: 15px; */
+  border: 1px solid #dee2e6;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  background-color: #ffffff;
+  /* margin-bottom: 15px; */
+  margin: 0 78px !important;
+
+}
+
+
+
+.custom-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: 8px;
+  padding: 7px 0;
+ background: #ffffff ;
+}
+
+.faq-question {
+  text-align: left;
+  flex-grow: 1;
+  font-size: 18px;
+  font-family: Inter;
+  font-weight: 700;
+  color: #313033;
+}
+
+
+
+:host ::ng-deep .p-accordion .p-accordion-header .faq-icon:hover {
+  color: #343a40;
+}
+
+
+
+.faq-button {
+  background: #EBEBEB;
+
+  border-radius: 24px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border:none;
+  color: #313033;
+}
+.frame {
+  width: 100%;
+  padding: 130px 79px 88px 78px;
+  background: #F6F6F6;
+}
+
+
+
+:host ::ng-deep svg {
+   display: none !important;
+}
+
+
+:host ::ng-deep .p-accordion p-accordiontab .p-accordion-tab {
+  margin-bottom: 20px;
 }

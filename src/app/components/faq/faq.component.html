@@ -1,24 +1,32 @@
 
+<div class=" w-100" style="background: #EBEBEB; padding-right:40px; padding-left:40px; padding-bottom: 40px; ">
+<div style="height: 100px;"></div>
 
 
-
-<div class="contacts">
-  <div class="frame">
-    <div class="header">
-      <h1>Frequently asked questions</h1>
-      <p>find questions and answers related to your booking</p>
-    </div>
-    <div class="faq-list">
-      <div class="faq-item" *ngFor="let faq of faqs">
-        <p-card class="faq-card">
-          <div class="faq-content">
-            <div class="faq-title">
-              {{faq}}
-            </div>
-            <button pButton type="button" icon="pi pi-plus" class="p-button-rounded p-button-secondary faq-button"></button>
-          </div>
-        </p-card>
-      </div>
-    </div>
-  </div>
+<div class="header">
+  <h1>Frequently asked questions</h1>
+  <p>find questions and answers related to your booking</p>
 </div>
+
+
+<p-accordion>
+  <p-accordionTab *ngFor="let faq of faqs" >
+    <ng-template pTemplate="header">
+      <div class="custom-accordion-header">
+        <span class="faq-question">{{ faq.faq_Quest }}</span>
+        <!-- <i class="pi pi-plus "></i> -->
+        <button pButton type="button" icon="pi pi-plus" class="p-button-rounded p-button-secondary faq-button"></button>
+      </div>
+    </ng-template>
+    <p class="m-0">
+      {{ faq.faq_Ans }}
+    </p>
+
+  </p-accordionTab>
+
+</p-accordion>
+
+
+
+
+

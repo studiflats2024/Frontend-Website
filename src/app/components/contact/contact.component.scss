@@ -43,6 +43,7 @@
 .contact-item {
   display: flex;
   margin-bottom: 20px;
+
 }
 
 .contact-item .icon {
@@ -51,6 +52,10 @@
   margin-right: 15px;
   padding:20px;
   background-color: #e9f0f7;
+  border-radius: 6px;
+  width: 70px;
+  height: 70px;
+
 }
 
 .contact-item h4 {

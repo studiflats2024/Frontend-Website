@@ -1,55 +1,48 @@
+
+
+
+
 <div class="container">
-  <!-- <div class="filter-bar">
-    <div class="filter-item">Price</div>
-    <div class="filter-item">Type of place</div>
-    <div class="filter-item">Wifi</div>
-    <div class="filter-item">Amenities</div>
-    <div class="filter-item">Filters</div>
-  </div> -->
   <div class="filter-bar">
-    <div class="filter-item">
-      <button pButton type="button" label="Price" icon="pi pi-chevron-down" iconPos="right"></button>
+    <div class="filter-item" >
+      <button pButton type="button" label="Price" icon="pi pi-chevron-down" iconPos="right" (click)="togglePicker()" style="position: relative;"></button>
     </div>
     <div class="filter-item">
       <button pButton type="button" label="Type of place" icon="pi pi-chevron-down" iconPos="right"></button>
     </div>
     <div class="filter-item">
-      <button pButton type="button" label="Wifi"></button>
+      <button pButton type="button" label="Guests" (click)="togglePickerguest()" style="position: relative;"></button>
     </div>
-    <div class="filter-item">
+    <!-- <div class="filter-item">
       <button pButton type="button" label="Amenities"></button>
-    </div>
+    </div> -->
     <div class="filter-item">
       <button pButton type="button" label="Filters" icon="pi pi-sliders-h" iconPos="left"></button>
     </div>
   </div>
   <div class="divider"></div>
-  <div class="available-apartments">+100 apartments available</div>
+  <div class="available-apartments">+{{ totalRecords }} apartments available</div>
   <div class="divider wid"></div>
-
 
   <div class="main-content">
     <div class="apartment-list mt-3">
       <div *ngFor="let apartment of apartments" class="apartment-card">
-        <img [src]="apartment.image" alt="{{ apartment.title }}" class="apartment-image">
+        <img [src]="apartment.apartment_Image" alt="{{ apartment.apartment_Name }}" class="apartment-image">
         <div class="apartment-content">
           <div class="apartment-header">
-            <div class="apartment-title">{{ apartment.title }}</div>
+            <div class="apartment-title">{{ apartment.apartment_Name }}</div>
             <i class="pi pi-heart"></i>
           </div>
           <div class="apartment-location">
             <i class="pi pi-map-marker"></i>
-            <span>{{ apartment.address }}</span>
+            <span>{{ apartment.apartment_Location }}</span>
           </div>
           <div class="divider"></div>
           <div class="apartment-details">
-            <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid">{{ apartment.beds }} beds</div>
-            <div class="detail-item"><i class="pi pi-user"></i>{{ apartment.persons }} persons</div>
-            <div class="detail-item"><i class="pi pi-home"></i>{{ apartment.size }} m²</div>
+            <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid">{{ apartment.apartment_No_Bedrooms }} beds</div>
+            <div class="detail-item"><i class="pi pi-user"></i>{{ apartment.apartment_Persons_No }} persons</div>
+            <div class="detail-item"><i class="pi pi-home"></i>{{ apartment.apartment_Area_Square }} m²</div>
           </div>
-          <!-- <div class="apartment-amenities">
-            <span *ngFor="let amenity of apartment.amenities">{{ amenity }} </span>
-          </div> -->
           <div class="amenities">
             <span *ngFor="let amenity of apartment.amenities; let last = last">
               <ng-container *ngIf="amenity === 'Wifi'; else regularAmenity">
@@ -61,10 +54,6 @@
               <span *ngIf="!last" class="dot">·</span>
             </span>
           </div>
-
-
-
-
           <div class="divider"></div>
           <div class="apartment-footer">
             <div class="review">
@@ -73,7 +62,7 @@
               <span class="review-count">({{ apartment.reviews }} reviews)</span>
             </div>
             <div class="price">
-              <span>{{ apartment.price }}€</span>/month
+              <span>{{ apartment.apartment_Price }}€</span>/month
             </div>
           </div>
         </div>
@@ -84,3 +73,124 @@
     </div>
   </div>
 </div>
+
+
+<!--picker price -->
+
+<div class="p-card"   *ngIf="showPicker" class="picker-div" style="background-color: #fff;">
+  <div class="p-card-body">
+    <div class="p-mb-3" style="width: 100%;">
+      <img src="slider.svg"/>
+      <p-slider [(ngModel)]="priceRange" [style]="{'width':'100%'}" [range]="true" [min]="0" [max]="5000"></p-slider>
+    </div>
+    <p class="text-secondary text-center">Price per month</p>
+
+
+      <div class="row align-items-center mb-2">
+        <div class="col-5">
+          <label class="price-label">Min</label>
+          <div class="border-custom">
+            <div class="currency">€</div>
+            <div class="input-custom">
+              <div class="container-custom">
+                <input type="number" pInputText class="value-input" [(ngModel)]="priceRange[0]">
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-2 text-center d-flex align-items-center justify-content-center" style="padding-top: 15%;">
+          <span>-</span>
+        </div>
+        <div class="col-5">
+          <label class="price-label">Max</label>
+          <div class="border-custom">
+            <div class="currency">€</div>
+            <div class="input-custom">
+              <div class="container-custom">
+                <input type="number" pInputText class="value-input" [(ngModel)]="priceRange[1]">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="d-flex justify-content-between align-items-center">
+        <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
+        <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
+      </div>
+  </div>
+</div>
+
+
+
+<!--picker guests-->
+
+<div *ngIf="showPickerguest" class="picker-div-guest" style="background-color: #fff;">
+
+  <p-floatLabel>
+
+    <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;
+
+
+    background: white;
+
+
+
+    display: flex;
+  width: 200px;
+  padding: 0px 8px;
+  ">
+
+      <span>Guests</span>
+      <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+
+      </p-inputNumber>
+    </div>
+  </p-floatLabel>
+  <button pButton type="button" label="Apply" class="p-button-apply" style='width:100%' (click)="apply()"></button>
+</div>
+
+
+
+
+<!-- type of place -->
+<!-- <div  >
+  <div class="TypeOfPlace p-3 mb-2 bg-white rounded shadow-sm">
+
+      <h6 class="text-secondary font-weight-bold" >All apartments include WiFi</h6>
+
+    <div *ngFor="let option of options" class="form-group form-check ">
+      <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptions" inputId="{{option.value}}"  class="form-check-input "></p-checkbox>
+      <label [for]="option.value" class="form-check-label ml-3" >{{option.label}}</label>
+    </div>
+    <div class="d-flex justify-content-between mt-3">
+      <button pButton type="button" label="Clear" class="p-button-secondary" (click)="clear()"></button>
+      <button pButton type="button" label="Apply" class="p-button-primary" (click)="apply()"></button>
+    </div>
+  </div>
+</div> -->
+
+
+<div class="container">
+  <div class="TypeOfPlace p-3 mb-2 bg-white rounded shadow-sm">
+    <div class="Container" style="padding-top: 15.8px; padding-bottom: 3px; padding-left: 10px; padding-right: 10px; flex-direction: column; justify-content: flex-end; align-items: flex-start; gap: 24px; display: flex">
+      <div class="Heading3AllApartmentsIncludeWifi text-secondary font-weight-bold" style="font-size: 14px; font-family: Poppins;">All apartments include WiFi</div>
+      <div class="List w-100 d-flex flex-column justify-content-end align-items-start">
+        <div *ngFor="let option of options" class="form-group form-check d-flex align-items-center mb-3">
+          <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptions" inputId="{{option.value}}"  class="form-check-input"></p-checkbox>
+          <label [for]="option.value" class="form-check-label ml-3">{{option.label}}</label>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex justify-content-between mt-3">
+      <button pButton type="button" label="Clear" class="p-button-text" (click)="clear()"></button>
+      <button pButton type="button" label="Apply" class="p-button-primary" (click)="apply()"></button>
+    </div>
+  </div>
+</div>
+
+
+
+
+

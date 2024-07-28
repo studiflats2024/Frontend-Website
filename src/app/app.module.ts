@@ -11,6 +11,10 @@ import { HomeAPPModule } from './components/homeAPP/homeAPP.module';
 import { CommonModule } from '@angular/common';
 
 
+import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+
 
 
 @NgModule({
@@ -25,8 +29,11 @@ import { CommonModule } from '@angular/common';
     BrowserModule,
     AppRoutingModule,
     HomeAPPModule,
-
+    HttpClientModule,
+    BrowserAnimationsModule ,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
 
   ],
   providers: [],

@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule ,CUSTOM_ELEMENTS_SCHEMA} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccordionModule } from 'primeng/accordion';
+
 import { CardModule } from 'primeng/card';
 import { ButtonModule } from 'primeng/button';
 import { RouterModule, Routes } from '@angular/router';
@@ -20,6 +21,7 @@ const routes: Routes = [
     ButtonModule,
     RouterModule.forChild(routes)
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
   // exports: [FaqComponent]
 })
 export class FaqModule { }
