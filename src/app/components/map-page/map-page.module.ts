@@ -15,6 +15,9 @@ import { RouterModule } from '@angular/router';
         component: MapPageComponent
       }
     ])
+  ],
+  exports: [
+    MapPageComponent
   ]
 })
 export class MapPageModule { }

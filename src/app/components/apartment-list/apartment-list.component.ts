@@ -16,7 +16,9 @@ export class ApartmentListComponent implements OnInit {
   guests: number = 1;
   priceRange: number[] = [0, 5000];
   showPickerguest:boolean=false;
+  showPickerplace:boolean=false;
   showPicker: boolean = false;
+  filters:boolean=false;
   options = [
     { label: 'Apartment', value: 'apartment' },
     { label: 'Studio', value: 'studio' },
@@ -36,8 +38,14 @@ export class ApartmentListComponent implements OnInit {
   togglePicker() {
     this.showPicker = !this.showPicker;
   }
+  togglePickerplace() {
+    this.showPickerplace = !this.showPickerplace;
+  }
   togglePickerguest(){
     this.showPickerguest = !this.showPickerguest;
+  }
+  togglePickerfilter() {
+    this.filters = !this.filters;
   }
   clear() {
     this.priceRange = [0, 5000];
