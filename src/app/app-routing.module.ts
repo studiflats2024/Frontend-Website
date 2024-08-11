@@ -15,7 +15,7 @@ const routes: Routes = [
     loadChildren: () => import('./components/apartment-list/apartment-list.module').then(m => m.ApartmentListModule)
   },
   {
-    path: 'apartment-details',
+    path: 'apartment-details/:id',
     loadChildren: () => import('./components/apartment-details/apartment-details.module').then(m => m.ApartmentDetailsModule)
   },
   { path: 'map', loadChildren: () => import('./components/map-page/map-page.module').then(m => m.MapPageModule) }

@@ -36,3 +36,169 @@
     background-color: white;
   }
 }
+
+
+/*----------------------login modal----------------------------*/
+@media (max-width: 975px) {
+  .modal-image-section {
+    display: none;
+    width: 0;
+    height: 0;
+  }
+  .modal-form-section {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .modal-verify-section {
+    width: 100% !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+  }
+}
+.login-modal-container {
+  display: flex;
+  height: 650px;
+  background: white;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+
+.modal-image-section {
+  width: 50%;
+  background: linear-gradient(330deg, rgba(56, 105, 235, 0) 0%, rgba(56, 105, 235, 0.7) 100%);
+}
+
+.modal-form-section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.modal-verify-section {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+}
+:host ::ng-deep .p-inputotp {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding-bottom: 10px;
+}
+.rotate{
+  color: var(--primary-color-600, #1151B4);
+  text-align: center;
+
+
+  font-family: Inter;
+  font-size: 0.7rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.42857rem;
+  letter-spacing: 0.0025rem;
+}
+.rotatee{
+  display:flex;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+@media (max-width: 599px) {
+  :root {
+      --base-font-size: 0.875rem; /* 14px equivalent */
+  }
+}
+
+.logo {
+  width: 100px;
+}
+
+.login-header {
+  text-align: left;
+}
+
+.login-title {
+  font-size: 32px;
+  font-weight: 600;
+  color: #313131;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  font-weight: 400;
+  color: #313131;
+  opacity: 0.75;
+}
+
+
+.labell {
+  color: #344054;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 500;
+}
+
+.action {
+  color: #162447;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+}
+
+.form-check .form-check-input {
+  float: left;
+  margin-left: -1.5em;
+  margin-top: 5px;
+}
+
+
+
+
+:host ::ng-deep .p-dropdown-items {
+  margin: 0;
+  padding: 0 !important;
+  list-style-type: none;
+
+}
+
+:host ::ng-deep  .p-dropdown {
+  display: inline-flex;
+  cursor: pointer;
+  position: relative;
+  -webkit-user-select: none;
+  user-select: none;
+  width: 100%;
+}
+
+
+:host ::ng-deep  .p-datepicker {
+
+
+
+  transform-origin: center bottom;
+  top: -250% !important;
+  left: -200% !important;
+  margin-top: calc(var(--p-anchor-gutter));
+  z-index: 1002;
+}
+
+@media (max-width: 900px) {
+
+  :host ::ng-deep  .p-datepicker {
+
+
+
+    transform-origin: center bottom;
+    top: -250% !important;
+    left: -230px !important;
+    margin-top: calc(var(--p-anchor-gutter));
+    z-index: 1002;
+  }
+}

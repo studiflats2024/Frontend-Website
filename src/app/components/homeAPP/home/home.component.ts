@@ -12,6 +12,9 @@ export class HomeComponent {
 
   toggleSearch() {
     this.searchVisible = !this.searchVisible;
+    console.log(this.searchVisible );
   }
+
+
 }
 

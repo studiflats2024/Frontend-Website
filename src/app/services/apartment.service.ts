@@ -1,18 +1,43 @@
 // src/app/apartment.service.ts
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,HttpHeaders, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Apartment } from '../models/apartment.model';
+import { environment } from '../../../src/environments/environment';
+
+
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApartmentService {
-  private apiUrl = 'https://devapi.studiflats.com/api/ApartmentV2/GetListApartments';
+
+  token: any = localStorage.getItem('tokenKey');
+
+  headers = new HttpHeaders({
+    'Content-Type': 'application/json',
+    // Authorization: `Bearer ${this.token}`,
+  });
 
   constructor(private http: HttpClient) {}
 
-  getApartments(pageNo: number = 1, pageSize: number = 5): Observable<Apartment[]> {
-    return this.http.get<Apartment[]>(`${this.apiUrl}?Page_No=${pageNo}&Page_Size=${pageSize}`);
+  getAllApartments(PageNumber: number, PageSize: number,Status:string): Observable<Apartment> {
+    const url = `${environment.apiUrl}/ApartmentV2/GetListApartments`;
+    const params = new HttpParams()
+      .set('Page_No', PageNumber.toString())
+      .set('Page_Size', PageSize.toString())
+      .set('status', Status);
+
+    return this.http.get<Apartment>(url, { params: params });
   }
+
+  getApartDetail(id: string): Observable<any> {
+    return this.http.get(
+      `${environment.apiUrl + '/ApartmentV2/Apartment_InDetails?' + `Apartment_ID=${id}`}`,
+      { headers: this.headers }
+    );
+  }
+
+
 }

@@ -1,7 +1,12 @@
-<div class=" mx-6" style="margin-top: 100px;">
-  <div class="header">
-    <div class="title">Togostr 17 Studio 1
-      <div  style="   width: 100%; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word; margin-top: 10px;">Alice Springs NT 0870, Germany</div>
+
+
+<div class=" mx-6" style="margin-top: 100px;   position:relative">
+
+
+
+  <div class="header section-to-watch">
+    <div class="title">{{ aprt.apartment_Name}}
+      <div  style="   width: 100%; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word; margin-top: 10px;">{{ aprt.apartment_Location}}</div>
     </div>
     <div class="right">
       <div class="icon-text">
@@ -20,25 +25,48 @@
 
   <!-- <div  style=" margin-top: 25px !important;  clear: both; width: 100%; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word; margin-top: 10px;">Alice Springs NT 0870, Germany</div> -->
 
-  <div class=" gallery-container">
-    <div class="row ">
-      <div class="col-6">
-        <img src="https://via.placeholder.com/800x600" alt="Main Image" class="main-image mt-2">
+  <div class=" gallery-container section-to-watch" style="position: relative;">
+    <div class="row   ">
+      <div class="col-6    ">
+        <img  [src]="currentImage" alt="Main Image" class="main-image w-full h-full">
       </div>
       <div class="col-6">
         <div class="row ">
-          <div class="col-6 mb-2 mt-0">
-            <img src="https://via.placeholder.com/400x300" alt="Thumbnail 1" class="thumbnail mb-2 ">
-            <img src="https://via.placeholder.com/400x300" alt="Thumbnail 2" class="thumbnail">
+          <div class="col-6  mt-0"  >
+            <img  [src]="aprt_Imgs[1] || 'default_apartment.jpg'" alt="Thumbnail 1" class="thumbnail mb-2 h-50">
+            <img [src]="aprt_Imgs[2] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail h-50">
           </div>
-          <div class="col-6">
-            <img src="https://via.placeholder.com/400x300" alt="Thumbnail 2" class="thumbnail mb-2">
-            <img src="https://via.placeholder.com/400x300" alt="Thumbnail 2" class="thumbnail">
-            <a href="#" class="show-all-btn">Show all photos</a>
+          <div class="col-6 ">
+            <img [src]="aprt_Imgs[3] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail mb-2 h-50 ">
+            <img [src]="aprt_Imgs[4] || 'default_apartment.jpg' " alt="Thumbnail 2" class="thumbnail h-50">
+            <div class="show-all-btn" (click)="openModal()"><span (click)="openModal()">Show all</span> </div>
           </div>
 
         </div>
       </div>
+
+      <div class="modal fade show" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true" [ngClass]="{'d-block': showimages}" style="display: none;">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="imageModalLabel">All Images</h5>
+              <button type="button" class="btn-close" (click)="closeModal()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="image-container">
+
+                <img [src]="aprt_Imgs[currentIndex] || 'default_apartment.jpg'" alt="Image" class="img-fluid">
+
+                <div *ngIf="aprt_Imgs.length > 0" class="navigation-buttons" style="display: flex; justify-content: space-between; margin-top: 20px;">
+                  <button class="btn btn-secondary" style="border-radius:10px; background-color:#D2D9E1; color: #1F4068;" (click)="prevImage()" [disabled]="currentIndex === 0">Previous</button>
+                  <button class="btn btn-secondary" style="border-radius:10px; background-color:#D2D9E1; color: #1F4068;" (click)="nextImage()" >Next</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
 
 
       <!--rating and video-->
@@ -60,16 +88,16 @@
 
             </div>
             <div class="d-flex align-items-center gap-3">
-            <div class="shared-area">
+            <div class="shared-area" *ngIf="aprt.apartment_SharedArea">
               shared area
             </div>
             <div class="video-container d-flex align-items-center">
-              <div class="d-flex gap-2 align-items-center">
+              <div class="d-flex gap-2 align-items-center" (click)="openVideo(aprt.apartment_VideoLink)">
                 <i class="bi bi-play video-icon"></i>
                 <span class="view-video">view video</span>
               </div>
               <div class="video-divider mx-3"></div>
-              <div class="d-flex gap-2 align-items-center">
+              <div class="d-flex gap-2 align-items-center" (click)="open360Video(aprt.apartment_360DLink)">
                 <div class="video-360"></div>
                 <span class="view-video">360D</span>
               </div>
@@ -78,54 +106,69 @@
           </div>
         </div>
       </div>
+      <div *ngIf="sanitizedVideoUrl && aprt.apartment_VideoLink" class="video-modal ">
+        <iframe [src]="sanitizedVideoUrl" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+      </div>
+      <div *ngIf="sanitized360DUrl && aprt.apartment_360DLink" class="video-modal">
+        <iframe [src]="sanitized360DUrl" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+      </div>
 
 
     </div>
+
+
+
+
+
   </div>
 
+<div style="position: relative;">
 
-
-  <div class=" ml-0 mt-3">
+  <div class=" ml-0 mt-3 " style="position: relative;">
 
 
     <div class="row">
       <div class="col-12 col-md-6 col-lg-4">
         <div class="location-item">
           <i class="bi bi-calendar2-date"></i>
-          <div class="location-text">Available from 28 JUN 2024</div>
+          <div class="location-text">  Available from {{ aprt.apartment_Published_at | date: 'dd MMM yyyy' }}</div>
         </div>
       </div>
     </div>
 
       <div class="row g-2  ">
 
-        <div class="col-lg-8 col-md-10 g-2">
+        <div class="col-lg-8 col-md-10 col-sm-12  g-2">
           <div class="frame">
             <div class="frame-item pl-0">
               <i class="bi bi-house-door text-secondary"></i>
-              <div class="text">3 room</div>
+              <div class="text">{{aprt.apartment_Rooms.length}} room</div>
             </div>
             <div class="frame-divider"></div>
             <div class="frame-item">
               <i class="bi bi-person text-secondary"></i>
-              <div class="text">4 person</div>
+              <div class="text">{{noAllbed}} person</div>
             </div>
             <div class="frame-divider"></div>
             <div class="frame-item">
               <i class="bi bi-house text-secondary"></i>
-              <div class="text">100 m2</div>
+              <div class="text">{{aprt.apartment_Area_Square}} m2</div>
             </div>
             <div class="frame-divider"></div>
             <div class="frame-item">
               <i class="bi bi-bed text-secondary"></i>
-              <div class="text">3 beds left</div>
+              <div class="text">{{bedAvailable}} beds left</div>
             </div>
           </div>
           <div class="description-title">Descriptions</div>
+
           <div class="description-content">
-            Come and stay in this superb duplex T2, in the heart of the historic center of Bordeaux. Spacious and bright, in a real Bordeaux building in exposed stone, you will enjoy all the charms of the city thanks to its ideal location. Close to many shops, bars and restaurants, you can access the apartment by tram A and C and bus routes 27
+            <span>{{ isFullDescription ? aprt.apartment_Description : truncatedDescription }}</span>
+
           </div>
-          <div class="read-more">Read More. . .</div>
+          <div class="read-more text-decoration-none"><a href="#" (click)="toggleDescription($event)" *ngIf="isFullDescription">
+            Read More. . .
+          </a> </div>
           <hr />
 
 
@@ -149,32 +192,46 @@
               <img src="transport.svg"/>
               <div class="section-title">Public transport</div>
             </div>
-            <div class="d-flex flex-column align-items-start gap-3">
-              <div class="d-flex align-items-start gap-3">
+            <!-- <div class="d-flex flex-column align-items-start gap-3">
+              <div class="d-flex align-items-start gap-3" *ngIf="let i of aprt.apartment_Transports">
                 <div class="d-flex flex-column gap-2">
-                  <div class="distance">270 m:</div>
-                  <div class="distance">520 m:</div>
+                  <div class="distance">{{ aprt.apartment_Transports[i].transport_Distance }} m:</div>
+                  <div class="distance">{{ aprt.apartment_Transports[i].transport_Distance }} m:</div>
                 </div>
                 <div class="d-flex flex-column gap-2">
-                  <div class="transport-mode">Bus 1</div>
-                  <div class="transport-mode">Strassebahn 2</div>
+                  <div class="transport-mode">{{ aprt.apartment_Transports[i].transport_Name }}</div>
+                  <div class="transport-mode">{{ aprt.apartment_Transports[i].transport_Name }}</div>
                 </div>
               </div>
               <div class="see-more">See More. . .</div>
+            </div> -->
+            <div class="d-flex flex-column align-items-start gap-3">
+              <div class="d-flex align-items-start gap-3" *ngFor="let transport of visibleTransports; let i = index">
+                <div class="d-flex flex-column gap-2">
+                  <div class="distance">{{ transport.transport_Distance }} m:</div>
+                </div>
+                <div class="d-flex flex-column gap-2">
+                  <div class="transport-mode">{{ transport.transport_Name }}</div>
+                </div>
+              </div>
+              <div *ngIf="aprt.apartment_Transports.length > 1 && !showAllTransports" class="see-more">
+                <a href="#" (click)="showMore($event)">See More...</a>
+              </div>
             </div>
+
           </div>
           <hr />
 
           <div class="d-flex flex-column gap-3">
             <div class="frame-title">Key Features</div>
             <div class="d-flex align-items-center gap-3">
-              <div class="item-title">Rooms</div>
-              <div class="divider"></div>
+              <div class="item-title">Rooms  </div>
+              <div class="divider  " style="margin-top: 12px;"></div>
             </div>
-            <div class="row">
-              <div class="col-md-4">
+            <!-- <div class="row">
+              <div class="col-lg-4 col-md-6 col-sm-12">
                 <div class="d-flex align-items-center gap-3 mb-3">
-                  <!-- <i class="fas fa-couch item-icon"></i> -->
+
                    <img src="shared.svg" />
                   <div class="item-title">Shared area</div>
                 </div>
@@ -191,8 +248,8 @@
                   <div class="item-title">TV</div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="d-flex align-items-center gap-1 mb-3">
                   <img src="bedd.svg" />
 
                     <div class="item-title">Bedroom 1</div>
@@ -220,8 +277,8 @@
                   <div class="item-title">Closet or chest of drawers</div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="col-lg-4 col-md-6 col-sm-12">
+                <div class="d-flex align-items-center gap-1 mb-3">
                   <img src="bedd.svg" />
 
                     <div class="item-title">Bedroom 2</div>
@@ -249,7 +306,54 @@
                   <div class="item-title">Closet or chest of drawers</div>
                 </div>
               </div>
+            </div> -->
+
+            <div class="row">
+              <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let room of apartmentsEquipment.rooms_Details; let i = index">
+                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name==='shared_area'">
+                  <img src="shared.svg" />
+                  <div class="item-title">Shared area</div>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name==='shared_area'">
+                  <img src="checkround.svg" />
+                  <div class="item-title">Desk or workspace</div>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name==='shared_area'">
+                  <img src="checkround.svg" />
+                  <div class="item-title">Door intercom system</div>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name==='shared_area'">
+                  <img src="checkround.svg" />
+                  <div class="item-title">TV</div>
+                </div>
+                <div class="d-flex align-items-center gap-1 mb-3" *ngIf="room.room_Name!=='shared_area'">
+                  <img src="bedd.svg" />
+                  <div class="item-title">Bedroom {{ i + 1 }}</div>
+                  <div class="item-subtitle">{{ room.room_Type }}</div>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name!=='shared_area'">
+                  <img src="checkround.svg" />
+                  <div class="item-title">Bed linens</div>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name!=='shared_area'">
+                  <img src="checkround.svg" />
+                  <div class="item-title">Pillow</div>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name!=='shared_area'">
+                  <img src="checkround.svg" />
+                  <div class="item-title">Blankets</div>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name!=='shared_area'">
+                  <img src="checkround.svg" />
+                  <div class="item-title">Bedside lamp</div>
+                </div>
+                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name!=='shared_area'">
+                  <img src="checkround.svg" />
+                  <div class="item-title">Closet or chest of drawers</div>
+                </div>
+              </div>
             </div>
+
           </div>
 
 
@@ -258,14 +362,14 @@
 
             <div class="d-flex align-items-center gap-3">
               <div class="item-title">Kitchen & Bathrooms</div>
-              <div class="divider"></div>
+              <div class="divider" style="margin-top: 12px;"></div>
             </div>
             <div class="row">
-              <div class="col-md-4">
-                <div class="d-flex align-items-center gap-3 mb-3">
+              <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let room of apartmentsEquipment.kitchen_Details; let i = index">
+                <div class="d-flex align-items-center gap-3 mb-3"  >
                   <!-- <i class="fas fa-couch item-icon"></i> -->
                    <img src="kitchen.svg" />
-                  <div class="item-title">Kitchen</div>
+                  <div class="item-title">Kitchen {{i+1}}</div>
                 </div>
                 <div class="d-flex align-items-center gap-3 mb-3">
                   <img src="checkround.svg" />
@@ -280,11 +384,11 @@
                   <div class="item-title">TV</div>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let room of apartmentsEquipment.bathroom_Details; let i = index">
                 <div class="d-flex align-items-center gap-3 mb-3">
                   <img src="bath.svg" />
 
-                    <div class="item-title">Bathroom 1</div>
+                    <div class="item-title">Bathroom {{i+1}}</div>
 
 
                 </div>
@@ -309,35 +413,7 @@
                   <div class="item-title">Closet or chest of drawers</div>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="bath.svg" />
 
-                    <div class="item-title">Bathroom 2</div>
-
-
-                </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Bed linens</div>
-                </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Pillow</div>
-                </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Blankets</div>
-                </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Bedside lamp</div>
-                </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Closet or chest of drawers</div>
-                </div>
-              </div>
             </div>
           </div>
 
@@ -348,7 +424,7 @@
 
             <div class="d-flex align-items-center gap-3">
               <div class="item-title">Other</div>
-              <div class="divider"></div>
+              <div class="divider" style="margin-top: 12px;"></div>
             </div>
           <div class="row">
             <div class="col-md-4">
@@ -420,8 +496,9 @@
 <!-------------------------end col-6-->
         </div>
       <!------------------------------------col-4-->
-        <div class="col-lg-3 ml-3 col-md-10">
-          <div class="booking-box">
+
+        <div class="col-lg-3  col-md-10 col-sm-12    ">
+          <div class=" bookingdisplay   booking-box  " *ngIf="isVisible">
             <div class="d-flex justify-content-start align-items-center gap-3">
                 <div class="d-flex justify-content-start align-items-center gap-2">
                     <i class="bi bi-calendar3 text-secondary"></i>
@@ -433,7 +510,7 @@
                   <div class="attribute">
                     <label for="checkout" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECK IN</label>
                     <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout" value="2022-02-26">
-                </div>
+                   </div>
                     <!-- <div class="attribute">
                         <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">CHECKOUT</div>
                         <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">2/26/2022</div>
@@ -441,7 +518,7 @@
                     <div class="attribute">
                       <label for="checkout" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECKOUT</label>
                       <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout" value="2022-02-26">
-                  </div>
+                    </div>
                 </div>
                 <!-- <div class="d-flex justify-content-start align-items-center gap-2 p-2">
                     <div class="flex-grow-1">
@@ -465,10 +542,15 @@
                       <li><a class="dropdown-item" href="#">4 guests</a></li>
                   </ul>
               </div>
+
             </div>
-            <div class="booking-button">
+
+            <div id="fixlogin" class="booking-button">
+              <button class="btn-base"  (click)="openModals()">Request Apartment</button>
+          </div>
+            <!-- <div class="booking-button">
                 <button class="btn-base" data-bs-toggle="modal" data-bs-target="#loginModal">Request Apartment</button>
-            </div>
+            </div> -->
             <div class="text-secondary text-center" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">Please enter the complete duration of your stay</div>
             <div class="dividerr"></div>
             <div class="row-footer">
@@ -479,7 +561,11 @@
                 </div>
             </div>
         </div>
+
         </div>
+
+
+
       </div>
 
   </div>
@@ -487,16 +573,22 @@
 
   <hr />
   <div class="frame-title mb-3">Location</div>
-  <google-map [center]="center" [zoom]="zoom" style="width:100%; margin-bottom: 50px; ">
-    <!-- Add your map markers, info windows, and other configurations here -->
-  </google-map>
+
+  <!-- <google-map [center]="center" [zoom]="zoom" style="width:inherit; margin-bottom: 50px; ">
+
+  </google-map> -->
+  <div class="map-container" style="width: 100vw;">
+    <google-map class="map-container section-to-watch" [center]="center" [zoom]="zoom"   style="width: 100vw !important; height: 500px; margin-bottom: 50px;">
+      <!-- Add your map markers, info windows, and other configurations here -->
+    </google-map>
+  </div>
   <hr class="my-4"/>
 
 
 
   <div class="frame-title mb-5">apartment rules</div>
   <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-6 col-sm-12 ">
       <div class="d-flex flex-column gap-3">
         <div class="icon-text">
           <img src="clock.svg" />
@@ -512,7 +604,7 @@
         </div>
       </div>
     </div>
-    <div class="col-md-6">
+    <div class="col-md-6  col-sm-12 mt-3">
       <div class="d-flex flex-column gap-3">
         <div class="icon-text">
          <img src="shopping-cart.svg" />
@@ -676,7 +768,7 @@
 </p-accordion>
 
 
-
+</div>
 
 
 </div>
@@ -686,10 +778,18 @@
 
 <!------------popup modal---------------------------->
 
-<div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+<div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayModal}" style="background-color: rgb(23 22 22 / 50%);">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <div class="modal-body p-0">
+
+
+
+      <div class="modal-body p-0" style="position: relative;">
+        <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseQrModal()">×</button>
+
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        style="position: absolute; top:0; right:0;"></button> -->
+
         <div class="login-modal-container">
 
           <div class="modal-form-section p-4">
@@ -744,7 +844,7 @@
                 <a href="#" class="text-primary">Forgot Password</a>
               </div>
               <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;" (click)="onsubmitLogin()"  data-bs-toggle="modal" data-bs-target="#guestDetailsModal"  >Login</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;" (click)=" openModalbooking()"  data-bs-toggle="modal" data-bs-target="#guestDetailsModal"  >Login</button>
               </div>
               <div class="text-center mb-3">
                 <span>Don’t have an account? <a href="#" class="text-primary">Sign up</a></span>
@@ -758,7 +858,7 @@
               </div>
             </div>
           </div>
-          <div class="modal-image-section"><img src="loginimg.png" style="object-fit: contain; width:100%;"/></div>
+          <div class="modal-image-section"><img src="loginimg.png"  /></div>
         </div>
       </div>
     </div>
@@ -772,7 +872,7 @@
 
 
 <!------------------------------booking modal----------------->
-<div class="modal fade" id="guestDetailsModal" tabindex="-1" role="dialog" aria-labelledby="guestDetailsModalLabel" aria-hidden="true" *ngIf="showBooking">
+<div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayModalbooking}" style="background-color: rgb(23 22 22 / 50%);">
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header" style=" height: 140px; padding-left: 24px; padding-right: 24px; padding-top: 31px; padding-bottom: 31px; background: #F0F6FF; justify-content: center; align-items: center; display: inline-flex">
@@ -780,9 +880,8 @@
           <p-steps [model]="items" (Responsive)="true" [(activeIndex)]="activeIndex" [readonly]="false" (onChange)="onStepChange($event)"></p-steps>
 
          </div>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
+         <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseQrModal()">×</button>
+
       </div>
       <div class="modal-body">
 
@@ -1081,7 +1180,7 @@
       <div class=" modal-footer container mt-4 d-flex justify-content-between" style="max-width: 948px;">
         <button class="btn btn-outline-dark custom-btn"   type="button">Back</button>
         <button *ngIf="activeIndex!==2" class="btn btn-primary custom-btn" style="background-color: #1151B4;" type="button">Next</button>
-        <button *ngIf="activeIndex===2" class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;" type="button" data-bs-toggle="modal" data-bs-target="#sendSuccessModal">confirm your booking</button>
+        <button *ngIf="activeIndex===2" class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;" type="button" (click)="openModalsuccess()">confirm</button>
       </div>
 
     </div>
@@ -1095,16 +1194,17 @@
 <!------------------------------confirm booking modal----------------->
 
 
-<div class="modal fade" id="sendSuccessModal" tabindex="-1" aria-labelledby="sendSuccessModalLabel" aria-hidden="true">
+<div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayModalsuccess}" style="background-color: rgb(23 22 22 / 50%);">
   <div class="modal-dialog modal-lg">
     <div class="modal-header"  >
 
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#F0F6FF">
+      <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#F0F6FF">
         <span aria-hidden="true" >&times;</span>
-      </button>
+      </button> -->
     </div>
     <div class="modal-content">
       <div class="modal-body p-0">
+        <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseQrModal()">×</button>
         <div class="send-success-container">
           <div class="modal-form-section-success ">
             <div class="modal-header-success p-0">
@@ -1141,3 +1241,79 @@
   </div>
 </div>
 
+
+
+
+
+
+
+
+<!-- <div class="modal fade" id="signModal" tabindex="-1" aria-labelledby="signModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+      <div class="modal-body p-0" style="position: relative;">
+
+
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          style="position: absolute; top:0; right:0;"></button>
+
+        <div class="login-modal-container">
+
+          <div class="modal-image-section"><img src="loginimg.png"  /></div>
+          <div class="modal-form-section p-4">
+
+            <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+            <div class="login-header mb-4">
+              <h2 class="login-title">Sign up</h2>
+              <p class="login-subtitle">Welcome! Please enter your personal information</p>
+            </div>
+
+
+
+            <div class="login-form">
+              <div class="mb-3" >
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <img src="https://via.placeholder.com/24x24" alt="flag">
+                    <span class="ms-2">+380</span>
+                  </span>
+                  <input type="text" class="form-control" placeholder="1234563788">
+                </div>
+              </div>
+
+
+
+              <div class="mb-3">
+                <input type="password" class="form-control" placeholder="Password">
+              </div>
+              <div class="d-flex justify-content-between mb-3">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                  <label class="form-check-label" for="rememberMe">
+                    Remember me
+                  </label>
+                </div>
+                <a href="#" class="text-primary">Forgot Password</a>
+              </div>
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"    data-bs-toggle="modal" data-bs-target="#guestDetailsModal"  >Sign up</button>
+              </div>
+              <div class="text-center mb-3">
+                <span>Don’t have an account? <a href="#" class="text-primary">Sign up</a></span>
+              </div>
+              <div class="text-center mb-3">
+                <span>Or Sign with</span>
+              </div>
+              <div class="d-flex justify-content-around ">
+                <button class="btn btn-outline-secondary w-50 mr-2"><img src="googlebtn.svg"/></button>
+                <button class="btn btn-outline-secondary w-50"><img src="applebtn.svg"/></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div> -->

@@ -20,9 +20,20 @@ import { Component , EventEmitter, Output } from '@angular/core';
 })
 export class HeaderComponent {
   @Output() toggleSearchEvent = new EventEmitter<void>();
+  @Output() toggleSignEvent = new EventEmitter<void>();
 
   toggleSearch() {
     this.toggleSearchEvent.emit();
+
   }
+
+
+openModalSign(){
+  this.toggleSignEvent.emit();
+
+}
+
+
+
 }
 

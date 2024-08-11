@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { SliderModule } from 'primeng/slider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
+import { PaginatorModule } from 'primeng/paginator';
 
 import { CheckboxModule } from 'primeng/checkbox';
 
@@ -37,6 +38,7 @@ const routes: Routes = [
     FloatLabelModule,
     InputNumberModule,
     CheckboxModule,
+    PaginatorModule,
     RouterModule.forChild(routes),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

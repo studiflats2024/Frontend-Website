@@ -1,10 +1,215 @@
 
 <div class="fixed">
-  <app-header (toggleSearchEvent)="toggleSearch()"></app-header>
+  <app-header (toggleSearchEvent)="toggleSearch()" (toggleSignEvent)="openModalSign()"></app-header>
  </div>
  <div [@toggleSearch]="searchVisible"   class="fixed-search-bar smooth-transition">
-   <app-search-bar class="mod " ></app-search-bar>
+   <app-search-bar class="mod "    ></app-search-bar>
  </div>
 
 <router-outlet ></router-outlet>
 <app-footer></app-footer>
+
+
+<div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayModalsign}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body p-0" style="position: relative;">
+        <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseSignModal()">×</button>
+
+        <div class="login-modal-container">
+
+          <div class="modal-image-section"><img src="loginimg.png"  /></div>
+          <div class="modal-form-section p-4">
+            <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+            <div class="login-header mb-4">
+              <h2 class="login-title">Sign up</h2>
+              <p class="login-subtitle">Welcome! Please enter your personal information</p>
+            </div>
+
+
+       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+            <div class="login-form">
+              <div class="mb-3" >
+                <div class="input-group">
+                  <span class="input-group-text">
+                    <img src="https://via.placeholder.com/24x24" alt="flag">
+                    <span class="ms-2">+380</span>
+                  </span>
+                  <input type="text" class="form-control" formControlName="mobile" placeholder="1234563788">
+                </div>
+              </div>
+
+
+
+              <div class="mb-3 ">
+                <input type="text" class="form-control"   formControlName="fullName" placeholder="FullName*">
+              </div>
+              <div class="mb-3 row g-2 ">
+                <div class="col-6">
+                  <input type="password" formControlName="password" class="form-control" placeholder="Password*">
+                </div>
+                <div class="col-6">
+                  <input type="password" formControlName="confirmPassword" class="form-control " placeholder="Confirm Password*">
+                </div>
+
+
+              </div>
+
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   (click)="openverifyModal()" >Sign up</button>
+              </div>
+              <div class="text-center mb-3">
+                <span>  Already have an account? <a href="#" class="text-primary">Login</a></span>
+              </div>
+              <div class="text-center mb-3">
+                <span>Or Login with</span>
+              </div>
+              <div class="d-flex justify-content-around ">
+                <button class="btn btn-outline-secondary w-50 mr-2"><img src="googlebtn.svg"/></button>
+                <button class="btn btn-outline-secondary w-50"><img src="applebtn.svg"/></button>
+              </div>
+            </div>
+        </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayVerify}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body p-0" style="position: relative;">
+        <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseSignModal()">×</button>
+
+        <div class="login-modal-container">
+
+          <div class="modal-image-section"><img src="loginimg.png"  /></div>
+          <div class="modal-verify-section p-4">
+            <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+            <div class="login-header mb-4">
+              <h2 class="login-title">Verification</h2>
+              <p class="login-subtitle">Please enter the verification code sent to your WhatsApp</p>
+            </div>
+
+
+
+            <div class="login-form">
+              <div class="mb-5 justify-content-center align-content-center" >
+                <p-inputOtp [(ngModel)]="value" [integerOnly]="true" />
+                <div class=" rotatee">   <img width="13px" height="13px" src="rotate.svg"/><span class="rotate">Resend verification code</span></div>
+
+              </div>
+
+
+
+
+
+
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"  (click)="openInfoModal()"   >Continue</button>
+              </div>
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayInfo}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body p-0" style="position: relative;">
+        <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseSignModal()">×</button>
+
+        <div class="login-modal-container">
+
+          <div class="modal-image-section"><img src="loginimg.png"  /></div>
+          <div class="modal-form-section p-4">
+            <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+            <div class="login-header mb-4">
+              <h2 class="login-title">Sign up</h2>
+              <p class="login-subtitle">Welcome! Please enter your personal information</p>
+            </div>
+
+
+
+
+
+
+
+              <div class="mb-3 ">
+                <input type="email" class="form-control " placeholder="Email*">
+              </div>
+
+
+
+
+              <div class="row pb-3">
+                <div class="col-md-6">
+                  <p-dropdown
+                  [options]="options"
+                  [(ngModel)]="selectedOption"
+                  optionLabel="name"
+                  placeholder="Gender*">
+                </p-dropdown>
+                </div>
+                <div class="col-md-6">
+                  <p-calendar
+                    [(ngModel)]="birthday"
+                    dateFormat="mm/dd/yy"
+                    placeholder="Birthday*">
+                  </p-calendar>
+                </div>
+              </div>
+
+
+
+              <div class="login-form">
+                <div class="mb-3" >
+                  <div class="input-group">
+                    <span class="input-group-text">
+                      <img src="https://via.placeholder.com/24x24" alt="flag">
+                      <span class="ms-2">+380</span>
+                    </span>
+                    <input type="text" class="form-control" placeholder="1234563788">
+                  </div>
+                </div>
+
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   (click)="openverifyModal()" >Continue</button>
+              </div>
+              <div class="text-center mb-3">
+                <span>  Already have an account? <a href="#" class="text-primary">Login</a></span>
+              </div>
+              <div class="text-center mb-3">
+                <span>Or Login with</span>
+              </div>
+              <div class="d-flex justify-content-around ">
+                <button class="btn btn-outline-secondary w-50 mr-2"><img src="googlebtn.svg"/></button>
+                <button class="btn btn-outline-secondary w-50"><img src="applebtn.svg"/></button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+

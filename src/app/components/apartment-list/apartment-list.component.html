@@ -2,29 +2,221 @@
 
 
 
-<div class="container">
-  <div class="filter-bar">
-    <div class="filter-item" >
-      <button pButton type="button" label="Price" icon="pi pi-chevron-down" iconPos="right" (click)="togglePicker()" style="position: relative;"></button>
+<div class="layout-list">
+  <div class="filter-bar  ">
+    <div class="filter-item pricee" style="position: relative;" >
+      <button pButton type="button" label="Price" icon="pi pi-chevron-down" iconPos="right" (click)="togglePicker()"  ></button>
+      <div class="p-card mx-3"   *ngIf="showPicker" class="picker-div" style="background-color: #fff;">
+        <div class="p-card-body container">
+          <div class="p-mb-3 mt-3" style="width: 100%;">
+            <img src="slider.svg"/>
+            <p-slider [(ngModel)]="priceRange" [style]="{'width':'100%'}" [range]="true" [min]="0" [max]="5000"></p-slider>
+          </div>
+          <p class="text-secondary text-center" style="color: #7B8389;
+
+          text-align: center;
+          font-family: Inter;
+          font-size: 12px;
+          font-style: normal;
+          font-weight: 500;
+          line-height: normal;
+          text-transform: uppercase;
+          margin-top: 20px;">Price per month</p>
+
+
+            <div class="row align-items-center mt-0 mb-2">
+              <div class="col-5">
+                <label class="price-label">Min</label>
+                <div class="border-custom">
+                  <div class="currency">€</div>
+                  <div class="input-custom">
+                    <div class="container-custom">
+                      <input type="number" pInputText class="value-input" [(ngModel)]="priceRange[0]">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-2 text-center d-flex align-items-center justify-content-center" style="padding-top: 15%;">
+                <span>-</span>
+              </div>
+              <div class="col-5">
+                <label class="price-label" style="text-align: end;">Max</label>
+                <div class="border-custom">
+                  <div class="currency">€</div>
+                  <div class="input-custom">
+                    <div class="container-custom">
+                      <input type="number" pInputText class="value-input" [(ngModel)]="priceRange[1]">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div class="d-flex justify-content-between align-items-center ">
+              <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
+              <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
+            </div>
+        </div>
+      </div>
     </div>
-    <div class="filter-item">
+    <div class="filter-item" style="position: relative;">
       <button pButton type="button" label="Type of place" icon="pi pi-chevron-down" iconPos="right"  (click)="togglePickerplace()"></button>
+      <div class="container picker-div-place" *ngIf="showPickerplace">
+        <div class="TypeOfPlace p-3  bg-white">
+
+
+            <div class=" ">
+              <div class="Heading text-secondary font-weight-bold" style="  margin: 10px; margin-bottom: 25px;">All apartments include WiFi</div>
+              <div *ngFor="let option of options" class="form-group form-check mb-3">
+                <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptions" inputId="{{option.value}}"  class="form-check-input"  ></p-checkbox>
+                <label [for]="option.value" class="form-check-label ml-2">{{option.label}}</label>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center">
+              <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
+              <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
+            </div>
+        </div>
+      </div>
     </div>
-    <div class="filter-item">
-      <button pButton type="button" label="Guests" (click)="togglePickerguest()" style="position: relative;"></button>
+    <div class="filter-item" style="position: relative;">
+      <button pButton type="button" label="Guests" (click)="togglePickerguest()"  ></button>
+      <div *ngIf="showPickerguest" class="picker-div-guest" style="background-color: #fff;">
+
+        <p-floatLabel>
+
+          <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;
+
+
+          background: white;
+
+
+
+          display: flex;
+        width: 250px;
+        padding: 0px 8px;
+        ">
+
+            <span>Guests</span>
+            <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+
+            </p-inputNumber>
+          </div>
+        </p-floatLabel>
+        <button pButton type="button" label="Apply" class="p-button-apply" style='width:100%' (click)="apply()"></button>
+      </div>
     </div>
-    <!-- <div class="filter-item">
-      <button pButton type="button" label="Amenities"></button>
-    </div> -->
-    <div class="filter-item">
+
+    <div class="filter-item" style="position: relative;">
       <button pButton type="button" label="Filters" icon="pi pi-sliders-h" iconPos="left" (click)="togglePickerfilter()"></button>
+      <div class="container picker-div-filter  TypeOfPlace" *ngIf="filters">
+        <div class="TypeOfPlace p-2 px-4 border-top mb-2 bg-white rounded shadow-sm">
+
+        <p-floatLabel>
+
+          <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;
+          background: white;
+          display: flex;
+          width: 250px;
+          padding: 0px 8px;
+          padding-bottom: 15px;
+          ">
+
+
+            <span>Rooms</span>
+            <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+
+            </p-inputNumber>
+          </div>
+        </p-floatLabel>
+         <hr class="m-0 "/>
+         <p style="margin: 10px 5px;">Beds</p>
+         <p-floatLabel>
+
+          <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;
+          background: white;
+          display: flex;
+          width: 250px;
+          padding: 0px 8px;
+          ">
+
+
+            <span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none">
+                <path d="M13.2046 7.1335H5.63439C5.51524 7.1455 5.39619 7.10993 5.30315 7.03454C5.21012 6.95915 5.15065 6.85005 5.1377 6.73101V3.78512C5.16144 3.57984 5.26405 3.39183 5.42384 3.2608C5.58364 3.12977 5.78811 3.06598 5.99406 3.0829H12.845C13.0514 3.06374 13.257 3.12671 13.4173 3.25816C13.5777 3.38961 13.6797 3.57895 13.7013 3.78512V6.73101C13.696 6.7904 13.6788 6.84811 13.6508 6.90074C13.6228 6.95336 13.5845 6.99982 13.5381 7.03735C13.4918 7.07489 13.4384 7.10274 13.3811 7.11926C13.3239 7.13578 13.2638 7.14062 13.2046 7.1335Z" fill="#EDF1F4"/>
+                <path d="M14.3183 10.9957H4.53008C4.11903 10.9957 3.57096 10.7902 3.67372 10.4476L4.86407 7.02218C4.90811 6.89527 4.99187 6.78593 5.10293 6.71035C5.21398 6.63477 5.34643 6.59697 5.48065 6.60256H13.3763C13.5105 6.59697 13.643 6.63477 13.754 6.71035C13.8651 6.78593 13.9489 6.89527 13.9929 7.02218L15.1661 10.4476C15.2689 10.7816 14.7379 10.9957 14.3183 10.9957Z" fill="white"/>
+                <path d="M11.4337 7.88771H7.40798C7.35287 7.88771 7.29829 7.87685 7.24737 7.85576C7.19645 7.83467 7.15018 7.80375 7.11121 7.76478C7.07224 7.72581 7.04132 7.67954 7.02023 7.62862C6.99914 7.5777 6.98828 7.52312 6.98828 7.46801V5.38662C6.98828 5.27531 7.0325 5.16856 7.11121 5.08985C7.18992 5.01114 7.29667 4.96692 7.40798 4.96692H11.4337C11.545 4.96692 11.6518 5.01114 11.7305 5.08985C11.8092 5.16856 11.8534 5.27531 11.8534 5.38662V7.46801C11.8546 7.52344 11.8445 7.57854 11.8238 7.62999C11.8032 7.68144 11.7723 7.72817 11.7331 7.76738C11.6939 7.80659 11.6471 7.83746 11.5957 7.85814C11.5442 7.87882 11.4891 7.88888 11.4337 7.88771Z" fill="#E2E2E2"/>
+                <path d="M14.5585 10.1822H4.28214C3.80919 10.1822 3.42578 10.5656 3.42578 11.0385V13.6076C3.42578 14.0806 3.80919 14.464 4.28214 14.464H14.5585C15.0315 14.464 15.4149 14.0806 15.4149 13.6076V11.0385C15.4149 10.5656 15.0315 10.1822 14.5585 10.1822Z" fill="#E2E2E2"/>
+                <path d="M15.6541 10.2764L14.4038 6.89373C14.3553 6.72531 14.2603 6.57395 14.1298 6.45699V3.78513C14.1078 3.46618 13.9603 3.16896 13.7194 2.95865C13.4786 2.74835 13.1643 2.64213 12.8453 2.6633H5.99434C5.67587 2.64441 5.36274 2.75143 5.12244 2.96128C4.88215 3.17114 4.73395 3.46702 4.7098 3.78513V6.45699C4.59507 6.56521 4.50962 6.70073 4.46145 6.85091L3.21116 10.225C3.07329 10.4896 2.99994 10.783 2.99707 11.0814V13.6504C3.006 13.9852 3.14527 14.3031 3.3852 14.5367C3.62514 14.7702 3.94679 14.9009 4.28162 14.9007H5.30069V16.1767H6.15705V14.9007H12.6911V16.1767H13.5475V14.9007H14.558C14.8987 14.9007 15.2254 14.7654 15.4663 14.5245C15.7072 14.2836 15.8425 13.9569 15.8425 13.6162V11.0471C15.8354 10.7797 15.7712 10.5169 15.6541 10.2764ZM5.99434 3.51966H12.8453C13.085 3.51966 13.2649 3.65668 13.2649 3.78513V6.16582H12.066V5.3951C12.066 5.22703 11.9992 5.06584 11.8804 4.947C11.7615 4.82815 11.6003 4.76139 11.4323 4.76139H7.40734C7.23927 4.76139 7.07809 4.82815 6.95924 4.947C6.8404 5.06584 6.77363 5.22703 6.77363 5.3951V6.16582H5.56616V3.78513C5.56616 3.65668 5.746 3.51966 5.99434 3.51966ZM11.6378 7.02219V7.47606C11.6466 7.50684 11.6466 7.53948 11.6378 7.57026C11.6203 7.6024 11.5942 7.62904 11.5625 7.64719C11.5307 7.66534 11.4945 7.67428 11.4579 7.67302H7.40734C7.37095 7.67335 7.33513 7.66401 7.30353 7.64595C7.27194 7.6279 7.2457 7.60178 7.22751 7.57026C7.2187 7.53948 7.2187 7.50684 7.22751 7.47606V5.3951C7.22751 5.34059 7.24916 5.28831 7.2877 5.24977C7.32625 5.21122 7.37853 5.18957 7.43303 5.18957H11.4579C11.5125 5.18957 11.5647 5.21122 11.6033 5.24977C11.6418 5.28831 11.6635 5.34059 11.6635 5.3951V7.02219H11.6378ZM5.13798 7.45037L5.24931 7.12495C5.27086 7.08449 5.30533 7.05239 5.34723 7.03377C5.38912 7.01515 5.43604 7.01107 5.48053 7.02219H6.77363V7.47606C6.7694 7.50732 6.7694 7.539 6.77363 7.57026C6.79633 7.71925 6.87209 7.85502 6.98696 7.95258C7.10183 8.05014 7.24808 8.10292 7.39878 8.1012H11.4237C11.5744 8.10292 11.7206 8.05014 11.8355 7.95258C11.9504 7.85502 12.0261 7.71925 12.0488 7.57026C12.0531 7.539 12.0531 7.50732 12.0488 7.47606V7.02219H13.3591C13.4037 7.01851 13.4484 7.02893 13.4868 7.05197C13.5252 7.07502 13.5554 7.10953 13.5732 7.15064L13.6759 7.4418L14.4723 9.76255H4.36725L5.13798 7.45037ZM14.9862 13.6162C14.9862 13.7297 14.941 13.8387 14.8608 13.919C14.7805 13.9993 14.6715 14.0444 14.558 14.0444H4.28162C4.16874 14.0422 4.0611 13.9964 3.98127 13.9165C3.90144 13.8367 3.85563 13.7291 3.85343 13.6162V11.0471C3.85343 10.9335 3.89855 10.8246 3.97885 10.7443C4.05915 10.664 4.16805 10.6189 4.28162 10.6189H14.558C14.6715 10.6189 14.7805 10.664 14.8608 10.7443C14.941 10.8246 14.9862 10.9335 14.9862 11.0471V13.6162Z" fill="black"/>
+                </svg>
+              single</span>
+            <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+
+            </p-inputNumber>
+          </div>
+        </p-floatLabel>
+        <p-floatLabel>
+
+          <div class="d-flex justify-content-between fix mb-2" style="display: flex; align-items: center;
+
+
+          background: white;
+          display: flex;
+          width: 250px;
+          padding: 0px 8px;
+          ">
+
+            <span>
+              <img src="beddouble.svg" style="padding-right: 5px;"/>double</span>
+            <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+
+            </p-inputNumber>
+          </div>
+        </p-floatLabel>
+        <hr class="m-0"/>
+        <div class=" ">
+          <div class="Heading text-secondary font-weight-bold" style="  margin: 10px; margin-bottom: 25px;">Type of accommodation</div>
+          <div *ngFor="let option of options" class="form-group form-check mb-3">
+            <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptions" inputId="{{option.value}}"  class="form-check-input"  ></p-checkbox>
+            <label [for]="option.value" class="form-check-label ml-2">{{option.label}}</label>
+          </div>
+        </div>
+
+      <hr class="m-0"/>
+      <div class="horizontal-border">
+        <div class="apartment-size" style="padding-bottom: 20px; margin-top: 10px;">
+          <span class="d-block text-dark" style="font-size: 14px; font-family: Poppins; font-weight: 500; line-height: 21px;">Apartment size<br></span>
+          <span class="d-block text-secondary" style="font-size: 14px; font-family: Poppins; font-weight: 500; line-height: 21px;">Minimum size in m²</span>
+        </div>
+        <div class="d-inline-flex align-items-center gap-3">
+          <div class="button">
+            <div>30+</div>
+          </div>
+          <div class="button">
+            <div>60+</div>
+          </div>
+          <div class="button">
+            <div>90+</div>
+          </div>
+        </div>
+      </div>
+      <hr class="m-0"/>
+
+        <div class="d-flex justify-content-between align-items-center mt-2 mb-0">
+          <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
+          <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
+        </div>
+      </div>
+      </div>
     </div>
   </div>
-  <div class="divider"></div>
-  <div class="available-apartments">+{{ totalRecords }} apartments available</div>
-  <div class="divider wid"></div>
+  <div class="divider wid  "></div>
+  <div class="available-apartments  ">+{{ totalRecords }} apartments available</div>
+  <div class="divider wid  "></div>
 
-  <div class="main-content">
+  <!-- <div class="main-content">
     <div class="apartment-list mt-3">
       <div *ngFor="let apartment of apartments" class="apartment-card">
         <img [src]="apartment.apartment_Image" alt="{{ apartment.apartment_Name }}" class="apartment-image" routerLink="/apartment-details">
@@ -71,85 +263,82 @@
     <div class="map">
       <img [src]="mapImage" alt="Map" (click)="navigateToMap()">
     </div>
+  </div> -->
+  <div class="main-content">
+    <div class="apartment-list mt-3">
+      <div *ngFor="let apartment of apartmentList" class="apartment-card" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
+        <img [src]="apartment.apartment_Image" alt="{{ apartment.apartment_Name }}" class="apartment-image" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
+        <div class="apartment-content">
+          <div class="apartment-header">
+            <div class="apartment-title"><a routerLink="/apartment-details/{{apartment?.apartment_ID}}" style="text-decoration: none; color: inherit;">{{ apartment.apartment_Name }}</a></div>
+            <i class="pi pi-heart"></i>
+          </div>
+          <div class="apartment-location">
+            <i class="pi pi-map-marker"></i>
+            <span>{{ apartment.apartment_Location }}</span>
+          </div>
+          <div class="divider"></div>
+          <div class="apartment-details">
+            <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid">{{ apartment.apartment_No_Bedrooms }} beds</div>
+            <div class="detail-item"><i class="pi pi-user"></i>{{ apartment.apartment_Persons_No }} persons</div>
+            <div class="detail-item"><i class="pi pi-home"></i>{{ apartment.apartment_Area_Square }} m²</div>
+          </div>
+          <div class="amenities">
+            <span *ngFor="let amenity of apartment.amenities; let last = last">
+              <ng-container *ngIf="amenity === 'Wifi'; else regularAmenity">
+                <i class="pi pi-wifi"></i> {{ amenity }}
+              </ng-container>
+              <ng-template #regularAmenity>
+                {{ amenity }}
+              </ng-template>
+              <span *ngIf="!last" class="dot">·</span>
+            </span>
+          </div>
+          <div class="divider"></div>
+          <div class="apartment-footer">
+            <div class="review">
+              <span class="rating">{{ apartment.rating }}</span>
+              <i class="pi pi-star"></i>
+              <span class="review-count">({{ apartment.reviews }} reviews)</span>
+            </div>
+            <div class="price">
+              <span>{{ apartment.apartment_Price }}€</span>/month
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+      <p-paginator *ngIf="apartmentList.length > 0" (onPageChange)="tiggerPageChange($event)" [rows]="rows"
+        [totalRecords]="totalRecords" [first]="first"  [ngStyle]="{'z-index': '12', }" ></p-paginator>
+    </div>
+    <div class="mapp" >
+
+    </div>
+
+    <!-- <div class="map smallmap"  >
+      <img [src]="mapImage" alt="Map"  (click)="navigateToMap()">
+    </div> -->
+
   </div>
+  <div class="map" *ngIf="isVisible">
+    <img *ngIf="isVisible" [src]="mapImage" alt="Map"  (click)="navigateToMap()">
+  </div>
+
 </div>
+
+
 
 
 <!--picker price -->
 
-<div class="p-card"   *ngIf="showPicker" class="picker-div" style="background-color: #fff;">
-  <div class="p-card-body">
-    <div class="p-mb-3" style="width: 100%;">
-      <img src="slider.svg"/>
-      <p-slider [(ngModel)]="priceRange" [style]="{'width':'100%'}" [range]="true" [min]="0" [max]="5000"></p-slider>
-    </div>
-    <p class="text-secondary text-center">Price per month</p>
 
-
-      <div class="row align-items-center mb-2">
-        <div class="col-5">
-          <label class="price-label">Min</label>
-          <div class="border-custom">
-            <div class="currency">€</div>
-            <div class="input-custom">
-              <div class="container-custom">
-                <input type="number" pInputText class="value-input" [(ngModel)]="priceRange[0]">
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-2 text-center d-flex align-items-center justify-content-center" style="padding-top: 15%;">
-          <span>-</span>
-        </div>
-        <div class="col-5">
-          <label class="price-label">Max</label>
-          <div class="border-custom">
-            <div class="currency">€</div>
-            <div class="input-custom">
-              <div class="container-custom">
-                <input type="number" pInputText class="value-input" [(ngModel)]="priceRange[1]">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-      <div class="d-flex justify-content-between align-items-center">
-        <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
-        <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
-      </div>
-  </div>
-</div>
 
 
 
 <!--picker guests-->
 
-<div *ngIf="showPickerguest" class="picker-div-guest" style="background-color: #fff;">
 
-  <p-floatLabel>
-
-    <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;
-
-
-    background: white;
-
-
-
-    display: flex;
-  width: 200px;
-  padding: 0px 8px;
-  ">
-
-      <span>Guests</span>
-      <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-
-      </p-inputNumber>
-    </div>
-  </p-floatLabel>
-  <button pButton type="button" label="Apply" class="p-button-apply" style='width:100%' (click)="apply()"></button>
-</div>
 
 
 
@@ -172,117 +361,14 @@
 </div> -->
 
 
-<div class="container picker-div-place" *ngIf="showPickerplace">
-  <div class="TypeOfPlace p-4 mb-2 bg-white rounded shadow-sm">
-
-
-      <div class=" ">
-        <div class="Heading text-secondary font-weight-bold" style="  margin: 10px; margin-bottom: 25px;">All apartments include WiFi</div>
-        <div *ngFor="let option of options" class="form-group form-check mb-3">
-          <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptions" inputId="{{option.value}}"  class="form-check-input"  ></p-checkbox>
-          <label [for]="option.value" class="form-check-label ml-2">{{option.label}}</label>
-        </div>
-      </div>
-
-      <div class="d-flex justify-content-between align-items-center">
-        <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
-        <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
-      </div>
-  </div>
-</div>
 
 
 
 
 
 
-<div class="container picker-div-filter" *ngIf="filters">
-  <div class="TypeOfPlace p-4 mb-2 bg-white rounded shadow-sm">
-
-  <p-floatLabel>
-
-    <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;
-    background: white;
-    display: flex;
-    width: 250px;
-    padding: 0px 8px;
-    ">
-
-      <span>Rooms</span>
-      <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-
-      </p-inputNumber>
-    </div>
-  </p-floatLabel>
-   <hr class="m-0"/>
-   <p style="margin: 10px 5px;">Beds</p>
-   <p-floatLabel>
-
-    <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;
-    background: white;
-    display: flex;
-    width: 250px;
-    padding: 0px 8px;
-    ">
-
-      <span>single</span>
-      <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-
-      </p-inputNumber>
-    </div>
-  </p-floatLabel>
-  <p-floatLabel>
-
-    <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;
 
 
-    background: white;
-    display: flex;
-    width: 250px;
-    padding: 0px 8px;
-    ">
-
-      <span>double</span>
-      <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-
-      </p-inputNumber>
-    </div>
-  </p-floatLabel>
-  <hr class="m-0"/>
-  <div class=" ">
-    <div class="Heading text-secondary font-weight-bold" style="  margin: 10px; margin-bottom: 25px;">Type of accommodation</div>
-    <div *ngFor="let option of options" class="form-group form-check mb-3">
-      <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptions" inputId="{{option.value}}"  class="form-check-input"  ></p-checkbox>
-      <label [for]="option.value" class="form-check-label ml-2">{{option.label}}</label>
-    </div>
-  </div>
-
-<hr class="m-0"/>
-<div class="horizontal-border">
-  <div class="apartment-size" style="padding-bottom: 20px; margin-top: 10px;">
-    <span class="d-block text-dark" style="font-size: 14px; font-family: Poppins; font-weight: 500; line-height: 21px;">Apartment size<br></span>
-    <span class="d-block text-secondary" style="font-size: 14px; font-family: Poppins; font-weight: 500; line-height: 21px;">Minimum size in m²</span>
-  </div>
-  <div class="d-inline-flex align-items-center gap-3">
-    <div class="button">
-      <div>30+</div>
-    </div>
-    <div class="button">
-      <div>60+</div>
-    </div>
-    <div class="button">
-      <div>90+</div>
-    </div>
-  </div>
-</div>
-<hr class="m-0"/>
-
-  <div class="d-flex justify-content-between align-items-center">
-    <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
-    <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
-  </div>
-</div>
-</div>
 
 
 
