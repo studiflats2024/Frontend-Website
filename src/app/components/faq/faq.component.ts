@@ -1,37 +1,5 @@
 
-
-
-// import { Component, OnInit } from '@angular/core';
-// interface FAQ {
-//   question: string;
-//   answer: string;
-// }
-// @Component({
-//   selector: 'app-faq',
-//   templateUrl: './faq.component.html',
-//   styleUrls: ['./faq.component.css']
-// })
-// export class FaqComponent implements OnInit {
-//   faqs: FAQ[] = [
-//     {
-//       question: 'What is your cancellation policy?',
-//       answer: 'Our cancellation policy is...'
-//     },
-//     {
-//       question: 'How can I change my booking?',
-//       answer: 'You can change your booking by...'
-//     },
-
-//   ];
-
-//   constructor() { }
-
-//   ngOnInit(): void {
-//   }
-// }
-
-// src/app/components/faq/faq.component.ts
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FaqService } from '../../services/faq.service';
 
 interface FAQ {
@@ -46,7 +14,9 @@ interface FAQ {
   styleUrls: ['./faq.component.css']
 })
 export class FaqComponent implements OnInit {
+  @Input() faqLimit: number = 0;
   faqs: FAQ[] = [];
+  @Input() showViewAllButton: boolean = false;
 
   constructor(private faqService: FaqService) { }
 
@@ -54,9 +24,28 @@ export class FaqComponent implements OnInit {
     this.fetchFaqs();
   }
 
+  // fetchFaqs(): void {
+  //   this.faqService.getFaqs().subscribe((data: FAQ[]) => {
+  //     this.faqs = data;
+  //   });
+  // }
   fetchFaqs(): void {
     this.faqService.getFaqs().subscribe((data: FAQ[]) => {
-      this.faqs = data;
+      if (this.faqLimit > 0) {
+        this.faqs = data.slice(0, this.faqLimit);
+      } else {
+        this.faqs = data;
+      }
     });
+  }
+
+  @Input() titleAlignment: string = 'center';
+  @Input() titleMargin: string = '40px';
+
+  getTitleStyle() {
+    return {
+      'text-align': this.titleAlignment ,
+      'margin-left': this.titleMargin
+    };
   }
 }

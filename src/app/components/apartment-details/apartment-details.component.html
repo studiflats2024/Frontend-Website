@@ -497,72 +497,83 @@
         </div>
       <!------------------------------------col-4-->
 
-        <div class="col-lg-3  col-md-10 col-sm-12    ">
-          <div class=" bookingdisplay   booking-box  " *ngIf="isVisible">
-            <div class="d-flex justify-content-start align-items-center gap-3">
-                <div class="d-flex justify-content-start align-items-center gap-2">
-                    <i class="bi bi-calendar3 text-secondary"></i>
-                    <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">Available from 28 JUN 2024</div>
-                </div>
-            </div>
-            <div class="detailss">
-                <div class="row">
+      <div class="col-lg-3  col-md-10 col-sm-12    ">
+        <div class=" bookingdisplay   booking-box  " *ngIf="isVisible">
+          <div class="d-flex justify-content-start align-items-center gap-3">
+              <div class="d-flex justify-content-start align-items-center gap-2">
+                  <i class="bi bi-calendar3 text-secondary"></i>
+                  <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">Available from 28 JUN 2024</div>
+              </div>
+          </div>
+          <div class="detailss">
+              <div class="row">
+                <div class="attribute">
+                  <label for="checkout" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECK IN</label>
+                  <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout" value="">
+                 </div>
+                  <!-- <div class="attribute">
+                      <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">CHECKOUT</div>
+                      <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">2/26/2022</div>
+                  </div> -->
                   <div class="attribute">
-                    <label for="checkout" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECK IN</label>
-                    <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout" value="2022-02-26">
-                   </div>
-                    <!-- <div class="attribute">
-                        <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">CHECKOUT</div>
-                        <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">2/26/2022</div>
-                    </div> -->
-                    <div class="attribute">
-                      <label for="checkout" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECKOUT</label>
-                      <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout" value="2022-02-26">
-                    </div>
-                </div>
-                <!-- <div class="d-flex justify-content-start align-items-center gap-2 p-2">
-                    <div class="flex-grow-1">
-                        <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">GUESTS</div>
-                        <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">2 guests</div>
-                    </div>
-                    <i class="bi bi-chevron-down text-secondary"></i>
-                </div> -->
-                <div class="dropdown guests-dropdown">
-                  <div class="d-flex justify-content-start align-items-center gap-2 p-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                      <div class="flex-grow-1">
-                          <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">GUESTS</div>
-                          <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">2 guests</div>
-                      </div>
-                      <i class="bi bi-chevron-down text-secondary"></i>
+                    <label for="checkout" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECKOUT</label>
+                    <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout" value="">
                   </div>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li><a class="dropdown-item" href="#">1 guest</a></li>
-                      <li><a class="dropdown-item" href="#">2 guests</a></li>
-                      <li><a class="dropdown-item" href="#">3 guests</a></li>
-                      <li><a class="dropdown-item" href="#">4 guests</a></li>
-                  </ul>
               </div>
 
-            </div>
-
-            <div id="fixlogin" class="booking-button">
-              <button class="btn-base"  (click)="openModals()">Request Apartment</button>
-          </div>
-            <!-- <div class="booking-button">
-                <button class="btn-base" data-bs-toggle="modal" data-bs-target="#loginModal">Request Apartment</button>
-            </div> -->
-            <div class="text-secondary text-center" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">Please enter the complete duration of your stay</div>
-            <div class="dividerr"></div>
-            <div class="row-footer">
-                <div class="starting-from">Starting From</div>
-                <div class="price">
-                    <div class="amount">€500</div>
-                    <div class="per-guest">per guest</div>
+              <!-- <div class="dropdown guests-dropdown">
+                <div class="d-flex justify-content-start align-items-center gap-2 p-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    <div class="flex-grow-1">
+                        <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">GUESTS</div>
+                        <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">Select guests </div>
+                    </div>
+                    <i class="bi bi-chevron-down text-secondary"></i>
                 </div>
-            </div>
-        </div>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li class="p-2 pl-3"> 1 guest </li>
+                    <li class="p-2 pl-3"> 2 guests </li>
+                    <li class="p-2 pl-3"> 3 guests </li>
+                    <li class="p-2 pl-3"> 4 guests </li>
+                </ul>
+            </div> -->
+            <div class="dropdown guests-dropdown">
+              <div class="d-flex justify-content-start align-items-center gap-2 p-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                  <div class="flex-grow-1">
+                      <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">GUESTS</div>
+                      <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">
+                          {{ selectedGuest }}
+                      </div>
+                  </div>
+                  <i class="bi bi-chevron-down text-secondary"></i>
+              </div>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <li class="p-2 pl-3" *ngFor="let guest of guests" (click)="selectGuest(guest)">
+                      {{ guest }}
+                  </li>
+              </ul>
+          </div>
 
+
+          </div>
+
+          <div id="fixlogin" class="booking-button">
+            <button class="btn-base"  (click)="openModals()">Request Apartment</button>
         </div>
+          <!-- <div class="booking-button">
+              <button class="btn-base" data-bs-toggle="modal" data-bs-target="#loginModal">Request Apartment</button>
+          </div> -->
+          <div class="text-secondary text-center" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">Please enter the complete duration of your stay</div>
+          <div class="dividerr"></div>
+          <div class="row-footer">
+              <div class="starting-from">Starting From</div>
+              <div class="price">
+                  <div class="amount">€500</div>
+                  <div class="per-guest">per guest</div>
+              </div>
+          </div>
+      </div>
+
+      </div>
 
 
 
@@ -909,8 +920,8 @@
       <div class="modal-body">
 
 <!-------------------step1-->
-        <div class="container mt-4" *ngIf="activeIndex===0">
-          <div class="card">
+        <div class="container mt-4" *ngIf="activeIndex===0"  >
+          <div class="card" >
             <div class="card-body">
 
               <div class="text-and-supporting-text">
@@ -927,10 +938,11 @@
                   </div>
                   <div class="price-aprt">
                     <span class="price-label">Price: </span>
-                    <span class="price-value">$400</span>
+                    <span class="price-value">${{ bedsPrice}}</span>
                   </div>
                 </div>
-                <div class="">
+                <div  *ngFor="let room of aprt.apartment_Rooms;let i = index">
+                <div class="" *ngIf="room.room_Type==='Single'">
                   <div class="frameaprt border-bottom pb-3">
                     <div class="d-flex justify-content-between align-items-center w-100 mb-2">
                       <div class="full-apartment">Single Room</div>
@@ -940,41 +952,44 @@
                     </div>
                     <div class="price-aprt">
                       <span class="price-label">Room Price: </span>
-                      <span class="price-value">$400</span>
+                      <span class="price-value">${{room.bed_Price}}</span>
                     </div>
                   </div>
 
                 </div>
-                <div class="">
+                <div class="" *ngIf="room.room_Type!=='Single'">
                   <div class="frameaprt pb-3 border-none">
                     <div class="d-flex justify-content-between align-items-center w-100 mb-2">
-                      <div class="full-apartment">Double Room</div>
+                      <div class="full-apartment">{{room.room_Type }}</div>
                       <div class="frame-checkbox-aprt">
                         <input type="checkbox" class="form-check-input" />
                       </div>
                     </div>
                     <div class="price-aprt">
                       <span class="price-label">Room Price: </span>
-                      <span class="price-value">$800</span>
+                      <span class="price-value">${{ room.beds_No * room.bed_Price}}</span>
                     </div>
                     <div class="price-aprt">
                       <span class="price-label">Bed Price: </span>
-                      <span class="price-value">$400</span>
+                      <span class="price-value">${{room.bed_Price}}</span>
                     </div>
 
-                    <div class="frame-bed pb-2">
+                    <div class="frame-bed pb-2" *ngFor="let bed of room.room_Beds">
                       <div class="d-flex justify-content-between align-items-center w-100 mb-2">
-                        <div class="bed-title">Bed 1</div>
+                        <div class="bed-title">{{ bed.bed_Name}}</div>
 
                         <div class="frame-checkbox-aprt">
-                          <input type="checkbox" class="form-check-input" disabled />
+                          <input type="checkbox" class="form-check-input" />
                         </div>
                       </div>
-                      <div class="badge-unavailable">
+                      <div *ngIf="!bed.bed_Available" class="badge-unavailable">
                         <span class="text-unavailable">Unavailable</span>
                       </div>
+                      <div *ngIf="bed.bed_Available" class="badge-available">
+                        <span class="text-available">Available</span>
+                      </div>
                     </div>
-                    <div class="frame-bed">
+                    <!-- <div class="frame-bed">
                       <div class="d-flex justify-content-between align-items-center w-100 mb-2">
                         <div class="bed-title">Bed 2</div>
 
@@ -985,12 +1000,12 @@
                       <div class="badge-available">
                         <span class="text-available">Available</span>
                       </div>
-                    </div>
+                    </div> -->
 
                   </div>
 
                 </div>
-
+              </div>
               </div>
             </div>
           </div>

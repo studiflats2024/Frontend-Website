@@ -20,6 +20,8 @@ import { InputOtpModule } from 'primeng/inputotp';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
+import { FaqComponent } from './components/faq/faq.component';
+
 
 
 
@@ -29,7 +31,7 @@ import { ToastModule } from 'primeng/toast';
     AppComponent,
     //  HeaderComponent,
      FooterComponent,
-
+    //  FaqComponent
 
   ],
   imports: [

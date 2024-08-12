@@ -1,5 +1,5 @@
 
-import { Component, OnInit,Renderer2 } from '@angular/core';
+import { Component, OnInit,Renderer2, AfterViewInit } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { UserService,UserAccount } from './services/user.service';
@@ -42,7 +42,7 @@ interface Country {
     ])
   ]
 })
-export class AppComponent implements OnInit {
+export class AppComponent implements OnInit, AfterViewInit{
 
   signupForm!: FormGroup;
   finishSignupForm!: FormGroup;
@@ -54,7 +54,38 @@ export class AppComponent implements OnInit {
     this.options=[  { name: 'Male', code: 'NY' },
       { name: 'Female', code: 'RM' }, { name: 'UnSpecified', code: 'RM' }];
 
+      this.loginForm = this.fb.group({
+        mobile: '',
 
+        email: '',
+        password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
+
+      } );
+
+      const inputlogin = document.querySelector("#phonee");
+
+      if (inputlogin) {
+        const iti = intlTelInput(inputlogin, {
+          initialCountry: "de",  // الدولة الافتراضية
+          preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
+          separateDialCode: true,  // فصل كود الدولة
+          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
+        });
+
+        // حدث عند فقدان التركيز على الحقل
+        inputlogin.addEventListener('blur', () => {
+          let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
+          if (fullPhoneNumber.startsWith("+")) {
+            fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
+          }
+          console.log("Full phone number:", fullPhoneNumber);
+          this.loginForm.patchValue({ mobile: fullPhoneNumber });
+          console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+           console.log(typeof( this.loginForm.value.mobile))
+        });
+      } else {
+        console.error("The phone input element was not found.");
+      }
 
       this.signupForm = this.fb.group({
         mobile: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
@@ -114,6 +145,40 @@ export class AppComponent implements OnInit {
       });
 
   }
+
+  ngAfterViewInit(): void {
+
+    const inputlogin = document.querySelector("#phonee");
+
+    if (inputlogin) {
+      const iti = intlTelInput(inputlogin, {
+        initialCountry: "de",  // الدولة الافتراضية
+        preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
+        separateDialCode: true,  // فصل كود الدولة
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
+      });
+
+      // حدث عند فقدان التركيز على الحقل
+      inputlogin.addEventListener('blur', () => {
+        let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
+        if (fullPhoneNumber.startsWith("+")) {
+          fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
+        }
+        console.log("Full phone number:", fullPhoneNumber);
+        this.loginForm.patchValue({ mobile: fullPhoneNumber });
+        console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+         console.log(typeof( this.loginForm.value.mobile))
+      });
+    } else {
+      console.error("The phone input element was not found.");
+    }
+
+    this.loginForm.reset();
+
+  }
+
+
+
   title = 'StudiFlats';
   message: any = null;
   value: string = '';
@@ -148,8 +213,9 @@ this.showBooking=true;
 
 displayModalsign:any;
 openModalSign(){
-   this.displayModalsign='block';
 
+   this.displayModalsign='block';
+   this.hideLogin();
 }
 onCloseSignModal() {
   this.displayModalsign='none';
@@ -275,6 +341,57 @@ onFinishSignSubmit() {
 
 
 
+isVisiblelogin='none';
+loginMethod: string = 'whatsApp';
+  loginForm!: FormGroup;
+  showLogin(): void {
+    this.isVisiblelogin = 'block';
+
+    this.displayModalsign='none';
+
+  this.displayInfo='none';
+  this.displayVerify='none'
+  }
+
+  hideLogin(): void {
+    this.isVisiblelogin = 'none';
+  }
+onLoginSubmit(): void {
+  console.log(this.loginForm)
+    let mobileAPI='';
+    let pass=this.loginForm.value.password;
+
+    if (this.loginForm.valid) {
+
+      if(this.loginForm.value.mobile===''){
+        mobileAPI=this.loginForm.value.email;
+      }else{
+        mobileAPI=this.loginForm.value.mobile;
+      }
+
+      console.log('Sending user data to API:',this.loginForm.value.mobile,this.loginForm.value.email );
+      this.userService.loginUser(mobileAPI,pass).subscribe(
+        response => {
+          this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+          console.log('User account created successfully', response);
+          localStorage.setItem('token', response.token);
+         this.hideLogin();
+
+
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+          console.error('Error creating user account', error);
+
+        }
+      );
+    } else {
+      console.error('Form is invalid');
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
+      this.loginForm.markAllAsTouched();
+
+  }
+}
 
 
 }

@@ -140,7 +140,12 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit {
   displayModalbooking:any;
   displayModalsuccess:any;
   openModals(){
-     this.displayModal='block';
+    if(localStorage.getItem('token')){
+      this.displayModalbooking='block';
+    }else{
+      this.displayModal='block';
+    }
+
 
   }
   openModalsuccess(){
@@ -474,8 +479,8 @@ onLoginSubmit(): void {
         response => {
           this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
           console.log('User account created successfully', response);
-
-        this.openModalbooking()
+          localStorage.setItem('token', response.token);
+          this.openModalbooking()
 
 
         },
@@ -491,5 +496,22 @@ onLoginSubmit(): void {
       this.loginForm.markAllAsTouched();
 
   }
+}
+
+
+
+
+
+
+
+
+
+
+
+guests: string[] = ['1 guest', '2 guests', '3 guests', '4 guests'];
+selectedGuest: string = 'Select guests';
+
+selectGuest(guest: string) {
+    this.selectedGuest = guest;
 }
 }

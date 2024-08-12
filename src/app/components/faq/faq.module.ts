@@ -13,7 +13,9 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [FaqComponent],
+  declarations: [
+    FaqComponent
+  ],
   imports: [
     CommonModule,
     AccordionModule,
@@ -21,7 +23,8 @@ const routes: Routes = [
     ButtonModule,
     RouterModule.forChild(routes)
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
-  // exports: [FaqComponent]
+
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  exports: [FaqComponent]
 })
 export class FaqModule { }

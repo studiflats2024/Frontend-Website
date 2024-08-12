@@ -116,12 +116,32 @@
 
 
 
-
+.view-all-btn {
+  width: 133.57px;
+  height: 40px;
+  padding: 4px 16px;
+  border-radius: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #1151B4;
+  font-size: 18px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  text-transform: capitalize;
+  line-height: 28px;
+}
+.view-all-btn:hover{
+  color:#FFF !important;
+  background-color: #1151B4 !important ;
+  transform: scale(1.05);
+}
 
 
 .header {
   text-align: center;
   margin: 40px;
+  margin-left:40px;
 
 }
 .header h1 {
@@ -136,6 +156,29 @@
   font-family: Inter;
   font-weight: 400;
   color: #313033;
+}
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 28px; /* تقليل حجم الخط */
+    font-weight: 500; /* تقليل وزن الخط */
+  }
+
+  .header p {
+    font-size: 14px; /* تقليل حجم الخط */
+    font-weight: 300; /* تقليل وزن الخط */
+  }
+}
+
+@media (max-width: 480px) {
+  .header h1 {
+    font-size: 24px; /* تقليل حجم الخط أكثر */
+    font-weight: 500; /* تقليل وزن الخط */
+  }
+
+  .header p {
+    font-size: 12px; /* تقليل حجم الخط أكثر */
+    font-weight: 300; /* تقليل وزن الخط */
+  }
 }
 
 
@@ -168,7 +211,7 @@
   color: #212529;
   text-decoration: none;
   background: #ffffff ;
-  margin: 0px 78px;
+  /* margin: 0px 78px; */
   margin-bottom: 30 !important;
 }
 
@@ -180,7 +223,7 @@
   border-radius: 0 0 5px 5px;
   background-color: #ffffff;
   /* margin-bottom: 15px; */
-  margin: 0 78px !important;
+  /* margin: 0 78px !important; */
 
 }
 

@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { FaqComponent } from './../faq/faq.component';
+import { NgModule ,CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -9,13 +10,28 @@ import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import {FaqModule } from '../faq/faq.module';
+import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
+import { RatingModule } from 'primeng/rating';
+import { GalleriaModule } from 'primeng/galleria';
+import { TooltipModule } from 'primeng/tooltip';
+
+import { TagModule } from 'primeng/tag';
+import { BadgeModule } from 'primeng/badge';
+import { CarouselModule } from 'primeng/carousel';
+import { PaginatorModule } from 'primeng/paginator';
+
+import { AppComponent } from '../../app.component';
 
 @NgModule({
   declarations: [
     HeaderComponent,
     // FooterComponent,
     HomeComponent,
-    SearchBarComponent
+    SearchBarComponent,
+
+
   ],
   imports: [
     CommonModule,
@@ -23,12 +39,24 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     FormsModule,
     CalendarModule,
     InputNumberModule,
-    FloatLabelModule
+    FloatLabelModule,
+    FaqModule,
+    CardModule,
+    ButtonModule,
+    RatingModule,
+    GalleriaModule,
+    TooltipModule,
+
+    TagModule,
+    BadgeModule,
+    CarouselModule,
+    PaginatorModule,
   ],
   exports: [
     HeaderComponent,
     HomeComponent,
     SearchBarComponent
-  ]
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class HomeAPPModule { }

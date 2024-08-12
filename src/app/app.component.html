@@ -81,7 +81,7 @@
                 <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"     >Sign up</button>
               </div>
               <div class="text-center mb-3">
-                <span>  Already have an account? <a href="#" class="text-primary">Login</a></span>
+                <span>  Already have an account? <a   (click)="showLogin()" class="text-primary">Login</a></span>
               </div>
               <div class="text-center mb-3">
                 <span>Or Login with</span>
@@ -259,7 +259,7 @@
 
             </form>
               <div class="text-center mb-3">
-                <span>  Already have an account? <a href="#" class="text-primary">Login</a></span>
+                <span>  Already have an account? <div   (click)="showLogin()" class="text-primary">Login</div></span>
               </div>
               <div class="text-center mb-3">
                 <span>Or Login with</span>
@@ -271,6 +271,125 @@
             </div>
           </div>
 
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  <!-- -----------login modal ---------------->
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': isVisiblelogin}" style="background-color: rgb(23 22 22 / 50%);">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+
+
+
+        <div class="modal-body p-0" style="position: relative;">
+          <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="hideLogin()">×</button>
+
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          style="position: absolute; top:0; right:0;"></button> -->
+
+          <div class="login-modal-container">
+
+            <div class="modal-form-section p-4">
+              <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+              <div class="login-header mb-4">
+                <h2 class="login-title">Login</h2>
+                <p class="login-subtitle">Please login to access your account</p>
+              </div>
+
+
+              <div class="login-methods d-flex justify-content-start align-items-center gap-4 mb-3">
+                <div class="labell">Login by</div>
+                <div class="d-flex gap-3">
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="loginMethod" id="whatsApp" value="whatsApp" [(ngModel)]="loginMethod">
+                    <label class="form-check-label" for="whatsApp">What’s App</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="loginMethod" id="email" value="email" checked [(ngModel)]="loginMethod">
+                    <label class="form-check-label" for="email">Email</label>
+                  </div>
+                </div>
+              </div>
+
+              <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" autocomplete="off">
+              <div class="login-form">
+
+                <div class="mb-3" *ngIf="loginMethod === 'whatsApp'">
+
+                    <div class="input-group ">
+                      <!-- <span class="input-group-text">
+                        <img src="https://via.placeholder.com/24x24" alt="flag">
+                        <span class="ms-2">+380</span>
+                      </span> -->
+                      <input  id="phonee" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off">
+
+                    </div>
+                    <div *ngIf="loginForm.get('mobile')?.errors && loginForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
+                      <div *ngIf="loginForm.get('mobile')?.errors?.['required']">Mobile number is Invalid.</div>
+                      <div *ngIf="loginForm.get('mobile')?.errors?.['pattern']">Please enter a valid mobile number (10-15 digits).</div>
+                    </div>
+
+                </div>
+
+                <div class="mb-3" *ngIf="loginMethod === 'email'">
+                  <div class="input-group">
+                    <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                    <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off">
+
+                  </div>
+                  <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger" style="font-size: 12px;">
+                    <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
+                    <div *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
+                  </div>
+                </div>
+
+                <div class="mb-3">
+                  <input type="password" formControlName="password" class="form-control" placeholder="Password*" autocomplete="off">
+                    <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
+                      <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
+                      <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
+                      <div *ngIf="loginForm.get('password')?.errors?.['weakPassword']">
+                        Password must contain upper case, lower case, numeric, and special characters.
+                      </div>
+                    </div>
+                </div>
+                <div class="d-flex justify-content-between mb-3">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                    <label class="form-check-label" for="rememberMe">
+                      Remember me
+                    </label>
+                  </div>
+                  <a href="#" class="text-primary">Forgot Password</a>
+                </div>
+                <div class="d-grid mb-3">
+                  <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   data-bs-toggle="modal" data-bs-target="#guestDetailsModal"  >Login</button>
+                </div>
+                <div class="text-center mb-3">
+                  <span>Don’t have an account? <a  (click)="openModalSign()" class="text-primary">Sign up</a></span>
+                </div>
+                <div class="text-center mb-3">
+                  <span>Or login with</span>
+                </div>
+                <div class="d-flex justify-content-around ">
+                  <button class="btn btn-outline-secondary w-50 mr-2"><img src="googlebtn.svg"/></button>
+                  <button class="btn btn-outline-secondary w-50"><img src="applebtn.svg"/></button>
+                </div>
+              </div>
+              </form>
+            </div>
+            <div class="modal-image-section"><img src="loginimg.png"  /></div>
+          </div>
         </div>
       </div>
     </div>

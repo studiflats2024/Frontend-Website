@@ -3,7 +3,7 @@
 <div style="height: 100px;"></div>
 
 
-<div class="header">
+<div class="header" [ngStyle]="getTitleStyle()">
   <h1>Frequently asked questions</h1>
   <p>find questions and answers related to your booking</p>
 </div>
@@ -24,7 +24,17 @@
 
   </p-accordionTab>
 
+
 </p-accordion>
+
+<div *ngIf="showViewAllButton" class="text-end mt-3">
+  <a routerLink="/faq" class="btn btn-outline-primary view-all-btn">
+    View All
+    <i class="bi bi-arrow-right ms-2"></i>
+  </a>
+</div>
+
+
 
 
 
