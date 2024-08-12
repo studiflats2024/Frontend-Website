@@ -308,6 +308,16 @@ line-height: 20px;
   height: auto;
   border-radius: 0.625rem; /* 10px */
 }
+.main-image {
+  width: 100%;
+  max-height: 800px !important;
+  border-radius: 0.625rem;
+}
+ .thumbnail {
+  width: 100%;
+  max-height: 390px !important;
+  border-radius: 0.625rem;
+}
 
 .show-all-btn {
   position: absolute;

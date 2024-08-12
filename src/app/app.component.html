@@ -5,6 +5,7 @@
  <div [@toggleSearch]="searchVisible"   class="fixed-search-bar smooth-transition">
    <app-search-bar class="mod "    ></app-search-bar>
  </div>
+ <p-toast></p-toast>
 
 <router-outlet ></router-outlet>
 <app-footer></app-footer>
@@ -27,36 +28,57 @@
             </div>
 
 
-       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+       <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" autocomplete="off">
             <div class="login-form">
               <div class="mb-3" >
-                <div class="input-group">
-                  <span class="input-group-text">
+                <div class="input-group ">
+                  <!-- <span class="input-group-text">
                     <img src="https://via.placeholder.com/24x24" alt="flag">
                     <span class="ms-2">+380</span>
-                  </span>
-                  <input type="text" class="form-control" formControlName="mobile" placeholder="1234563788">
+                  </span> -->
+                  <input  id="phone" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off">
+
+                </div>
+                <div *ngIf="signupForm.get('mobile')?.errors && signupForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
+                  <div *ngIf="signupForm.get('mobile')?.errors?.['required']">Mobile number is required.</div>
+                  <div *ngIf="signupForm.get('mobile')?.errors?.['pattern']">Please enter a valid mobile number (10-15 digits).</div>
                 </div>
               </div>
+
 
 
 
               <div class="mb-3 ">
-                <input type="text" class="form-control"   formControlName="fullName" placeholder="FullName*">
+                <input type="text" class="form-control"   formControlName="fullName" placeholder="FullName*" autocomplete="off">
+                <div *ngIf="signupForm.get('fullName')?.errors && signupForm.get('fullName')?.touched" class="text-danger" style="font-size: 12px;">
+                  <div *ngIf="signupForm.get('fullName')?.errors?.['required']">Full name is required.</div>
+                  <div *ngIf="signupForm.get('fullName')?.errors?.['minlength']">Full name must be at least 3 characters long.</div>
+                  <div *ngIf="signupForm.get('fullName')?.errors?.['maxlength']">Full name cannot exceed 50 characters.</div>
+                </div>
               </div>
               <div class="mb-3 row g-2 ">
                 <div class="col-6">
                   <input type="password" formControlName="password" class="form-control" placeholder="Password*">
+                  <div *ngIf="signupForm.get('password')?.errors && signupForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
+                    <div *ngIf="signupForm.get('password')?.errors?.['required']">Password is required.</div>
+                    <div *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
+                    <div *ngIf="signupForm.get('password')?.errors?.['weakPassword']">
+                      Password must contain upper case, lower case, numeric, and special characters.
+                    </div>
+                  </div>
                 </div>
                 <div class="col-6">
-                  <input type="password" formControlName="confirmPassword" class="form-control " placeholder="Confirm Password*">
+                  <input type="password" formControlName="confirmPassword" class="form-control " placeholder="Confirm Password*" autocomplete="off">
+                  <div *ngIf="signupForm.errors?.['mismatch'] && signupForm.get('confirmPassword')?.touched" class="text-danger" style="font-size: 12px; ">
+                    Passwords do not match.
+                  </div>
                 </div>
 
 
               </div>
 
               <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   (click)="openverifyModal()" >Sign up</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"     >Sign up</button>
               </div>
               <div class="text-center mb-3">
                 <span>  Already have an account? <a href="#" class="text-primary">Login</a></span>
@@ -99,7 +121,7 @@
 
             <div class="login-form">
               <div class="mb-5 justify-content-center align-content-center" >
-                <p-inputOtp [(ngModel)]="value" [integerOnly]="true" />
+                <p-inputOtp [(ngModel)]="otp" [integerOnly]="true" />
                 <div class=" rotatee">   <img width="13px" height="13px" src="rotate.svg"/><span class="rotate">Resend verification code</span></div>
 
               </div>
@@ -110,7 +132,7 @@
 
 
               <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"  (click)="openInfoModal()"   >Continue</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;" (click)="onVerifyOtp()"    >Continue</button>
               </div>
 
 
@@ -144,16 +166,45 @@
 
 
 
+            <form [formGroup]="finishSignupForm" (ngSubmit)="onFinishSignSubmit()" autocomplete="off">
 
+              <div class="mb-3">
+                <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off">
+                <div *ngIf="finishSignupForm.get('email')?.touched && finishSignupForm.get('email')?.invalid" class="text-danger" style="font-size: 12px;">
+                  <div *ngIf="finishSignupForm.get('email')?.errors?.['required']">Email is required.</div>
+                  <div *ngIf="finishSignupForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
+                </div>
+              </div>
 
-              <div class="mb-3 ">
-                <input type="email" class="form-control " placeholder="Email*">
+              <div class="row pb-3">
+                <div class="col-md-6">
+                  <p-dropdown
+                    [options]="options"
+                    formControlName="gender"
+                    optionLabel="name"
+                    placeholder="Gender*">
+                  </p-dropdown>
+                  <div *ngIf="finishSignupForm.get('gender')?.touched && finishSignupForm.get('gender')?.invalid" class="text-danger" style="font-size: 12px;">
+                    <div *ngIf="finishSignupForm.get('gender')?.errors?.['required']">Gender is required.</div>
+                  </div>
+                </div>
+
+                <div class="col-md-6">
+                  <p-calendar
+                    formControlName="birthday"
+                    dateFormat="mm/dd/yy"
+                    placeholder="Birthday*">
+                  </p-calendar>
+                  <div *ngIf="finishSignupForm.get('birthday')?.touched && finishSignupForm.get('birthday')?.invalid" class="text-danger" style="font-size: 12px;">
+                    <div *ngIf="finishSignupForm.get('birthday')?.errors?.['required']">Birthday is required.</div>
+                  </div>
+                </div>
               </div>
 
 
 
 
-              <div class="row pb-3">
+              <!-- <div class="row pb-3">
                 <div class="col-md-6">
                   <p-dropdown
                   [options]="options"
@@ -169,24 +220,44 @@
                     placeholder="Birthday*">
                   </p-calendar>
                 </div>
-              </div>
+              </div> -->
 
 
 
-              <div class="login-form">
-                <div class="mb-3" >
-                  <div class="input-group">
-                    <span class="input-group-text">
-                      <img src="https://via.placeholder.com/24x24" alt="flag">
-                      <span class="ms-2">+380</span>
-                    </span>
-                    <input type="text" class="form-control" placeholder="1234563788">
+
+
+
+                <div class="mb-3">
+
+                  <p-dropdown
+                    [options]="countries"
+                    [(ngModel)]="selectedCountry"
+                    formControlName="country"
+                    optionLabel="name"
+                    placeholder="Select a Country*">
+                    <ng-template let-country pTemplate="item">
+                      <div class="country-item">
+                        <img [src]="country.flag" alt="{{country.name}}" style="width: 20px; height: 15px; margin-right: 8px;">
+                        <span>{{country.name}}</span>
+                      </div>
+                    </ng-template>
+                    <ng-template let-country pTemplate="selectedItem">
+                      <div class="country-item">
+                        <img [src]="country.flag" alt="{{country.name}}" style="width: 20px; height: 15px; margin-right: 8px;">
+                        <span>{{country.name}}</span>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                  <div *ngIf="finishSignupForm.get('country')?.touched && finishSignupForm.get('country')?.invalid" class="text-danger" style="font-size: 12px;">
+                    <div *ngIf="finishSignupForm.get('country')?.errors?.['required']">Country is required.</div>
                   </div>
                 </div>
 
               <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   (click)="openverifyModal()" >Continue</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"     >Continue</button>
               </div>
+
+            </form>
               <div class="text-center mb-3">
                 <span>  Already have an account? <a href="#" class="text-primary">Login</a></span>
               </div>
@@ -204,7 +275,7 @@
       </div>
     </div>
   </div>
-</div>
+
 
 
 

@@ -5,7 +5,7 @@ import { ApartmentDetailsComponent } from './apartment-details.component';
 import { ButtonModule } from 'primeng/button';
 import { CardModule } from 'primeng/card';
 import { RatingModule } from 'primeng/rating';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { SliderModule } from 'primeng/slider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
@@ -14,6 +14,9 @@ import { GoogleMapsModule } from '@angular/google-maps';
 import { CheckboxModule } from 'primeng/checkbox';
 import { AccordionModule } from 'primeng/accordion';
 import { StepsModule } from 'primeng/steps';
+import { ToastModule } from 'primeng/toast';
+
+import { MessageService } from 'primeng/api';
 
 
 
@@ -46,9 +49,12 @@ const routes: Routes = [
     GoogleMapsModule,
     AccordionModule,
     StepsModule,
+    ToastModule,
+    ReactiveFormsModule ,
     RouterModule.forChild(routes),
 
   ],
+  providers: [MessageService],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ApartmentDetailsModule {

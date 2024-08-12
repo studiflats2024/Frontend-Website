@@ -14,6 +14,13 @@ import { Subscription } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FaqService } from '../../services/faq.service';
 import $ from 'jquery';
+import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { UserService  } from '../../services/user.service';
+
+import { HttpClient } from '@angular/common/http';
+
+declare var intlTelInput: any;
+declare var intlTelInputUtils: any;
 
 
 interface FAQ {
@@ -27,11 +34,11 @@ interface FAQ {
   templateUrl: './apartment-details.component.html',
   styleUrls: ['./apartment-details.component.css']
 })
-export class ApartmentDetailsComponent implements OnInit {
+export class ApartmentDetailsComponent implements OnInit,AfterViewInit {
   apartments: Apartment[] = [];
   subscriptions: Subscription[] = [];
-  loginMethod: string = 'email';
-
+  loginMethod: string = 'whatsApp';
+  loginForm!: FormGroup;
 
 
   constructor(
@@ -40,7 +47,9 @@ export class ApartmentDetailsComponent implements OnInit {
     private messageService: MessageService ,
     public _ActivatedRoute: ActivatedRoute,
     private sanitizer: DomSanitizer,
-    private faqService: FaqService)
+    private faqService: FaqService,
+    private fb: FormBuilder,
+    private userService: UserService,)
      {
     this.apt_UUID = _ActivatedRoute.snapshot.paramMap.get('id');
 
@@ -87,7 +96,41 @@ export class ApartmentDetailsComponent implements OnInit {
     this.checkViewportWidth();
     this.fetchFaqs();
 
+    this.loginForm = this.fb.group({
+      mobile: '',
 
+      email: '',
+      password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
+
+    } );
+
+
+
+
+    const input = document.querySelector("#phone");
+
+    if (input) {
+      const iti = intlTelInput(input, {
+        initialCountry: "de",  // الدولة الافتراضية
+        preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
+        separateDialCode: true,  // فصل كود الدولة
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
+      });
+
+      // حدث عند فقدان التركيز على الحقل
+      input.addEventListener('blur', () => {
+        let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
+        if (fullPhoneNumber.startsWith("+")) {
+          fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
+        }
+        console.log("Full phone number:", fullPhoneNumber);
+        this.loginForm.patchValue({ mobile: fullPhoneNumber });
+        console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+         console.log(typeof( this.loginForm.value.mobile))
+      });
+    } else {
+      console.error("The phone input element was not found.");
+    }
 
 
 
@@ -115,53 +158,36 @@ onCloseQrModal() {
     this.displayModal='none';
 }
 
-  // ngAfterViewInit(): void {
-  //   document.querySelectorAll('[data-bs-toggle="modal"]').forEach(button => {
-  //     button.addEventListener('click', event => {
-  //       setTimeout(() => {
-  //         const target = button.getAttribute('data-bs-target');
-  //         if (target) {
-  //           const targetModal = document.querySelector(target) as HTMLElement;
-  //           if (targetModal) {
+ngAfterViewInit(): void {
 
-  //             targetModal.classList.add('show');
-  //             targetModal.style.display = 'block';
-  //             targetModal.removeAttribute('aria-hidden');
-  //             targetModal.setAttribute('aria-modal', 'true');
-  //             document.body.classList.add('modal-open');
+  const input = document.querySelector("#phone");
 
-  //             const modalBackdrop = document.createElement('div');
-  //             modalBackdrop.className = 'modal-backdrop fade show';
-  //             document.body.appendChild(modalBackdrop);
-  //           } else {
-  //             console.error('Modal not found:', target);
-  //           }
-  //         } else {
-  //           console.error('Attribute data-bs-target not found on button');
-  //         }
-  //       }, 100);
-  //     });
-  //   });
+  if (input) {
+    const iti = intlTelInput(input, {
+      initialCountry: "de",  // الدولة الافتراضية
+      preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
+      separateDialCode: true,  // فصل كود الدولة
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
+    });
 
+    // حدث عند فقدان التركيز على الحقل
+    input.addEventListener('blur', () => {
+      let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
+      if (fullPhoneNumber.startsWith("+")) {
+        fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
+      }
+      console.log("Full phone number:", fullPhoneNumber);
+      this.loginForm.patchValue({ mobile: fullPhoneNumber });
+      console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+       console.log(typeof( this.loginForm.value.mobile))
+    });
+  } else {
+    console.error("The phone input element was not found.");
+  }
 
-  //   document.querySelectorAll('[data-bs-dismiss="modal"]').forEach(button => {
-  //     button.addEventListener('click', event => {
-  //       const targetModal = (button.closest('.modal') as HTMLElement);
-  //       if (targetModal) {
-  //         targetModal.classList.remove('show');
-  //         targetModal.style.display = 'none';
-  //         targetModal.setAttribute('aria-hidden', 'true');
-  //         targetModal.removeAttribute('aria-modal');
-  //         document.body.classList.remove('modal-open');
+  this.loginForm.reset();
 
-  //         const modalBackdrop = document.querySelector('.modal-backdrop');
-  //         if (modalBackdrop) {
-  //           modalBackdrop.remove();
-  //         }
-  //       }
-  //     });
-  //   });
-  // }
+}
 
 
 
@@ -408,5 +434,62 @@ prevImage(): void {
   this.currentIndex = (this.currentIndex - 1 + this.aprt_Imgs.length) % this.aprt_Imgs.length;
 }
 
+
+
+
+
+
+passwordStrengthValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  const password = control.value;
+  if (!password) {
+    return null;
+  }
+
+
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumeric = /[0-9]/.test(password);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecial;
+  return valid ? null : { 'weakPassword': true };
 }
 
+
+onLoginSubmit(): void {
+  console.log(this.loginForm)
+    let mobileAPI='';
+    let pass=this.loginForm.value.password;
+
+    if (this.loginForm.valid) {
+
+      if(this.loginForm.value.mobile===''){
+        mobileAPI=this.loginForm.value.email;
+      }else{
+        mobileAPI=this.loginForm.value.mobile;
+      }
+
+      console.log('Sending user data to API:',this.loginForm.value.mobile,this.loginForm.value.email );
+      this.userService.loginUser(mobileAPI,pass).subscribe(
+        response => {
+          this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+          console.log('User account created successfully', response);
+
+        this.openModalbooking()
+
+
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+          console.error('Error creating user account', error);
+
+        }
+      );
+    } else {
+      console.error('Form is invalid');
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
+      this.loginForm.markAllAsTouched();
+
+  }
+}
+}

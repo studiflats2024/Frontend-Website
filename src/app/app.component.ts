@@ -3,7 +3,20 @@ import { Component, OnInit,Renderer2 } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { UserService,UserAccount } from './services/user.service';
+import {  MessageService } from 'primeng/api';
+import { HttpClient } from '@angular/common/http';
 
+declare var intlTelInput: any;
+declare var intlTelInputUtils: any;
+interface Country {
+  name: {
+    common: string;
+  };
+  cca2: string;
+  flags: {
+    svg: string;
+  };
+}
 
 
 @Component({
@@ -32,18 +45,74 @@ import { UserService,UserAccount } from './services/user.service';
 export class AppComponent implements OnInit {
 
   signupForm!: FormGroup;
+  finishSignupForm!: FormGroup;
+  countries: { name: string; code: string; flag: string }[] = [];
+  selectedCountry: any;
 
-  constructor(private renderer: Renderer2,private fb: FormBuilder, private userService: UserService) {}
+  constructor(private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient) {}
   ngOnInit(): void {
     this.options=[  { name: 'Male', code: 'NY' },
-      { name: 'Female', code: 'RM' },];
+      { name: 'Female', code: 'RM' }, { name: 'UnSpecified', code: 'RM' }];
+
+
 
       this.signupForm = this.fb.group({
-        mobile: ['', Validators.required],
-        fullName: ['', Validators.required],
-        password: ['', [Validators.required, Validators.minLength(6)]],
+        mobile: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
+        fullName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+        // email: ['', [Validators.required, Validators.email]],
+        password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
         confirmPassword: ['', Validators.required]
       }, { validator: this.passwordMatchValidator });
+
+
+
+
+      const input = document.querySelector("#phone");
+
+      if (input) {
+        const iti = intlTelInput(input, {
+          initialCountry: "de",  // الدولة الافتراضية
+          preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
+          separateDialCode: true,  // فصل كود الدولة
+          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
+        });
+
+        // حدث عند فقدان التركيز على الحقل
+        input.addEventListener('blur', () => {
+          let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
+          if (fullPhoneNumber.startsWith("+")) {
+            fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
+          }
+          console.log("Full phone number:", fullPhoneNumber);
+          this.signupForm.patchValue({ mobile: fullPhoneNumber });
+          console.log("Updated mobile field in the form:", this.signupForm.value.mobile);
+           console.log(typeof( this.signupForm.value.mobile))
+        });
+      } else {
+        console.error("The phone input element was not found.");
+      }
+
+
+
+
+
+
+      this.finishSignupForm = this.fb.group({
+        country: ['', Validators.required],
+        email: ['', [Validators.required, Validators.email]],
+        gender: ['', Validators.required],
+        birthday: ['', Validators.required],
+
+      });
+      this.http.get<any>('https://restcountries.com/v3.1/all').subscribe((data) => {
+        console.log(data);
+        this.countries = data.map((country:any) => ({
+          name: country.name.common,
+          code: country.cca2,
+          flag: country.flags.svg
+        }));
+      });
+
   }
   title = 'StudiFlats';
   message: any = null;
@@ -102,29 +171,110 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
   const confirmPassword = group.get('confirmPassword')?.value;
   return password === confirmPassword ? null : { 'mismatch': true };
 }
+passwordStrengthValidator(control: AbstractControl): { [key: string]: boolean } | null {
+  const password = control.value;
+  if (!password) {
+    return null;
+  }
 
+
+  const hasUpperCase = /[A-Z]/.test(password);
+  const hasLowerCase = /[a-z]/.test(password);
+  const hasNumeric = /[0-9]/.test(password);
+  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+
+  const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecial;
+  return valid ? null : { 'weakPassword': true };
+}
 onSubmit(): void {
+console.log(this.signupForm)
+
   if (this.signupForm.valid) {
+
+
     const userAccount = {
       mobile: this.signupForm.value.mobile,
       fullName: this.signupForm.value.fullName,
       password: this.signupForm.value.password,
-      confirm_Password: this.signupForm.value.confirmPassword // تعديل التسمية لتتوافق مع الـ API
+      confirm_Password: this.signupForm.value.confirmPassword
     };
-    console.log('Sending user data to API:', userAccount); // تحقق من البيانات هنا
+    console.log('Sending user data to API:', userAccount);
     this.userService.createUser(userAccount).subscribe(
       response => {
+        this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
         console.log('User account created successfully', response);
-        // Handle success scenario
+        this.openverifyModal();
+        this.uuid=response.uuid;
+
+
+
       },
       error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
         console.error('Error creating user account', error);
-        // Handle error scenario
+
       }
     );
   } else {
     console.error('Form is invalid');
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
+    this.signupForm.markAllAsTouched();
   }
 }
+
+
+uuid:string='';
+otp:string='';
+onVerifyOtp(): void {
+  this.userService.checkOtp(this.otp, this.uuid).subscribe(
+    response => {
+      this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+      console.log('OTP verified successfully', response);
+      this.openInfoModal()
+    },
+    error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+      console.error('Error verifying OTP', error);
+
+    }
+  );
+}
+
+
+onFinishSignSubmit() {
+  if (this.finishSignupForm.valid) {
+    const formData = this.finishSignupForm.value;
+    const genderName = formData.gender.name;
+
+    this.userService.sendUserData(
+      formData.email,
+      genderName,
+      formData.country,
+      formData.birthday,
+      this.uuid,
+      formData.mobile,
+      'Local'
+    ).subscribe(
+      response => {
+        this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+        console.log('Form Submitted Successfully:', response);
+
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+        console.error('Error submitting form:', error);
+
+      }
+    );
+  } else {
+    console.error(this.finishSignupForm);
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
+    this.finishSignupForm.markAllAsTouched();
+  }
+}
+
+
+
+
 
 }

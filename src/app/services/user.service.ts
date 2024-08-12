@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../src/environments/environment';
 
@@ -27,5 +27,52 @@ export class UserService {
     const url = `${environment.apiUrl}/Users/Create_Account`;
     return this.http.post<any>(url, userAccount);
   }
+
+  checkOtp(otp: string, uuid: string): Observable<any> {
+    const url = `${environment.apiUrl}/Users/Check_Otp`;
+    const params = new HttpParams()
+      .set('Otp', otp)
+      .set('UUID', uuid);
+
+    return this.http.put<any>(url, {}, { params: params });
+  }
+
+  sendUserData(
+    email: string,
+    gender: string,
+    nationality: string,
+    dob: string,
+    uuid: string,
+    mobile: string,
+    provider: string,
+  ): Observable<any> {
+    const url = `${environment.apiUrl}/Users/Finish_Profile`;
+
+    const params = new HttpParams()
+      .set('Email', email)
+      .set('Gender', gender)
+      .set('Nationality', nationality)
+      .set('DOB', dob)
+      .set('UUID', uuid)
+      .set('Mobile', mobile)
+      .set('Provider', provider);
+
+    return this.http.put<any>(url, {}, { params: params });
+  }
+
+
+  loginUser(mobile: string, password: string): Observable<any> {
+    const url = `${environment.apiUrl}/Users/Login`;
+
+    const loginData = {
+      mobile: mobile,
+      password: password,
+
+    };
+
+    return this.http.post<any>(url, loginData);
+  }
+
+
 }
 

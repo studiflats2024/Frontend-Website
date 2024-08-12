@@ -19,6 +19,8 @@ import { PaginatorModule } from 'primeng/paginator';
 import { InputOtpModule } from 'primeng/inputotp';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
+import { ToastModule } from 'primeng/toast';
+
 
 
 
@@ -43,6 +45,7 @@ import { CalendarModule } from 'primeng/calendar';
     InputOtpModule,
     DropdownModule,
     CalendarModule,
+    ToastModule,
 
   ],
   providers: [MessageService],
