@@ -17,6 +17,7 @@ import { StepsModule } from 'primeng/steps';
 import { ToastModule } from 'primeng/toast';
 
 import { MessageService } from 'primeng/api';
+import { DropdownModule } from 'primeng/dropdown';
 
 
 
@@ -51,6 +52,7 @@ const routes: Routes = [
     StepsModule,
     ToastModule,
     ReactiveFormsModule ,
+    DropdownModule,
     RouterModule.forChild(routes),
 
   ],

@@ -5,7 +5,7 @@
 
 
 
-import { Component, OnInit ,  HostListener,  AfterViewInit} from '@angular/core';
+import { Component, OnInit ,  HostListener,  AfterViewInit, ElementRef, ViewChild , OnChanges, SimpleChanges, AfterViewChecked, QueryList, ViewChildren,ChangeDetectorRef   } from '@angular/core';
 import { Router,  ActivatedRoute } from '@angular/router';
 import { ApartmentService } from '../../services/apartment.service';
 import { Apartment } from '../../models/apartment.model';
@@ -14,8 +14,9 @@ import { Subscription } from 'rxjs';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { FaqService } from '../../services/faq.service';
 import $ from 'jquery';
-import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, AbstractControl,FormArray } from '@angular/forms';
 import { UserService  } from '../../services/user.service';
+
 
 import { HttpClient } from '@angular/common/http';
 
@@ -34,12 +35,603 @@ interface FAQ {
   templateUrl: './apartment-details.component.html',
   styleUrls: ['./apartment-details.component.css']
 })
-export class ApartmentDetailsComponent implements OnInit,AfterViewInit {
+export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChanges, AfterViewChecked {
   apartments: Apartment[] = [];
   subscriptions: Subscription[] = [];
   loginMethod: string = 'whatsApp';
   loginForm!: FormGroup;
+  bookingForm!: FormGroup;
+  studentOptions = [
+    {label: 'Yes', value: 'yes'},
+    {label: 'No', value: 'no'}
+  ];
 
+  selectedStudentStatus: string='';
+  universityName: string='';
+  agencyCode: string='';
+
+  fullApartmentSelected : any;
+  selectedRooms: any[] = [];
+  selectedBeds: any[] = [];
+  maxGuests = 1; // Set based on selection in step 1
+  guestsData: any[] = [];
+  guestsCount = 0;
+  selectedRole:string='';
+  roles:any;
+  guestsAPI :any;
+
+  initializeGuestsAPI() {
+    this.guestsAPI = this.selectedBeds.map((i) => ({
+      apartment_ID: this.aprt.apartment_ID,
+      room_ID: i.room_ID,
+      bed_ID: i.bed_ID,
+      guest_Name: '',
+      guest_WA_No: '',
+      guest_Email: ''
+    }));
+    this.newGuestArr=[...this.guestsAPI];
+  }
+
+  onCheckinDateChange(date: string) {
+    this.bookingForm.get('bookingStartDate')?.setValue(date);
+  }
+
+  onCheckoutDateChange(date: string) {
+    this.bookingForm.get('bookingEndDate')?.setValue(date);
+  }
+
+  newGuestArr:any;
+
+  checkoutDate:string='';
+  checkinDate:string='';
+  initForm() {
+    this.newGuestArr=[...this.guestsAPI]
+    this.bookingForm = this.fb.group({
+      apartmentID: this.apt_UUID,
+      roomid:[''],
+      bedid:[''],
+      bookingStartDate: [this.checkinDate],
+      bookingEndDate: [this.checkoutDate],
+      bookingAgentCode: [''],
+      guestss:  this.newGuestArr,
+      guestProfession: [''],
+      bookingUnvWPName: [''],
+      fullApartment: this.selectfullaprt
+    });
+  }
+  get guestss(): FormArray {
+    return this.bookingForm.get('guestss') as FormArray;
+  }
+  get guestapi():FormArray {
+    this.newGuestArr=[...this.guestsAPI]
+    return this.newGuestArr;
+  }
+
+
+
+
+
+
+
+  submitstep2(){
+    if(this.activeIndex===1&&this.bookingForm.get('bedid')?.value===''&& this.selectedGuest!=="1 guest" ){
+      this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose your bed or your room' });
+
+    }else if(this.activeIndex===0){
+      this.activeIndex=1;
+    }else if(this.activeIndex===1){
+      this.activeIndex=2;
+    }
+  }
+  backstep(){
+    if(this.activeIndex===1){
+      this.activeIndex=0;
+
+    }else if(this.activeIndex===2){
+      this.activeIndex=1;
+
+    }
+    // else if(this.activeIndex===2){
+    //   this.activeIndex=2;
+    // }
+  }
+
+
+  namelogin:any;
+  emaillogin:any;
+  phonelogin:any;
+  onSubmitBooking(){
+    this.bookingForm.patchValue({
+       guestss: this.newGuestArr ,
+       guestProfession: this.selectedRole
+    });
+    let  bookingData:any;
+
+     bookingData = {
+      apartment_ID: this.bookingForm.get('apartmentID')?.value,
+      room_ID: this.bookingForm.get('roomid')?.value,
+      bed_ID: this.bookingForm.get('bedid')?.value,
+      booking_Start_Date: this.bookingForm.get('bookingStartDate')?.value,
+      booking_End_Date: this.bookingForm.get('bookingEndDate')?.value,
+      booking_Agent_Code: this.bookingForm.get('bookingAgentCode')?.value,
+      booking_Guests: this.bookingForm.get('guestss')?.value,
+      booking_Guest_Profession: this.bookingForm.get('guestProfession')?.value,
+      booking_Unv_WP_Name: this.bookingForm.get('bookingUnvWPName')?.value,
+      full_Apartment: this.bookingForm.get('fullApartment')?.value,
+    };
+
+    this.namelogin= localStorage.getItem('namelogin');
+    if(localStorage.getItem('emaillogin')!=null){
+      this.emaillogin=  localStorage.getItem('emaillogin');
+    }else{
+      this.emaillogin=this.bookingForm.get('guestss')?.value[0].guest_Email||'null';
+    }
+    if(localStorage.getItem('phonelogin')!=null){
+      this.phonelogin=localStorage.getItem('phonelogin');
+    }else{
+      this.emaillogin=this.bookingForm.get('guestss')?.value[0].guest_WA_No||'null';
+    }
+
+
+    if(this.selectfullaprt===true && this.selectedGuest==="1 guest" ){
+
+      bookingData = {
+        apartment_ID: this.bookingForm.get('apartmentID')?.value,
+
+        booking_Start_Date: this.bookingForm.get('bookingStartDate')?.value,
+        booking_End_Date: this.bookingForm.get('bookingEndDate')?.value,
+        booking_Agent_Code: this.bookingForm.get('bookingAgentCode')?.value,
+        booking_Guests:  [{ apartment_ID: this.aprt.apartment_ID,
+          room_ID:this.aprt.apartment_Rooms[0].room_Beds[0].room_ID,
+          bed_ID:this.aprt.apartment_Rooms[0].room_Beds[0].bed_ID,
+          guest_Name: this.namelogin,
+          guest_WA_No: this.phonelogin,
+          guest_Email: this.emaillogin}],
+        booking_Guest_Profession: this.bookingForm.get('guestProfession')?.value,
+        booking_Unv_WP_Name: this.bookingForm.get('bookingUnvWPName')?.value,
+        full_Apartment: this.bookingForm.get('fullApartment')?.value,
+      };
+      console.log(bookingData)
+    }else{
+      console.log(bookingData,this.selectedGuest,this.bookingForm.get('fullApartment')?.value)
+    }
+
+
+    if(this.selectedRooms.length===1 && this.selectedGuest==="1 guest"){
+
+
+
+      this.bookingForm.patchValue({
+        roomid:this.selectedRooms[0].room_ID,
+        bedid:this.selectedRooms[0].room_Beds[0].bed_ID
+     });
+
+     bookingData = {
+      apartment_ID: this.bookingForm.get('apartmentID')?.value,
+      room_ID: this.bookingForm.get('roomid')?.value,
+      bed_ID:this.bookingForm.get('bedid')?.value,
+      booking_Start_Date: this.bookingForm.get('bookingStartDate')?.value,
+      booking_End_Date: this.bookingForm.get('bookingEndDate')?.value,
+      booking_Agent_Code: this.bookingForm.get('bookingAgentCode')?.value,
+      booking_Guests:  [{ apartment_ID: this.aprt.apartment_ID,
+        room_ID:this.bookingForm.get('roomid')?.value,
+        bed_ID:this.bookingForm.get('bedid')?.value,
+        guest_Name: this.namelogin,
+        guest_WA_No: this.phonelogin,
+        guest_Email: this.emaillogin}],
+      booking_Guest_Profession: this.bookingForm.get('guestProfession')?.value,
+      booking_Unv_WP_Name: this.bookingForm.get('bookingUnvWPName')?.value,
+      full_Apartment: this.bookingForm.get('fullApartment')?.value,
+    };
+     console.log( bookingData)
+    }else{
+      console.log( this.bookingForm.value)
+    }
+
+
+    if(this.selectedBeds.length===1 && this.selectedGuest==="1 guest"){
+
+
+
+      this.bookingForm.patchValue({
+        roomid:this.selectedBeds[0].room_ID,
+        bedid:this.selectedBeds[0].bed_ID
+     });
+
+     bookingData = {
+      apartment_ID: this.bookingForm.get('apartmentID')?.value,
+      room_ID: this.bookingForm.get('roomid')?.value,
+      bed_ID:this.bookingForm.get('bedid')?.value,
+      booking_Start_Date: this.bookingForm.get('bookingStartDate')?.value,
+      booking_End_Date: this.bookingForm.get('bookingEndDate')?.value,
+      booking_Agent_Code: this.bookingForm.get('bookingAgentCode')?.value,
+      booking_Guests:  [{ apartment_ID: this.aprt.apartment_ID,
+        room_ID:this.bookingForm.get('roomid')?.value,
+        bed_ID:this.bookingForm.get('bedid')?.value,
+        guest_Name: this.namelogin,
+        guest_WA_No: this.phonelogin,
+        guest_Email: this.emaillogin}],
+      booking_Guest_Profession: this.bookingForm.get('guestProfession')?.value,
+      booking_Unv_WP_Name: this.bookingForm.get('bookingUnvWPName')?.value,
+      full_Apartment: this.bookingForm.get('fullApartment')?.value,
+    };
+     console.log( bookingData)
+    }else{
+      console.log( this.bookingForm.value)
+    }
+
+
+
+    // const token = localStorage.getItem('token');
+    // if (!token) {
+    //   this.router.navigate(['/login']);
+    // }
+    // if(bookingData.room_ID==='' ){
+    //   this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose your bed' });
+    // }
+    console.log(bookingData)
+    console.log('Guests:', this.guestss.value);
+    console.log('Guests:', this.bookingForm.value);
+    console.log('Current Guest Data:', this.newGuestArr);
+    this.apartmentService.sendBookingData(bookingData).subscribe(
+      response => {
+        this.messageService.add({ severity: 'success', summary: 'Booking Confirmed', detail: response.message });
+        console.log('Booking created successfully', response);
+        // localStorage.setItem('bookingConfirmation', response.confirmationNumber);
+
+        // Open the booking confirmation modal or any other action
+        this.openModalsuccess();
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'please check and complete your booking data ' });
+        console.error('Error creating booking', error);
+      }
+    );
+  }
+
+  setMaxGuests() {
+    const guestsSelection = this.bookingForm.get('guests')?.value;
+    this.maxGuests = parseInt(guestsSelection.split(' ')[0], 10);
+  }
+
+  onGuestInfoChange() {
+    this.guestsData = [];
+    this.guestsCount = 0;
+    this.selectedRooms.forEach((room: { room_Type: string, room_Beds: any[] }) => {
+      room.room_Beds.forEach(bed => {
+        if (bed.stay === 'yes') {
+          this.guestsCount++;
+          this.guestsData.push({
+            room_Type: room.room_Type,
+            bed_Name: bed.bed_Name,
+            guestName: bed.guestName,
+            guestEmail: bed.guestEmail,
+            guestPhone: bed.guestPhone
+          });
+        }
+      });
+    });
+
+    if (this.guestsCount > this.maxGuests) {
+      alert(`You cannot enroll more than ${this.maxGuests} guests.`);
+      this.guestsData.pop(); // Remove the last added guest as it exceeds the limit
+    }
+
+    this.bookingForm.get('guestsData')?.setValue(this.guestsData);
+  }
+  // onFullApartmentSelected() {
+  //   const fullApartmentSelected = this.bookingForm.get('fullApartment')?.value;
+  // console.log(fullApartmentSelected);
+  //   if (fullApartmentSelected) {
+  //     console.log(fullApartmentSelected)
+  //     this.selectedRooms = this.aprt.apartment_Rooms.map((room: { room_Beds: any[]; }) => room);
+  //     this.selectedBeds = [];
+  //     this.aprt.apartment_Rooms.forEach((room: { room_Beds: any[]; }) => {
+  //       room.room_Beds.forEach(bed => this.selectedBeds.push(bed));
+  //     });
+  //     console.log(this.selectedRooms,this.selectedBeds)
+  //   } else {
+  //     this.selectedRooms = [];
+  //     this.selectedBeds = [];
+  //     console.log(this.selectedRooms,this.selectedBeds)
+  //   }
+  //   this.bookingForm.get('selectedRooms')?.setValue(this.selectedRooms);
+  //   this.bookingForm.get('selectedBeds')?.setValue(this.selectedBeds);
+  // }
+  selectfullaprt:boolean=false;
+  onFullApartmentSelected(event: any) {
+    // الحصول على القيمة المحدثة للـ checkbox من النموذج
+    // this.selectfullaprt = this.bookingForm.get('fullApartment')?.value;
+    const fullApartmentSelected = event.target.checked;
+    this.selectfullaprt=fullApartmentSelected;
+    console.log('Full Apartment Selected:', this.selectfullaprt);
+    // this.bookingForm.get('fullApartment')?.setValue(this.selectfullaprt);
+    this.bookingForm.patchValue({
+      fullApartment:this.selectfullaprt
+   });
+   console.log('Form Values After Update:', this.bookingForm.value);
+    if (this.selectfullaprt) {
+      // تنفيذ المنطق عندما يتم تحديد "Full Apartment"
+      this.selectedRooms = this.aprt.apartment_Rooms.map((room: { room_Beds: any[]; })  => room);
+      this.selectedBeds = [];
+      this.aprt.apartment_Rooms.forEach((room: {room_Type:string, room_Beds: any[]; })  => {
+
+        room.room_Beds.forEach(bed =>
+          //  this.selectedBeds.push(bed)
+          {
+            if ( bed.bed_Available) {
+              bed['room_Type']=room.room_Type;
+              bed['apartment_ID']=this.aprt.apartment_ID;
+               this.selectedBeds.push(bed);
+             }else{
+              this.selectfullaprt=false;
+              this.bookingForm.patchValue({
+                fullApartment:this.selectfullaprt
+             });
+            //  event.target.checked=false;
+            //  this.selectfullaprt=event.target.checked;
+            //  event.target.disabled=true;
+             }
+          }
+          );
+      });
+        this.guestsAPI = this.selectedBeds.map((i) => ({
+      apartment_ID: this.aprt.apartment_ID,
+      room_ID: i.room_ID,
+      bed_ID: i.bed_ID,
+      guest_Name: '',
+      guest_WA_No: '',
+      guest_Email: ''
+    }));
+    this.newGuestArr=[...this.guestsAPI];
+      this.initForm();
+    } else {
+      // إعادة تعيين القيم إذا لم يتم تحديد "Full Apartment"
+      this.selectedRooms = [];
+      this.selectedBeds = [];
+    }
+
+    // تحديث القيم في النموذج
+    // this.bookingForm.get('selectedRooms')?.setValue(this.selectedRooms);
+    // this.bookingForm.get('selectedBeds')?.setValue(this.selectedBeds);
+
+    // تسجيل القيم في الكونسول
+
+  }
+
+
+  // onRoomSelected(room: any) {
+  //   room.room_Beds.forEach((bed: any) => {
+  //     bed.selected = room.selected;
+  //   });
+  //   if (room.selected) {
+
+  //     this.selectedRooms.push(room);
+  //     room.room_Beds.forEach((bed: any) => {
+  //       if (bed.selected) {
+  //         this.selectedBeds.push(bed);
+  //       }
+  //     });
+  //   } else {
+  //     this.selectedRooms = this.selectedRooms.filter(r => r !== room);
+  //     room.room_Beds.forEach((bed: any) => {
+  //       this.selectedBeds = this.selectedBeds.filter(b => b !== bed);
+  //     });
+  //   }
+  //   this.bookingForm.get('selectedRooms')?.setValue(this.selectedRooms);
+  //   this.bookingForm.get('selectedBeds')?.setValue(this.selectedBeds);
+  // }
+  selectedroom:any;
+  @ViewChildren('bedCheckbox') bedCheckboxes!: QueryList<ElementRef>;
+  onRoomSelected(event: Event, room: any) {
+
+    // if(room.room_Type==='Trible'){
+
+    // }else if(room.room_Type==='Custom'){
+
+    // }else if(room.room_Type==='shared_area'){
+
+    // }
+
+
+    let isChecked = (event.target as HTMLInputElement).checked;
+    if( !(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0) ){
+
+    this.selectedroom=room.room_Type;
+    this.bedCheckboxes.forEach((checkbox, index) => {
+      const bedCheckboxElement = checkbox.nativeElement as HTMLInputElement;
+      if (index < this.bedCheckboxes.length) {
+        bedCheckboxElement.checked = isChecked;
+      }
+    });
+
+
+    this.bookingForm.get('fullApartment')?.setValue(false);
+    // Set the selected state of all beds in this room to match the room's selected state
+
+
+    if (isChecked) {
+      // Add the room to selectedRooms array if it's selected
+
+      this.selectedRooms.push(room);
+
+      // Add the selected beds of this room to selectedBeds array
+      room.room_Beds.forEach((bed: any) => {
+        if (isChecked && bed.bed_Available) {
+         bed['room_Type']=room.room_Type;
+         bed['apartment_ID']=this.aprt.apartment_ID;
+          this.selectedBeds.push(bed);
+        }
+      });
+       this.guestsAPI = this.selectedBeds.map((i) => ({
+      apartment_ID: this.aprt.apartment_ID,
+      room_ID: i.room_ID,
+      bed_ID: i.bed_ID,
+      guest_Name: '',
+      guest_WA_No: '',
+      guest_Email: ''
+    }));
+    this.newGuestArr=[...this.guestsAPI];
+
+      this.initForm();
+    } else   {
+
+      // Remove the room from selectedRooms array if it's deselected
+      this.selectedRooms = this.selectedRooms.filter(r => r !== room);
+
+      // Remove the beds of this room from selectedBeds array
+      room.room_Beds.forEach((bed: any) => {
+        this.selectedBeds = this.selectedBeds.filter(b => b !== bed);
+      });
+      this.initForm();
+    }
+
+
+  }else if(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0){
+    this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you can not booking more than bed or room' });
+
+  }
+    // Update the form control values
+    // this.bookingForm.get('selectedRooms')?.setValue(this.selectedRooms);
+    // this.bookingForm.get('selectedBeds')?.setValue(this.selectedBeds);
+
+    // Logging the current state
+    console.log('Room Selected:', room.selected);
+    console.log('Selected Rooms:', this.selectedRooms);
+    console.log('Selected Beds:', this.selectedBeds);
+  }
+
+  onBedSelected(event: Event,bed:any,room:any ){
+    // const isChecked = (event.target as HTMLInputElement).checked;
+    // this.bedCheckboxes.forEach((checkbox, index) => {
+    //   const bedCheckboxElement = checkbox.nativeElement as HTMLInputElement;
+    //   if (index < this.bedCheckboxes.length) {
+    //     bedCheckboxElement.checked = isChecked;
+    //   }
+    // });
+    // console.log(this.selectedroom  )
+    if(!(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0) ){
+
+    if(this.selectedroom!==room && !this.selectedBeds.includes(bed)){
+      bed['room_Type']=room;
+      bed['apartment_ID']=this.aprt.apartment_ID;
+      this.selectedBeds.push(bed);
+      console.log(this.selectedBeds)
+      console.log(this.bookingForm.value)
+      this.selectfullaprt=false
+      this.cdr.detectChanges();
+      this.bookingForm.patchValue({
+        fullApartment:this.selectfullaprt
+     });
+      this.initializeGuestsAPI();
+      this.initForm();
+      console.log(this.selectedBeds)
+      console.log(this.bookingForm.value)
+    } else if (this.selectedBeds.includes(bed)){
+      this.selectedBeds = this.selectedBeds.filter(b => b !== bed);
+
+      this.selectfullaprt=false
+      this.cdr.detectChanges();
+      this.bookingForm.patchValue({
+        fullApartment:this.selectfullaprt
+     });
+      this.initForm();
+      console.log(this.selectedBeds)
+      console.log(this.bookingForm.value)
+    }
+  }else if(this.selectedGuest==="1 guest" && this.selectedBeds.length!==0){
+    this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you can not booking more than bed or room' });
+    this.cdr.detectChanges();
+  }
+  }
+
+
+  nextStep() {
+    this.activeIndex++;
+    if (this.activeIndex === 1) {
+      console.log('Selected Rooms: ', this.selectedRooms);
+      console.log('Selected Beds: ', this.selectedBeds);
+    }
+  }
+
+  previousStep() {
+    this.activeIndex--;
+  }
+
+  onStayDecisionChange(index: number, decision: string, room_ID:string, bed_ID:string, bed:any) {
+    if (decision === 'yes') {
+      console.log(room_ID,bed_ID)
+      // const preservedGuests = [...this.guestsAPI];
+      // console.log(index)
+
+      // console.log('Guests:', this.guestss.value);
+      // this.guestsAPI[index]={
+      //   apartment_ID: this.aprt.apartment_ID,
+      //   room_ID: bed.room_ID,
+      //   bed_ID: bed.bed_ID,
+      //   guest_Name: '',
+      //   guest_WA_No: '',
+      //   guest_Email: ''
+      // };
+      // this.newGuestArr.splice(index, 1);
+
+
+      this.bookingForm.patchValue({
+         guestss: this.newGuestArr ,
+         roomid:bed.room_ID,
+         bedid:bed.bed_ID
+      });
+
+
+
+    }else if(decision === 'no'&& !this.guestsAPI.includes(bed)){
+      console.log(bed)
+    //  this.newGuestArr.push({
+    //     apartment_ID: this.aprt.apartment_ID,
+    //     room_ID: bed.room_ID,
+    //     bed_ID: bed.bed_ID,
+    //     guest_Name: '',
+    //     guest_WA_No: '',
+    //     guest_Email: ''
+    //   });
+      this.newGuestArr=[...this.guestsAPI]
+      this.bookingForm.patchValue({
+        guestss: this.newGuestArr ,
+        roomid:'',
+        bedid:''
+     });
+    }
+    // this.guestsAPI = this.selectedBeds.map((i) => ({
+    //   apartment_ID: this.aprt.apartment_ID,
+    //   room_ID: i.room_ID,
+    //   bed_ID: i.bed_ID,
+    //   guest_Name: '',
+    //   guest_WA_No: '',
+    //   guest_Email: ''
+    // }));
+
+    // this.guestapi;
+    // this.initForm();
+  }
+  // @ViewChild('bookingphone') bookingPhoneInput!: ElementRef;
+
+
+  // private initializeIntlTelInput(inputElement: HTMLElement): void {
+  //   const iti = intlTelInput(inputElement, {
+  //     initialCountry: 'de',
+  //     preferredCountries: ['de', 'us', 'gb'],
+  //     separateDialCode: true,
+  //     utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js'
+  //   });
+
+  //   inputElement.addEventListener('blur', () => {
+  //     let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+  //     if (fullPhoneNumber.startsWith('+')) {
+  //       fullPhoneNumber = fullPhoneNumber.substring(1);
+  //     }
+
+  //   });
+  // }
 
   constructor(
     private apartmentService: ApartmentService,
@@ -49,9 +641,34 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit {
     private sanitizer: DomSanitizer,
     private faqService: FaqService,
     private fb: FormBuilder,
-    private userService: UserService,)
+    private userService: UserService,
+    private cdr: ChangeDetectorRef)
      {
     this.apt_UUID = _ActivatedRoute.snapshot.paramMap.get('id');
+    this.initializeGuestsAPI();
+    this.guestsAPI = this.selectedBeds.map((i) => ({
+      apartment_ID: this.apt_UUID,
+      room_ID: i.room_ID,
+      bed_ID: i.bed_ID,
+      guest_Name: 'alaa',
+      guest_WA_No: '',
+      guest_Email: ''
+    }));
+    this.newGuestArr=[...this.guestsAPI]
+
+    this.bookingForm = this.fb.group({
+      apartmentID: this.apt_UUID,
+      roomid:[''],
+      bedid:[''],
+      bookingStartDate: this.checkinDate,
+      bookingEndDate: this.checkoutDate,
+      bookingAgentCode: [''],
+      guestss: this.newGuestArr,
+      guestProfession: [''],
+      bookingUnvWPName: [''],
+      fullApartment: [this.selectfullaprt]
+    });
+
 
     }
 
@@ -73,7 +690,96 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit {
   openModalsCount = 0;
 
 //ng on init ------------------------------
+ngOnChanges(changes: SimpleChanges) {
+  console.log('Current Guest Data:', this.guestsAPI);
+  console.log('ngOnChanges called with changes:', changes);
+  if (changes['activeIndex'] && this.activeIndex === 1) {
+    // this.initializeIntlTelInput('#bookingphone', this.bookingForm);
+
+      setTimeout(() => {
+        this.initializeIntlTelInput('#bookingphone', this.bookingForm);
+
+      }, 0);
+    debugger;
+  }
+}
+private isIntlTelInputInitialized = false;
+
+// ngAfterViewChecked() {
+//   if (this.activeIndex === 1 && !this.isIntlTelInputInitialized) {
+//     const input = document.querySelector('#bookingphone');
+//     if (input) {
+//       this.initializeIntlTelInput('#bookingphone', this.bookingForm);
+//       this.isIntlTelInputInitialized = true;
+//     }
+//   }
+// }
+// ngAfterViewChecked() {
+//   if (this.activeIndex === 1 && !this.isIntlTelInputInitialized) {
+//       setTimeout(() => {
+//           const inputs = document.querySelectorAll('.bookingphone');
+//           inputs.forEach((input: Element) => {
+//               const inputElement = input as HTMLInputElement;
+//               if (inputElement) {
+//                   this.initializeIntlTelInput(`#${inputElement.id}`, this.bookingForm);
+//               }
+//           });
+//           this.isIntlTelInputInitialized = true; // Mark as initialized after all inputs are processed
+//       }, 0); // Delay to ensure elements are in DOM
+//   }
+// }
+ngAfterViewChecked() {
+  if (this.activeIndex === 1) {
+      setTimeout(() => {
+          const inputs = document.querySelectorAll('.bookingphone');
+          inputs.forEach((input: Element, index: number) => {
+              const inputElement = input as HTMLInputElement;
+              if (inputElement && !inputElement.dataset['initialized']) {
+                  this.initializeIntlTelInputbook(`#${inputElement.id}`, this.bookingForm,index);
+                  inputElement.dataset['initialized'] = 'true'; // Mark as initialized
+              }
+          });
+      }, 0); // Delay to ensure elements are in DOM
+  }
+}
+
+// initializeIntlTelInputt(inputId: string) {
+//   const input = document.getElementById(inputId);
+//   if (input && !input.dataset['initialized']) {
+//     intlTelInput(input, {
+//       initialCountry: "de",
+//       preferredCountries: ["de", "us", "gb"],
+//       separateDialCode: true,
+//       utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+//     });
+//     input.dataset['initialized'] = 'true'; // Mark as initialized
+//   }
+// }
+
+
+
+
+
+
+
+selectedGuest: string = 'Select guests';
   ngOnInit() {
+
+    console.log(this.selectGuest)
+    this.namelogin= localStorage.getItem('namelogin');
+    this.emaillogin=  localStorage.getItem('emaillogin');
+    this.phonelogin=localStorage.getItem('phonelogin');
+
+
+
+
+    this.initializeGuestsAPI();
+    console.log('Current Guest Data:', this.guestsAPI);
+    this.roles=[{ name: 'student', code: 'NY' },
+      { name: 'employee', code: 'LA' }]
+    this.initForm();
+    // this.selectedBeds=[];
+    // this.maxGuests = this.bookingForm.get('guests')?.value || 1;
     $('.modal').on('shown.bs.modal', () => {
       this.openModalsCount++;
 
@@ -91,6 +797,8 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit {
       { label: 'booking summary' },
 
     ];
+    // this.initializeIntlTelInput('#bookingphone', this.bookingForm);
+
     this. onWindowScroll()
     this.getApartmentDetails();
     this.checkViewportWidth();
@@ -103,6 +811,38 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit {
       password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
 
     } );
+
+    // this.bookingForm = this.fb.group({
+    //   mobile: '',
+
+
+    // } );
+
+
+    // const inputb = document.querySelector("#phoneb");
+
+    // if (inputb) {
+    //   const iti = intlTelInput(inputb, {
+    //     initialCountry: "de",
+    //     preferredCountries: ["de", "us", "gb"],
+    //     separateDialCode: true,
+    //     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    //   });
+
+
+    //   inputb.addEventListener('blur', () => {
+    //     let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+    //     if (fullPhoneNumber.startsWith("+")) {
+    //       fullPhoneNumber = fullPhoneNumber.substring(1);
+    //     }
+    //     console.log("Full phone number:", fullPhoneNumber);
+    //     this.bookingForm.patchValue({ mobile: fullPhoneNumber });
+    //     console.log("Updated mobile field in the form:", this.bookingForm.value.mobile);
+    //      console.log(typeof( this.bookingForm.value.mobile))
+    //   });
+    // } else {
+    //   console.error("The phone input element was not found.");
+    // }
 
 
 
@@ -141,7 +881,15 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit {
   displayModalsuccess:any;
   openModals(){
     if(localStorage.getItem('token')){
-      this.displayModalbooking='block';
+      if(this.selectedGuest!=='1 guest' && this.selectedGuest!=='2 guests' &&this.selectedGuest!=='3 guests' &&this.selectedGuest!=='4 guests' ){
+        this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose number of guests' });
+      }else if(this.checkoutDate===''||this.checkinDate===''){
+        this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose check in and check out dates' });
+      }else{
+
+        this.displayModalbooking='block';
+      }
+
     }else{
       this.displayModal='block';
     }
@@ -154,8 +902,18 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit {
     this.displayModal='none';
  }
  openModalbooking(){
-  this.displayModalbooking='block';
+  if(this.selectedGuest!=='1 guest' && this.selectedGuest!=='2 guest' &&this.selectedGuest!=='3 guest' &&this.selectedGuest!=='4 guest' ){
+    this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose number of guests' });
+  }else{
+    console.log('hellooooooooooooooooo')
+    this.displayModalbooking='block';
+  }
 
+
+
+  setTimeout(() => {
+    this.initializeIntlTelInput('#bookingphone', this.bookingForm);
+  }, 0);
 }
 onCloseQrModal() {
   this.displayModalsuccess='none';
@@ -165,6 +923,9 @@ onCloseQrModal() {
 
 ngAfterViewInit(): void {
 
+  this.initializeIntlTelInput('#bookingphone', this.bookingForm);
+  // this.bookingPhoneInput.nativeElement.focus();
+  //   this.initializeIntlTelInput(this.bookingPhoneInput.nativeElement);
   const input = document.querySelector("#phone");
 
   if (input) {
@@ -192,8 +953,98 @@ ngAfterViewInit(): void {
 
   this.loginForm.reset();
 
+
+
+
+
+  if (this.activeIndex === 1) {
+    setTimeout(() => {
+      this.initializeIntlTelInput('#bookingphone', this.bookingForm);
+    }, 0);
+  }
+
+
 }
 
+
+private initializeIntlTelInputbook(selector: string, form: FormGroup ,index:number) {
+
+  const input = document.querySelector(selector);
+  if (input) {
+    const iti = intlTelInput(input, {
+      initialCountry: "de",
+      preferredCountries: ["de", "us", "gb"],
+      separateDialCode: true,
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    });
+    console.log('After querying the input element:', input);
+    input.addEventListener('blur', () => {
+      let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+      if (fullPhoneNumber.startsWith("+")) {
+        fullPhoneNumber = fullPhoneNumber.substring(1);
+      }
+      console.log("Full phone number:", fullPhoneNumber);
+      // form.patchValue({ mobile: fullPhoneNumber });
+      this.guestsAPI[index] = {
+        ...this.guestsAPI[index],
+        guest_WA_No: fullPhoneNumber
+      };
+      this.newGuestArr[index] = {
+        ...this.guestsAPI[index],
+        guest_WA_No: fullPhoneNumber
+      };
+
+      // Patch the updated guestsAPI array to the form
+      form.patchValue({ guestss: this.newGuestArr });
+
+      console.log("Updated guestsAPI:", this.guestsAPI);
+      console.log("Updated guestsAPI:", this.newGuestArr);
+
+      console.log("Updated mobile field in the form:", form.value.guestss);
+
+      console.log("Updated mobile field in the form:", form.value.mobile);
+      console.log(typeof(form.value.mobile));
+    });
+  } else {
+    console.error(`The phone input element with selector '${selector}' was not found.`);
+  }
+}
+private initializeIntlTelInput(selector: string, form: FormGroup  ) {
+
+  const input = document.querySelector(selector);
+  if (input) {
+    const iti = intlTelInput(input, {
+      initialCountry: "de",
+      preferredCountries: ["de", "us", "gb"],
+      separateDialCode: true,
+      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    });
+    console.log('After querying the input element:', input);
+    input.addEventListener('blur', () => {
+      let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+      if (fullPhoneNumber.startsWith("+")) {
+        fullPhoneNumber = fullPhoneNumber.substring(1);
+      }
+      console.log("Full phone number:", fullPhoneNumber);
+      // form.patchValue({ mobile: fullPhoneNumber });
+      this.guestsAPI = this.guestsAPI.map((guest: { [key: string]: any })  => ({
+        ...guest,
+        guest_WA_No: fullPhoneNumber
+      }));
+      this.newGuestArr=[...this.guestsAPI ]
+
+      // Patch the updated guestsAPI array to the form
+      form.patchValue({ guestss: this.newGuestArr });
+
+      console.log("Updated mobile field in the form:", form.value.guestss);
+
+      console.log("Updated mobile field in the form:", form.value.mobile);
+      console.log(typeof(form.value.mobile));
+    });
+  } else {
+    console.error(`The phone input element with selector '${selector}' was not found.`);
+  }
+}
 
 
   isVisible:boolean=true;
@@ -260,6 +1111,7 @@ onWindowScroll() {
   noAllbed:any;
   bedsPrice=0;
   bedAvailable=0;
+  checkaprt:boolean=true;
   getApartmentDetails() {
     this.subscriptions.push(
       this.apartmentService.getApartDetail(this.apt_UUID).subscribe(
@@ -298,6 +1150,9 @@ onWindowScroll() {
           }
           this.visibleTransports = this.aprt.apartment_Transports.slice(0, 1);
           this.currentImage = this.aprt_Imgs[0].includes('https') ? this.aprt_Imgs[0] : '../../../assets/images/apartmentImages/default_apartment.jpg';
+          if(!this.aprt.apartment_RentBy_Apartment){
+            this.checkaprt=false;
+          }
           if (Array.isArray(this.aprt.apartment_Rooms)) {
             let bedno = 0;
             let nobedAvailable=0
@@ -320,6 +1175,8 @@ onWindowScroll() {
                   bedno++;
                   if(this.aprt.apartment_Rooms[i].room_Beds[x].bed_Available){
                     nobedAvailable++;
+                  }else{
+                    this.checkaprt=false;
                   }
                   // this.aprt.apartment_Rooms[i].room_Beds[x] = { ...this.aprt.apartment_Rooms[i].room_Beds[x], "bed_number": bedno };
                 }
@@ -509,9 +1366,13 @@ onLoginSubmit(): void {
 
 
 guests: string[] = ['1 guest', '2 guests', '3 guests', '4 guests'];
-selectedGuest: string = 'Select guests';
+
 
 selectGuest(guest: string) {
     this.selectedGuest = guest;
+    console.log( this.selectedGuest)
+    this.selectedBeds=[]
+    this.selectedRooms=[]
+    this.selectfullaprt=false;
 }
 }

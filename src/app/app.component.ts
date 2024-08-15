@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/fo
 import { UserService,UserAccount } from './services/user.service';
 import {  MessageService } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
+import { Globals, isValidEmail } from '../app/globals/global';
 
 declare var intlTelInput: any;
 declare var intlTelInputUtils: any;
@@ -264,6 +265,18 @@ console.log(this.signupForm)
       password: this.signupForm.value.password,
       confirm_Password: this.signupForm.value.confirmPassword
     };
+    Globals.name = userAccount.fullName;
+    localStorage.setItem('name', Globals.name);
+
+    // Determine whether the mobile input is an email or phone number
+    if (isValidEmail(userAccount.mobile)) {
+      Globals.email = userAccount.mobile;
+      localStorage.setItem('email', Globals.email);
+    } else {
+      Globals.phone = userAccount.mobile;
+      localStorage.setItem('phone', Globals.phone);
+    }
+
     console.log('Sending user data to API:', userAccount);
     this.userService.createUser(userAccount).subscribe(
       response => {
@@ -375,6 +388,18 @@ onLoginSubmit(): void {
           this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
           console.log('User account created successfully', response);
           localStorage.setItem('token', response.token);
+
+
+         let namelogin:any= localStorage.getItem('name');
+
+          let emaillogin:any=  localStorage.getItem('email');
+
+            let phonelogin:any =localStorage.getItem('phone');
+
+            localStorage.setItem('namelogin', namelogin);
+            localStorage.setItem('emaillogin',emaillogin);
+            localStorage.setItem('phonelogin', phonelogin);
+
          this.hideLogin();
 
 
