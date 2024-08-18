@@ -112,9 +112,16 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
 
 
 
-
+roomsStep2:any
   submitstep2(){
-    if(this.activeIndex===1&&this.bookingForm.get('bedid')?.value===''&& this.selectedGuest!=="1 guest" ){
+
+    let guestString = this.selectedGuest ?? ''; // Default to an empty string if selectedGuest is null or undefined
+    let guestNumberMatch = guestString.match(/\d+/);
+    let guestNumber = guestNumberMatch ? parseInt(guestNumberMatch[0], 10) : null;
+    if(guestNumber! >this.newGuestArr.length ){
+      this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must select first' });
+    }
+   else if(this.activeIndex===1&&this.bookingForm.get('bedid')?.value===''&& this.selectedGuest!=="1 guest" ){
       this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose your bed or your room' });
 
     }else if(this.activeIndex===0){
@@ -122,6 +129,16 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
     }else if(this.activeIndex===1){
       this.activeIndex=2;
     }
+/////////////////////////////
+    let selectedRooms = this.aprt.apartment_Rooms.filter((room: any) => {
+      // التحقق مما إذا كان هناك أي سرير مختار في هذه الغرفة
+      return room.room_Beds.some((roomBed: any) => {
+        return this.selectedBeds.includes(roomBed) && room.room_ID === roomBed.room_ID;
+      });
+    });
+    this.roomsStep2=selectedRooms;
+    console.log(this.roomsStep2);
+
   }
   backstep(){
     if(this.activeIndex===1){
@@ -160,17 +177,26 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
       full_Apartment: this.bookingForm.get('fullApartment')?.value,
     };
 
-    this.namelogin= localStorage.getItem('namelogin');
-    if(localStorage.getItem('emaillogin')!=null){
-      this.emaillogin=  localStorage.getItem('emaillogin');
-    }else{
-      this.emaillogin=this.bookingForm.get('guestss')?.value[0].guest_Email||'null';
-    }
-    if(localStorage.getItem('phonelogin')!=null){
-      this.phonelogin=localStorage.getItem('phonelogin');
-    }else{
-      this.emaillogin=this.bookingForm.get('guestss')?.value[0].guest_WA_No||'null';
-    }
+    // this.namelogin= localStorage.getItem('namelogin');
+    // if(localStorage.getItem('emaillogin')!=null){
+    //   this.emaillogin=  localStorage.getItem('emaillogin');
+    // }else{
+    //   this.emaillogin=this.bookingForm.get('guestss')?.value[0].guest_Email||'null';
+    // }
+    // if(localStorage.getItem('phonelogin')!=null){
+    //   this.phonelogin=localStorage.getItem('phonelogin');
+    // }else{
+    //   this.emaillogin=this.bookingForm.get('guestss')?.value[0].guest_WA_No||'null';
+    // }
+
+
+    this.namelogin= this.profileData[0]?.fullName;
+      this.emaillogin=this.profileData[0]?.email;
+      this.phonelogin=this.profileData[0]?.mobile;
+
+
+
+
 
 
     if(this.selectfullaprt===true && this.selectedGuest==="1 guest" ){
@@ -422,6 +448,7 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
   //   this.bookingForm.get('selectedBeds')?.setValue(this.selectedBeds);
   // }
   selectedroom:any;
+  checkedroom:any;
   @ViewChildren('bedCheckbox') bedCheckboxes!: QueryList<ElementRef>;
   onRoomSelected(event: Event, room: any) {
 
@@ -496,12 +523,34 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
     // this.bookingForm.get('selectedBeds')?.setValue(this.selectedBeds);
 
     // Logging the current state
+    let allBedSelected=false;
+    for(let i=0; i<this.aprt.apartment_Rooms.length; i++){
+
+
+      allBedSelected = this.aprt.apartment_Rooms[i].room_Beds.every((roomBed: any) => {
+        return this.selectedBeds.includes(roomBed); // هنا نعود true أو false بناءً على الشرط
+      });
+
+      if (!allBedSelected) {
+        break; // إذا لم يتم اختيار كل الأسرة، يمكننا التوقف عن الفحص
+      }
+    }
+
+    if(allBedSelected){
+     this.selectfullaprt=true;
+     this.cdr.detectChanges();
+     this.bookingForm.patchValue({
+      fullApartment:this.selectfullaprt
+   });
+    }
+    console.log(this.selectfullaprt,allBedSelected)
+
     console.log('Room Selected:', room.selected);
     console.log('Selected Rooms:', this.selectedRooms);
     console.log('Selected Beds:', this.selectedBeds);
   }
 
-  onBedSelected(event: Event,bed:any,room:any ){
+  onBedSelected(event: Event,bed:any,room:any,allroom:any ){
     // const isChecked = (event.target as HTMLInputElement).checked;
     // this.bedCheckboxes.forEach((checkbox, index) => {
     //   const bedCheckboxElement = checkbox.nativeElement as HTMLInputElement;
@@ -510,16 +559,51 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
     //   }
     // });
     // console.log(this.selectedroom  )
-    if(!(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0) ){
 
-    if(this.selectedroom!==room && !this.selectedBeds.includes(bed)){
+    if(!(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0) ){
+      console.log('hi')
+    if(  !this.selectedBeds.includes(bed)){//this.selectedroom!==room &&
+
+
+      /////////////////////////////////////
+    //   this.selectedBeds.push(bed);
+    //   const anyBedSelected = allroom.room_Beds.every((roomBed: any) =>{
+    //      if(roomBed.bed_Available){
+    //       this.selectedBeds.includes(roomBed)
+    //       console.log(roomBed.bed_Available)
+    //      }
+    //   }
+
+    // );
+    // console.log(anyBedSelected);
+
+    // if (anyBedSelected) {
+    //   console.log(anyBedSelected);
+
+    //     if (!this.selectedRooms.includes(allroom)) {
+    //         this.selectedRooms.push(allroom);
+    //         this.cdr.detectChanges();
+    //     }
+    // } else {
+
+    //     console.log(anyBedSelected);
+    //     this.selectedRooms = this.selectedRooms.filter(r => r !== allroom);
+    //     this.cdr.detectChanges();
+    // }
+
+////////////////////////////////////////////////////
+
+
+
+
+      console.log('hello')
       bed['room_Type']=room;
       bed['apartment_ID']=this.aprt.apartment_ID;
       this.selectedBeds.push(bed);
       console.log(this.selectedBeds)
       console.log(this.bookingForm.value)
       this.selectfullaprt=false
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
       this.bookingForm.patchValue({
         fullApartment:this.selectfullaprt
      });
@@ -531,7 +615,7 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
       this.selectedBeds = this.selectedBeds.filter(b => b !== bed);
 
       this.selectfullaprt=false
-      this.cdr.detectChanges();
+      // this.cdr.detectChanges();
       this.bookingForm.patchValue({
         fullApartment:this.selectfullaprt
      });
@@ -541,8 +625,60 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
     }
   }else if(this.selectedGuest==="1 guest" && this.selectedBeds.length!==0){
     this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you can not booking more than bed or room' });
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
   }
+
+       /////////////////////////////////////
+  let allBedSelected=false;
+ for(let i=0; i<this.aprt.apartment_Rooms.length; i++){
+
+
+   allBedSelected = this.aprt.apartment_Rooms[i].room_Beds.every((roomBed: any) =>{
+        this.selectedBeds.includes(roomBed)
+   }
+
+ );
+ }
+ if(allBedSelected){
+  this.selectfullaprt=true;
+  this.cdr.detectChanges();
+  this.bookingForm.patchValue({
+    fullApartment:this.selectfullaprt
+ });
+ }
+
+       const anyBedSelected = allroom.room_Beds.every((roomBed: any) =>{
+        if (roomBed.bed_Available) {
+          console.log(roomBed.bed_Available);
+          return this.selectedBeds.includes(roomBed); // هنا نعود true أو false
+        }
+        return true;
+       }
+
+     );
+     console.log(anyBedSelected);
+
+     if (anyBedSelected) {
+       console.log(anyBedSelected);
+
+         if (!this.selectedRooms.includes(allroom)) {
+             this.selectedRooms.push(allroom);
+             this.cdr.detectChanges();
+         }
+     } else {
+
+         console.log(anyBedSelected);
+         this.selectedRooms = this.selectedRooms.filter(r => r !== allroom);
+         this.cdr.detectChanges();
+     }
+
+
+
+
+
+
+
+ ////////////////////////////////////////////////////
   }
 
 
@@ -557,13 +693,17 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
   previousStep() {
     this.activeIndex--;
   }
-
+displaymain='block';
+activeIndexd: number | null = null;
+displaymainArray: boolean[] = [];
   onStayDecisionChange(index: number, decision: string, room_ID:string, bed_ID:string, bed:any) {
     if (decision === 'yes') {
       console.log(room_ID,bed_ID)
-      // const preservedGuests = [...this.guestsAPI];
+      let preservedGuests = [...this.guestsAPI];
       // console.log(index)
-
+      this.displaymain='none'
+      this.activeIndexd= index;
+      this.displaymainArray[index] = false;
       // console.log('Guests:', this.guestss.value);
       // this.guestsAPI[index]={
       //   apartment_ID: this.aprt.apartment_ID,
@@ -575,6 +715,20 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
       // };
       // this.newGuestArr.splice(index, 1);
 
+      this.namelogin= this.profileData[0]?.fullName;
+      this.emaillogin=this.profileData[0]?.email;
+      this.phonelogin=this.profileData[0]?.mobile;
+
+  this.newGuestArr[0]={
+        apartment_ID: this.aprt.apartment_ID,
+        room_ID: bed.room_ID,
+        bed_ID: bed.bed_ID,
+        guest_Name: this.namelogin,
+        guest_WA_No: this.phonelogin,
+        guest_Email: this.emaillogin
+      };
+      this.newGuestArr[index]= preservedGuests[0];
+      console.log(this.newGuestArr)
 
       this.bookingForm.patchValue({
          guestss: this.newGuestArr ,
@@ -586,6 +740,9 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
 
     }else if(decision === 'no'&& !this.guestsAPI.includes(bed)){
       console.log(bed)
+       this.displaymain='block'
+       this.activeIndexd= null;
+       this.displaymainArray[index] = true;
     //  this.newGuestArr.push({
     //     apartment_ID: this.aprt.apartment_ID,
     //     room_ID: bed.room_ID,
@@ -765,6 +922,8 @@ ngAfterViewChecked() {
 selectedGuest: string = 'Select guests';
   ngOnInit() {
 
+    this.getProfileData();
+
     console.log(this.selectGuest)
     this.namelogin= localStorage.getItem('namelogin');
     this.emaillogin=  localStorage.getItem('emaillogin');
@@ -808,7 +967,7 @@ selectedGuest: string = 'Select guests';
       mobile: '',
 
       email: '',
-      password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
+      password: [''],
 
     } );
 
@@ -905,7 +1064,7 @@ selectedGuest: string = 'Select guests';
   if(this.selectedGuest!=='1 guest' && this.selectedGuest!=='2 guest' &&this.selectedGuest!=='3 guest' &&this.selectedGuest!=='4 guest' ){
     this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose number of guests' });
   }else{
-    console.log('hellooooooooooooooooo')
+
     this.displayModalbooking='block';
   }
 
@@ -919,6 +1078,11 @@ onCloseQrModal() {
   this.displayModalsuccess='none';
     this.displayModalbooking='none';
     this.displayModal='none';
+}
+onCloseModal() {
+
+    this.displayModalbooking='none';
+
 }
 
 ngAfterViewInit(): void {
@@ -1337,8 +1501,12 @@ onLoginSubmit(): void {
           this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
           console.log('User account created successfully', response);
           localStorage.setItem('token', response.token);
+          this.getProfileData();
+          if(this.selectedGuest!=='1 guest' && this.selectedGuest!=='2 guest' &&this.selectedGuest!=='3 guest' &&this.selectedGuest!=='4 guest' ){
           this.openModalbooking()
-
+          }else{
+            this.onCloseQrModal();
+          }
 
         },
         error => {
@@ -1353,6 +1521,18 @@ onLoginSubmit(): void {
       this.loginForm.markAllAsTouched();
 
   }
+}
+profileData: any;
+getProfileData(): void {
+  this.userService.getProfile().subscribe(
+    data => {
+      this.profileData = data;
+      console.log(this.profileData);
+    },
+    error => {
+      console.error('There was an error!', error);
+    }
+  );
 }
 
 

@@ -33,6 +33,7 @@ interface Country {
       state('false', style({
         height: '0px',
         opacity: 0,
+        display: 'none',
       })),
       transition('false => true', [
         animate('0.5s ease')
@@ -59,7 +60,7 @@ export class AppComponent implements OnInit, AfterViewInit{
         mobile: '',
 
         email: '',
-        password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
+        password: [''],
 
       } );
 

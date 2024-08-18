@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from '../../../src/environments/environment';
 
@@ -71,6 +71,17 @@ export class UserService {
     };
 
     return this.http.post<any>(url, loginData);
+  }
+
+  getProfile(): Observable<any> {
+    const url = `${environment.apiUrl}/Users/GetProfile`;
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this.http.get<any>(url, { headers });
   }
 
 

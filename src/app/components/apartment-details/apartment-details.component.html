@@ -30,8 +30,8 @@ div
       <div class="col-6    ">
         <img  [src]="currentImage" alt="Main Image" class="main-image w-full h-full">
       </div>
-      <div class="col-6">
-        <div class="row ">
+      <div class="col-6 ">
+        <div class="row h-full">
           <div class="col-6  mt-0"  >
             <img  [src]="aprt_Imgs[1] || 'default_apartment.jpg'" alt="Thumbnail 1" class="thumbnail mb-2 h-50">
             <img [src]="aprt_Imgs[2] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail h-50">
@@ -39,7 +39,7 @@ div
           <div class="col-6 ">
             <img [src]="aprt_Imgs[3] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail mb-2 h-50 ">
             <img [src]="aprt_Imgs[4] || 'default_apartment.jpg' " alt="Thumbnail 2" class="thumbnail h-50">
-            <div class="show-all-btn" (click)="openModal()"><span (click)="openModal()">Show all</span> </div>
+            <div class="show-all-btn" (click)="openModal()"><span (click)="openModal()" style="z-index: 150;">Show all</span> </div>
           </div>
 
         </div>
@@ -867,13 +867,13 @@ div
 
               <div class="mb-3">
                 <input type="password" formControlName="password" class="form-control" placeholder="Password*" autocomplete="off">
-                  <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
+                  <!-- <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
                     <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
                     <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
                     <div *ngIf="loginForm.get('password')?.errors?.['weakPassword']">
                       Password must contain upper case, lower case, numeric, and special characters.
                     </div>
-                  </div>
+                  </div> -->
               </div>
               <div class="d-flex justify-content-between mb-3">
                 <div class="form-check">
@@ -916,16 +916,18 @@ div
 <!------------------------------booking modal----------------->
 
 <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayModalbooking}" style="background-color: rgb(23 22 22 / 50%);">
-  <div class="modal-dialog modal-lg" role="document">
-    <form [formGroup]="bookingForm" (ngSubmit)="onSubmitBooking()"  autocomplete="off">
-    <div class="modal-content">
 
-      <div class="modal-header" style=" height: 140px; padding-left: 24px; padding-right: 24px; padding-top: 31px; padding-bottom: 31px; background: #F0F6FF; justify-content: center; align-items: center; display: inline-flex">
+  <div class="modal-dialog modal-lg" role="document">
+
+    <div class="modal-content">
+      <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseModal()">×</button>
+      <form [formGroup]="bookingForm" (ngSubmit)="onSubmitBooking()"  autocomplete="off">
+      <div class="modal-header w-full" style=" height: 140px; padding-left: 24px; padding-right: 24px; padding-top: 31px; padding-bottom: 31px; background: #F0F6FF; justify-content: center; align-items: center; display: inline-flex">
         <div class="w-100" style="text-decoration: none;">
           <p-steps [model]="items" (Responsive)="true" [(activeIndex)]="activeIndex" [readonly]="true" (onChange)="onStepChange($event)"></p-steps>
 
          </div>
-         <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseQrModal()">×</button>
+
 
       </div>
       <div class="modal-body">
@@ -961,7 +963,7 @@ div
                     <div class="d-flex justify-content-between align-items-center w-100 mb-2">
                       <div class="full-apartment">Single Room</div>
                       <div class="frame-checkbox-aprt">
-                        <input type="checkbox" class="form-check-input"  [disabled]="!room.room_Beds[0].bed_Available"  (change)="onBedSelected($event, room.room_Beds[0],room.room_Type )" [checked]="selectedRooms.includes(room)"    />
+                        <input type="checkbox" class="form-check-input"  [disabled]="!room.room_Beds[0].bed_Available"  (change)="onBedSelected($event, room.room_Beds[0],room.room_Type,room )" [checked]="selectedRooms.includes(room)"    />
                       </div>
 
                     </div>
@@ -997,7 +999,7 @@ div
                         <div class="bed-title">{{ bed.bed_Name}}</div>
 
                         <div class="frame-checkbox-aprt">
-                          <input type="checkbox" class="form-check-input"  [disabled]="!bed.bed_Available"  (change)="onBedSelected($event, bed,room.room_Type )" [checked]="selectedBeds.includes(bed)"  /> <!--#bedCheckbox-->
+                          <input type="checkbox" class="form-check-input"  [disabled]="!bed.bed_Available"  (change)="onBedSelected($event, bed,room.room_Type,room )" [checked]="selectedBeds.includes(bed)"  /> <!--#bedCheckbox-->
                         </div>
                       </div>
                       <div *ngIf="!bed.bed_Available" class="badge-unavailable">
@@ -1172,7 +1174,7 @@ div
             </div>
 
          <div   >
-          <div   class="d-flex align-items-center gap-4 pt-3 pb-3">
+          <div *ngIf="activeIndexd === null || activeIndexd === x"  class="d-flex align-items-center gap-4 pt-3 pb-3">
             <div class="label-step">Do you plan to stay here?</div>
             <div class="d-flex gap-3">
               <div class="d-flex align-items-center gap-2">
@@ -1187,13 +1189,13 @@ div
           </div>
 
 
-          <div class="d-flex align-items-start gap-3">
-            <div class="input-container input-step2 w-50">
+          <div   [ngStyle]="{'display': displaymainArray[x]!==false ? 'block' : 'none'}"  class="d-flex align-items-start gap-3">
+            <div [ngStyle]="{'display': displaymainArray[x]!==false ? 'block' : 'none'}" class="input-container input-step2 w-50">
               <div class="form-group mb-0 w-100">
                 <input type="text" class="form-control form-step2 w-100" placeholder="Guest Name" [(ngModel)]="guestsAPI[x].guest_Name" [ngModelOptions]="{standalone: true}">
               </div>
             </div>
-            <div class="input-container input-step2 w-50">
+            <div [ngStyle]="{'display': displaymainArray[x] !==false ? 'block' : 'none'}" class="input-container input-step2 w-50">
               <div class="form-group mb-0 w-100">
                 <input type="email" class="form-control form-step2 w-100" placeholder="Guest Email" [(ngModel)]="guestsAPI[x].guest_Email" [ngModelOptions]="{standalone: true}">
               </div>
@@ -1201,7 +1203,7 @@ div
           </div>
 
 
-              <div class="mb-3 w-50 mt-3 " >
+              <div  [ngStyle]="{'display': displaymainArray[x] !==false ? 'block' : 'none'}"  class="mb-3 w-50 mt-3 " >
                 <div class="input-group ">
 
                   <input  id="{{'bookingphone-' + item.bed_ID}}"  type="tel"  class="form-control w-100 bookingphone"   placeholder="1234563788" autocomplete="off" [(ngModel)]="guestsAPI[x].guest_WA_No" [ngModelOptions]="{standalone: true}">
@@ -1340,28 +1342,59 @@ div
 
           </div>
 
-          <div class=" container mt-4" style=" padding:15px; border: 0.8px solid #DFE4EA; border-radius: 8px;">
+          <div class=" container mt-4" style=" padding:15px; border: 0.8px solid #DFE4EA; border-radius: 8px;"  >
 
 
               <div class="booking-summary my-3">Booking Summary</div>
               <div class="booking-summary-frame">
-                <div class="d-flex justify-content-between align-items-center w-100">
-                  <div class="room-title">Single Room</div>
-                  <div class="room-price">$400</div>
-                </div>
-                <div class="d-flex justify-content-between align-items-center  w-100">
-                  <div>
-                    <span class="fee-title">Security Deposit </span>
-                    <span class="refundable">(Refundable)</span>
+              <div *ngFor="let room of roomsStep2">
+                <div *ngIf="room.room_Type==='Single'"  >
+                  <div class="d-flex justify-content-between align-items-center w-100">
+                    <div class="room-title">{{room.room_Type}}</div>
+                    <div class="room-price">${{room.bed_Price}}</div>
                   </div>
-                  <div class="fee-price">$50.00</div>
+                  <div class="d-flex justify-content-between align-items-center  w-100">
+                    <div>
+                      <span class="fee-title">Security Deposit </span>
+                      <span class="refundable">(Refundable)</span>
+                    </div>
+                    <div class="fee-price">${{room.bed_SecuirtyDeposit}}</div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center  w-100">
+                    <div class="fee-title">Service Fee</div>
+                    <div class="fee-price">${{room.bed_Service_Fees}}</div>
+                  </div>
                 </div>
-                <div class="d-flex justify-content-between align-items-center  w-100">
-                  <div class="fee-title">Service Fee</div>
-                  <div class="fee-price">$50.00</div>
-                </div>
+
                 <div class="divider"></div>
-                <div class="d-flex justify-content-between align-items-center  w-100">
+
+                <div *ngIf="room.room_Type!=='Single'" class="booking-summary-frame"  >
+                  <div class="d-flex justify-content-between align-items-center" style="width:100%">
+                    <div class="room-title">{{room.room_Type}}</div>
+                    <!-- <div class="room-price">${{room.bed_Price}}</div> -->
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center " style="width:100%" *ngFor="let  bed of selectedBeds ">
+
+                    <div *ngIf="room.room_ID === bed.room_ID" class="bed-title"  >{{ bed.bed_Name}}</div>
+                    <div class="bed-price">${{room.bed_Price}}</div>
+                  </div>
+                    <!-- <div class="bed-price">$350</div> -->
+
+                  <div class="d-flex justify-content-between align-items-center  w-100" style="width:100%">
+                    <div>
+                      <span class="fee-title">Security Deposit </span>
+                      <span class="refundable">(Refundable)</span>
+                    </div>
+                    <div class="fee-price">${{room.bed_SecuirtyDeposit}}</div>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center  w-100" style="width:100%">
+                    <div class="fee-title">Service Fee</div>
+                    <div class="fee-price">${{room.bed_Service_Fees}}</div>
+                  </div>
+                </div>
+              </div>
+
+                <!-- <div class="d-flex justify-content-between align-items-center  w-100">
                   <div class="room-title">Double Room</div>
                 </div>
                 <div class="d-flex justify-content-between align-items-center  w-100">
@@ -1382,7 +1415,7 @@ div
                 <div class="d-flex justify-content-between align-items-center  w-100">
                   <div class="fee-title">Service Fee</div>
                   <div class="fee-price">$30.00</div>
-                </div>
+                </div> -->
                 <div class="divider"></div>
                 <div class="d-flex justify-content-between align-items-center w-100">
                   <div class="total-label">Total</div>
@@ -1417,12 +1450,12 @@ div
         <button *ngIf="activeIndex===2"  class="btn btn-outline-dark custom-btn" (click)="backstep()"   type="button">cancel</button>
         <button *ngIf="activeIndex===0" class="btn btn-primary custom-btn" style="background-color: #1151B4;" type="button" (click)="submitstep2()"  >Next</button>
         <button *ngIf="activeIndex===1" class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;" type="button" (click)="submitstep2()"   >Next</button>
-        <button *ngIf="activeIndex===2" class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;" type="submit" (click)="onSubmitBooking()" >confirm</button>
+        <button *ngIf="activeIndex===2" class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;" type="submit"  >confirm</button><!--(click)="onSubmitBooking()" -->
       </div>
 
-
+    </form>
   </div>
-  </form>
+
   </div>
 </div>
 
