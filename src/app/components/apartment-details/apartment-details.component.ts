@@ -449,6 +449,7 @@ roomsStep2:any
   // }
   selectedroom:any;
   checkedroom:any;
+  selectedrommID:any ;
   @ViewChildren('bedCheckbox') bedCheckboxes!: QueryList<ElementRef>;
   onRoomSelected(event: Event, room: any) {
 
@@ -463,7 +464,7 @@ roomsStep2:any
 
     let isChecked = (event.target as HTMLInputElement).checked;
     if( !(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0) ){
-
+    this.selectedrommID=room.room_ID;
     this.selectedroom=room.room_Type;
     this.bedCheckboxes.forEach((checkbox, index) => {
       const bedCheckboxElement = checkbox.nativeElement as HTMLInputElement;
@@ -484,7 +485,7 @@ roomsStep2:any
 
       // Add the selected beds of this room to selectedBeds array
       room.room_Beds.forEach((bed: any) => {
-        if (isChecked && bed.bed_Available) {
+        if (isChecked && bed.bed_Available &&!this.selectedBeds.includes(bed)) {
          bed['room_Type']=room.room_Type;
          bed['apartment_ID']=this.aprt.apartment_ID;
           this.selectedBeds.push(bed);
@@ -562,7 +563,7 @@ roomsStep2:any
 
     if(!(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0) ){
       console.log('hi')
-    if(  !this.selectedBeds.includes(bed)){//this.selectedroom!==room &&
+    if(   !this.selectedBeds.includes(bed)){//this.selectedroom!==room &&selectedrommID
 
 
       /////////////////////////////////////
