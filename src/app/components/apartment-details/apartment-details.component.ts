@@ -36,6 +36,7 @@ interface FAQ {
   styleUrls: ['./apartment-details.component.css']
 })
 export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChanges, AfterViewChecked {
+  selectedItem:any=0;
   apartments: Apartment[] = [];
   subscriptions: Subscription[] = [];
   loginMethod: string = 'whatsApp';
@@ -124,15 +125,16 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
 
 
 roomsStep2:any
+totalPriceBooking=0;
   submitstep2(){
 
-    let guestString = this.selectedGuest ?? ''; // Default to an empty string if selectedGuest is null or undefined
-    let guestNumberMatch = guestString.match(/\d+/);
-    let guestNumber = guestNumberMatch ? parseInt(guestNumberMatch[0], 10) : null;
-    if(guestNumber! >this.newGuestArr.length ){
+    // let guestString = this.selectedGuest ?? '';
+    // let guestNumberMatch = guestString.match(/\d+/);
+    // let guestNumber = guestNumberMatch ? parseInt(guestNumberMatch[0], 10) : null;
+    if(this.selectedItem! >this.newGuestArr.length ){
       this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must select first' });
     }
-   else if(this.activeIndex===1&&this.bookingForm.get('bedid')?.value===''&& this.selectedGuest!=="1 guest" ){
+   else if(this.activeIndex===1&&this.bookingForm.get('bedid')?.value===''&& this.selectedItem!==1 ){
       this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose your bed or your room' });
 
     }else if(this.activeIndex===0){
@@ -149,6 +151,32 @@ roomsStep2:any
     });
     this.roomsStep2=selectedRooms;
     console.log(this.roomsStep2);
+
+    // let totalPrice = 0;
+    // this.roomsStep2.forEach((room: any) => {
+    //    totalPrice += room.bed_Price;
+    //    totalPrice += room.bed_SecuirtyDeposit;
+    //    totalPrice += room.bed_Service_Fees;
+    //    this.selectedBeds.forEach((bed: any) => {
+    //    if(room.room_ID === bed.room_ID){
+    //     totalPrice += bed.bed_Price;
+    //    }
+    //  });
+    //  this.totalPriceBooking=totalPrice;
+    // });
+    let totalPrice = 0;
+this.roomsStep2.forEach((room: any) => {
+  // totalPrice += Number(room.bed_Price) || 0;
+  totalPrice += Number(room.bed_SecuirtyDeposit) || 0;
+  totalPrice += Number(room.bed_Service_Fees) || 0;
+  this.selectedBeds.forEach((bed: any) => {
+    if (room.room_ID === bed.room_ID) {
+      totalPrice += room.bed_Price || 0;
+    }
+  });
+});
+this.totalPriceBooking = totalPrice;
+
 
   }
   backstep(){
@@ -210,7 +238,7 @@ roomsStep2:any
 
 
 
-    if(this.selectfullaprt===true && this.selectedGuest==="1 guest" ){
+    if(this.selectfullaprt===true && this.selectedItem===1 ){
 
       bookingData = {
         apartment_ID: this.bookingForm.get('apartmentID')?.value,
@@ -230,11 +258,11 @@ roomsStep2:any
       };
       console.log(bookingData)
     }else{
-      console.log(bookingData,this.selectedGuest,this.bookingForm.get('fullApartment')?.value)
+      console.log(bookingData,this.selectedItem,this.bookingForm.get('fullApartment')?.value)
     }
 
 
-    if(this.selectedRooms.length===1 && this.selectedGuest==="1 guest"){
+    if(this.selectedRooms.length===1 && this.selectedItem===1){
 
 
 
@@ -266,7 +294,7 @@ roomsStep2:any
     }
 
 
-    if(this.selectedBeds.length===1 && this.selectedGuest==="1 guest"){
+    if(this.selectedBeds.length===1 && this.selectedItem===1){
 
 
 
@@ -474,7 +502,7 @@ roomsStep2:any
 
 
     let isChecked = (event.target as HTMLInputElement).checked;
-    if( !(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0) ){
+    if( !(this.selectedItem===1&&this.selectedBeds.length!==0) ){
     this.selectedrommID=room.room_ID;
     this.selectedroom=room.room_Type;
     this.bedCheckboxes.forEach((checkbox, index) => {
@@ -526,8 +554,19 @@ roomsStep2:any
     }
 
 
-  }else if(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0){
-    this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you can not booking more than bed or room' });
+  }else if(this.selectedItem===1&&this.selectedBeds.length!==0){
+    if(this.selectedRooms.includes(room)){
+      this.selectedRooms = this.selectedRooms.filter(r => r !== room);
+
+      // Remove the beds of this room from selectedBeds array
+      room.room_Beds.forEach((bed: any) => {
+        this.selectedBeds = this.selectedBeds.filter(b => b !== bed);
+      });
+      this.initForm();
+    }else if(isChecked){
+      this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you can not booking more than bed or room' });
+    }
+
 
   }
     // Update the form control values
@@ -563,7 +602,7 @@ roomsStep2:any
   }
 
   onBedSelected(event: Event,bed:any,room:any,allroom:any ){
-    // const isChecked = (event.target as HTMLInputElement).checked;
+    const isChecked = (event.target as HTMLInputElement).checked;
     // this.bedCheckboxes.forEach((checkbox, index) => {
     //   const bedCheckboxElement = checkbox.nativeElement as HTMLInputElement;
     //   if (index < this.bedCheckboxes.length) {
@@ -572,7 +611,7 @@ roomsStep2:any
     // });
     // console.log(this.selectedroom  )
 
-    if(!(this.selectedGuest==="1 guest"&&this.selectedBeds.length!==0) ){
+    if(!(this.selectedItem===1&&this.selectedBeds.length!==0) ){
       console.log('hi')
     if(   !this.selectedBeds.includes(bed)){//this.selectedroom!==room &&selectedrommID
 
@@ -635,8 +674,14 @@ roomsStep2:any
       console.log(this.selectedBeds)
       console.log(this.bookingForm.value)
     }
-  }else if(this.selectedGuest==="1 guest" && this.selectedBeds.length!==0){
-    this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you can not booking more than bed or room' });
+  }else if(this.selectedItem===1 && this.selectedBeds.length!==0){
+    if (this.selectedBeds.includes(bed)){
+      this.selectedBeds = this.selectedBeds.filter(b => b !== bed);
+    }else if(isChecked){
+      console.log(isChecked)
+      this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you can not booking more than bed or room' });
+    }
+
     // this.cdr.detectChanges();
   }
 
@@ -939,6 +984,8 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
 }
   ngOnInit() {
 
+    console.log('guests',this.selectedItem)
+
     this.forgetForm=this.fb.group({
       password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
       confirmPassword: ['', Validators.required]
@@ -946,7 +993,7 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
 
     this.getProfileData();
 
-    console.log(this.selectGuest)
+    console.log(this.selectedItem)
     this.namelogin= localStorage.getItem('namelogin');
     this.emaillogin=  localStorage.getItem('emaillogin');
     this.phonelogin=localStorage.getItem('phonelogin');
@@ -1062,7 +1109,8 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
   displayModalsuccess:any;
   openModals(){
     if(localStorage.getItem('token')){
-      if(this.selectedGuest!=='1 guest' && this.selectedGuest!=='2 guests' &&this.selectedGuest!=='3 guests' &&this.selectedGuest!=='4 guests' ){
+      // if(this.selectedGuest!=='1 guest' && this.selectedGuest!=='2 guests' &&this.selectedGuest!=='3 guests' &&this.selectedGuest!=='4 guests' ){
+        if(this.selectedItem < 1 ){
         this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose number of guests' });
       }else if(this.checkoutDate===''||this.checkinDate===''){
         this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose check in and check out dates' });
@@ -1083,7 +1131,7 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
     this.displayModal='none';
  }
  openModalbooking(){
-  if(this.selectedGuest!=='1 guest' && this.selectedGuest!=='2 guest' &&this.selectedGuest!=='3 guest' &&this.selectedGuest!=='4 guest' ){
+  if(this.selectedItem < 1 ){
     this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose number of guests' });
   }else{
 
@@ -1371,6 +1419,7 @@ onWindowScroll() {
             }
             this.noAllbed=bedno;
             this.bedAvailable=nobedAvailable;
+            this.updateGuests();
 
 
           if (this.aprt && this.aprt.apartment_Rooms) {
@@ -1524,7 +1573,7 @@ onLoginSubmit(): void {
           console.log('User account created successfully', response);
           localStorage.setItem('token', response.token);
           this.getProfileData();
-          if(this.selectedGuest!=='1 guest' && this.selectedGuest!=='2 guest' &&this.selectedGuest!=='3 guest' &&this.selectedGuest!=='4 guest' ){
+          if(this.selectedItem < 1 ){
           this.openModalbooking()
           }else{
             this.onCloseQrModal();
@@ -1567,8 +1616,28 @@ getProfileData(): void {
 
 
 
-guests: string[] = ['1 guest', '2 guests', '3 guests', '4 guests'];
+// guests: string[] = ['1 guest', '2 guests', '3 guests', '4 guests'];
+guests: any[] = [];
+updateGuests() {
+  this.guests = [];
+  for (let i = 1; i <= this.bedAvailable; i++) {
+    this.guests.push({ label: `${i} Guest${i > 1 ? 's' : ''}`, value: i });
+  }
+}
 
+onGuestSelect(event: any) {
+  console.log('Selected guest:', event.value);
+  // let guestString = event.value ?? '';
+  // let guestNumberMatch = guestString.match(/\d+/);
+  // let guestNumber = guestNumberMatch ? parseInt(guestNumberMatch[0], 10) : null;
+  this.selectedItem=event.value;
+  console.log(this.selectedItem)
+  this.selectedBeds=[]
+  this.selectedRooms=[]
+  this.activeIndex=0;
+  this.selectfullaprt=false;
+  // هنا يمكنك إضافة الكود الذي تريد تنفيذه عند اختيار عدد الضيوف
+}
 
 selectGuest(guest: string) {
     this.selectedGuest = guest;

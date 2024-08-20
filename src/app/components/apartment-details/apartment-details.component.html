@@ -544,7 +544,7 @@ div
                 </ul>
             </div> -->
             <div class="dropdown guests-dropdown">
-              <div class="d-flex justify-content-start align-items-center gap-2 p-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              <!-- <div class="d-flex justify-content-start align-items-center gap-2 p-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                   <div class="flex-grow-1">
                       <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">GUESTS</div>
                       <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">
@@ -557,7 +557,18 @@ div
                   <li class="p-2 pl-3" *ngFor="let guest of guests" (click)="selectGuest(guest)">
                       {{ guest }}
                   </li>
-              </ul>
+              </ul> -->
+              <p-dropdown
+              class="custom-dropdown"
+              [options]="guests"
+              [ngStyle]="{'border':'none !important','width': 'auto', 'max-height': (guests.length * 38) + 'px'} "
+              [(ngModel)]="selectedItem"
+              placeholder="Select guests"
+              [virtualScroll]="true"
+              [virtualScrollItemSize]="38"
+              (onChange)="onGuestSelect($event)"
+               />
+
           </div>
           <!-- <div *ngIf="bookingForm.get('guests')?.invalid && bookingForm.get('guests')?.touched" class="text-danger" style="font-size: 12px;">
             Please select the number of guests.
@@ -1167,7 +1178,7 @@ div
 
 
 
-<div *ngIf="!selectfullaprt  && !(selectedGuest==='1 guest'&&selectedBeds.length!==0)">
+<div *ngIf="!selectfullaprt  && !(selectedItem===1&&selectedBeds.length!==0)">
           <div class=" container mt-4" style=" padding:15px; border: 0.8px solid #DFE4EA; border-radius: 8px;" *ngFor="let item of selectedBeds; let x=index" >
             <!-- <input type="hidden" [(ngModel)]="guestsAPI[x].apartment_ID" name="aprtid" [value]="item.apartment_ID" [ngModelOptions]="{standalone: true}"> -->
             <!-- <input type="hidden" [(ngModel)]="guestsAPI[x].room_ID" name="roomid" [value]="item.room_ID" [ngModelOptions]="{standalone: true}">
@@ -1353,7 +1364,7 @@ div
 
               <div class="booking-summary my-3">Booking Summary</div>
               <div class="booking-summary-frame">
-              <div *ngFor="let room of roomsStep2">
+              <div *ngFor="let room of roomsStep2" style="width: 100%;">
                 <div *ngIf="room.room_Type==='Single'"  >
                   <div class="d-flex justify-content-between align-items-center w-100">
                     <div class="room-title">{{room.room_Type}}</div>
@@ -1374,26 +1385,26 @@ div
 
                 <div class="divider"></div>
 
-                <div *ngIf="room.room_Type!=='Single'" class="booking-summary-frame"  >
-                  <div class="d-flex justify-content-between align-items-center" style="width:100%">
+                <div *ngIf="room.room_Type!=='Single'" class="booking-frame"  >
+                  <div class="d-flex justify-content-between align-items-center my-2"  >
                     <div class="room-title">{{room.room_Type}}</div>
                     <!-- <div class="room-price">${{room.bed_Price}}</div> -->
                   </div>
-                  <div class="d-flex justify-content-between align-items-center " style="width:100%" *ngFor="let  bed of selectedBeds ">
+                  <div class="d-flex justify-content-between align-items-center my-2"   *ngFor="let  bed of selectedBeds ">
 
                     <div *ngIf="room.room_ID === bed.room_ID" class="bed-title"  >{{ bed.bed_Name}}</div>
                     <div class="bed-price">${{room.bed_Price}}</div>
                   </div>
                     <!-- <div class="bed-price">$350</div> -->
 
-                  <div class="d-flex justify-content-between align-items-center  w-100" style="width:100%">
+                  <div class="d-flex justify-content-between align-items-center   my-2"  >
                     <div>
                       <span class="fee-title">Security Deposit </span>
                       <span class="refundable">(Refundable)</span>
                     </div>
                     <div class="fee-price">${{room.bed_SecuirtyDeposit}}</div>
                   </div>
-                  <div class="d-flex justify-content-between align-items-center  w-100" style="width:100%">
+                  <div class="d-flex justify-content-between align-items-center   my-2"  >
                     <div class="fee-title">Service Fee</div>
                     <div class="fee-price">${{room.bed_Service_Fees}}</div>
                   </div>
@@ -1425,7 +1436,7 @@ div
                 <div class="divider"></div>
                 <div class="d-flex justify-content-between align-items-center w-100">
                   <div class="total-label">Total</div>
-                  <div class="total-price">$750</div>
+                  <div class="total-price">${{totalPriceBooking}}</div>
                 </div>
 
 

@@ -9,6 +9,7 @@ import { Globals, isValidEmail } from '../app/globals/global';
 
 declare var intlTelInput: any;
 declare var intlTelInputUtils: any;
+import { lastValueFrom } from 'rxjs';
 interface Country {
   name: {
     common: string;
@@ -62,6 +63,8 @@ export class AppComponent implements OnInit, AfterViewInit{
     this.passwordFieldTypee = this.passwordFieldTypee === 'password' ? 'text' : 'password';
   }
   ngOnInit(): void {
+    this.userService.initGoogleAuth();
+
     this.isLoggedIn = this.isAuthenticated();
     this.options=[  { name: 'Male', code: 'NY' },
       { name: 'Female', code: 'RM' }, { name: 'UnSpecified', code: 'RM' }];
@@ -268,7 +271,7 @@ if(mobileAPI===null){
       this.displayModalsign='none';
        this.isVisiblelogin = 'none';
 
-        this.displayVerify='block'
+        this.displayVerifyForget='block'
 
     },
     error => {
@@ -292,7 +295,7 @@ openForgetModal(){
         this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
         console.log('OTP verified successfully', response);
         this.displayForgetPass='block';
-        this.displayVerify='block'
+        this.displayVerifyForget='none'
          this.isVisiblelogin = 'none';
       },
       error => {
@@ -304,10 +307,11 @@ openForgetModal(){
 
 
 }
+displayVerifyForget:any;
 
 openChangeModal(){
   this.displayForgetPass='block';
-  this.displayVerify='none'
+  this.displayVerifyForget='none'
   this.isVisiblelogin = 'none';
 }
 
@@ -340,7 +344,25 @@ passwordStrengthValidator(control: AbstractControl): { [key: string]: boolean } 
 
 logout(): void {
 
-  localStorage.removeItem('token');
+
+  // const deviceToken = 'your_device_token_here'; // Replace with the actual device token
+  this.userService.logout().subscribe(
+    response => {
+
+      console.log('Logout successful', response);
+      localStorage.removeItem('token');
+      // Handle successful logout (e.g., redirect to login page)
+    },
+    error => {
+      console.error('Logout failed', error);
+      localStorage.removeItem('token');
+      // Handle logout error
+    }
+  );
+
+
+
+
 
 }
 
@@ -372,7 +394,7 @@ onForgetSubmit(): void {
 onSubmit(): void {
 console.log(this.signupForm)
 
-  if (this.signupForm.valid) {
+  // if (this.signupForm.valid) {
 
 
     const userAccount = {
@@ -398,7 +420,8 @@ console.log(this.signupForm)
       response => {
         this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
         console.log('User account created successfully', response);
-        this.openverifyModal();
+        // this.openverifyModal();
+        this.displayVerify='block';
         this.uuid=response.uuid;
 
 
@@ -410,11 +433,11 @@ console.log(this.signupForm)
 
       }
     );
-  } else {
-    console.error('Form is invalid');
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
-    this.signupForm.markAllAsTouched();
-  }
+  // } else {
+  //   console.error('Form is invalid');
+  //   this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
+  //   this.signupForm.markAllAsTouched();
+  // }
 }
 
 
@@ -476,16 +499,17 @@ loginMethod: string = 'whatsApp';
   showLogin(): void {
 
     if (!this.isAuthenticated()) {
-      this.isOtpValid=true;
+
       this.isVisiblelogin = 'block';
 
       this.displayModalsign='none';
 
     this.displayInfo='none';
     this.displayVerify='none'
+    this.displayVerifyForget='none'
     }else{
       this.logout();
-      this.messageService.add({ severity: 'success', summary: 'Booking Confirmed', detail: 'you logged out successfully' });
+      this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'you logged out successfully' });
 
 
     }
@@ -545,6 +569,51 @@ onLoginSubmit(): void {
 
   }
 }
+/////////////////////////////////////////
+//social sign/////////////////////
 
+  signInWithGoogle(): void {
+
+    // const token = localStorage.getItem('token');
+    // if (token) {
+    //   console.error('Token not found, redirecting to login');
+    //   this.logout();
+    //   this.userService.signInWithGoogle();
+    // }else{
+    //   this.userService.signInWithGoogle();
+    // }
+    this.userService.signInWithGoogle();
+
+  }
+
+   signUpWithGoogle(): void {
+    console.log('sign up')
+    this.userService.signInWithGoogle();
+    const self = this;
+    // const token = localStorage.getItem('token');
+    // if (token) {
+
+      setTimeout(function() {
+        console.log('This message will be displayed after 2 seconds');
+        self.logout();
+    }, 10000);
+
+    // }
+
+
+
+  }
+  // async signUpWithGoogle(): Promise<void> {
+  //   try {
+  //     console.log('sign up');
+  //     await this.userService.signInWithGoogle() ;
+  //     console.log('sign up');
+
+  //    this.logout();
+  //   } catch (error) {
+  //     console.error('An error occurred during sign-in:', error);
+
+  //   }
+  // }
 
 }
