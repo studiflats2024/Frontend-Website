@@ -49,5 +49,26 @@ export class ApartmentService {
     return this.http.post( `${environment.apiUrl + '/ApartmentV2/Apartment_New_Booking'}`, bookingData, { headers });
   }
 
+  searchApartments(pageNo: number, pageSize: number, city: string, checkIn: string, checkOut: string, guestNo: number): Observable<any> {
+    let params = new HttpParams()
+      .set('Page_No', pageNo.toString())
+      .set('Page_Size', pageSize.toString())
+      .set('City', city)
+      .set('Check_In', checkIn)
+      .set('Check_Out', checkOut)
+      .set('Guest_No', guestNo.toString());
+
+        const body = {
+    Page_No: pageNo,
+    Page_Size: pageSize,
+    City: city,
+    Check_In: checkIn,
+    Check_Out: checkOut,
+    Guest_No: guestNo
+  };
+
+    return this.http.post<any>( `${environment.apiUrl + '/ApartmentV2/Search_Website'}`, {}, { params: params });
+  }
+
 
 }

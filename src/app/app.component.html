@@ -1,6 +1,6 @@
 
 <div class="fixed">
-  <app-header (toggleSearchEvent)="toggleSearch()" (toggleSignEvent)="openModalSign()"></app-header>
+  <app-header (toggleSearchEvent)="toggleSearch()" (toggleSignEvent)="showLogin()"></app-header>
  </div>
  <div [@toggleSearch]="searchVisible"   class="fixed-search-bar smooth-transition">
    <app-search-bar class="mod "    ></app-search-bar>
@@ -48,7 +48,7 @@
 
 
 
-              <div class="mb-3 ">
+              <div class="mb-3  ">
                 <input type="text" class="form-control"   formControlName="fullName" placeholder="FullName*" autocomplete="off">
                 <div *ngIf="signupForm.get('fullName')?.errors && signupForm.get('fullName')?.touched" class="text-danger" style="font-size: 12px;">
                   <div *ngIf="signupForm.get('fullName')?.errors?.['required']">Full name is required.</div>
@@ -57,18 +57,32 @@
                 </div>
               </div>
               <div class="mb-3 row g-2 ">
-                <div class="col-6">
-                  <input type="password" formControlName="password" class="form-control" placeholder="Password*">
-                  <!-- <div *ngIf="signupForm.get('password')?.errors && signupForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
+                <div class="col-6 position-relative">
+                  <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password*"> -->
+                  <div class="input-group position-relative">
+                    <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="Password*">
+                    <i class="toggle-password-icon"
+                       [class]="passwordFieldType === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                       (click)="togglePasswordVisibility()"
+                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 11;"></i>
+                  </div>
+                  <div *ngIf="signupForm.get('password')?.errors && signupForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
                     <div *ngIf="signupForm.get('password')?.errors?.['required']">Password is required.</div>
                     <div *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
                     <div *ngIf="signupForm.get('password')?.errors?.['weakPassword']">
                       Password must contain upper case, lower case, numeric, and special characters.
                     </div>
-                  </div> -->
+                  </div>
                 </div>
                 <div class="col-6">
-                  <input type="password" formControlName="confirmPassword" class="form-control " placeholder="Confirm Password*" autocomplete="off">
+                  <!-- <input type="password" formControlName="confirmPassword" class="form-control " placeholder="Confirm Password*" autocomplete="off"> -->
+                  <div class="input-group position-relative">
+                    <input [type]="passwordFieldType" formControlName="confirmPassword" class="form-control" placeholder="Password*">
+                    <i class="toggle-password-icon"
+                       [class]="passwordFieldTypee === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                       (click)="togglePasswordVisibilityconfirm()"
+                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 11;"></i>
+                  </div>
                   <div *ngIf="signupForm.errors?.['mismatch'] && signupForm.get('confirmPassword')?.touched" class="text-danger" style="font-size: 12px; ">
                     Passwords do not match.
                   </div>
@@ -132,7 +146,7 @@
 
 
               <div class="d-grid mb-3">
-                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;" (click)="onVerifyOtp()"    >Continue</button>
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;" (click)="isOtpValid ? openForgetModal() :  onVerifyOtp() "   >Continue</button>
               </div>
 
 
@@ -354,14 +368,21 @@
                 </div>
 
                 <div class="mb-3">
-                  <input type="password" formControlName="password" class="form-control" placeholder="Password*" autocomplete="off">
-                    <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
+                  <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password*" autocomplete="off"> -->
+                  <div class="input-group position-relative">
+                    <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="Password*">
+                    <i class="toggle-password-icon"
+                       [class]="passwordFieldType === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                       (click)="togglePasswordVisibility()"
+                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 11;"></i>
+                  </div>
+                    <!-- <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
                       <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
                       <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
                       <div *ngIf="loginForm.get('password')?.errors?.['weakPassword']">
                         Password must contain upper case, lower case, numeric, and special characters.
                       </div>
-                    </div>
+                    </div> -->
                 </div>
                 <div class="d-flex justify-content-between mb-3">
                   <div class="form-check">
@@ -370,7 +391,7 @@
                       Remember me
                     </label>
                   </div>
-                  <a href="#" class="text-primary">Forgot Password</a>
+                  <a (click)="openverifyModal()" class="text-primary">Forgot Password</a>
                 </div>
                 <div class="d-grid mb-3">
                   <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   data-bs-toggle="modal" data-bs-target="#guestDetailsModal"  >Login</button>
@@ -395,9 +416,86 @@
     </div>
   </div>
 
+<!-- -----------forgot password modal ---------------->
 
 
 
+<div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayForgetPass}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+
+
+      <div class="modal-body p-0" style="position: relative;">
+        <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="hideLogin()">×</button>
+
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+        style="position: absolute; top:0; right:0;"></button> -->
+
+        <div class="login-modal-container">
+
+          <div class="modal-form-section p-4">
+            <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+            <div class="login-header mb-4">
+              <h2 class="login-title">change password</h2>
+              <p class="login-subtitle">Please enter current password then add new password</p>
+            </div>
+
+
+
+
+            <form [formGroup]="forgetForm" (ngSubmit)="onForgetSubmit()" autocomplete="off">
+            <div class="login-form">
+
+
+
+              <div class="mb-3">
+                <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password*" autocomplete="off"> -->
+                <div class="input-group position-relative">
+                  <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="New Password*">
+                  <i class="toggle-password-icon"
+                     [class]="passwordFieldType === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                     (click)="togglePasswordVisibility()"
+                     style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 11;"></i>
+                </div>
+                  <div *ngIf="forgetForm.get('password')?.errors && forgetForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
+                    <div *ngIf="forgetForm.get('password')?.errors?.['required']">Password is required.</div>
+                    <div *ngIf="forgetForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
+                    <div *ngIf="forgetForm.get('password')?.errors?.['weakPassword']">
+                      Password must contain upper case, lower case, numeric, and special characters.
+                    </div>
+                  </div>
+              </div>
+
+              <div class="mb-3">
+                <!-- <input type="password" formControlName="confirmPassword" class="form-control " placeholder="Confirm Password*" autocomplete="off"> -->
+                <div class="input-group position-relative">
+                  <input [type]="passwordFieldType" formControlName="confirmPassword" class="form-control" placeholder="Password*">
+                  <i class="toggle-password-icon"
+                     [class]="passwordFieldTypee === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                     (click)="togglePasswordVisibilityconfirm()"
+                     style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 11;"></i>
+                </div>
+                  <div *ngIf="forgetForm.errors?.['mismatch'] && forgetForm.get('confirmPassword')?.touched" class="text-danger" style="font-size: 12px; ">
+                    Passwords do not match.
+                  </div>
+              </div>
+
+              <div class="d-grid mb-3">
+                <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   data-bs-toggle="modal" data-bs-target="#guestDetailsModal"  >Continue</button>
+              </div>
+
+
+
+            </div>
+            </form>
+          </div>
+          <div class="modal-image-section"><img src="loginimg.png"  /></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
 
 

@@ -84,6 +84,25 @@ export class UserService {
     return this.http.get<any>(url, { headers });
   }
 
+  sendForgotPasswordOtp(mobile: any): Observable<any> {
+    const url = `${environment.apiUrl}/Users/Forget_Password`;
+    const params = new HttpParams().set('Mobile', mobile);
+
+    return this.http.get<any>(url, { params });
+  }
+
+  resetPassword(password: string, confirmPassword: string, uuid: string, token: string): Observable<any> {
+    const url = `${environment.apiUrl}/Users/ResetPassword`;
+
+    const params = new HttpParams()
+      .set('Password', password)
+      .set('Confirm_Password', confirmPassword)
+      .set('UUID', uuid)
+      .set('Token', token);
+
+    return this.http.put<any>(url, {}, { params });
+  }
+
 
 }
 

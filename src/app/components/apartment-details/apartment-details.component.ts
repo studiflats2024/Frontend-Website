@@ -40,6 +40,7 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
   subscriptions: Subscription[] = [];
   loginMethod: string = 'whatsApp';
   loginForm!: FormGroup;
+  forgetForm!:FormGroup;
   bookingForm!: FormGroup;
   studentOptions = [
     {label: 'Yes', value: 'yes'},
@@ -59,6 +60,16 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
   selectedRole:string='';
   roles:any;
   guestsAPI :any;
+
+  passwordFieldType: string = 'password'; // This controls the input type
+
+  passwordFieldTypee: string = 'password';
+  togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
+  togglePasswordVisibilityconfirm(): void {
+    this.passwordFieldTypee = this.passwordFieldTypee === 'password' ? 'text' : 'password';
+  }
 
   initializeGuestsAPI() {
     this.guestsAPI = this.selectedBeds.map((i) => ({
@@ -921,7 +932,17 @@ ngAfterViewChecked() {
 
 
 selectedGuest: string = 'Select guests';
+passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | null {
+  const password = group.get('password')?.value;
+  const confirmPassword = group.get('confirmPassword')?.value;
+  return password === confirmPassword ? null : { 'mismatch': true };
+}
   ngOnInit() {
+
+    this.forgetForm=this.fb.group({
+      password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
+      confirmPassword: ['', Validators.required]
+    }, { validator: this.passwordMatchValidator });
 
     this.getProfileData();
 
@@ -1556,4 +1577,94 @@ selectGuest(guest: string) {
     this.selectedRooms=[]
     this.selectfullaprt=false;
 }
+
+
+
+displayVerify:any
+
+uuidforgot:any;
+resetToken:any;
+otp:any;
+openverifyModal(){
+
+
+  let mobileAPI=null;
+
+    mobileAPI=this.loginForm.value.mobile;
+    console.log(mobileAPI)
+
+  if(mobileAPI===null){
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'you must write your phone' });
+
+  }else{
+
+
+
+    this.userService.sendForgotPasswordOtp(mobileAPI).subscribe(
+      response => {
+        // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+        console.log('OTP sent successfully', response);
+        this.uuidforgot=response.uuid;
+        this.resetToken=response.reset_Token;
+        localStorage.setItem('token', response.reset_Token);
+
+         this.displayModal = 'none';
+
+          this.displayVerify='block'
+
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+        console.error('Error sending OTP', error);
+        // Handle error, e.g., show an error message to the user
+      }
+    );
+  }
+  }
+
+  displayForgetPass:any;
+
+  openForgetModal(){
+
+      this.userService.checkOtp(this.otp, this.uuidforgot).subscribe(
+        response => {
+          this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+          console.log('OTP verified successfully', response);
+          this.displayForgetPass='block';
+          this.displayVerify='block'
+
+        },
+        error => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+          console.error('Error verifying OTP', error);
+
+        }
+      );
+
+
+  }
+
+  onForgetSubmit(): void {
+    const password = this.forgetForm.get('password')?.value;
+    const confirmPassword = this.forgetForm.get('confirmPassword')?.value;
+
+
+    this.userService.resetPassword(password, confirmPassword, this.uuidforgot, this.resetToken).subscribe(
+      response => {
+        this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+        console.log('Password reset successfully', response);
+        this.displayForgetPass='none';
+        // Handle success, e.g., navigate to a login page or show a success message
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+        console.error('Error resetting password', error);
+        // Handle error, e.g., show an error message to the user
+      }
+    );
+  }
+  onCloseVerifyModal(){
+    this.displayVerify='none';
+    this.displayForgetPass='none';
+  }
 }

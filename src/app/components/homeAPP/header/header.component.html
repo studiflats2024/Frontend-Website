@@ -79,8 +79,8 @@
               <div class="custom-icon"  ><i class="fas fa-search thin-icon"></i></div>
             </div>
           </div>
-          <div class="custom-signin d-flex justify-content-center align-items-center px-3" style="width: 120px; height: 40px;"  (click)="openModalSign()">
-            Sign in
+          <div class="custom-signin d-flex justify-content-center align-items-center px-3" style="width: 120px; height: 40px;"  (click)="showLogin()">
+            {{ isAuthenticated() ? 'Logout' : 'Sign in' }}
           </div>
           <!-- <div class="custom-globe rounded-circle d-flex justify-content-center align-items-center" style="width: 24px; height: 24px;">
             <div class="custom-globe rounded-circle d-flex justify-content-center align-items-center" style="width: 14px; height: 14px;"> </div>

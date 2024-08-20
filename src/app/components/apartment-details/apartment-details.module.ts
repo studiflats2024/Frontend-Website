@@ -18,7 +18,7 @@ import { ToastModule } from 'primeng/toast';
 
 import { MessageService } from 'primeng/api';
 import { DropdownModule } from 'primeng/dropdown';
-
+import { InputOtpModule } from 'primeng/inputotp';
 
 
 
@@ -54,6 +54,7 @@ const routes: Routes = [
     ToastModule,
     ReactiveFormsModule ,
     DropdownModule,
+    InputOtpModule,
     RouterModule.forChild(routes),
 
   ],

@@ -373,7 +373,9 @@
 }
 
 .date-picker {
+
   position: absolute;
+  top:100%;
   z-index: 1000;
   background: white;
   border: 0.0625rem solid #ccc; /* 1px */
@@ -464,7 +466,123 @@
     z-index: 10;
   }
 }
+:host ::ng-deep .p-calendar .p-datepicker {
+  top: 100% !important; /* Example: Adjusting the position */
+}
 
+
+
+:host ::ng-deep .p-inputnumber .p-inputnumber-input {
+
+  text-align: center;
+
+  border: none;
+  outline: none;
+  font-size: 16px;
+  width: 40px;
+
+  color: #24272E;
+
+text-align: center;
+font-family: Poppins;
+font-size: 16px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+:host ::ng-deep .p-inputnumber .p-inputnumber-button {
+  margin: auto;
+  background: #EDF1F4;
+  color:#374151;
+
+  border:none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+
+  border-radius: 13px;
+border: 1px solid #E5E9ED;
+
+background: #EDF1F4;
+
+display: flex;
+width: 25.99px;
+height: 25.99px;
+padding: 6.99px 6.99px 7px 7px;
+justify-content: center;
+align-items: center;
+}
+
+:host ::ng-deep .p-inputnumber .p-inputnumber-button-minus {
+  margin-right: 5px;
+  color:#B5BEC5 !important;
+  border-radius: 13px;
+border: 1px solid #E5E9ED;
+
+background: #EDF1F4;
+
+}
+
+:host ::ng-deep .p-inputnumber .p-inputnumber-button-plus {
+  margin-left: 5px;
+  color:#374151;
+  border-radius: 13px;
+border: 1px solid #E5E9ED;
+
+background: #EDF1F4;
+}
+
+:host ::ng-deep .pi-minus{
+
+  color:#B5BEC5;
+
+}
+
+
+
+:host ::ng-deep .p-inputnumber .guest-label {
+  font-size: 16px;
+  font-weight: bold;
+  margin-right: 10px;
+}
+
+
+
+.date-pickerr {
+  position: absolute;
+  top:110%;
+  background-color: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  max-width: 200px;
+  margin-top: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.city-picker-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.city-picker-item {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.city-picker-item:hover {
+  background-color: #f0f0f0;
+  border-radius: 4px;
+}
 
 
 

@@ -1,5 +1,5 @@
 
-import { Component, OnInit,Renderer2, AfterViewInit } from '@angular/core';
+import { Component, OnInit,Renderer2, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { UserService,UserAccount } from './services/user.service';
@@ -47,12 +47,22 @@ interface Country {
 export class AppComponent implements OnInit, AfterViewInit{
 
   signupForm!: FormGroup;
+  forgetForm!: FormGroup;
   finishSignupForm!: FormGroup;
   countries: { name: string; code: string; flag: string }[] = [];
   selectedCountry: any;
-
-  constructor(private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient) {}
+  isLoggedIn:any;
+  constructor(private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef) {}
+  passwordFieldType: string = 'password'; // This controls the input type
+  passwordFieldTypee: string = 'password';
+  togglePasswordVisibility(): void {
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+  }
+  togglePasswordVisibilityconfirm(): void {
+    this.passwordFieldTypee = this.passwordFieldTypee === 'password' ? 'text' : 'password';
+  }
   ngOnInit(): void {
+    this.isLoggedIn = this.isAuthenticated();
     this.options=[  { name: 'Male', code: 'NY' },
       { name: 'Female', code: 'RM' }, { name: 'UnSpecified', code: 'RM' }];
 
@@ -63,6 +73,10 @@ export class AppComponent implements OnInit, AfterViewInit{
         password: [''],
 
       } );
+      this.forgetForm=this.fb.group({
+        password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
+        confirmPassword: ['', Validators.required]
+      }, { validator: this.passwordMatchValidator });
 
       const inputlogin = document.querySelector("#phonee");
 
@@ -225,13 +239,79 @@ onCloseSignModal() {
   this.displayVerify='none'
 }
 displayVerify:any
+isOtpValid:boolean=false;
+uuidforgot:any;
+resetToken:any;
+
 openverifyModal(){
-this.displayVerify='block'
+
+
+let mobileAPI=null;
+
+  mobileAPI=this.loginForm.value.mobile;
+  console.log(mobileAPI)
+
+if(mobileAPI===null){
+  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'you must write your phone' });
+
+}else{
+
+
+
+  this.userService.sendForgotPasswordOtp(mobileAPI).subscribe(
+    response => {
+      // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+      console.log('OTP sent successfully', response);
+      this.uuidforgot=response.uuid;
+      this.resetToken=response.reset_Token;
+      localStorage.setItem('token', response.reset_Token);
+      this.displayModalsign='none';
+       this.isVisiblelogin = 'none';
+
+        this.displayVerify='block'
+
+    },
+    error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+      console.error('Error sending OTP', error);
+      // Handle error, e.g., show an error message to the user
+    }
+  );
+}
 }
 displayInfo:any;
 openInfoModal(){
   this.displayInfo='block';
 }
+displayForgetPass:any;
+
+openForgetModal(){
+
+    this.userService.checkOtp(this.otp, this.uuidforgot).subscribe(
+      response => {
+        this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+        console.log('OTP verified successfully', response);
+        this.displayForgetPass='block';
+        this.displayVerify='block'
+         this.isVisiblelogin = 'none';
+      },
+      error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+        console.error('Error verifying OTP', error);
+
+      }
+    );
+
+
+}
+
+openChangeModal(){
+  this.displayForgetPass='block';
+  this.displayVerify='none'
+  this.isVisiblelogin = 'none';
+}
+
+
 
 
 passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | null {
@@ -254,6 +334,41 @@ passwordStrengthValidator(control: AbstractControl): { [key: string]: boolean } 
   const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecial;
   return valid ? null : { 'weakPassword': true };
 }
+
+
+
+
+logout(): void {
+
+  localStorage.removeItem('token');
+
+}
+
+isAuthenticated(): boolean {
+
+  return !!localStorage.getItem('token');
+}
+
+onForgetSubmit(): void {
+  const password = this.forgetForm.get('password')?.value;
+  const confirmPassword = this.forgetForm.get('confirmPassword')?.value;
+
+
+  this.userService.resetPassword(password, confirmPassword, this.uuidforgot, this.resetToken).subscribe(
+    response => {
+      this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+      console.log('Password reset successfully', response);
+      // Handle success, e.g., navigate to a login page or show a success message
+    },
+    error => {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+      console.error('Error resetting password', error);
+      // Handle error, e.g., show an error message to the user
+    }
+  );
+}
+
+
 onSubmit(): void {
 console.log(this.signupForm)
 
@@ -359,16 +474,27 @@ isVisiblelogin='none';
 loginMethod: string = 'whatsApp';
   loginForm!: FormGroup;
   showLogin(): void {
-    this.isVisiblelogin = 'block';
 
-    this.displayModalsign='none';
+    if (!this.isAuthenticated()) {
+      this.isOtpValid=true;
+      this.isVisiblelogin = 'block';
 
-  this.displayInfo='none';
-  this.displayVerify='none'
+      this.displayModalsign='none';
+
+    this.displayInfo='none';
+    this.displayVerify='none'
+    }else{
+      this.logout();
+      this.messageService.add({ severity: 'success', summary: 'Booking Confirmed', detail: 'you logged out successfully' });
+
+
+    }
+
   }
 
   hideLogin(): void {
     this.isVisiblelogin = 'none';
+    this.displayForgetPass='none';
   }
 onLoginSubmit(): void {
   console.log(this.loginForm)
@@ -400,6 +526,7 @@ onLoginSubmit(): void {
             localStorage.setItem('namelogin', namelogin);
             localStorage.setItem('emaillogin',emaillogin);
             localStorage.setItem('phonelogin', phonelogin);
+
 
          this.hideLogin();
 

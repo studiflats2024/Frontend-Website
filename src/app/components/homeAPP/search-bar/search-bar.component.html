@@ -2,32 +2,33 @@
   <div class="search-fields">
     <div class="field">
       <label for="city">City</label>
-      <input type="text" id="city" placeholder="Where are you going?" (focus)="showPicker('city')">
-      <div *ngIf="activePicker === 'city'" class="date-picker">
-        <ul>
-          <li>Charlottenburg-Berlin</li>
-          <li>Wannsee-Berlin</li>
-          <li>Tempelhof-Berlin</li>
-          <li>Schöneberg-Berlin</li>
-          <li>Mitte-Berlin</li>
-          <li>Friedrichshain-Berlin</li>
+      <input type="text" [value]="selectedCity" id="city" [placeholder]="selectedCity!==''?selectedCity:'Where are you going?'" (click)="showPicker('city')">
+      <!-- <div style="width:100px" *ngIf="toggle" class="date-picker ">
+        <ul style="list-style-type: none;" >
+          <li >Berlin</li>
+        </ul>
+      </div> -->
+      <div style="width: 100px;" *ngIf="toggle" class="date-pickerr">
+        <ul class="city-picker-list">
+          <li class="city-picker-item"  (click)="selectCity('Berlin')">Berlin</li>
+          <!-- Add more cities as needed -->
         </ul>
       </div>
     </div>
     <div class="field">
       <label for="check-in date">Check in</label>
 
-      <p-calendar [(ngModel)]="checkInDate" placeholder="Add dates" (focus)="showPicker('check-in')"></p-calendar>
+      <p-calendar [(ngModel)]="checkInDate" placeholder="Add dates"  (click)="hidePicker('city')" ></p-calendar><!--(focus)="showPicker('check-in')-->
     </div>
     <div class="field date">
       <label for="check-out">Check out</label>
 
-      <p-calendar [(ngModel)]="checkOutDate" placeholder="Add dates" (focus)="showPicker('check-out')"></p-calendar>
+      <p-calendar [(ngModel)]="checkOutDate" placeholder="Add dates" (click)="hidePicker('city')" ></p-calendar><!--(focus)="showPicker('check-out')"-->
     </div>
     <div class="field">
       <label for="guests">Guests</label>
 
-      <input type="text" (focus)="onFocusGuests()" [placeholder]="guests > 0 ? guests : 'Add guests'" (keydown)="onGuestsKeyDown($event)">
+      <input type="text" (click)="onFocusGuests()" [placeholder]="guests > 0 ? guests : 'Add guests'"    >
       <div *ngIf="showGuestsPicker" class="guests-picker"  (keydown)="onGuestsKeyDown($event)">
 
 
@@ -59,7 +60,7 @@ padding: 0px 8px;
       </div>
     </div>
     <div class="field">
-      <button class="search-button"><i class="fa fa-search"></i> Search</button>
+      <button class="search-button" (click)="onSearchBarSubmit()"><i class="fa fa-search"></i> Search</button>
     </div>
   </div>
 </div>

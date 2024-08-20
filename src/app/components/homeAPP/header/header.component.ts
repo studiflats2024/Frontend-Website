@@ -11,16 +11,20 @@
 
 // }
 
-import { Component , EventEmitter, Output } from '@angular/core';
+import { Component , EventEmitter, Output , OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
   styleUrls: ['./header.component.scss']
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   @Output() toggleSearchEvent = new EventEmitter<void>();
   @Output() toggleSignEvent = new EventEmitter<void>();
+
+  ngOnInit(): void {
+    this.isLoggedIn = this.isAuthenticated();
+  }
 
   toggleSearch() {
     this.toggleSearchEvent.emit();
@@ -28,9 +32,14 @@ export class HeaderComponent {
   }
 
 
-openModalSign(){
+  showLogin(){
   this.toggleSignEvent.emit();
 
+}
+isLoggedIn:any;
+isAuthenticated(): boolean {
+
+  return !!localStorage.getItem('token');
 }
 
 

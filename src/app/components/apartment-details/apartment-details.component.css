@@ -6,6 +6,11 @@
 .modal-backdrop.show {
   opacity: 0.5 !important;
 } */
+.rotatee{
+  display:flex;
+  justify-content: center !important;
+  align-items: center !important;
+}
 :host ::ng-deep  .p-dropdown {
 
   width: 100%;
