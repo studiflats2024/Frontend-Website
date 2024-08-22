@@ -71,4 +71,13 @@ export class ApartmentService {
   }
 
 
+  filterApartments(filterData: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.post<any>(`${environment.apiUrl + '/ApartmentV2/Filters_Website'}`, filterData, { headers });
+  }
+
+
 }

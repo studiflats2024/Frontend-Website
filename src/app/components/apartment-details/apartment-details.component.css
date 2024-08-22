@@ -1870,6 +1870,12 @@
  }
 
 
+ .warning-message {
+  color: red; /* لون التحذير */
+  font-family: Arial, sans-serif; /* خط أقل جاذبية */
+  font-size: 14px; /* حجم الخط للتحذير */
+  margin-top: 5px; /* مسافة صغيرة فوق الرسالة */
+}
 
 
 

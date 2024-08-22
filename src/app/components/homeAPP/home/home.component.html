@@ -14,8 +14,95 @@
     <h1>Find your dream apartment</h1>
     <p>Discovering your perfect apartment is effortless with Studiflat.</p>
   </div>
-  <app-search-bar></app-search-bar>
+  <app-search-bar (searchResults)="handleSearchResults($event)"></app-search-bar>
 </div>
+
+
+<div *ngIf="apartmentsSearch.length!==0"  class=" w-100 carousel" style="background: #EBEBEB; padding-right:40px; padding-left:40px; padding-bottom: 40px; " >
+  <div style="height: 100px;"></div>
+
+
+  <div class="header" >
+    <h1>Search Results</h1>
+
+  </div>
+
+
+
+  <div class="main-content carousel-inner " >
+
+    <div  class="apartment-list mt-3 "   >
+      <div *ngFor="let apartment of getVisibleApartmentsSearch() ;let i=index"     class="apartment-card carousel-item" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
+        <img [src]="apartment.apartment_Image" alt="{{ apartment.apartment_Name }}" class="apartment-image" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
+        <div class="apartment-content">
+          <div class="apartment-header">
+            <div class="apartment-title"><a routerLink="/apartment-details/{{apartment?.apartment_ID}}" style="text-decoration: none; color: inherit;">{{ apartment.apartment_Name }}</a></div>
+            <i class="pi pi-heart"></i>
+          </div>
+          <div class="apartment-location">
+            <i class="pi pi-map-marker"></i>
+            <span>{{ apartment.apartment_Location }}</span>
+          </div>
+          <div class="divider"></div>
+          <div class="apartment-details">
+            <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid">{{ apartment.apartment_No_Bedrooms }} beds</div>
+            <div class="detail-item"><i class="pi pi-user"></i>{{ apartment.apartment_Persons_No }} persons</div>
+            <div class="detail-item"><i class="pi pi-home"></i>{{ apartment.apartment_Area_Square }} m²</div>
+          </div>
+          <div class="amenities">
+            <span *ngFor="let amenity of apartment.amenities; let last = last">
+              <ng-container *ngIf="amenity === 'Wifi'; else regularAmenity">
+                <i class="pi pi-wifi"></i> {{ amenity }}
+              </ng-container>
+              <ng-template #regularAmenity>
+                {{ amenity }}
+              </ng-template>
+              <span *ngIf="!last" class="dot">·</span>
+            </span>
+          </div>
+          <div class="divider"></div>
+          <div class="apartment-footer">
+            <div class="review">
+              <span class="rating">{{ apartment.rating }}</span>
+              <i class="pi pi-star"></i>
+              <span class="review-count">({{ apartment.reviews }} reviews)</span>
+            </div>
+            <div class="price">
+              <span>{{ apartment.apartment_Price }}€</span>/month
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+    <div class="mapp" >
+
+    </div>
+
+    <!-- <div class="map smallmap"  >
+      <img [src]="mapImage" alt="Map"  (click)="navigateToMap()">
+    </div> -->
+
+  </div>
+
+  <div class="d-flex justify-content-end align-items-center m-3">
+    <button pButton type="button" icon="pi pi-arrow-left" class="p-button-rounded p-button-outlined p-button-secondary carousel-control scroll-button" (click)="prevSearch()"></button>
+    <button pButton type="button" icon="pi pi-arrow-right " class="p-button-rounded p-button-primary ml-2 carousel-control scroll-button" (click)="nextSearch()"></button>
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
 
 <div class=" w-100 carousel" style="background: #EBEBEB; padding-right:40px; padding-left:40px; padding-bottom: 40px; ">
   <div style="height: 100px;"></div>

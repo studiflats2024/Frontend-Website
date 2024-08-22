@@ -10,6 +10,7 @@ import { SliderModule } from 'primeng/slider';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { PaginatorModule } from 'primeng/paginator';
+import { GoogleMapsModule } from '@angular/google-maps';
 
 import { CheckboxModule } from 'primeng/checkbox';
 
@@ -39,6 +40,7 @@ const routes: Routes = [
     InputNumberModule,
     CheckboxModule,
     PaginatorModule,
+    GoogleMapsModule ,
     RouterModule.forChild(routes),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

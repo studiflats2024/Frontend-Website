@@ -1,5 +1,5 @@
 
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApartmentService } from '../../services/apartment.service';
 import { Apartment } from '../../models/apartment.model';
@@ -14,8 +14,13 @@ import { Subscription } from 'rxjs';
 export class ApartmentListComponent implements OnInit {
   apartments: Apartment[] = [];
   mapImage = 'https://via.placeholder.com/600x728';
+  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
+  zoom = 8;
 
-  guests: number = 1;
+  guests: number = 0;
+  rooms: number = 0;
+  single: number = 0;
+  double: number = 0;
   priceRange: number[] = [0, 5000];
   showPickerguest:boolean=false;
   showPickerplace:boolean=false;
@@ -24,36 +29,71 @@ export class ApartmentListComponent implements OnInit {
   spinner:boolean=true;
   subscriptions: Subscription[] = [];
   options = [
-    { label: 'Apartment', value: 'apartment' },
-    { label: 'Studio', value: 'studio' },
-    { label: 'Room', value: 'room' },
-    { label: 'Shared place', value: 'shared_place' }
+    { label: 'Apartment', value: 'Apartment' },
+    { label: 'Studio', value: 'Studio' },
+
   ];
   selectedOptions: string[] = [];
+  selectedOptionsplace: string[] = [];
+  selectedSize: string = '';
 
-  constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService) {}
+  selectSize(size: string) {
+    this.selectedSize = size;
+    console.log(this.single,this.double,this.rooms)
+  }
+
+  constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService,private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.getAllApartment();
+    // this.getAllApartment();
+    this.applyFilter();
     this.onWindowScroll();
+    this.fixPriceRangeApi()
+    console.log(this.filterData)
   }
 
 
 
   togglePicker() {
     this.showPicker = !this.showPicker;
+
+    this.showPickerguest=false;
+    this.showPickerplace=false;
+    this.filters=false;
   }
   togglePickerplace() {
     this.showPickerplace = !this.showPickerplace;
+    this.showPicker=false;
+    this.showPickerguest=false;
+
+    this.filters=false;
   }
   togglePickerguest(){
     this.showPickerguest = !this.showPickerguest;
+    this.showPicker=false;
+
+    this.showPickerplace=false;
+    this.filters=false;
   }
   togglePickerfilter() {
     this.filters = !this.filters;
+    this.showPicker=false;
+    this.showPickerguest=false;
+    this.showPickerplace=false;
+
   }
   clear() {
-    this.priceRange = [0, 5000];
+
+    this.priceRange[0]=0;
+    this.priceRange[1]=5000;
+    this.selectedOptionsplace=[];
+    this.guests=0;
+    this.rooms=0;
+    this.single=0;
+    this.double=0;
+    this.selectedSize= '';
+
+    this.cdr.detectChanges();
   }
 
   apply() {
@@ -72,28 +112,95 @@ export class ApartmentListComponent implements OnInit {
   totalRecords = 0;
 
 
-  getAllApartment(): void {
+  getNumberFromSelectedSize(): number {
+    const numberString = this.selectedSize.replace(/\D/g, '');
+    return parseInt(numberString, 10);
+  }
+ fixPriceRangeApi(){
+  if(this.priceRange[1]===5000){
+  return null;
+  }else{
+    this.priceRange[1]=this.priceRange[1];
+    console.log(this.priceRange[1]);
+  return this.priceRange[1];
+  }
+
+ }
+
+  filterData = {
+    page_No: this.pageNumber,
+    page_Size: this.pagesize,
+    start_Price: this.priceRange[0]||null,
+    end_Price: this.fixPriceRangeApi(),
+    place_Type: this.selectedOptionsplace[0]||null,
+    guest_No: this.guests||null,
+    rooms_No: this.rooms||null,
+    single_Beds_No: this.single||null,
+    double_Bed_No: this.double||null,
+    apartment_Size:  this.getNumberFromSelectedSize()||null
+  };
+
+
+  applyFilter() {
     this.apartmentList = [];
-    this.spinner = true;
-    this.subscriptions.push(
-      this.apartmentService.getAllApartments(this.pageNumber, this.pagesize, 'All').subscribe((res) => {
+    this.filterData = {
+      page_No: this.pageNumber,
+      page_Size: this.pagesize,
+      start_Price: this.priceRange[0]||null,
+      end_Price: this.fixPriceRangeApi(),
+      place_Type: this.selectedOptionsplace[0]||null,
+      guest_No: this.guests||null,
+      rooms_No: this.rooms||null,
+      single_Beds_No: this.single||null,
+      double_Bed_No: this.double||null,
+      apartment_Size:  this.getNumberFromSelectedSize()||null
+    };
+    console.log(this.filterData )
+    this.apartmentService.filterApartments(this.filterData).subscribe(
+      response => {
+        console.log('Filter results:', response);
+        // يمكنك التعامل مع الاستجابة هنا، مثل عرض النتائج في واجهة المستخدم
+        this.allResponse = response;
+        console.log(response)
 
-        this.allResponse = res;
-        console.log(res)
-
-        this.apartmentList = res.data;
-        this.totalofPages = res.totalPages;
-        this.totalRecords = res.totalRecords;
-
-        // this.disablenext = this.totalofPages === this.pageNumber;
-        // this.disableperv = this.pageNumber === 1;
-        this.spinner = false;
-      }, error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load apartments' });
-        this.spinner = false;
-      })
+        this.apartmentList = response.data;
+        this.totalofPages = response.totalPages;
+        this.totalRecords = response.totalRecords;
+        this.showPicker=false;
+        this.showPickerguest=false;
+        this.showPickerplace=false;
+        this.filters=false;
+      },
+      error => {
+        console.error('Error filtering apartments:', error);
+        // يمكنك التعامل مع الخطأ هنا، مثل عرض رسالة خطأ للمستخدم
+      }
     );
   }
+
+
+
+  // getAllApartment(): void {
+  //
+  //   this.spinner = true;
+  //   this.subscriptions.push(
+  //     this.apartmentService.getAllApartments(this.pageNumber, this.pagesize, 'All').subscribe((res) => {
+
+  //       this.allResponse = res;
+  //       console.log(res)
+
+  //       this.apartmentList = res.data;
+  //       this.totalofPages = res.totalPages;
+  //       this.totalRecords = res.totalRecords;
+
+
+  //       this.spinner = false;
+  //     }, error => {
+  //       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Failed to load apartments' });
+  //       this.spinner = false;
+  //     })
+  //   );
+  // }
 
   first: number = 1;
   rows: number = 8;
@@ -105,7 +212,20 @@ export class ApartmentListComponent implements OnInit {
     let calcPageNumber = Math.floor(this.first / this.rows) + 1;
 
     this.pageNumber = calcPageNumber;
-    this.getAllApartment();
+    this.filterData = {
+      page_No: this.pageNumber,
+      page_Size: this.pagesize,
+      start_Price: this.priceRange[0]||null,
+      end_Price: this.fixPriceRangeApi(),
+      place_Type: this.selectedOptionsplace[0]||null,
+      guest_No: this.guests||null,
+      rooms_No: this.rooms||null,
+      single_Beds_No: this.single||null,
+      double_Bed_No: this.double||null,
+      apartment_Size:  this.getNumberFromSelectedSize()||null
+    };
+    // this.getAllApartment();
+    this.applyFilter()
   }
 
   navigateToMap(): void {

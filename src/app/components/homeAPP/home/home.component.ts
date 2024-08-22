@@ -1,12 +1,13 @@
 
 
 
-import { Component, OnInit, HostListener } from '@angular/core';
+import { Component, OnInit, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApartmentService } from '../../../services/apartment.service';
 import { Apartment } from '../../../models/apartment.model';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { ApartmentSearchService } from '../../../services/apartment-search.service';
 
 @Component({
   selector: 'app-home',
@@ -14,14 +15,35 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit{
+  apartmentsSearch: any[] = [];
+  // @Input() searchResults: any;
 
-  constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService) {}
+  // ngOnChanges(changes: SimpleChanges) {
+  //   if (changes['searchResults'] && changes['searchResults'].currentValue) {
+  //     console.log('Received search results in other component:', this.searchResults);
 
+  //   }
+  // }
+
+  constructor(private apartmentSearchService: ApartmentSearchService, private apartmentService: ApartmentService, private router: Router,private messageService: MessageService) {}
+  searchResults: any;
   ngOnInit(): void {
     this.getAllApartment();
+    this.apartmentSearchService.searchResults$.subscribe(results => {
+      if (results) {  // التحقق من وجود النتائج قبل القيام بأي عملية
+        this.searchResults = results;
+        this.apartmentsSearch = results.data;
+        console.log('Received search results in other component:', this.searchResults);
+      }
+    });
 
   }
 
+  handleSearchResults(results: any) {
+    this.apartmentsSearch = results.data;
+    console.log('Received search results in parent component:', this.apartmentsSearch);
+    // يمكنك الآن استخدام البيانات كما ترغب في المكون الأب
+  }
 
   searchVisible: boolean = false;
 
@@ -120,7 +142,40 @@ export class HomeComponent implements OnInit{
     return 'transform 0.5s ease-in-out';
   }
 
+////////////////////////for search/////////////////
+currentIndexs = 0;
+visibleCounts = 4;
+getVisibleApartmentsSearch() {
+  return this.apartmentsSearch.slice(this.currentIndexs, this.currentIndexs + this.visibleCounts);
+}
 
+nextSearch(): void {
+  if (this.currentIndexs <= this.apartmentsSearch.length - this.visibleCounts) {
+    this.currentIndexs++;
+  }
+  // else{
+  //   this.currentIndex=this.apartmentList.length-1;
+  // }
+//   const container = document.querySelector('.apartment-list');
+// container?.scrollBy({ left: 320, behavior: 'smooth' });
+}
+
+prevSearch(): void {
+  if (this.currentIndexs > 0) {
+    this.currentIndexs--;
+  }
+//   const container = document.querySelector('.apartment-list');
+// container?.scrollBy({ left: -320, behavior: 'smooth' });
+}
+
+getTransformSearch(): string {
+  const translateX = -(this.currentIndexs * (300 + 20));
+  return `translateX(${translateX}px)`;
+}
+
+getTransitionSearch(): string {
+  return 'transform 0.5s ease-in-out';
+}
 
 
 }

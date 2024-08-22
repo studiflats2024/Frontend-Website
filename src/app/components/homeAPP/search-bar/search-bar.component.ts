@@ -11,13 +11,14 @@
 
 // }
 
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Output, EventEmitter } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { ApartmentService } from '../../../services/apartment.service';
 import { Apartment } from '../../../models/apartment.model';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { ApartmentSearchService } from '../../../services/apartment-search.service';
 
 @Component({
   selector: 'app-search-bar',
@@ -25,6 +26,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent {
+  @Output() searchResults = new EventEmitter<any>();
 
   activePicker: string | null = null;
   checkInDate: Date | null = null;
@@ -33,7 +35,7 @@ export class SearchBarComponent {
   showGuestsPicker: boolean = false;
   toggle:boolean=false;
 
-  constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService) {}
+  constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService, private apartmentSearchService: ApartmentSearchService) {}
   showPicker(picker: string) {
     // this.activePicker = picker;
     // this.showGuestsPicker = false;
@@ -96,6 +98,8 @@ export class SearchBarComponent {
     this.apartmentService.searchApartments(pageNo, pageSize, city, checkIn, checkOut, guestNo).subscribe(
       response => {
         console.log('Search results:', response);
+        this.apartmentSearchService.setSearchResults(response);
+        this.searchResults.emit(response);
         // Handle the response, display results, etc.
       },
       error => {

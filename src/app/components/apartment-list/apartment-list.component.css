@@ -9,6 +9,11 @@
   padding-right: 3.5rem !important;
 }
 
+:host ::ng-deep .map-container {
+  width: 100% !important;
+  /* height: 100% !important; */
+}
+
 /*
 .filter-bar {
   display: flex;
@@ -431,7 +436,7 @@ button .p-button-icon-right, button .p-button-icon-left {
   width: 600px;
   height: 600px;
   position: fixed;
-  top: 100px;
+  top: 150px;
   right: 0;
   align-self: flex-start;
   /* bottom: 600px; */
@@ -506,6 +511,10 @@ button .p-button-icon-right, button .p-button-icon-left {
     height: 270px;
     object-fit: cover;
   }
+  :host ::ng-deep .map-container {
+    width: 100% !important;
+    /* height: 100% !important; */
+  }
 
 
   .mapp {
@@ -548,6 +557,10 @@ button .p-button-icon-right, button .p-button-icon-left {
 
 
   }
+  :host ::ng-deep .map-container {
+    width: 100% !important;
+    /* height: 100% !important; */
+  }
 }
 
 @media (max-width: 55rem) {
@@ -572,6 +585,10 @@ button .p-button-icon-right, button .p-button-icon-left {
 
 
 
+  }
+  :host ::ng-deep .map-container {
+    width: 100% !important;
+    /* height: 100% !important; */
   }
 }
 
@@ -1019,3 +1036,40 @@ background: #EDF1F4;
   line-height: 36px;
   text-align: center;
 }
+
+
+/* .button {
+  display: inline-block;
+  border: 1px solid #ddd;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  background-color: #f0f0f0;
+} */
+
+.button input[type="radio"] {
+  display: none; /* إخفاء زر الـ radio تماماً */
+}
+
+/* .button div {
+  font-size: 14px;
+  font-family: Poppins;
+  font-weight: 500;
+  line-height: 21px;
+  color: #333;
+} */
+
+.button input[type="radio"]:checked  {
+  background-color: #0056b3; /* لون الخلفية عند التحديد */
+  color: white; /* لون النص عند التحديد */
+  border-color: #0056b3; /* تغيير لون الحدود */
+}
+.button.selected {
+  background-color: #0056b3; /* لون الخلفية عند التحديد */
+  color: white; /* لون النص عند التحديد */
+  border-color: #0056b3; /* تغيير لون الحدود عند التحديد */
+}
+
+
+

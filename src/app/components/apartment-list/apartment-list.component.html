@@ -55,7 +55,7 @@
 
             <div class="d-flex justify-content-between align-items-center ">
               <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
-              <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
+              <button pButton type="button" label="Apply" class="p-button-apply" (click)=" applyFilter()"></button>
             </div>
         </div>
       </div>
@@ -76,7 +76,7 @@
 
             <div class="d-flex justify-content-between align-items-center">
               <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
-              <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
+              <button pButton type="button" label="Apply" class="p-button-apply" (click)=" applyFilter()"></button>
             </div>
         </div>
       </div>
@@ -105,7 +105,7 @@
             </p-inputNumber>
           </div>
         </p-floatLabel>
-        <button pButton type="button" label="Apply" class="p-button-apply" style='width:100%' (click)="apply()"></button>
+        <button pButton type="button" label="Apply" class="p-button-apply" style='width:100%' (click)=" applyFilter()"></button>
       </div>
     </div>
 
@@ -114,9 +114,9 @@
       <div class="container picker-div-filter  TypeOfPlace" *ngIf="filters">
         <div class="TypeOfPlace p-2 px-4 border-top mb-2 bg-white rounded shadow-sm">
 
-        <p-floatLabel>
+        <p-floatLabel >
 
-          <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;
+          <div  *ngIf="!(selectedOptionsplace.length===1&&selectedOptionsplace[0]==='Studio')" class="d-flex justify-content-between fix " style="display: flex; align-items: center;
           background: white;
           display: flex;
           width: 250px;
@@ -126,12 +126,12 @@
 
 
             <span>Rooms</span>
-            <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+            <p-inputNumber [(ngModel)]="rooms" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
 
             </p-inputNumber>
           </div>
         </p-floatLabel>
-         <hr class="m-0 "/>
+         <hr *ngIf="!(selectedOptionsplace.length===1&&selectedOptionsplace[0]==='Studio')" class="m-0 "/>
          <p style="margin: 10px 5px;">Beds</p>
          <p-floatLabel>
 
@@ -152,7 +152,7 @@
                 <path d="M15.6541 10.2764L14.4038 6.89373C14.3553 6.72531 14.2603 6.57395 14.1298 6.45699V3.78513C14.1078 3.46618 13.9603 3.16896 13.7194 2.95865C13.4786 2.74835 13.1643 2.64213 12.8453 2.6633H5.99434C5.67587 2.64441 5.36274 2.75143 5.12244 2.96128C4.88215 3.17114 4.73395 3.46702 4.7098 3.78513V6.45699C4.59507 6.56521 4.50962 6.70073 4.46145 6.85091L3.21116 10.225C3.07329 10.4896 2.99994 10.783 2.99707 11.0814V13.6504C3.006 13.9852 3.14527 14.3031 3.3852 14.5367C3.62514 14.7702 3.94679 14.9009 4.28162 14.9007H5.30069V16.1767H6.15705V14.9007H12.6911V16.1767H13.5475V14.9007H14.558C14.8987 14.9007 15.2254 14.7654 15.4663 14.5245C15.7072 14.2836 15.8425 13.9569 15.8425 13.6162V11.0471C15.8354 10.7797 15.7712 10.5169 15.6541 10.2764ZM5.99434 3.51966H12.8453C13.085 3.51966 13.2649 3.65668 13.2649 3.78513V6.16582H12.066V5.3951C12.066 5.22703 11.9992 5.06584 11.8804 4.947C11.7615 4.82815 11.6003 4.76139 11.4323 4.76139H7.40734C7.23927 4.76139 7.07809 4.82815 6.95924 4.947C6.8404 5.06584 6.77363 5.22703 6.77363 5.3951V6.16582H5.56616V3.78513C5.56616 3.65668 5.746 3.51966 5.99434 3.51966ZM11.6378 7.02219V7.47606C11.6466 7.50684 11.6466 7.53948 11.6378 7.57026C11.6203 7.6024 11.5942 7.62904 11.5625 7.64719C11.5307 7.66534 11.4945 7.67428 11.4579 7.67302H7.40734C7.37095 7.67335 7.33513 7.66401 7.30353 7.64595C7.27194 7.6279 7.2457 7.60178 7.22751 7.57026C7.2187 7.53948 7.2187 7.50684 7.22751 7.47606V5.3951C7.22751 5.34059 7.24916 5.28831 7.2877 5.24977C7.32625 5.21122 7.37853 5.18957 7.43303 5.18957H11.4579C11.5125 5.18957 11.5647 5.21122 11.6033 5.24977C11.6418 5.28831 11.6635 5.34059 11.6635 5.3951V7.02219H11.6378ZM5.13798 7.45037L5.24931 7.12495C5.27086 7.08449 5.30533 7.05239 5.34723 7.03377C5.38912 7.01515 5.43604 7.01107 5.48053 7.02219H6.77363V7.47606C6.7694 7.50732 6.7694 7.539 6.77363 7.57026C6.79633 7.71925 6.87209 7.85502 6.98696 7.95258C7.10183 8.05014 7.24808 8.10292 7.39878 8.1012H11.4237C11.5744 8.10292 11.7206 8.05014 11.8355 7.95258C11.9504 7.85502 12.0261 7.71925 12.0488 7.57026C12.0531 7.539 12.0531 7.50732 12.0488 7.47606V7.02219H13.3591C13.4037 7.01851 13.4484 7.02893 13.4868 7.05197C13.5252 7.07502 13.5554 7.10953 13.5732 7.15064L13.6759 7.4418L14.4723 9.76255H4.36725L5.13798 7.45037ZM14.9862 13.6162C14.9862 13.7297 14.941 13.8387 14.8608 13.919C14.7805 13.9993 14.6715 14.0444 14.558 14.0444H4.28162C4.16874 14.0422 4.0611 13.9964 3.98127 13.9165C3.90144 13.8367 3.85563 13.7291 3.85343 13.6162V11.0471C3.85343 10.9335 3.89855 10.8246 3.97885 10.7443C4.05915 10.664 4.16805 10.6189 4.28162 10.6189H14.558C14.6715 10.6189 14.7805 10.664 14.8608 10.7443C14.941 10.8246 14.9862 10.9335 14.9862 11.0471V13.6162Z" fill="black"/>
                 </svg>
               single</span>
-            <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+            <p-inputNumber [(ngModel)]="single" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
 
             </p-inputNumber>
           </div>
@@ -170,7 +170,7 @@
 
             <span>
               <img src="beddouble.svg" style="padding-right: 5px;"/>double</span>
-            <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+            <p-inputNumber [(ngModel)]="double" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
 
             </p-inputNumber>
           </div>
@@ -179,19 +179,20 @@
         <div class=" ">
           <div class="Heading text-secondary font-weight-bold" style="  margin: 10px; margin-bottom: 25px;">Type of accommodation</div>
           <div *ngFor="let option of options" class="form-group form-check mb-3">
-            <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptions" inputId="{{option.value}}"  class="form-check-input"  ></p-checkbox>
+            <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptionsplace" inputId="{{option.value}}"  class="form-check-input"  ></p-checkbox>
             <label [for]="option.value" class="form-check-label ml-2">{{option.label}}</label>
           </div>
         </div>
 
       <hr class="m-0"/>
-      <div class="horizontal-border">
+      <!-- <div class="horizontal-border">
         <div class="apartment-size" style="padding-bottom: 20px; margin-top: 10px;">
           <span class="d-block text-dark" style="font-size: 14px; font-family: Poppins; font-weight: 500; line-height: 21px;">Apartment size<br></span>
           <span class="d-block text-secondary" style="font-size: 14px; font-family: Poppins; font-weight: 500; line-height: 21px;">Minimum size in m²</span>
         </div>
         <div class="d-inline-flex align-items-center gap-3">
           <div class="button">
+            <input type="radio" name="apartmentSize" value="30+" />
             <div>30+</div>
           </div>
           <div class="button">
@@ -201,12 +202,33 @@
             <div>90+</div>
           </div>
         </div>
+      </div> -->
+      <div class="horizontal-border">
+        <div class="apartment-size" style="padding-bottom: 20px; margin-top: 10px;">
+          <span class="d-block text-dark" style="font-size: 14px; font-family: Poppins; font-weight: 500; line-height: 21px;">Apartment size<br></span>
+          <span class="d-block text-secondary" style="font-size: 14px; font-family: Poppins; font-weight: 500; line-height: 21px;">Minimum size in m²</span>
+        </div>
+        <div class="d-inline-flex align-items-center gap-3">
+          <label class="button" [ngClass]="{'selected': selectedSize === '30+'}">
+            <input type="radio" name="apartmentSize" value="30+" (change)="selectSize('30+')" />
+            30+
+          </label>
+          <label class="button" [ngClass]="{'selected': selectedSize === '60+'}">
+            <input type="radio" name="apartmentSize" value="60+" (change)="selectSize('60+')" />
+            60+
+          </label>
+          <label class="button" [ngClass]="{'selected': selectedSize === '90+'}">
+            <input type="radio" name="apartmentSize" value="90+" (change)="selectSize('90+')" />
+            90+
+          </label>
+        </div>
       </div>
+
       <hr class="m-0"/>
 
         <div class="d-flex justify-content-between align-items-center mt-2 mb-0">
           <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
-          <button pButton type="button" label="Apply" class="p-button-apply" (click)="apply()"></button>
+          <button pButton type="button" label="Apply" class="p-button-apply" (click)=" applyFilter()"></button>
         </div>
       </div>
       </div>
@@ -322,7 +344,10 @@
 
   </div>
   <div class="map" *ngIf="isVisible">
-    <img *ngIf="isVisible" [src]="mapImage" alt="Map"  (click)="navigateToMap()">
+    <!-- <img *ngIf="isVisible" [src]="mapImage" alt="Map"  (click)="navigateToMap()"> -->
+    <google-map class="map-container section-to-watch w-full" [center]="center" [zoom]="zoom"    (click)="navigateToMap()">
+      <!-- Add your map markers, info windows, and other configurations here -->
+    </google-map>
   </div>
 
 </div>

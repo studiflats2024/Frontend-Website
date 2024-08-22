@@ -347,7 +347,7 @@
                         <img src="https://via.placeholder.com/24x24" alt="flag">
                         <span class="ms-2">+380</span>
                       </span> -->
-                      <input  id="phonee" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off">
+                      <input  id="phonee" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off"  >
 
                     </div>
                     <div *ngIf="loginForm.get('mobile')?.errors && loginForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
@@ -360,7 +360,7 @@
                 <div class="mb-3" *ngIf="loginMethod === 'email'">
                   <div class="input-group">
                     <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                    <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off">
+                    <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off"  >
 
                   </div>
                   <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger" style="font-size: 12px;">

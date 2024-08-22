@@ -510,7 +510,7 @@ div
               <div class="row">
                 <div class="attribute">
                   <label for="checkin" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECK IN</label>
-                  <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkin" [(ngModel)]="checkinDate" (ngModelChange)="onCheckinDateChange($event)">
+                  <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkin" [(ngModel)]="checkinDate" (ngModelChange)="onCheckinDateChange($event)" >
                   <!-- <div *ngIf="bookingForm.get('checkinDate')?.invalid && bookingForm.get('checkinDate')?.touched" class="text-danger" style="font-size: 12px;">
                     Check-in date is required.
                   </div> -->
@@ -577,7 +577,7 @@ div
           </div>
 
           <div id="fixlogin" class="booking-button">
-            <button class="btn-base"  (click)="openModals()">Request Apartment</button>
+            <button class="btn-base"  (click)="openModals()" [disabled]="!allResponse.can_Request" >Request Apartment</button>
         </div>
           <!-- <div class="booking-button">
               <button class="btn-base" data-bs-toggle="modal" data-bs-target="#loginModal">Request Apartment</button>
@@ -854,7 +854,7 @@ div
                       <img src="https://via.placeholder.com/24x24" alt="flag">
                       <span class="ms-2">+380</span>
                     </span> -->
-                    <input  id="phone" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off">
+                    <input  id="phone" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off"   [checked]="loginMethod === 'whatsApp'">
 
                   </div>
                   <div *ngIf="loginForm.get('mobile')?.errors && loginForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
@@ -867,7 +867,7 @@ div
               <div class="mb-3" *ngIf="loginMethod === 'email'">
                 <div class="input-group">
                   <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                  <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off">
+                  <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off"   [checked]="loginMethod === 'email'">
 
                 </div>
                 <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger" style="font-size: 12px;">
@@ -973,7 +973,7 @@ div
                     <span class="price-value">${{ bedsPrice}}</span>
                   </div>
                 </div>
-                <div  *ngFor="let room of aprt.apartment_Rooms;let i = index">
+                <div  *ngFor="let room of aprt.apartment_Rooms;let i = index"  >
                 <div class="" *ngIf="room.room_Type==='Single'">
 
                   <div class="frameaprt border-bottom pb-3">
@@ -999,7 +999,7 @@ div
                     <div class="d-flex justify-content-between align-items-center w-100 mb-2">
                       <div class="full-apartment">{{room.room_Type }}</div>
                       <div class="frame-checkbox-aprt">
-                        <input type="checkbox" class="form-check-input"  (change)="onRoomSelected($event,room )" [checked]="selectedRooms.includes(room)"  />
+                        <input type="checkbox" class="form-check-input"  (change)="onRoomSelected($event,room )" [checked]="selectedRooms.includes(room)" [disabled]=""  />
                       </div>
                     </div>
                     <div class="price-aprt">
@@ -1209,26 +1209,51 @@ div
           <div   [ngStyle]="{'display': displaymainArray[x]!==false ? 'block' : 'none'}"  class="d-flex align-items-start gap-3">
             <div [ngStyle]="{'display': displaymainArray[x]!==false ? 'block' : 'none'}" class="input-container input-step2 w-50">
               <div class="form-group mb-0 w-100">
-                <input type="text" class="form-control form-step2 w-100" placeholder="Guest Name" [(ngModel)]="guestsAPI[x].guest_Name" [ngModelOptions]="{standalone: true}">
+                <input type="text" class="form-control form-step2 w-100" placeholder="Guest Name" [(ngModel)]="guestsAPI[x].guest_Name" [ngModelOptions]="{standalone: true}"  #fullNameInput="ngModel" required>
+
               </div>
+
             </div>
+
+
+
             <div [ngStyle]="{'display': displaymainArray[x] !==false ? 'block' : 'none'}" class="input-container input-step2 w-50">
               <div class="form-group mb-0 w-100">
-                <input type="email" class="form-control form-step2 w-100" placeholder="Guest Email" [(ngModel)]="guestsAPI[x].guest_Email" [ngModelOptions]="{standalone: true}">
+                <!-- <input type="email" class="form-control form-step2 w-100" placeholder="Guest Email" [(ngModel)]="guestsAPI[x].guest_Email" [ngModelOptions]="{standalone: true}"> -->
+                <input
+                type="email"
+                class="form-control form-step2 w-100"
+                placeholder="Guest Email"
+                [(ngModel)]="guestsAPI[x].guest_Email"
+                [ngModelOptions]="{standalone: true}"
+                pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
+                #guestEmailInput="ngModel"
+                required>
+
+
+
+              </div>
+              <div  *ngIf="(guestEmailInput.invalid && guestEmailInput.touched)" class="warning-message">
+                Please enter a valid email address.
               </div>
             </div>
+          </div>
+          <div *ngIf="(!guestsAPI[x].guest_Name && fullNameInput.touched)" class="warning-message">
+            Full name is required.
           </div>
 
 
               <div  [ngStyle]="{'display': displaymainArray[x] !==false ? 'block' : 'none'}"  class="mb-3 w-50 mt-3 " >
                 <div class="input-group ">
 
-                  <input  id="{{'bookingphone-' + item.bed_ID}}"  type="tel"  class="form-control w-100 bookingphone"   placeholder="1234563788" autocomplete="off" [(ngModel)]="guestsAPI[x].guest_WA_No" [ngModelOptions]="{standalone: true}">
+                  <input  id="{{'bookingphone-' + item.bed_ID}}"  type="tel"  class="form-control w-100 bookingphone"   placeholder="1234563788" autocomplete="off" [(ngModel)]="guestsAPI[x].guest_WA_No" [ngModelOptions]="{standalone: true}"   #phoneInput="ngModel" required>
                   <!-- <input id="{{'bookingphone-' + item.id}}"
                   type="tel"
                   class="form-control w-100 bookingphone"
                   (ngModelChange)="initializeIntlTelInputt('bookingphone-' + item.id)" /> -->
-
+                  <div *ngIf="(!guestsAPI[x].guest_WA_No && phoneInput.touched)" class="warning-message">
+                    Phone number is required.
+                  </div>
 
                 <div *ngIf="bookingForm.get('mobile')?.errors && bookingForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
                   <div *ngIf="bookingForm.get('mobile')?.errors?.['required']">Mobile number is Invalid.</div>
