@@ -1899,7 +1899,7 @@ onLoginSubmit(): void {
 
     if (this.loginForm.valid) {
 
-      if(this.loginForm.value.mobile===''){
+      if(this.loginForm.value.mobile===null){
         mobileAPI=this.loginForm.value.email;
       }else{
         mobileAPI=this.loginForm.value.mobile;
