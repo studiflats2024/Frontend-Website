@@ -175,7 +175,7 @@
 
  .bookingdisplay {
    display: block; /* Show by default */
-
+   margin-right: 20px ;
  }
 
  /* Media Query for medium screens (typically 768px to 992px) */
@@ -223,7 +223,7 @@
 
      position: fixed;
      top:200px;
-     right: 0;
+     right: 30px;
        z-index: 1000;
        display: block;
    }
@@ -808,6 +808,7 @@
    font-family: 'Inter', sans-serif;
    font-weight: 500;
    line-height: 24px;
+
  }
  .subtitle {
    color: #6B7280;
@@ -923,6 +924,9 @@
 
    .headerf p {
      font-size: 0.75rem;
+   }
+   .location-text{
+    width: 80% !important;
    }
  }
 
@@ -1050,9 +1054,9 @@
  } */
 
  .booking-box {
-   width: 23.0625rem;
+   width: 21.0625rem;
    height: 25rem;
-   padding: 1.5rem;
+   padding: 1rem;
    background: white;
    box-shadow: 0rem 0.625rem 0.625rem rgba(31, 41, 55, 0.04); /* 0px 10px 10px / 16 */
    border-radius: 0.5rem;
@@ -1062,7 +1066,7 @@
    justify-content: flex-start;
    align-items: center;
    gap: 1rem;
-   z-index: 15;
+   z-index: 2600;
  }
 
  /* @media (max-width: 768px) {
@@ -1879,7 +1883,14 @@
 
 
 
+input {
+  text-transform: none; /* Prevent any text transformation */
+  text-transform: lowercase !important;
+}
 
+.modal{
+  z-index: 2600;
+}
 
 
 

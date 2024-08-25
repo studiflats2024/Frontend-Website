@@ -17,11 +17,19 @@ export class ApartmentListComponent implements OnInit {
   center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
   zoom = 8;
 
-  guests: number = 0;
-  rooms: number = 0;
-  single: number = 0;
-  double: number = 0;
-  priceRange: number[] = [0, 5000];
+  // guests: number = 0;
+  // rooms: number = 0;
+  // single: number = 0;
+  // double: number = 0;
+  // selectedSize: string = '';
+  guests: any=null;
+  rooms: any=null;
+  single: any=null;
+  double: any=null;
+  selectedSize: any=null;
+
+  priceRange:any = [0, 5000];
+  // startprice= null;
   showPickerguest:boolean=false;
   showPickerplace:boolean=false;
   showPicker: boolean = false;
@@ -34,8 +42,8 @@ export class ApartmentListComponent implements OnInit {
 
   ];
   selectedOptions: string[] = [];
-  selectedOptionsplace: string[] = [];
-  selectedSize: string = '';
+  selectedOptionsplace: any = [];
+
 
   selectSize(size: string) {
     this.selectedSize = size;
@@ -48,7 +56,7 @@ export class ApartmentListComponent implements OnInit {
     // this.getAllApartment();
     this.applyFilter();
     this.onWindowScroll();
-    this.fixPriceRangeApi()
+    // this.fixPriceRangeApi()
     console.log(this.filterData)
   }
 
@@ -87,11 +95,25 @@ export class ApartmentListComponent implements OnInit {
     this.priceRange[0]=0;
     this.priceRange[1]=5000;
     this.selectedOptionsplace=[];
-    this.guests=0;
-    this.rooms=0;
-    this.single=0;
-    this.double=0;
-    this.selectedSize= '';
+    this.guests=null;
+    this.rooms=null;
+    this.single=null;
+    this.double=null;
+    this.selectedSize= null;
+
+    this.filterData = {
+      page_No: this.pageNumber,
+      page_Size: this.pagesize,
+      start_Price: this.priceRange[0],
+      end_Price: this.priceRange[1] ,
+      place_Type:  null,
+      guest_No:  null,
+      rooms_No:  null,
+      single_Beds_No:  null,
+      double_Bed_No:  null,
+      apartment_Size:  null
+    };
+    //this.fixPriceRangeApi()
 
     this.cdr.detectChanges();
   }
@@ -112,10 +134,20 @@ export class ApartmentListComponent implements OnInit {
   totalRecords = 0;
 
 
-  getNumberFromSelectedSize(): number {
-    const numberString = this.selectedSize.replace(/\D/g, '');
+  // getNumberFromSelectedSize(): number {
+  //   const numberString = this.selectedSize.replace(/\D/g, '')||null;
+  //   return parseInt(numberString, 10);
+  // }
+
+  getNumberFromSelectedSize(): number|null  {
+    if (!this.selectedSize) {
+        return null;
+    }
+    const numberString = this.selectedSize.replace(/\D/g, ''); // Only call replace if selectedSize is valid
     return parseInt(numberString, 10);
-  }
+}
+
+
  fixPriceRangeApi(){
   if(this.priceRange[1]===5000){
   return null;
@@ -127,10 +159,21 @@ export class ApartmentListComponent implements OnInit {
 
  }
 
+//  fixPriceRangeApiStart(){
+//   if(this.priceRange[0]===5000){
+//   return null;
+//   }else{
+//     this.priceRange[1]=this.priceRange[1];
+//     console.log(this.priceRange[1]);
+//   return this.priceRange[1];
+//   }
+
+ //}
+
   filterData = {
     page_No: this.pageNumber,
     page_Size: this.pagesize,
-    start_Price: this.priceRange[0]||null,
+    start_Price: this.priceRange[0],
     end_Price: this.fixPriceRangeApi(),
     place_Type: this.selectedOptionsplace[0]||null,
     guest_No: this.guests||null,
@@ -146,14 +189,14 @@ export class ApartmentListComponent implements OnInit {
     this.filterData = {
       page_No: this.pageNumber,
       page_Size: this.pagesize,
-      start_Price: this.priceRange[0]||null,
-      end_Price: this.fixPriceRangeApi(),
+      start_Price:this.priceRange[0],
+      end_Price:  this.fixPriceRangeApi(),
       place_Type: this.selectedOptionsplace[0]||null,
       guest_No: this.guests||null,
       rooms_No: this.rooms||null,
       single_Beds_No: this.single||null,
       double_Bed_No: this.double||null,
-      apartment_Size:  this.getNumberFromSelectedSize()||null
+      apartment_Size:  this.getNumberFromSelectedSize()
     };
     console.log(this.filterData )
     this.apartmentService.filterApartments(this.filterData).subscribe(
@@ -170,6 +213,7 @@ export class ApartmentListComponent implements OnInit {
         this.showPickerguest=false;
         this.showPickerplace=false;
         this.filters=false;
+        this.clear();
       },
       error => {
         console.error('Error filtering apartments:', error);
@@ -215,8 +259,8 @@ export class ApartmentListComponent implements OnInit {
     this.filterData = {
       page_No: this.pageNumber,
       page_Size: this.pagesize,
-      start_Price: this.priceRange[0]||null,
-      end_Price: this.fixPriceRangeApi(),
+      start_Price: this.priceRange[0],
+      end_Price:  this.fixPriceRangeApi(),
       place_Type: this.selectedOptionsplace[0]||null,
       guest_No: this.guests||null,
       rooms_No: this.rooms||null,

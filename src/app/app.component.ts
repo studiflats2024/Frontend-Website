@@ -534,6 +534,8 @@ onVerifyOtp(): void {
     response => {
       this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
       console.log('OTP verified successfully', response);
+      this.displayModalsign='none';
+      this.displayVerify='none';
       this.openInfoModal()
     },
     error => {
@@ -562,6 +564,12 @@ onFinishSignSubmit() {
       response => {
         this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
         console.log('Form Submitted Successfully:', response);
+        this.displayInfo='none';
+        setTimeout(() => {
+
+          this.isVisiblelogin='block';
+
+        },  3000);
 
       },
       error => {

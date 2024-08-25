@@ -71,6 +71,14 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
   togglePasswordVisibilityconfirm(): void {
     this.passwordFieldTypee = this.passwordFieldTypee === 'password' ? 'text' : 'password';
   }
+  getPlaceholder(): string {
+    const placeholder = this.selectedRole === 'employee' ? 'Work Place' : 'University';
+    return this.capitalize(placeholder);
+  }
+
+  capitalize(text: string): string {
+    return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+  }
 
   initializeGuestsAPI() {
     this.guestsAPI = this.selectedBeds.map((i) => ({
@@ -82,6 +90,28 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
       guest_Email: ''
     }));
     // this.newGuestArr=[...this.guestsAPI];
+  }
+  getIconForFeature(featureName: string): string {
+    switch (featureName) {
+      case 'Wifi':
+        return 'wifi.svg';
+      case 'Dryer':
+        return 'fire.svg';
+      case 'Coffee Machine':
+        return 'coffee.svg';
+      case 'Dishwasher':
+        return 'dish.svg';
+      case '2 toilets':
+        return 'bath.svg';
+      case 'Prime area':
+        return 'primearea.svg';
+      case 'Iron':
+        return 'iron.svg';
+      case 'Parking':
+        return 'parking.svg';
+      default:
+        return 'default-icon.svg'; // Optional: a default icon for unrecognized features
+    }
   }
 
 
@@ -1308,9 +1338,9 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
       }
     });
     this.items = [
-      { label: 'select your need' },
-      { label: 'enter guests details' },
-      { label: 'booking summary' },
+      { label: 'Select your need' },
+      { label: 'Enter guests details' },
+      { label: 'Booking summary' },
 
     ];
     // this.initializeIntlTelInput('#bookingphone', this.bookingForm);

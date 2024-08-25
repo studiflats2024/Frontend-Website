@@ -5,8 +5,8 @@ div
 
 
   <div class="header section-to-watch">
-    <div class="title">{{ aprt.apartment_Name}}
-      <div  style="   width: 100%; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word; margin-top: 10px;">{{ aprt.apartment_Location}}</div>
+    <div class="title" style="">{{ aprt.apartment_Name}}
+      <div class="location-text"  style="width: 100%; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word; margin-top: 10px; overflow-wrap: break-word; ">{{ aprt.apartment_Location}}</div>
     </div>
     <div class="right">
       <div class="icon-text">
@@ -45,7 +45,7 @@ div
         </div>
       </div>
 
-      <div class="modal fade show" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true" [ngClass]="{'d-block': showimages}" style="display: none;">
+      <div class="modal fade show" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true" [ngClass]="{'d-block': showimages}" style="display: none; z-index: 2500;">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -93,12 +93,13 @@ div
             </div>
             <div class="video-container d-flex align-items-center">
               <div class="d-flex gap-2 align-items-center" (click)="openVideo(aprt.apartment_VideoLink)">
-                <i class="bi bi-play video-icon"></i>
+                <img src="video.svg"/>
                 <span class="view-video">view video</span>
               </div>
               <div class="video-divider mx-3"></div>
               <div class="d-flex gap-2 align-items-center" (click)="open360Video(aprt.apartment_360DLink)">
-                <div class="video-360"></div>
+                <!-- <div class="video-360"></div> -->
+                 <img src="360.svg"/>
                 <span class="view-video">360D</span>
               </div>
             </div>
@@ -310,7 +311,18 @@ div
 
             <div class="row">
               <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let room of apartmentsEquipment.rooms_Details; let i = index">
-                <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name==='shared_area'">
+                <div class="d-flex align-items-center gap-3 mb-3"  >
+                  <img src="shared.svg" />
+                  <div class="item-title">{{room.room_Name}}</div>
+                </div>
+                <div *ngFor="let detail of  room.room_Details; let x = index">
+                <div class="d-flex align-items-center gap-3 mb-3" >
+                  <img src="checkround.svg" />
+                  <div class="item-title">{{detail}}</div>
+                </div>
+              </div>
+
+                <!-- <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name==='shared_area'">
                   <img src="shared.svg" />
                   <div class="item-title">Shared area</div>
                 </div>
@@ -350,7 +362,7 @@ div
                 <div class="d-flex align-items-center gap-3 mb-3" *ngIf="room.room_Name!=='shared_area'">
                   <img src="checkround.svg" />
                   <div class="item-title">Closet or chest of drawers</div>
-                </div>
+                </div> -->
               </div>
             </div>
 
@@ -365,13 +377,19 @@ div
               <div class="divider" style="margin-top: 12px;"></div>
             </div>
             <div class="row">
-              <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let room of apartmentsEquipment.kitchen_Details; let i = index">
+              <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let kitchen of apartmentsEquipment.kitchen_Details; let i = index">
                 <div class="d-flex align-items-center gap-3 mb-3"  >
                   <!-- <i class="fas fa-couch item-icon"></i> -->
                    <img src="kitchen.svg" />
                   <div class="item-title">Kitchen {{i+1}}</div>
                 </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
+
+                  <div class="d-flex align-items-center gap-3 mb-3" >
+                    <img src="checkround.svg" />
+                    <div class="item-title">{{kitchen}}</div>
+                  </div>
+
+                <!-- <div class="d-flex align-items-center gap-3 mb-3">
                   <img src="checkround.svg" />
                   <div class="item-title">Desk or workspace</div>
                 </div>
@@ -382,36 +400,24 @@ div
                 <div class="d-flex align-items-center gap-3 mb-3">
                   <img src="checkround.svg" />
                   <div class="item-title">TV</div>
-                </div>
+                </div> -->
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let room of apartmentsEquipment.bathroom_Details; let i = index">
+              <div class="col-lg-4 col-md-6 col-sm-12" *ngFor="let bathroom of apartmentsEquipment.bathroom_Details; let i = index">
                 <div class="d-flex align-items-center gap-3 mb-3">
                   <img src="bath.svg" />
 
-                    <div class="item-title">Bathroom {{i+1}}</div>
+                    <div class="item-title">{{bathroom.bathroom_Name}}</div>
 
 
                 </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Bed linens</div>
+
+                <div *ngFor="let detail of  bathroom.bathroom_Details; let x = index">
+                  <div class="d-flex align-items-center gap-3 mb-3">
+                    <img src="checkround.svg" />
+                    <div class="item-title">{{detail}}</div>
+                  </div>
                 </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Pillow</div>
-                </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Blankets</div>
-                </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Bedside lamp</div>
-                </div>
-                <div class="d-flex align-items-center gap-3 mb-3">
-                  <img src="checkround.svg" />
-                  <div class="item-title">Closet or chest of drawers</div>
-                </div>
+
               </div>
 
             </div>
@@ -420,19 +426,23 @@ div
 
 
 
-          <div class="d-flex flex-column gap-3">
+          <div class="d-flex flex-column gap-3" >
 
             <div class="d-flex align-items-center gap-3">
               <div class="item-title">Other</div>
               <div class="divider" style="margin-top: 12px;"></div>
             </div>
           <div class="row">
-            <div class="col-md-4">
+            <div *ngIf="apartmentsEquipment.apartment_Features.length!==0" class="col-md-4" >
               <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="feature.svg" />
                 <div class="item-title">Special Features</div>
               </div>
-              <div class="d-flex align-items-center gap-3 mb-3">
+              <div *ngFor="let feature of apartmentsEquipment.apartment_Features" class="d-flex align-items-center gap-3 mb-3">
+                <img [src]="getIconForFeature(feature)" />
+                <div class="item-title">{{ feature }}</div>
+              </div>
+              <!-- <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="wifi.svg" />
                 <div class="item-title">Wifi</div>
               </div>
@@ -463,14 +473,20 @@ div
               <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="parking.svg" />
                 <div class="item-title">Parking</div>
-              </div>
+              </div> -->
             </div>
-            <div class="col-md-4">
+            <div *ngIf="apartmentsEquipment.apartment_Facilites.length!==0" class="col-md-4">
               <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="bath.svg" />
                 <div class="item-title">Other Facilities</div>
               </div>
-              <div class="d-flex align-items-center gap-3 mb-3">
+
+
+              <div *ngFor="let facility of apartmentsEquipment.apartment_Facilites" class="d-flex align-items-center gap-3 mb-3">
+                <img src="checkround.svg" />
+                <div class="item-title">{{ facility }}</div>
+              </div>
+              <!-- <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="checkround.svg" />
                 <div class="item-title">Shower</div>
               </div>
@@ -481,7 +497,7 @@ div
               <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="checkround.svg" />
                 <div class="item-title">Towels</div>
-              </div>
+              </div> -->
             </div>
 </div>
 
@@ -1228,6 +1244,7 @@ div
                 [ngModelOptions]="{standalone: true}"
                 pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"
                 #guestEmailInput="ngModel"
+                autocapitalize="none"
                 required>
 
 
@@ -1295,7 +1312,7 @@ div
             </div>
             <div class="input-container input-step2 w-50">
               <div class="form-group mb-0 w-100">
-                <input type="text" class="form-control form-step2 w-100" placeholder="University" formControlName="bookingUnvWPName">
+                <input type="text" class="form-control form-step2 w-100" [placeholder]="getPlaceholder()" formControlName="bookingUnvWPName">
               </div>
             </div>
           </div>
@@ -1417,7 +1434,7 @@ div
                   </div>
                   <div class="d-flex justify-content-between align-items-center my-2"   *ngFor="let  bed of selectedBeds ">
 
-                    <div *ngIf="room.room_ID === bed.room_ID" class="bed-title"  >{{ bed.bed_Name}}</div>
+                    <div *ngIf="room.room_ID === bed.room_ID" class="bed-title"  >{{ bed.bed_Name||'bed'}}</div>
                     <div class="bed-price">${{room.bed_Price}}</div>
                   </div>
                     <!-- <div class="bed-price">$350</div> -->
@@ -1487,9 +1504,9 @@ div
 
 
       <div class=" modal-footer container mt-4 d-flex justify-content-between" style="max-width: 948px;">
-        <button *ngIf="activeIndex===0" class="btn btn-outline-dark custom-btn" (click)="backstep()"   type="button">Back</button>
-        <button *ngIf="activeIndex===1" class="btn btn-outline-dark custom-btn" (click)="backstep()"   type="button">Back</button>
-        <button *ngIf="activeIndex===2"  class="btn btn-outline-dark custom-btn" (click)="backstep()"   type="button">cancel</button>
+        <button *ngIf="activeIndex===0" class="btn btn-outline-dark custom-btn" (click)="backstep()"   type="button">cancel</button>
+        <button *ngIf="activeIndex===1" class="btn btn-outline-dark custom-btn" (click)="backstep()"   type="button">cancel</button>
+        <button *ngIf="activeIndex===2"  class="btn btn-outline-dark custom-btn" (click)="backstep()"   type="button">Back</button>
         <button *ngIf="activeIndex===0" class="btn btn-primary custom-btn" style="background-color: #1151B4;" type="button" (click)="submitstep2()"  >Next</button>
         <button *ngIf="activeIndex===1" class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;" type="button" (click)="submitstep2()"   >Next</button>
         <button *ngIf="activeIndex===2" class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;" type="submit"  >confirm</button><!--(click)="onSubmitBooking()" -->
@@ -1546,8 +1563,8 @@ div
             <div class="footer-frame-success">
               <div class="footer-text-success">To complete the booking process, please download our app.</div>
               <div class="app-links">
-                <img class="google-play-link" src="apple-store.png" />
-                <img class="apple-store-link" src="google-play.png" />
+                <a href="https://play.google.com/store/apps/details?id=com.studiflats.app&hl=ar"><img class="google-play-link" src="apple-store.png" /></a>
+                <a href="https://apps.apple.com/pl/app/studiflats/id6474908385"><img class="apple-store-link" src="google-play.png" /></a>
               </div>
             </div>
           </div>

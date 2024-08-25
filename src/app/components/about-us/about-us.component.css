@@ -1,0 +1,204 @@
+.style{
+
+}
+.logo{
+
+  background: url('/about.png') no-repeat ;
+
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 100%; /* 1440px in rem */
+  height: 37.5rem; /* 600px in rem */
+  flex-shrink: 0;
+  padding-left: 10px;
+}
+
+
+.mission{
+  background: var(--Neutral-Neutral95, #F6F6F6);
+  display: flex;
+height: 20%;
+align-items: center;
+gap: 100px;
+flex-shrink: 0;
+align-self: stretch;
+padding: 65px 80px;
+
+}
+
+.studiflat{
+  background: #E7EEF8;
+  display: flex;
+height: 20%;
+align-items: center;
+gap: 200px;
+flex-shrink: 0;
+align-self: stretch;
+padding: 65px 80px;
+}
+.studiflat .imgg{
+  width: 35px;
+  height: 35px;
+  margin-right: 10px;
+
+}
+
+
+
+@media (max-width: 1050px) {
+  .mission , .studiflat{
+    flex-direction: column;
+    gap:10px;
+    padding:30px 20px !important;
+    width: 100% !important;
+  }
+  .imgs{
+    display: none;
+  }
+ .mission img{
+    width: 140px;
+    height: 140px;
+
+  }
+  .studiflat img{
+    width: 24px;
+    height: 24px;
+
+  }
+  .mission .hero-text{
+    padding: 0;
+    margin: 0;
+    width: 100% !important;
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+.hero-text {
+  z-index: 5;
+  color: white;
+  margin-bottom: 20px;
+}
+
+
+.hero-text h1{
+  color: #FFF;
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 3.75rem;
+  letter-spacing: -0.06rem;
+}
+
+@media (min-width: 75rem) {
+  .hero-text h1 {
+    font-size: 3rem;
+    line-height: 3.75rem;
+    letter-spacing: -0.06rem;
+  }
+}
+
+@media (max-width: 74.9375rem) {
+  .hero-text h1 {
+    font-size: 2.5rem;
+    line-height: 3.125rem;
+    letter-spacing: -0.05rem;
+  }
+}
+
+@media (max-width: 61.9375rem) {
+  .hero-text h1 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    letter-spacing: -0.04rem;
+  }
+}
+
+@media (max-width: 47.9375rem) {
+  .hero-text h1{
+    font-size: 1.5rem;
+    line-height: 2rem;
+    letter-spacing: -0.03rem;
+  }
+}
+
+@media (max-width: 35.9375rem) {
+  .hero-text h1 {
+
+    font-size: 1.25rem;
+    line-height: 1.75rem;
+    letter-spacing: -0.02rem;
+  }
+}
+
+
+
+
+.hero-text p {
+  color: #FFF;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
+}
+
+@media (min-width: 75rem) {
+  .hero-text p {
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+}
+
+@media (max-width: 74.9375rem) {
+  .hero-text p {
+    font-size: 0.875rem;
+    line-height: 1.3125rem;
+  }
+}
+
+@media (max-width: 61.9375rem) {
+  .hero-text p {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+}
+
+@media (max-width: 47.9375rem) {
+  .hero-text p {
+    font-size: 0.75rem;
+    line-height: 1.125rem;
+  }
+}
+
+@media (max-width: 35.9375rem) {
+  .hero-text p {
+    font-size: 0.6875rem;
+    line-height: 1rem;
+  }
+}
+

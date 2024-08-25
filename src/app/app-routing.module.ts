@@ -10,6 +10,9 @@ const routes: Routes = [
   {
     path: 'faq', loadChildren: () => import('./components/faq/faq.module').then(m => m.FaqModule) // Lazy load FAQ module
   },
+  {
+    path: 'about-us', loadChildren: () => import('./components/about-us/about-us.module').then(m => m.AboutUsModule) // Lazy load FAQ module
+  },
    {
     path: 'apartment-list',
     loadChildren: () => import('./components/apartment-list/apartment-list.module').then(m => m.ApartmentListModule)

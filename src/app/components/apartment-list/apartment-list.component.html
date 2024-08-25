@@ -69,7 +69,8 @@
             <div class=" ">
               <div class="Heading text-secondary font-weight-bold" style="  margin: 10px; margin-bottom: 25px;">All apartments include WiFi</div>
               <div *ngFor="let option of options" class="form-group form-check mb-3">
-                <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptions" inputId="{{option.value}}"  class="form-check-input"  ></p-checkbox>
+                <!-- <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptions" inputId="{{option.value}}"  class="form-check-input"  ></p-checkbox> -->
+                <p-checkbox name="apartmentType" [value]="option.value" [(ngModel)]="selectedOptionsplace" inputId="{{option.value}}"  class="form-check-input"  ></p-checkbox>
                 <label [for]="option.value" class="form-check-label ml-2">{{option.label}}</label>
               </div>
             </div>
