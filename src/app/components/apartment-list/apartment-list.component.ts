@@ -5,6 +5,7 @@ import { ApartmentService } from '../../services/apartment.service';
 import { Apartment } from '../../models/apartment.model';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import { Apartment_Maps } from '../../models/apartment_map';
 
 @Component({
   selector: 'app-apartment-list',
@@ -13,9 +14,11 @@ import { Subscription } from 'rxjs';
 })
 export class ApartmentListComponent implements OnInit {
   apartments: Apartment[] = [];
-  mapImage = 'https://via.placeholder.com/600x728';
-  center: google.maps.LatLngLiteral = { lat: 0, lng: 0 };
-  zoom = 8;
+  apartments_maps:Apartment_Maps[]=[];
+  lat: number = 51.1657; // Center of Germany
+  lng: number = 10.4515;
+  zoom: number = 12;
+  map!: google.maps.Map;
 
   // guests: number = 0;
   // rooms: number = 0;
@@ -54,12 +57,69 @@ export class ApartmentListComponent implements OnInit {
 
   ngOnInit(): void {
     // this.getAllApartment();
+
+
     this.applyFilter();
     this.onWindowScroll();
+    this.get_Google_Maps();
+
     // this.fixPriceRangeApi()
     console.log(this.filterData)
   }
+  ngAfterViewInit(): void {
+    this.initMap();  // Initialize the map after the view has been initialized
+  }
+  initMap(): void {
+    // Center map on Germany
+    const berlinCoordinates = { lat: 52.5200, lng: 13.4050 };
+    this.map = new google.maps.Map(document.getElementById("googlemap") as HTMLElement, {
+      center:berlinCoordinates,
+      zoom: 10
+    });
+  }
 
+  get_Google_Maps() {
+    this.apartmentService.apartment_maps().subscribe(
+      response => {
+        this.apartments_maps = response;
+
+        this.addMarkers();
+        console.log("Eslam Code", this.apartments_maps);  // Logs the response data
+      },
+      error => {
+        console.error("Error fetching apartment maps data:", error);  // Handle errors if any
+      }
+    );
+  }
+
+  addMarkers(): void {
+    this.apartments_maps.forEach(apartment => {
+      const marker = new google.maps.Marker({
+        position: { lat: apartment.latitude, lng: apartment.longitude },
+        map: this.map,
+        title: apartment.title
+      });
+
+      const infoWindowContent = `
+        <div class="item-card-map">
+          <h3>${apartment.title}</h3>
+          <img src="${apartment.imageUrl}" alt="${apartment.title}">
+          <p>Price: ${apartment.price}</p>
+        </div>
+      `;
+      const infoWindow = new google.maps.InfoWindow({
+        content: infoWindowContent
+      });
+
+      marker.addListener('mouseover', () => {
+        infoWindow.open(this.map, marker);
+      });
+
+      marker.addListener('mouseout', () => {
+        infoWindow.close();
+      });
+    });
+  }
 
 
   togglePicker() {

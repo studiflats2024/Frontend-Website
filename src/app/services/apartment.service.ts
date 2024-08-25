@@ -79,5 +79,11 @@ export class ApartmentService {
     return this.http.post<any>(`${environment.apiUrl + '/ApartmentV2/Filters_Website'}`, filterData, { headers });
   }
 
+  apartment_maps(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
 
+    return this.http.get<any>(`${environment.apiUrl + '/ApartmentV2/Get_Google_Maps_List_Apartments'}`, { headers });
+  }
 }

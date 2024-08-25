@@ -344,11 +344,11 @@
     </div> -->
 
   </div>
-  <div class="map" *ngIf="isVisible">
+  <div class="map" *ngIf="isVisible" >
     <!-- <img *ngIf="isVisible" [src]="mapImage" alt="Map"  (click)="navigateToMap()"> -->
-    <google-map class="map-container section-to-watch w-full" [center]="center" [zoom]="zoom"    (click)="navigateToMap()">
-      <!-- Add your map markers, info windows, and other configurations here -->
-    </google-map>
+        <div id="googlemap">
+
+        </div>
   </div>
 
 </div>
