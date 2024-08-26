@@ -135,14 +135,14 @@ export class ApartmentListComponent implements OnInit {
         content: infoWindowContent
       });
 
-      marker.addListener('click', () => {
+      marker.addListener('mouseover', () => {
         console.log('Marker hovered:', apartment.title);
         infoWindow.open(this.map, marker);
       });
 
-      // marker.addListener('mouseout', () => {
-      //   infoWindow.close();
-      // });
+      marker.addListener('mouseout', () => {
+        infoWindow.close();
+      });
     });
   }
 

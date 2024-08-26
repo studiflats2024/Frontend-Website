@@ -286,37 +286,25 @@ this.totalPriceBooking = totalPrice;
   emaillogin:any;
   phonelogin:any;
   onSubmitBooking(){
-    console.log(this.guestsAPI)
-    console.log(this.newGuestArr)
-    // this.guestsAPI[this.indexstay]= this.guestsAPI[0];
+
+    if(this.selectedItem>1){
+      console.log(this.guestsAPI)
+      console.log(this.newGuestArr)
 
 
-    let preservedguestsAPI=[...this.guestsAPI];
 
-    // setTimeout(() => {
-    //   this.guestsAPI[0]=this.newGuestArr[0];
-    //   this.guestsAPI[this.indexstay]=this.newGuestArr[this.indexstay];
-    //   this.newGuestArr=[...this.guestsAPI]
-    // },  1000);
-    // if(this.indexstay===0){
-    //   this.guestsAPI[0]=this.newGuestArr[0];
-    // }else{
-    //   this.guestsAPI[0]=this.newGuestArr[0];
-    //   this.guestsAPI[this.indexstay]=this.newGuestArr[this.indexstay];
-    // }
-    this.guestsAPI[0]=this.newGuestArr[0];
-    this.guestsAPI[this.indexstay]=preservedguestsAPI[0];
-    this.newGuestArr=[...this.guestsAPI]
+      let preservedguestsAPI=[...this.guestsAPI];
 
-    console.log(this.guestsAPI)
-    console.log(this.newGuestArr)
 
-    // setTimeout(() => {
-    //   this.bookingForm.patchValue({
-    //     guestss: this.newGuestArr ,
-    //     guestProfession: this.selectedRole
-    //  });
-    // },  1000);
+      this.guestsAPI[0]=this.newGuestArr[0];
+      this.guestsAPI[this.indexstay]=preservedguestsAPI[0];
+      this.newGuestArr=[...this.guestsAPI]
+
+      console.log(this.guestsAPI)
+      console.log(this.newGuestArr)
+    }
+
+
 
     this.bookingForm.patchValue({
        guestss: this.newGuestArr ,
