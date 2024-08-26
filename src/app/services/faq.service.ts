@@ -14,7 +14,7 @@ interface FAQ {
   providedIn: 'root'
 })
 export class FaqService {
-  private apiUrl = 'https://devapi.studiflats.com/api/Basics/GetFAQ'; // Replace with your API URL
+  private apiUrl = 'https://api.studiflats.com/api/Basics/GetFAQ'; // Replace with your API URL
 
   constructor(private http: HttpClient) { }
 

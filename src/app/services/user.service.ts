@@ -147,7 +147,7 @@ export class UserService {
   }
 
   private socialSignIn(sc_id: string, fullName: string, email: string, provider: string, img: string, deviceToken: string): void {
-    const url = 'https://devapi.studiflats.com/api/Users/SocialSign';
+    const url = 'https://api.studiflats.com/api/Users/SocialSign';
     const params = new HttpParams()
       .set('SC_ID', sc_id)
       .set('FullName', fullName)

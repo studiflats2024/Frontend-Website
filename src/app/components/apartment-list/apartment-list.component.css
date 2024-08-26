@@ -78,12 +78,12 @@ button .p-button-icon-right, button .p-button-icon-left {
   padding: 10px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
   background-color: #fff;
-  overflow: hidden;  /* Ensure no scroll bars */
+  overflow: hidden;
 }
 
 .item-card-map img {
-  max-width: 100%;
-  max-height: 120px;  /* Limit the height of the image */
+  width: 100%;
+  max-height: 120px;
   border-radius: 8px;
   margin-bottom: 8px;
   object-fit: cover;
@@ -94,9 +94,9 @@ button .p-button-icon-right, button .p-button-icon-left {
   font-size: 1em;
   color: #333;
   text-align: center;
-  white-space: nowrap; /* Prevent wrapping of the title */
-  overflow: hidden;  /* Hide any overflow text */
-  text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .item-card-map p {
@@ -104,11 +104,13 @@ button .p-button-icon-right, button .p-button-icon-left {
   font-size: 0.9em;
   color: #666;
   text-align: center;
-  overflow: hidden; /* Ensure no overflow */
-  text-overflow: ellipsis; /* Add ellipsis (...) for overflow text */
-  white-space: nowrap; /* Prevent wrapping of the price */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
-
+.item-card-map {
+  z-index: 1000;
+}
 
 .filter-bar {
   display: flex;

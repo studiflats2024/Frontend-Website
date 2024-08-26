@@ -92,13 +92,36 @@ export class ApartmentListComponent implements OnInit {
     );
   }
 
+
   addMarkers(): void {
+    if (!this.map) {
+      console.error('Map is not initialized.');
+      return;
+    }
+
+    if (!this.apartments_maps || !this.apartments_maps.length) {
+      console.error('No apartment data available.');
+      return;
+    }
+
     this.apartments_maps.forEach(apartment => {
+      if (!apartment.latitude || !apartment.longitude) {
+        console.error('Invalid coordinates for apartment:', apartment);
+        return;
+      }
+
       const marker = new google.maps.Marker({
         position: { lat: apartment.latitude, lng: apartment.longitude },
         map: this.map,
         title: apartment.title
       });
+
+      if (!marker) {
+        console.error('Failed to create marker for apartment:', apartment);
+        return;
+      }
+
+      console.log('Marker created:', marker);
 
       const infoWindowContent = `
         <div class="item-card-map">
@@ -107,20 +130,51 @@ export class ApartmentListComponent implements OnInit {
           <p>Price: ${apartment.price}</p>
         </div>
       `;
+
       const infoWindow = new google.maps.InfoWindow({
         content: infoWindowContent
       });
 
-      marker.addListener('mouseover', () => {
+      marker.addListener('click', () => {
+        console.log('Marker hovered:', apartment.title);
         infoWindow.open(this.map, marker);
       });
 
-      marker.addListener('mouseout', () => {
-        infoWindow.close();
-      });
+      // marker.addListener('mouseout', () => {
+      //   infoWindow.close();
+      // });
     });
   }
 
+  // addMarkers(): void {
+  //   this.apartments_maps.forEach(apartment => {
+  //     const marker = new google.maps.Marker({
+  //       position: { lat: apartment.latitude, lng: apartment.longitude },
+  //       map: this.map,
+  //       title: apartment.title
+  //     });
+  //     console.log(marker)
+
+  //     const infoWindowContent = `
+  //       <div class="item-card-map">
+  //         <h3>${apartment.title}</h3>
+  //         <img src="${apartment.imageUrl}" alt="${apartment.title}">
+  //         <p>Price: ${apartment.price}</p>
+  //       </div>
+  //     `;
+  //     const infoWindow = new google.maps.InfoWindow({
+  //       content: infoWindowContent
+  //     });
+
+  //     marker.addListener('mouseover', () => {
+  //       infoWindow.open(this.map, marker);
+  //     });
+
+  //     marker.addListener('mouseout', () => {
+  //       infoWindow.close();
+  //     });
+  //   });
+  // }
 
   togglePicker() {
     this.showPicker = !this.showPicker;
