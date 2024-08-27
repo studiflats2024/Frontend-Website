@@ -46,7 +46,7 @@ interface Country {
     ])
   ]
 })
-export class AppComponent implements OnInit, AfterViewInit , OnChanges{
+export class AppComponent implements OnInit, AfterViewInit  {
 
   signupForm!: FormGroup;
   forgetForm!: FormGroup;
@@ -64,38 +64,70 @@ export class AppComponent implements OnInit, AfterViewInit , OnChanges{
   togglePasswordVisibilityconfirm(): void {
     this.passwordFieldTypee = this.passwordFieldTypee === 'password' ? 'text' : 'password';
   }
-  onLoginMethodChange(event: Event) {
-    const inputElement = event.target as HTMLInputElement;
-    this.loginMethod = inputElement.value;
-    console.log('Login method changed to:', this.loginMethod);
+  // onLoginMethodChange(event: Event) {
+  //   const inputElement = event.target as HTMLInputElement;
+  //   this.loginMethod = inputElement.value;
+  //   console.log('Login method changed to:', this.loginMethod);
 
-    if (this.loginMethod === 'whatsApp') {
-      console.log('Login method changed to:', this.loginMethod);
-      setTimeout(() => {
-        const input = document.querySelector("#phonee") as HTMLInputElement;
-        if (input && !input.dataset['itiInitialized']) {
-          console.log('Initializing intlTelInput');
-          const iti = intlTelInput(input, {
-            initialCountry: "de",
-            preferredCountries: ["de", "us", "gb"],
-            separateDialCode: true,
-            utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-          });
-          input.dataset['itiInitialized'] = 'true';
-        }
-      }, 1000);
-    }
-  }
+  //   if (this.loginMethod === 'whatsApp') {
+  //     console.log('Login method changed to:', this.loginMethod);
+  //     setTimeout(() => {
+  //       const input = document.querySelector("#phonee") as HTMLInputElement;
+  //       if (input && !input.dataset['itiInitialized']) {
+  //         console.log('Initializing intlTelInput');
+  //         const iti = intlTelInput(input, {
+  //           initialCountry: "de",
+  //           preferredCountries: ["de", "us", "gb"],
+  //           separateDialCode: true,
+  //           utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+  //         });
+  //         input.dataset['itiInitialized'] = 'true';
+  //       }
+  //     }, 1000);
+  //   }
+  // }
+  // ngAfterViewChecked() {
+
+
+  //   if (this.loginMethod === 'whatsApp') {
+  //     const input = document.querySelector("#phonee") as HTMLInputElement;
+
+  //     if (input && !input.dataset['itiInitialized']) {
+  //       console.log('Phone input element found:', input);
+
+
+  //       const iti = intlTelInput(input, {
+  //         initialCountry: "de",
+  //         preferredCountries: ["de", "us", "gb"],
+  //         separateDialCode: true,
+  //         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+  //       });
+
+  //       input.dataset['itiInitialized'] = 'true';
+
+
+  //       input.addEventListener('blur', () => {
+  //         let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+  //         if (fullPhoneNumber.startsWith("+")) {
+  //           fullPhoneNumber = fullPhoneNumber.substring(1);
+  //         }
+  //         console.log("Full phone number:", fullPhoneNumber);
+  //         this.loginForm.patchValue({ mobile: fullPhoneNumber });
+  //         console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+  //       });
+  //     }
+  //   }
+
+  // }
   ngAfterViewChecked() {
-
-
     if (this.loginMethod === 'whatsApp') {
       const input = document.querySelector("#phonee") as HTMLInputElement;
 
-      if (input && !input.dataset['itiInitialized']) { // تحقق من وجود العنصر وعدم تهيئته سابقًا
-        console.log('Phone input element found:', input);
+      // Check if the input exists and hasn't been initialized before
+      if (input && !input.dataset['itiInitialized']) {
+        console.log('Phone input element found and initializing intlTelInput:', input);
 
-        // تفعيل intlTelInput
+        // Initialize intlTelInput
         const iti = intlTelInput(input, {
           initialCountry: "de",
           preferredCountries: ["de", "us", "gb"],
@@ -103,13 +135,14 @@ export class AppComponent implements OnInit, AfterViewInit , OnChanges{
           utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
         });
 
-        input.dataset['itiInitialized'] = 'true'; // علامة أن العنصر قد تم تهيئته
+        // Mark the element as initialized
+        input.dataset['itiInitialized'] = 'true';
 
-        // التعامل مع حدث blur لحفظ الرقم
+        // Handle the blur event to save the phone number
         input.addEventListener('blur', () => {
           let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
           if (fullPhoneNumber.startsWith("+")) {
-            fullPhoneNumber = fullPhoneNumber.substring(1); // إزالة رمز "+"
+            fullPhoneNumber = fullPhoneNumber.substring(1); // Remove the "+"
           }
           console.log("Full phone number:", fullPhoneNumber);
           this.loginForm.patchValue({ mobile: fullPhoneNumber });
@@ -117,43 +150,44 @@ export class AppComponent implements OnInit, AfterViewInit , OnChanges{
         });
       }
     }
-
   }
-  ngOnChanges(changes: SimpleChanges) {
+
+  // ngOnChanges(changes: SimpleChanges) {
 
 
 
-    const input = document.querySelector("#phone");
+  //   const input = document.querySelector("#phone");
 
-    if (input) {
-      const iti = intlTelInput(input, {
-        initialCountry: "de",  // الدولة الافتراضية
-        preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
-        separateDialCode: true,  // فصل كود الدولة
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
-      });
+  //   if (input) {
+  //     const iti = intlTelInput(input, {
+  //       initialCountry: "de",
+  //       preferredCountries: ["de", "us", "gb"],
+  //       separateDialCode: true,
+  //       utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+  //     });
 
-      // حدث عند فقدان التركيز على الحقل
-      input.addEventListener('blur', () => {
-        let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
-        if (fullPhoneNumber.startsWith("+")) {
-          fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
-        }
-        console.log("Full phone number:", fullPhoneNumber);
-        this.loginForm.patchValue({ mobile: fullPhoneNumber });
-        console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-         console.log(typeof( this.loginForm.value.mobile))
-      });
-    } else {
-      console.error("The phone input element was not found.");
-    }
-  }
+
+  //     input.addEventListener('blur', () => {
+  //       let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+  //       if (fullPhoneNumber.startsWith("+")) {
+  //         fullPhoneNumber = fullPhoneNumber.substring(1);
+  //       }
+  //       console.log("Full phone number:", fullPhoneNumber);
+  //       this.loginForm.patchValue({ mobile: fullPhoneNumber });
+  //       console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+  //        console.log(typeof( this.loginForm.value.mobile))
+  //     });
+  //   } else {
+  //     console.error("The phone input element was not found.");
+  //   }
+  // }
   ngOnInit(): void {
     this.userService.initGoogleAuth();
+    this.loginMethod='whatsApp';
 
     this.isLoggedIn = this.isAuthenticated();
     this.options=[  { name: 'Male', code: 'NY' },
-      { name: 'Female', code: 'RM' }, { name: 'UnSpecified', code: 'RM' }];
+      { name: 'Female', code: 'RM' } ];
 
       this.loginForm = this.fb.group({
         mobile: '',
@@ -167,30 +201,30 @@ export class AppComponent implements OnInit, AfterViewInit , OnChanges{
         confirmPassword: ['', Validators.required]
       }, { validator: this.passwordMatchValidator });
 
-      const inputlogin = document.querySelector("#phonee");
+      // const inputlogin = document.querySelector("#phonee");
 
-      if (inputlogin) {
-        const iti = intlTelInput(inputlogin, {
-          initialCountry: "de",  // الدولة الافتراضية
-          preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
-          separateDialCode: true,  // فصل كود الدولة
-          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
-        });
+      // if (inputlogin) {
+      //   const iti = intlTelInput(inputlogin, {
+      //     initialCountry: "de",
+      //     preferredCountries: ["de", "us", "gb"],
+      //     separateDialCode: true,
+      //     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+      //   });
 
-        // حدث عند فقدان التركيز على الحقل
-        inputlogin.addEventListener('blur', () => {
-          let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
-          if (fullPhoneNumber.startsWith("+")) {
-            fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
-          }
-          console.log("Full phone number:", fullPhoneNumber);
-          this.loginForm.patchValue({ mobile: fullPhoneNumber });
-          console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-           console.log(typeof( this.loginForm.value.mobile))
-        });
-      } else {
-        console.error("The phone input element was not found.");
-      }
+
+      //   inputlogin.addEventListener('blur', () => {
+      //     let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+      //     if (fullPhoneNumber.startsWith("+")) {
+      //       fullPhoneNumber = fullPhoneNumber.substring(1);
+      //     }
+      //     console.log("Full phone number:", fullPhoneNumber);
+      //     this.loginForm.patchValue({ mobile: fullPhoneNumber });
+      //     console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+      //      console.log(typeof( this.loginForm.value.mobile))
+      //   });
+      // } else {
+      //   console.error("The phone input element was not found.");
+      // }
 
       this.signupForm = this.fb.group({
         mobile: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
@@ -638,15 +672,15 @@ onLoginSubmit(): void {
           localStorage.setItem('token', response.token);
 
 
-         let namelogin:any= localStorage.getItem('name');
+        //  let namelogin:any= localStorage.getItem('name');
 
-          let emaillogin:any=  localStorage.getItem('email');
+        //   let emaillogin:any=  localStorage.getItem('email');
 
-            let phonelogin:any =localStorage.getItem('phone');
+        //     let phonelogin:any =localStorage.getItem('phone');
 
-            localStorage.setItem('namelogin', namelogin);
-            localStorage.setItem('emaillogin',emaillogin);
-            localStorage.setItem('phonelogin', phonelogin);
+        //     localStorage.setItem('namelogin', namelogin);
+        //     localStorage.setItem('emaillogin',emaillogin);
+        //     localStorage.setItem('phonelogin', phonelogin);
 
 
          this.hideLogin();

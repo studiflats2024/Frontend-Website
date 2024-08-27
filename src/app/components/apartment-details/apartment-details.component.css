@@ -1892,5 +1892,7 @@ input {
   z-index: 2600;
 }
 
-
+input[type="radio"]:checked {
+  background-color: #007bff !important;
+}
 

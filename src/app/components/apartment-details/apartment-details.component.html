@@ -593,7 +593,7 @@ div
           </div>
 
           <div id="fixlogin" class="booking-button">
-            <button class="btn-base"  (click)="openModals()" [disabled]="!allResponse.can_Request" >Request Apartment</button>
+            <button class="btn-base"  (click)="openModals()"   >Request Apartment</button>
         </div>
           <!-- <div class="booking-button">
               <button class="btn-base" data-bs-toggle="modal" data-bs-target="#loginModal">Request Apartment</button>
@@ -870,7 +870,7 @@ div
                       <img src="https://via.placeholder.com/24x24" alt="flag">
                       <span class="ms-2">+380</span>
                     </span> -->
-                    <input  id="phone" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off"   [checked]="loginMethod === 'whatsApp'">
+                    <input  id="phoneid" type="tel"  class="form-control w-100"    placeholder="1234563788" autocomplete="off"     >
 
                   </div>
                   <div *ngIf="loginForm.get('mobile')?.errors && loginForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
@@ -883,7 +883,7 @@ div
               <div class="mb-3" *ngIf="loginMethod === 'email'">
                 <div class="input-group">
                   <span class="input-group-text"><i class="fa fa-envelope"></i></span>
-                  <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off"   [checked]="loginMethod === 'email'">
+                  <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off"     >
 
                 </div>
                 <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger" style="font-size: 12px;">
@@ -1194,7 +1194,7 @@ div
 
 
 
-<div *ngIf="!selectfullaprt  && !(selectedItem===1&&selectedBeds.length!==0)">
+<div *ngIf=" !(selectedItem===1&&selectedBeds.length!==0) && !(selectfullaprt&&selectedItem===1)">
           <div class=" container mt-4" style=" padding:15px; border: 0.8px solid #DFE4EA; border-radius: 8px;" *ngFor="let item of selectedBeds; let x=index" >
             <!-- <input type="hidden" [(ngModel)]="guestsAPI[x].apartment_ID" name="aprtid" [value]="item.apartment_ID" [ngModelOptions]="{standalone: true}"> -->
             <!-- <input type="hidden" [(ngModel)]="guestsAPI[x].room_ID" name="roomid" [value]="item.room_ID" [ngModelOptions]="{standalone: true}">
@@ -1435,7 +1435,7 @@ div
                   <div class="d-flex justify-content-between align-items-center my-2"   *ngFor="let  bed of selectedBeds ">
 
                     <div *ngIf="room.room_ID === bed.room_ID" class="bed-title"  >{{ bed.bed_Name||'bed'}}</div>
-                    <div class="bed-price">${{room.bed_Price}}</div>
+                    <div *ngIf="room.room_ID === bed.room_ID" class="bed-price">${{room.bed_Price}}</div>
                   </div>
                     <!-- <div class="bed-price">$350</div> -->
 

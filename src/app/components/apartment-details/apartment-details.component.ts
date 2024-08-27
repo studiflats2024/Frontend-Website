@@ -194,6 +194,10 @@ fullNameTouched: boolean = false;
 phoneTouched: boolean = false;
 
   submitstep2(){
+    if(this.selectedItem > this.selectedBeds.length){
+      this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'guests must be equal no of beds or more' });
+      return;
+    }
     console.log(this.guestsAPI)
     // this.guestsAPI[0]=this.newGuestArr[0];
     // this.guestsAPI[this.indexstay]=this.newGuestArr[this.indexstay];
@@ -266,6 +270,21 @@ this.roomsStep2.forEach((room: any) => {
 });
 this.totalPriceBooking = totalPrice;
 
+if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.selectedItem ){
+
+  this.selectedBeds=this.selectedBeds.slice(0, this.selectedItem);
+  console.log('new case', this.selectedBeds)
+  this.guestsAPI = this.selectedBeds.map((i) => ({
+    apartment_ID: this.aprt.apartment_ID,
+    room_ID: i.room_ID,
+    bed_ID: i.bed_ID,
+    guest_Name: '',
+    guest_WA_No: '',
+    guest_Email: ''
+  }));
+
+}
+
 
   }
   backstep(){
@@ -314,8 +333,8 @@ this.totalPriceBooking = totalPrice;
 
      bookingData = {
       apartment_ID: this.bookingForm.get('apartmentID')?.value,
-      room_ID: this.bookingForm.get('roomid')?.value,
-      bed_ID: this.bookingForm.get('bedid')?.value,
+      // room_ID: this.bookingForm.get('roomid')?.value,
+      // bed_ID: this.bookingForm.get('bedid')?.value,
       booking_Start_Date: this.bookingForm.get('bookingStartDate')?.value,
       booking_End_Date: this.bookingForm.get('bookingEndDate')?.value,
       booking_Agent_Code: this.bookingForm.get('bookingAgentCode')?.value,
@@ -371,6 +390,25 @@ this.totalPriceBooking = totalPrice;
     }
 
 
+    // if(this.selectfullaprt===true ){
+
+    //   bookingData = {
+    //     apartment_ID: this.bookingForm.get('apartmentID')?.value,
+
+    //     booking_Start_Date: this.bookingForm.get('bookingStartDate')?.value,
+    //     booking_End_Date: this.bookingForm.get('bookingEndDate')?.value,
+    //     booking_Agent_Code: this.bookingForm.get('bookingAgentCode')?.value,
+    //     booking_Guests: this.bookingForm.get('guestss')?.value,
+    //     booking_Guest_Profession: this.bookingForm.get('guestProfession')?.value,
+    //     booking_Unv_WP_Name: this.bookingForm.get('bookingUnvWPName')?.value,
+    //     full_Apartment: this.bookingForm.get('fullApartment')?.value,
+    //   };
+    //   console.log(bookingData)
+    // }else{
+    //   console.log(bookingData,this.selectedItem,this.bookingForm.get('fullApartment')?.value)
+    // }
+
+
     if(this.selectedRooms.length===1 && this.selectedItem===1){
 
 
@@ -383,7 +421,7 @@ this.totalPriceBooking = totalPrice;
      bookingData = {
       apartment_ID: this.bookingForm.get('apartmentID')?.value,
       room_ID: this.bookingForm.get('roomid')?.value,
-      bed_ID:this.bookingForm.get('bedid')?.value,
+      // bed_ID:this.bookingForm.get('bedid')?.value,
       booking_Start_Date: this.bookingForm.get('bookingStartDate')?.value,
       booking_End_Date: this.bookingForm.get('bookingEndDate')?.value,
       booking_Agent_Code: this.bookingForm.get('bookingAgentCode')?.value,
@@ -414,7 +452,7 @@ this.totalPriceBooking = totalPrice;
 
      bookingData = {
       apartment_ID: this.bookingForm.get('apartmentID')?.value,
-      room_ID: this.bookingForm.get('roomid')?.value,
+      // room_ID: this.bookingForm.get('roomid')?.value,
       bed_ID:this.bookingForm.get('bedid')?.value,
       booking_Start_Date: this.bookingForm.get('bookingStartDate')?.value,
       booking_End_Date: this.bookingForm.get('bookingEndDate')?.value,
@@ -432,6 +470,23 @@ this.totalPriceBooking = totalPrice;
      console.log( bookingData)
     }else{
       console.log( this.bookingForm.value)
+    }
+
+    if(this.selectfullaprt===false && this.selectedItem > 1 && this.selectedBeds.length > this.selectedItem && this.selectedRooms.length===1){
+      bookingData = {
+        apartment_ID: this.bookingForm.get('apartmentID')?.value,
+        room_ID: this.bookingForm.get('roomid')?.value,
+        // bed_ID: this.bookingForm.get('bedid')?.value,
+        booking_Start_Date: this.bookingForm.get('bookingStartDate')?.value,
+        booking_End_Date: this.bookingForm.get('bookingEndDate')?.value,
+        booking_Agent_Code: this.bookingForm.get('bookingAgentCode')?.value,
+        booking_Guests: this.bookingForm.get('guestss')?.value,
+        booking_Guest_Profession: this.bookingForm.get('guestProfession')?.value,
+        booking_Unv_WP_Name: this.bookingForm.get('bookingUnvWPName')?.value,
+        full_Apartment: this.bookingForm.get('fullApartment')?.value,
+      };
+    }else{
+     console.log('hellooo',this.selectfullaprt, this.selectedItem , this.selectedBeds , this.selectedRooms.length)
     }
 
 
@@ -676,6 +731,15 @@ this.totalPriceBooking = totalPrice;
           }
         }
       }
+      if(this.selectedRooms.length>1&&this.selectedItem<this.selectedBeds.length){
+        this.selectedRooms = this.selectedRooms.filter(r => r !== room);
+        isChecked=false;
+        room.room_Beds.forEach((bed: any) => {
+          this.selectedBeds = this.selectedBeds.filter(b => b !== bed);
+        });
+        this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you can not booking this room ,please select another room or beds' });
+
+      }
        this.guestsAPI = this.selectedBeds.map((i) => ({
       apartment_ID: this.aprt.apartment_ID,
       room_ID: i.room_ID,
@@ -697,6 +761,13 @@ this.totalPriceBooking = totalPrice;
         this.selectedBeds = this.selectedBeds.filter(b => b !== bed);
       });
       this.initForm();
+      if(this.selectedBeds.length===0){
+        this.selectfullaprt=false;
+        console.log(this.selectfullaprt)
+        this.bookingForm.patchValue({
+          fullApartment:this.selectfullaprt
+       });
+      }
     }
 
 
@@ -1146,30 +1217,30 @@ ngOnChanges(changes: SimpleChanges) {
     debugger;
   }
 
-  const input = document.querySelector("#phone");
+  // const input = document.querySelector("#phoneid");
 
-  if (input) {
-    const iti = intlTelInput(input, {
-      initialCountry: "de",  // الدولة الافتراضية
-      preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
-      separateDialCode: true,  // فصل كود الدولة
-      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
-    });
+  // if (input) {
+  //   const iti = intlTelInput(input, {
+  //     initialCountry: "de",
+  //     preferredCountries: ["de", "us", "gb"],
+  //     separateDialCode: true,
+  //     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
+  //   });
 
-    // حدث عند فقدان التركيز على الحقل
-    input.addEventListener('blur', () => {
-      let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
-      if (fullPhoneNumber.startsWith("+")) {
-        fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
-      }
-      console.log("Full phone number:", fullPhoneNumber);
-      this.loginForm.patchValue({ mobile: fullPhoneNumber });
-      console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-       console.log(typeof( this.loginForm.value.mobile))
-    });
-  } else {
-    console.error("The phone input element was not found.");
-  }
+
+  //   input.addEventListener('blur', () => {
+  //     let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
+  //     if (fullPhoneNumber.startsWith("+")) {
+  //       fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
+  //     }
+  //     console.log("Full phone number:", fullPhoneNumber);
+  //     this.loginForm.patchValue({ mobile: fullPhoneNumber });
+  //     console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+  //      console.log(typeof( this.loginForm.value.mobile))
+  //   });
+  // } else {
+  //   console.error("The phone input element was not found.");
+  // }
 }
 private isIntlTelInputInitialized = false;
 
@@ -1211,7 +1282,8 @@ ngAfterViewChecked() {
   }
 
   if (this.loginMethod === 'whatsApp') {
-    const input = document.querySelector("#phone") as HTMLInputElement;
+    this.loginMethod === 'whatsApp';
+    const input = document.querySelector("#phoneid") as HTMLInputElement;
 
     if (input && !input.dataset['itiInitialized']) { // تحقق من وجود العنصر وعدم تهيئته سابقًا
       console.log('Phone input element found:', input);
@@ -1240,28 +1312,28 @@ ngAfterViewChecked() {
   }
 
 }
-onLoginMethodChange(event: Event) {
-  const inputElement = event.target as HTMLInputElement;
-  this.loginMethod = inputElement.value;
-  console.log('Login method changed to:', this.loginMethod);
+// onLoginMethodChange(event: Event) {
+//   const inputElement = event.target as HTMLInputElement;
+//   this.loginMethod = inputElement.value;
+//   console.log('Login method changed to:', this.loginMethod);
 
-  if (this.loginMethod === 'whatsApp') {
-    console.log('Login method changed to:', this.loginMethod);
-    setTimeout(() => {
-      const input = document.querySelector("#phone") as HTMLInputElement;
-      if (input && !input.dataset['itiInitialized']) {
-        console.log('Initializing intlTelInput');
-        const iti = intlTelInput(input, {
-          initialCountry: "de",
-          preferredCountries: ["de", "us", "gb"],
-          separateDialCode: true,
-          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-        });
-        input.dataset['itiInitialized'] = 'true';
-      }
-    }, 1000);
-  }
-}
+//   if (this.loginMethod === 'whatsApp') {
+//     console.log('Login method changed to:', this.loginMethod);
+//     setTimeout(() => {
+//       const input = document.querySelector("#phone") as HTMLInputElement;
+//       if (input && !input.dataset['itiInitialized']) {
+//         console.log('Initializing intlTelInput');
+//         const iti = intlTelInput(input, {
+//           initialCountry: "de",
+//           preferredCountries: ["de", "us", "gb"],
+//           separateDialCode: true,
+//           utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+//         });
+//         input.dataset['itiInitialized'] = 'true';
+//       }
+//     }, 1000);
+//   }
+// }
 
 // initializeIntlTelInputt(inputId: string) {
 //   const input = document.getElementById(inputId);
@@ -1289,7 +1361,7 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
   return password === confirmPassword ? null : { 'mismatch': true };
 }
   ngOnInit() {
-
+    this.loginMethod === 'whatsApp';
     console.log('guests',this.selectedItem)
 
     this.forgetForm=this.fb.group({
@@ -1297,12 +1369,12 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
       confirmPassword: ['', Validators.required]
     }, { validator: this.passwordMatchValidator });
 
-    this.getProfileData();
+    // this.getProfileData();
 
     console.log(this.selectedItem)
-    this.namelogin= localStorage.getItem('namelogin');
-    this.emaillogin=  localStorage.getItem('emaillogin');
-    this.phonelogin=localStorage.getItem('phonelogin');
+    // this.namelogin= localStorage.getItem('namelogin');
+    // this.emaillogin=  localStorage.getItem('emaillogin');
+    // this.phonelogin=localStorage.getItem('phonelogin');
 
 
 
@@ -1381,7 +1453,7 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
 
 
 
-    const input = document.querySelector("#phone");
+    const input = document.querySelector("#phoneid");
 
     if (input) {
       const iti = intlTelInput(input, {
@@ -1414,6 +1486,7 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
   displayModalbooking:any;
   displayModalsuccess:any;
   openModals(){
+    this.loginMethod === 'whatsApp';
     const checkinDateString = this.bookingForm.get('bookingStartDate')?.value;
     const checkoutDate = new Date(this.checkoutDate);  // Convert checkoutDate to Date object
 
@@ -1422,37 +1495,54 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
 
     // Calculate the date 5 months after the check-in date
     const minCheckoutDate = new Date(checkinDate);
-    minCheckoutDate.setMonth(minCheckoutDate.getMonth() + 5);
+    minCheckoutDate.setMonth(minCheckoutDate.getMonth() + 1);
+  // if( this.checkinDate<new Date().toISOString().slice(0, 10) ){
 
-
-
-    if( this.checkinDate<new Date().toISOString().slice(0, 10) ){
-      //  console.log('hereeeeeeeeeeeeeeeeeeeeeeee')
-            this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: "Please change check-in date"
-        });
-        return;
-    }
+  //           this.messageService.add({
+  //           severity: 'error',
+  //           summary: 'Error',
+  //           detail: "Please change check-in date"
+  //       });
+  //       return;
+  //   }
     // Now both checkoutDate and minCheckoutDate are Date objects, so the comparison will work
-    if (checkoutDate >= minCheckoutDate) {
-        this.bookingForm.get('bookingEndDate')?.setValue(checkoutDate);
-    } else {
-        this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Please change check-out date, Minimum period must be 5 months'
-        });
-        return;
-    }
+
     if(localStorage.getItem('token')){
       // if(this.selectedGuest!=='1 guest' && this.selectedGuest!=='2 guests' &&this.selectedGuest!=='3 guests' &&this.selectedGuest!=='4 guests' ){
-        if(this.selectedItem < 1 ){
+        if(!this.allResponse.can_Request){
+
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: " you can not create booking on this apartment for now"
+        });
+        return;
+
+        }else if(this.selectedItem < 1 ){
         this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose number of guests' });
       }else if(this.checkoutDate===''||this.checkinDate===''){
         this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'you must choose check in and check out dates' });
-      }else{
+      }else  if( this.checkinDate<new Date().toISOString().slice(0, 10) ){
+        //  console.log('hereeeeeeeeeeeeeeeeeeeeeeee')
+              this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: "Please change check-in date"
+          });
+          return;
+      }
+      else{
+
+        if (checkoutDate >= minCheckoutDate) {
+          this.bookingForm.get('bookingEndDate')?.setValue(checkoutDate);
+        } else {
+          this.messageService.add({
+              severity: 'error',
+              summary: 'Error',
+              detail: 'Please change check-out date, Minimum period must be month'
+          });
+          return;
+        }
 
         this.displayModalbooking='block';
       }
@@ -1498,7 +1588,7 @@ ngAfterViewInit(): void {
   this.initializeIntlTelInput('#bookingphone', this.bookingForm);
   // this.bookingPhoneInput.nativeElement.focus();
   //   this.initializeIntlTelInput(this.bookingPhoneInput.nativeElement);
-  const input = document.querySelector("#phone");
+  const input = document.querySelector("#phoneid");
 
   if (input) {
     const iti = intlTelInput(input, {
@@ -1760,7 +1850,7 @@ onWindowScroll() {
             this.noAllbed=bedno;
             this.bedAvailable=nobedAvailable;
             this.updateGuests();
-            this.getProfileData();
+            // this.getProfileData();
 
           if (this.aprt && this.aprt.apartment_Rooms) {
             for (let i = 0; i < this.aprt.apartment_Rooms.length; i++) {
@@ -1930,11 +2020,12 @@ onLoginSubmit(): void {
           console.log('User account created successfully', response);
           localStorage.setItem('token', response.token);
           this.getProfileData();
-          if(this.selectedItem < 1 ){
-          this.openModalbooking()
-          }else{
-            this.onCloseQrModal();
-          }
+          // if(this.selectedItem < 1 ){
+          // this.openModalbooking()
+          // }else{
+          //   this.onCloseQrModal();
+          // }
+          this. displayModal='none'
 
         },
         error => {
