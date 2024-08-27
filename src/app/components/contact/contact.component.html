@@ -29,7 +29,7 @@
     </div>
   </div>
   <div class="contact-form">
-    <form>
+    <!-- <form>
       <div class="form-group">
         <input type="text" class="form-control" placeholder="Your Name">
       </div>
@@ -43,7 +43,33 @@
         <textarea class="form-control" rows="4" placeholder="Your Message"></textarea>
       </div>
       <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+    </form> -->
+    <p-toast></p-toast>
+
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input type="text" formControlName="sender_Name" class="form-control" placeholder="Your Name">
+      </div>
+      <!-- <div class="form-group">
+        <input type="email" formControlName="sender_Mail" class="form-control" placeholder="Your Email">
+      </div> -->
+      <div class="form-group">
+        <input type="email" formControlName="sender_Mail" class="form-control" placeholder="Your Email" #senderMail>
+<div *ngIf="contactForm.get('sender_Mail')?.invalid && (contactForm.get('sender_Mail')?.dirty || contactForm.get('sender_Mail')?.touched)" class="text-danger">
+  <small *ngIf="contactForm.get('sender_Mail')?.errors?.['required']">Email is required.</small>
+  <small *ngIf="contactForm.get('sender_Mail')?.errors?.['email']">Please enter a valid email.</small>
+</div>
+
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="sender_Phone" class="form-control" placeholder="Your Phone">
+      </div>
+      <div class="form-group">
+        <textarea formControlName="sender_Message" class="form-control" rows="4" placeholder="Your Message"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Send Message</button>
     </form>
+
   </div>
 </div>
 <app-footer></app-footer>
