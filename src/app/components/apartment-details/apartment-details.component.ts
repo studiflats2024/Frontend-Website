@@ -306,6 +306,19 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
   phonelogin:any;
   onSubmitBooking(){
 
+
+    // if(this.selectedItem===1){
+    //   this.userService.getProfile().subscribe(
+    //     data => {
+    //       this.profileData = data;
+    //       console.log('ProfileData :',this.profileData);
+    //     },
+    //     error => {
+    //       console.error('There was an error!', error);
+    //     }
+    //   );
+    // }
+
     if(this.selectedItem>1){
       console.log(this.guestsAPI)
       console.log(this.newGuestArr)
@@ -1369,7 +1382,7 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
       confirmPassword: ['', Validators.required]
     }, { validator: this.passwordMatchValidator });
 
-    // this.getProfileData();
+    this.getProfileData();
 
     console.log(this.selectedItem)
     // this.namelogin= localStorage.getItem('namelogin');

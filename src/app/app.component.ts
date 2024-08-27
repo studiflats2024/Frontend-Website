@@ -655,12 +655,18 @@ onLoginSubmit(): void {
   console.log(this.loginForm)
     let mobileAPI='';
     let pass=this.loginForm.value.password;
+    console.log(this.loginForm.value)
 
     if (this.loginForm.valid) {
 
-      if(this.loginForm.value.mobile===null){
+      // if(this.loginForm.value.mobile===null){
+      //   mobileAPI=this.loginForm.value.email;
+      // }else if(this.loginForm.value.email===null){
+      //   mobileAPI=this.loginForm.value.mobile;
+      // }
+      if(this.loginMethod==='email'){
         mobileAPI=this.loginForm.value.email;
-      }else{
+      }else if(this.loginMethod==='whatsApp'){
         mobileAPI=this.loginForm.value.mobile;
       }
 
