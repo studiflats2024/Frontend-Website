@@ -2020,9 +2020,14 @@ onLoginSubmit(): void {
 
     if (this.loginForm.valid) {
 
-      if(this.loginForm.value.mobile===null){
+      // if(this.loginForm.value.mobile===null){
+      //   mobileAPI=this.loginForm.value.email;
+      // }else{
+      //   mobileAPI=this.loginForm.value.mobile;
+      // }
+      if(this.loginMethod==='email'){
         mobileAPI=this.loginForm.value.email;
-      }else{
+      }else if(this.loginMethod==='whatsApp'){
         mobileAPI=this.loginForm.value.mobile;
       }
 
