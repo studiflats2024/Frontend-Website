@@ -624,9 +624,10 @@ div
 
   </google-map> -->
   <div class="map-container" style="width: 100vw;">
-    <google-map class="map-container section-to-watch" [center]="center" [zoom]="zoom"   style="width: 100vw !important; height: 500px; margin-bottom: 50px;">
-      <!-- Add your map markers, info windows, and other configurations here -->
+    <google-map id="" class="map-container section-to-watch" [center]="center" [zoom]="zoom"   style="width: 100vw !important; height: 500px; margin-bottom: 50px; ">
+      <map-marker [position]="markerPosition" ></map-marker>
     </google-map>
+    <!-- <div id="map"></div> -->
   </div>
   <hr class="my-4"/>
 
@@ -957,6 +958,7 @@ div
       <form [formGroup]="bookingForm" (ngSubmit)="onSubmitBooking()"  autocomplete="off">
       <div class="modal-header w-full" style=" height: 140px; padding-left: 24px; padding-right: 24px; padding-top: 31px; padding-bottom: 31px; background: #F0F6FF; justify-content: center; align-items: center; display: inline-flex">
         <div class="w-100" style="text-decoration: none;">
+
           <p-steps [model]="items" (Responsive)="true" [(activeIndex)]="activeIndex" [readonly]="true" (onChange)="onStepChange($event)"></p-steps>
 
          </div>

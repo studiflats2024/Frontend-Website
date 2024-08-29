@@ -106,20 +106,9 @@ export class AppComponent implements OnInit, AfterViewInit  {
   //       input.dataset['itiInitialized'] = 'true';
 
 
-  //       input.addEventListener('blur', () => {
-  //         let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
-  //         if (fullPhoneNumber.startsWith("+")) {
-  //           fullPhoneNumber = fullPhoneNumber.substring(1);
-  //         }
-  //         console.log("Full phone number:", fullPhoneNumber);
-  //         this.loginForm.patchValue({ mobile: fullPhoneNumber });
-  //         console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-  //       });
-  //     }
-  //   }
 
-  // }
   ngAfterViewChecked() {
+
     if (this.loginMethod === 'whatsApp') {
       const input = document.querySelector("#phonee") as HTMLInputElement;
 
@@ -132,8 +121,12 @@ export class AppComponent implements OnInit, AfterViewInit  {
           initialCountry: "de",
           preferredCountries: ["de", "us", "gb"],
           separateDialCode: true,
-          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+          useFullscreenPopup: false
         });
+
+
+
 
         // Mark the element as initialized
         input.dataset['itiInitialized'] = 'true';
@@ -150,7 +143,11 @@ export class AppComponent implements OnInit, AfterViewInit  {
         });
       }
     }
+
+
   }
+
+
 
   // ngOnChanges(changes: SimpleChanges) {
 
@@ -244,7 +241,8 @@ export class AppComponent implements OnInit, AfterViewInit  {
           initialCountry: "de",  // الدولة الافتراضية
           preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
           separateDialCode: true,  // فصل كود الدولة
-          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
+          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+          useFullscreenPopup: false  // تحميل سكربت الأدوات المساعدة
         });
 
         // حدث عند فقدان التركيز على الحقل
@@ -283,6 +281,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
         }));
       });
 
+
   }
 
   ngAfterViewInit(): void {
@@ -294,7 +293,8 @@ export class AppComponent implements OnInit, AfterViewInit  {
         initialCountry: "de",  // الدولة الافتراضية
         preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
         separateDialCode: true,  // فصل كود الدولة
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" ,
+        useFullscreenPopup: false // تحميل سكربت الأدوات المساعدة
       });
 
       // حدث عند فقدان التركيز على الحقل
@@ -314,7 +314,16 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
     this.loginForm.reset();
 
+
+
+
+
+
+
+
+
   }
+
 
 
 
@@ -638,6 +647,7 @@ loginMethod: string = 'whatsApp';
     this.displayInfo='none';
     this.displayVerify='none'
     this.displayVerifyForget='none'
+
     }else{
       this.logout();
       this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'you logged out successfully' });
@@ -645,7 +655,13 @@ loginMethod: string = 'whatsApp';
 
     }
 
+
+
+
+
   }
+
+
 
   hideLogin(): void {
     this.isVisiblelogin = 'none';

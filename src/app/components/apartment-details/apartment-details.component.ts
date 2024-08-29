@@ -1373,7 +1373,29 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
   const confirmPassword = group.get('confirmPassword')?.value;
   return password === confirmPassword ? null : { 'mismatch': true };
 }
+
+map!: google.maps.Map;
+addMarker(apartment: any) {
+  const marker = new google.maps.Marker({
+    position: { lat: apartment.apartment_Lat, lng: apartment.apartment_Long },
+    map: this.map,
+    title: apartment.apartment_Name
+  });
+}
+markerOptions: google.maps.MarkerOptions = {
+  draggable: false
+};
+markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
   ngOnInit() {
+
+
+    // const mapOptions: google.maps.MapOptions = {
+    //   center: { lat: 51.1657, lng:  10.4515 },
+    //   zoom: 12
+    // };
+    // this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, mapOptions);
+
+
     this.loginMethod === 'whatsApp';
     console.log('guests',this.selectedItem)
 
@@ -1422,6 +1444,7 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
     this.getApartmentDetails();
     this.checkViewportWidth();
     this.fetchFaqs();
+    // this.addMarker(this.aprt);
 
     this.loginForm = this.fb.group({
       mobile: '',
@@ -1473,7 +1496,8 @@ passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | nul
         initialCountry: "de",  // الدولة الافتراضية
         preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
         separateDialCode: true,  // فصل كود الدولة
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+        useFullscreenPopup: false
       });
 
       // حدث عند فقدان التركيز على الحقل
@@ -1811,6 +1835,12 @@ onWindowScroll() {
             lat: this.aprt.apartment_Lat || 0,
             lng: this.aprt.apartment_Long || 0,
           };
+
+          this.markerPosition = {
+            lat: this.aprt.apartment_Lat || 0,
+            lng: this.aprt.apartment_Long || 0,
+          };
+          console.log(this.center,this.markerPosition)
           this.kitchen_Tools = res.apartment_Equipments?.kitchen_Details || [];
           this.tenant = res.tenant || {};
           this.rating_total = res.rating_Total;

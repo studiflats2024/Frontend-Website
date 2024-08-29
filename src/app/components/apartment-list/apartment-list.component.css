@@ -62,12 +62,20 @@ button .p-button-icon-right, button .p-button-icon-left {
 .wid{
   width:50% !important;
 } */
+@media (max-width: 600px) {
+  .hide-page-links {
+    display: none;
+  }
+}
+
 
 #googlemap{
   width: 600px;
   height: 600px  ;
+  z-index: 1000 !important;
+  pointer-events: auto;
 }
-.item-card-map {
+/* .item-card-map {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -83,10 +91,12 @@ button .p-button-icon-right, button .p-button-icon-left {
 
 .item-card-map img {
   width: 100%;
+  height: auto;
   max-height: 120px;
   border-radius: 8px;
   margin-bottom: 8px;
   object-fit: cover;
+  object-position: center;
 }
 
 .item-card-map h3 {
@@ -107,7 +117,103 @@ button .p-button-icon-right, button .p-button-icon-left {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+} */
+
+.item-card-map {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /* width: 100%; */
+  max-height: 300px;
+  max-width: 250px;
+
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  background-color: #fff;
+  overflow: hidden; /* تأكد من عدم وجود تمرير */
 }
+
+.item-card-map img {
+ width: 50px;
+ height: 50px;
+  border-radius: 8px;
+  margin-bottom: 8px;
+  object-fit: cover;
+  object-position: center;
+}
+
+.item-card-map h3 {
+  margin: 0;
+  font-size: 16 px;
+  color: #333;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+  margin-bottom: 8px; /* إضافة مسافة بسيطة بين العنوان وبقية المحتويات */
+}
+
+.item-card-map p {
+  margin: 0;
+  font-size: 0.9em;
+  color: #666;
+  text-align: center;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* لضمان أن كل شيء يبدو جيدًا على الشاشات الأصغر */
+@media (max-width: 768px) {
+  .item-card-map {
+    max-width: 100%;
+    margin: 10px 0;
+  }
+
+  .item-card-map h3 {
+    font-size: 1em;
+  }
+
+  .item-card-map p {
+    font-size: 0.9em;
+  }
+  #googlemap{
+    margin-bottom: 100px;
+    width: 550px;
+    height: 450px;
+  }
+  .map{
+    margin-bottom: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .item-card-map {
+    padding: 8px;
+  }
+
+  .item-card-map h3 {
+    font-size: 0.9em;
+  }
+
+  .item-card-map p {
+    font-size: 0.8em;
+  }
+  #googlemap{
+    margin-bottom: 100px;
+    width: 300px;
+    height: 300px;
+  }
+}
+
+
+/*-------------------------*/
+
+
 .item-card-map {
   z-index: 1000;
 }
@@ -503,11 +609,13 @@ button .p-button-icon-right, button .p-button-icon-left {
 
 }
 
-.map img {
+
+
+/* .map img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
+} */
 
 .amenities {
   display: flex;
@@ -1125,3 +1233,33 @@ background: #EDF1F4;
 p,h1,h2,h3,h4,h5,h6,span,div , .Heading{
   font-family: 'Inter' !important;
 }
+
+/*
+.maponsmall{
+
+  display:'none'
+}
+@media (max-width: 768px) {
+
+ .map{
+  display:'none'
+ }
+
+ .maponsmall{
+  display:'block' ;
+
+}
+
+#googlemap-small{
+  width: 300px !important;
+  height: 300px !important ;
+  z-index: 1000 !important;
+  pointer-events: auto;
+}
+
+.mapp{
+  display:'none';
+}
+
+
+} */

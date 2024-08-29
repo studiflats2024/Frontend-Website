@@ -301,7 +301,7 @@
 
 
   <!-- -----------login modal ---------------->
-  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': isVisiblelogin}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal " id="loginModalreal"   tabindex="-1"  role="dialog" [ngStyle]="{'display': isVisiblelogin}" style="background-color: rgb(23 22 22 / 50%);">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
 
@@ -347,7 +347,7 @@
                         <img src="https://via.placeholder.com/24x24" alt="flag">
                         <span class="ms-2">+380</span>
                       </span> -->
-                      <input  id="phonee" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off"  >
+                      <input  id="phonee" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off"   >
 
                     </div>
                     <div *ngIf="loginForm.get('mobile')?.errors && loginForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
@@ -551,5 +551,14 @@
 
 
 
+
+
+<!-- Other existing content -->
+
+<div class="whatsapp-button">
+  <a href="https://wa.me/4915203290607" target="_blank">
+    <img src="whatsappp.gif" alt="WhatsApp" />
+  </a>
+</div>
 
 

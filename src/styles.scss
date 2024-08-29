@@ -19,14 +19,39 @@ html, body {
 }
 .iti{
   width: 100%;
+  position: relative;
 }
 
-@media (max-width: 400px) {
- body{
-  padding: 0 !important;
-  margin: 0 !important;
- }
-}
+// @media (max-width: 400px) {
+//  body{
+//   padding: 0 !important;
+//   margin: 0 !important;
+//  }
+//  :host ::ng-deep .iti .iti__country-list {
+//   position: absolute !important;
+//   z-index: 9999 !important;
+//   list-style: none;
+//   text-align: left;
+//   padding: 0 !important;
+//   margin: 0 0 0 -1px !important;
+//   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2) !important;
+//   background-color: white !important;
+//   border: 1px solid #CCC !important;
+//   white-space: nowrap !important;
+//   max-height: 200px !important;
+//   overflow-y: scroll !important;
+//   -webkit-overflow-scrolling: touch !important;
+// }
+
+// .modal {
+//   z-index: 3333 !important;
+// }
+// .intl-tel-input .country-list {
+//   z-index: 9999 !important;
+// }
+
+// }
+
 
 .ui-messages, .p-toast {
   z-index: 9999 !important; /* Adjust the z-index value as needed */
@@ -38,3 +63,36 @@ input[type="radio"]:checked {
 
 
 
+
+
+
+// .intl-tel-input .country-list {
+//   z-index: 9999 !important;
+// }
+
+// .modal{
+//   z-index: 3000;
+// }
+
+
+//   .iti__country-list {
+
+//   z-index: 3001 !important;
+//   width: auto !important;
+//   max-width: 300px !important;
+
+//  }
+
+// .iti__selected-flag {
+//   position: relative;
+// }
+
+ .iti-mobile .iti__country-list {
+  max-height: 40%;
+  position: absolute;
+  z-index: 9999 !important;
+  width: auto !important; /* ضبط العرض ليكون تلقائيًا بناءً على المحتوى */
+  max-width: 300px !important; /* أقصى عرض للقائمة */
+  top: 32%;
+
+}

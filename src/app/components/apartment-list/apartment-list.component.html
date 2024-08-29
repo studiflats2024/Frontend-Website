@@ -333,9 +333,9 @@
 
       </div>
       <p-paginator *ngIf="apartmentList.length > 0" (onPageChange)="tiggerPageChange($event)" [rows]="rows"
-        [totalRecords]="totalRecords" [first]="first"  [ngStyle]="{'z-index': '12', }" ></p-paginator>
+        [totalRecords]="totalRecords" [first]="first" [showPageLinks]="showPageLinks" [ngStyle]="{'z-index': '12', }" ></p-paginator>
     </div>
-    <div class="mapp" >
+    <div class="mapp" style="z-index:0" >
 
     </div>
 
@@ -344,12 +344,18 @@
     </div> -->
 
   </div>
-  <div class="map" *ngIf="isVisible" >
+  <div *ngIf="isVisible"  class="map"  >
     <!-- <img *ngIf="isVisible" [src]="mapImage" alt="Map"  (click)="navigateToMap()"> -->
-        <div   id="googlemap"   (click)="navigateToMap()" >
+        <div   id="googlemap"    >
 
         </div>
   </div>
+  <!-- <div   class="maponsmall"  >
+
+        <div   id="googlemap-small"    >
+
+        </div>
+  </div> -->
 
 </div>
 

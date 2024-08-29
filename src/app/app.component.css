@@ -4,7 +4,7 @@
   position: fixed;
   top:0px;
   width: 100%;
-  z-index: 2000;
+  z-index: 1040;
 }
 
 
@@ -204,6 +204,97 @@
 }
 
 
-.modal{
+/* .modal{
   z-index: 2600;
+}
+.iti__country-list {
+  position: absolute;
+  z-index: 2222 !important;
+  list-style: none;
+  text-align: left;
+  padding: 0;
+  margin: 0 0 0 -1px;
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+  background-color: white;
+  border: 1px solid #CCC;
+  white-space: nowrap;
+  max-height: 200px;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+} */
+
+/* @media (max-width: 767px) {
+
+  :host ::ng-deep .iti__country-list {
+   position: fixed;
+   z-index: 2222 !important;
+   list-style: none;
+   text-align: left;
+   padding: 0;
+   margin: 0 0 0 -1px;
+   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+   background-color: white;
+   border: 1px solid #CCC;
+   white-space: nowrap;
+   max-height: 200px;
+   overflow-y: scroll;
+   -webkit-overflow-scrolling: touch;
+ }
+ } */
+
+ /* @media (max-width: 767px) {
+
+  :host ::ng-deep .iti__country-list {
+   position: absolute !important;
+   top:100px;
+   z-index: 99999!important;
+   list-style: none;
+   text-align: left;
+   padding: 0;
+   margin: 0 0 0 -1px;
+   box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.2);
+   background-color: white;
+   border: 1px solid #CCC;
+   white-space: nowrap;
+   max-height: 200px;
+   overflow-y: scroll;
+   -webkit-overflow-scrolling: touch;
+
+  width: auto;
+  max-width: 300px;
+
+ }
+ :host ::ng-deep .modal{
+  z-index: 66 !important;
+  top:90px
+
+}
+
+
+ } */
+
+
+ :host ::ng-deep .iti__country-list {
+
+  z-index: 3001 !important;
+ width: auto !important; /* ضبط العرض ليكون تلقائيًا بناءً على المحتوى */
+ max-width: 300px !important; /* أقصى عرض للقائمة */
+
+}
+
+
+
+/* In your component's CSS file */
+.whatsapp-button {
+  position: fixed;
+  bottom: 20px; /* Adjust as needed */
+  right: 20px; /* Adjust as needed */
+  z-index: 1000;
+}
+
+.whatsapp-button img {
+  width: 50px; /* Adjust the size as needed */
+  height: 50px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
