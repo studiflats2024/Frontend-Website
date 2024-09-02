@@ -1,6 +1,6 @@
 
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 interface FAQ {
@@ -19,6 +19,10 @@ export class FaqService {
   constructor(private http: HttpClient) { }
 
   getFaqs(): Observable<FAQ[]> {
-    return this.http.get<FAQ[]>(this.apiUrl);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // Specify the content type
+
+    });
+    return this.http.get<FAQ[]>(this.apiUrl, { headers });
   }
 }

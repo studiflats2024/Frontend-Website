@@ -2,7 +2,7 @@
 
 import { Component , EventEmitter, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient , HttpHeaders  } from '@angular/common/http';
 import { environment } from '../../../../src/environments/environment';
 import {  MessageService } from 'primeng/api';
 
@@ -28,9 +28,13 @@ export class ContactComponent {
   //   return this.contactForm.get('sender_Name')?.invalid ?? false;
   // }
 
+
   onSubmit() {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
     if (this.contactForm.valid) {
-      this.http.post<any>(`${environment.apiUrl + '/ApartmentV2/ContactUs'}` , this.contactForm.value).subscribe(
+      this.http.post<any>(`${environment.apiUrl + '/ApartmentV2/ContactUs'}` , this.contactForm.value, { headers }).subscribe(
         response => {
           this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
           console.log('Message sent successfully', response);

@@ -28,8 +28,14 @@ export class ApartmentService {
       .set('Page_No', PageNumber.toString())
       .set('Page_Size', PageSize.toString())
       .set('status', Status);
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json', // Specify the content type
 
-    return this.http.get<Apartment>(url, { params: params });
+      });
+
+    // return this.http.get<Apartment>(url, { params: params });
+    return this.http.get<Apartment>(url,  { params, headers });
+
   }
 
   getApartDetail(id: string): Observable<any> {
@@ -70,8 +76,12 @@ export class ApartmentService {
     Check_Out: checkOut,
     Guest_No: guestNo
   };
+  const headers = new HttpHeaders({
+    'Content-Type': 'application/json', // Specify the content type
 
-    return this.http.post<any>( `${environment.apiUrl + '/ApartmentV2/Search_Website'}`, {}, { params: params });
+  });
+
+    return this.http.post<any>( `${environment.apiUrl + '/ApartmentV2/Search_Website'}`, {}, { params, headers });
   }
 
 

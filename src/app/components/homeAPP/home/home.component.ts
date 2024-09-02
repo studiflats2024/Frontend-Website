@@ -29,13 +29,13 @@ export class HomeComponent implements OnInit{
   searchResults: any;
   ngOnInit(): void {
     this.getAllApartment();
-    this.apartmentSearchService.searchResults$.subscribe(results => {
-      if (results) {  // التحقق من وجود النتائج قبل القيام بأي عملية
-        this.searchResults = results;
-        this.apartmentsSearch = results.data;
-        console.log('Received search results in other component:', this.searchResults);
-      }
-    });
+    // this.apartmentSearchService.searchResults$.subscribe(results => {
+    //   if (results) {
+    //     this.searchResults = results;
+    //     this.apartmentsSearch = results.data;
+    //     console.log('Received search results in other component:', this.searchResults);
+    //   }
+    // });
 
   }
 

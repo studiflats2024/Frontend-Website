@@ -100,6 +100,7 @@ export class SearchBarComponent {
         console.log('Search results:', response);
         this.apartmentSearchService.setSearchResults(response);
         this.searchResults.emit(response);
+        this.router.navigate(['/apartment-list']);
         // Handle the response, display results, etc.
       },
       error => {

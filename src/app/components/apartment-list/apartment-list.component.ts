@@ -7,7 +7,7 @@ import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Apartment_Maps } from '../../models/apartment_map';
 import $ from 'jquery';
-
+import { ApartmentSearchService } from '../../services/apartment-search.service';
 @Component({
   selector: 'app-apartment-list',
   templateUrl: './apartment-list.component.html',
@@ -82,9 +82,12 @@ fixxxx:boolean=false;
 
 
 
-  constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService,private cdr: ChangeDetectorRef) {
+  constructor(private apartmentSearchService: ApartmentSearchService,private apartmentService: ApartmentService, private router: Router,private messageService: MessageService,private cdr: ChangeDetectorRef) {
 
   }
+
+  searchResults:any;
+  apartmentsSearch:any
 
   ngOnInit(): void {
     // this.getAllApartment();
@@ -92,15 +95,44 @@ fixxxx:boolean=false;
     this.checkWindowSize(window.innerWidth);
 
 
-    this.applyFilter();
+
+    this.apartmentSearchService.searchResults$.subscribe(results => {
+      if (results) {  // التحقق من وجود النتائج قبل القيام بأي عملية
+        // this.searchResults = results;
+        // this.apartmentsSearch = results.data;
+        this.apartmentList = results.data;
+        this.totalofPages =results.totalPages;
+        this.totalRecords = results.totalRecords;
+        this.showPicker=false;
+        this.showPickerguest=false;
+        this.showPickerplace=false;
+        this.filters=false;
+        this.clear();
+        console.log('Received search results in other component:', this.searchResults);
+      }else{
+        this.applyFilter();
+      }
+    });
+
+
+
     this.onWindowScroll();
     this.get_Google_Maps();
 
     // this.fixPriceRangeApi()
     console.log(this.filterData)
+
+
   }
+
+
+
+
   ngAfterViewInit(): void {
     this.initMap();  // Initialize the map after the view has been initialized
+
+
+
   }
   initMap(): void {
     // Center map on Germany
@@ -611,7 +643,14 @@ isVisible:boolean=true;
   // }
 
 
+  ngOnDestroy(): void {
+    // Unsubscribe to prevent memory leaks
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
 
+    // Clear search results
+    this.apartmentSearchService.setSearchResults(null);
+    this.apartmentList = [];
+  }
 
 
 }

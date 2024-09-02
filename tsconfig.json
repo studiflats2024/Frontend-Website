@@ -3,6 +3,10 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    // "useDefineForClassFields": true,
+    // "target": "es5",
+    // "module": "esnext",
+
     "types": ["jquery"],
     "outDir": "./dist/out-tsc",
     "strict": true,
@@ -18,18 +22,22 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
+    // "target": "ES2017",
     "module": "ES2022",
     "useDefineForClassFields": false,
     "lib": [
       "ES2022",
+      // "ES2017",
       "dom"
     ]
   },
+
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
+
 
 }

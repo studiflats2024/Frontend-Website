@@ -25,7 +25,11 @@ export class UserService {
 
   createUser(userAccount: UserAccount): Observable<any> {
     const url = `${environment.apiUrl}/Users/Create_Account`;
-    return this.http.post<any>(url, userAccount);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // Specify the content type
+
+    });
+    return this.http.post<any>(url, userAccount, { headers });
   }
 
   checkOtp(otp: string, uuid: string): Observable<any> {
@@ -33,8 +37,14 @@ export class UserService {
     const params = new HttpParams()
       .set('Otp', otp)
       .set('UUID', uuid);
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json', // Specify the content type
 
-    return this.http.put<any>(url, {}, { params: params });
+      });
+
+    // return this.http.put<any>(url, {}, { params: params });
+    return this.http.put<any>(url, {}, { params, headers });
+
   }
 
   sendUserData(
@@ -57,7 +67,12 @@ export class UserService {
       .set('Mobile', mobile)
       .set('Provider', provider);
 
-    return this.http.put<any>(url, {}, { params: params });
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json', // Specify the content type
+
+      });
+
+    return this.http.put<any>(url, {},  { params, headers });
   }
 
 
@@ -69,8 +84,12 @@ export class UserService {
       password: password,
 
     };
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // Specify the content type
 
-    return this.http.post<any>(url, loginData);
+    });
+
+    return this.http.post<any>(url, loginData,{ headers });
   }
 
   getProfile(): Observable<any> {
@@ -87,8 +106,13 @@ export class UserService {
   sendForgotPasswordOtp(mobile: any): Observable<any> {
     const url = `${environment.apiUrl}/Users/Forget_Password`;
     const params = new HttpParams().set('Mobile', mobile);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // Specify the content type
 
-    return this.http.get<any>(url, { params });
+    });
+
+    // return this.http.get<any>(url, { params });
+    return this.http.get<any>(url, { params, headers });
   }
 
   resetPassword(password: string, confirmPassword: string, uuid: string, token: string): Observable<any> {
@@ -99,8 +123,12 @@ export class UserService {
       .set('Confirm_Password', confirmPassword)
       .set('UUID', uuid)
       .set('Token', token);
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json', // Specify the content type
 
-    return this.http.put<any>(url, {}, { params });
+      });
+
+    return this.http.put<any>(url, {}, { params, headers });
   }
 
 
