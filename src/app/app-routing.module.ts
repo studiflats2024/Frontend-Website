@@ -36,6 +36,9 @@ const routes: Routes = [
   {
     path: 'user-info', loadChildren: () => import('./components/profilePages/user-info/user-info.module').then(m => m.UserInfoModule) // Lazy load FAQ module
   },
+  {
+    path: 'payments-invoices', loadChildren: () => import('./components/profilePages/invoices/invoices.module').then(m => m.InvoicesModule) // Lazy load FAQ module
+  },
 
 ];
 @NgModule({

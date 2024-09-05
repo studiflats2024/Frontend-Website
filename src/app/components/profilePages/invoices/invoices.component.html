@@ -1,0 +1,205 @@
+
+<div style="height: 85px;  background: var(--Neutral-Neutral95, #F6F6F6);"></div>
+<p-breadcrumb class="max-w-full" [model]="items">
+  <ng-template pTemplate="item" let-item>
+      <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+          <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+          <span>{{ item.label }}</span>
+      </a>
+  </ng-template>
+</p-breadcrumb>
+<div class="main-container row g-5"   >
+
+
+
+<div class="col-lg-3 col-md-6 col-sm-1">
+
+  <app-app-sider></app-app-sider>
+</div>
+
+
+
+  <div class="col-lg-9 col-md-6 col-sm-11">
+    <p-card   [style]="{ width: '360px' }">
+      <!-- <ng-template pTemplate="header">
+          <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+      </ng-template> -->
+
+
+      <div class="booking-card" (click)="openModal()">
+        <div class="head">
+          <h3>The Aston Vill Hotel (1)</h3>
+          <span class="status unpaid">Unpaid</span>
+        </div>
+
+        <div class="dates">
+          <div class="checkin">
+            <span class="label">Date of Issue</span>
+            <span class="date">19 Jun 2023</span>
+          </div>
+          <div class="divider"></div>
+          <div class="checkout">
+            <span class="label">Invoice no</span>
+            <span class="date">#0991234</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="dividerr mt-3 mb-3 mx-4"></div>
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <div class="total-label">Total</div>
+        <div class="total-price">$750</div>
+      </div>
+  </p-card>
+
+  <p-card   [style]="{ width: '360px' }" >
+    <!-- <ng-template pTemplate="header">
+        <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+    </ng-template> -->
+
+
+    <div class="booking-card" (click)="openModal()">
+      <div class="head">
+        <h3>The Aston Vill Hotel</h3>
+        <span class="status paid">Paid</span>
+      </div>
+
+      <div class="dates">
+        <div class="checkin">
+          <span class="label">Date of Issue</span>
+          <span class="date">19 Jun 2023</span>
+        </div>
+        <div class="divider"></div>
+        <div class="checkout">
+          <span class="label">Invoice no</span>
+          <span class="date">#0991234</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="dividerr mt-3 mb-3 mx-4"></div>
+    <div class="d-flex justify-content-between align-items-center w-100">
+      <div class="total-label">Total</div>
+      <div class="total-price">$750</div>
+    </div>
+</p-card>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+<!--------------DIALOG DETAILS---------------->
+
+<div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayDetails}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-body p-0" style="position: relative;">
+        <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseModal()">×</button>
+
+
+        <div class=" container mt-4" style=" padding:20px;  "  >
+
+
+          <div class="head">
+
+              <h3>The Aston Vill Hotel (1)</h3>
+            <span class="status unpaid">Unpaid</span>
+          </div>
+          <p class="label mb-5">Alice Springs NT 0870...</p>
+          <div class="booking-summary-frame">
+          <div   style="width: 100%;">
+            <div    >
+              <div class="d-flex justify-content-between align-items-center w-100 mb-3">
+                <div class="room-title mb-4">
+                  <span class="label">Date of Issue</span>
+                  <span class="date">19 Jun 2023</span>
+                </div>
+                <div class="room-price mb-4">
+                  <span class="label">Invoice no</span>
+                  <span class="date">#0991234</span>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-between align-items-center w-100 mb-3">
+                <div class="room-title mb-4">
+                  <span class="label">Start Date</span>
+                  <span class="date">19 Jun 2023</span>
+                </div>
+                <div class="room-price mb-4">
+                  <span class="label">End Date</span>
+                  <span class="date">19 Jun 2023</span>
+                </div>
+              </div>
+
+              <div class="dividerr mb-4"></div>
+
+
+              <div class="d-flex justify-content-between align-items-center  w-100 mb-4">
+
+                  <span class="label">Security Deposit Amount (25%)  </span>
+
+
+                <div class="fee-price">$333</div>
+              </div>
+              <div class="d-flex justify-content-between align-items-center  w-100 mb-0">
+                <div class="label">Service Fee</div>
+                <div class="fee-price">$888</div>
+              </div>
+            </div>
+            <p class="text mb-4">service fee paid one time</p>
+
+            <div class="dividerr mt-3 mb-4"></div>
+            <div class="d-flex justify-content-between align-items-center w-100 mb-4">
+              <div class="total-label">Total</div>
+              <div class="fee-price">$750</div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center  w-100 mb-4">
+
+                <span class="label">Payment Method</span>
+
+
+              <div class="fee-price">Cash</div>
+            </div>
+
+
+            <div class="dividerr mt-3 mb-4"></div>
+
+            <p class="note">Note</p>
+            <p class="noteContent">After the lease period ends, you can request a refund of the security deposit</p>
+
+            <div class="button-container mt-6">
+              <!-- Download Invoice Button -->
+              <p-button label="Download Invoice" icon="pi pi-download" class="download-button"></p-button>
+
+              <!-- Pay Now Button -->
+              <p-button label="Pay Now     " class="pay-button"></p-button>
+            </div>
+
+
+
+          </div>
+
+
+
+
+          </div>
+
+
+
+
+      </div>
+
+
+
+
+
+      </div>
+    </div>
+  </div>
+</div>

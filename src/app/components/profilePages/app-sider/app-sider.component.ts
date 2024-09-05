@@ -17,7 +17,7 @@ export class AppSiderComponent implements OnInit{
       { label: 'Personal Information', icon: 'pi pi-user', routerLink: '/user-info' },
       { label: 'My Bookings', icon: 'pi pi-book', routerLink: '/my-bookings' },
       { label: 'Wishlist', icon: 'pi pi-heart', routerLink: '/my-wishlist' },
-      { label: 'Payments / Invoices', icon: 'pi pi-file'  },//, routerLink: '/payments-invoices'
+      { label: 'Payments / Invoices', icon: 'pi pi-file' ,routerLink: '/payments-invoices'  },
       { label: 'My Documents', icon: 'pi pi-file'  },//, routerLink: '/my-documents'
       { label: 'Report Problem', icon: 'pi pi-exclamation-triangle'  },//, routerLink: '/report-problem'
       { label: 'Contact Support', icon: 'pi pi-comments'  },//, routerLink: '/contact-support'
