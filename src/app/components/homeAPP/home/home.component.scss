@@ -363,3 +363,49 @@
   }
 }
 
+/*--------------how it work ----------*/
+.iconwork{
+  width:60px;
+   height: 60px;
+   border:solid 10px rgba(17, 81, 180, 0.08);
+   border-radius: 50%;
+    margin-left: 15px;
+}
+
+.HowItWorks{
+  padding-right: 40px;
+  padding-left: 40px;
+  padding-bottom: 40px;
+}
+
+
+:host ::ng-deep .custom-carousel .p-carousel-item {
+  margin: 10px; /* Applies margin around each item */
+  width: calc((100% / 3) - 100px) !important; /* 20px is twice the 10px margin to account for both left and right */
+}
+
+:host ::ng-deep .custom-carousel .p-carousel-content {
+  display: flex;
+  align-items: stretch; /* Ensures all cards have the same height */
+}
+
+:host ::ng-deep .p-carousel-next,
+:host ::ng-deep .p-carousel-prev{
+  display: none;
+}
+
+:host ::ng-deep .p-carousel-indicator .p-link{
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+@media (max-width: 800px) {
+  .comments {
+    height: 320px !important;
+  }
+}
+
+
+
+

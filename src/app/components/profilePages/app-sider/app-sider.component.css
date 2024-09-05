@@ -1,0 +1,109 @@
+:host ::ng-deep .p-tieredmenu{
+  margin-left:20px;
+  text-decoration:none;
+  /* width: 300px; */
+  width: 100%;
+
+}
+:host ::ng-deep .p-tieredmenu a{
+
+  text-decoration:none;
+  color: var(--header-text, #373A3E);
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+text-transform: capitalize;
+/* padding:14px 24px ; */
+}
+:host ::ng-deep .p-tieredmenu ul{
+ padding-left: 0 !important;
+ margin-top: 18px !important;
+ margin-bottom: 18px !important;
+}
+:host ::ng-deep .p-menuitem-link{
+
+  padding: 14px 24px;
+ }
+
+:host ::ng-deep .p-tieredmenu .p-menuitem-link span:first-of-type {
+  color: #1151B4; /* Default color for all first spans */
+}
+
+:host ::ng-deep .p-tieredmenu .p-menuitem:last-child .p-menuitem-link span:first-of-type {
+  color: #D92D20; /* Special color for the last menu item's first span */
+}
+
+
+
+.pi.pi-angle-right.ml-auto {
+  display: inline-block;
+  margin-left: auto; /* This pushes the icon to the right */
+  font-size: 1.5rem; /* Ensure the icon is visible by adjusting its size */
+  color: inherit; /* Inherit color from the parent element */
+}
+
+@media (max-width:700px) {
+
+  :host ::ng-deep .p-tieredmenu {
+
+    /* width: 250px; */
+    width: 90%;
+    position: absolute;
+    top:0 !important;
+    left: 0 !important;
+    /* top: -300%;
+    left: -100px; */
+    z-index: 1000;
+
+
+  }
+}
+@media (max-width:400px) {
+
+  :host ::ng-deep .p-tieredmenu   {
+
+    width: 90%;
+    position: absolute;
+    top:0 !important;
+    left: 0 !important;
+    /* top: -300%;
+    left: -100px; */
+    z-index: 1000;
+
+  }
+}
+
+
+
+:host ::ng-deep .p-button {
+  /* background-color: #007bff;   */
+  background-color: var(--Neutral-Neutral50, #787579);
+  border: none;
+  border-radius: 50%; /* يجعل الزر دائريًا */
+  padding: 10px;
+  color: white; /* لون الأيقونة */
+  font-size: 20px;
+  width: 40px; /* عرض الزر */
+  height: 40px; /* ارتفاع الزر */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease, transform 0.3s ease; /* تأثيرات عند التمرير */
+}
+
+:host ::ng-deep .p-button:hover {
+  background-color: #0056b3;
+  /* background-color:var(--Neutral-Neutral30, #484649) !important; */
+  transform: scale(1.1); /* تكبير الزر قليلاً عند التمرير */
+}
+
+:host ::ng-deep .p-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.5); /* ظل حول الزر عند التركيز */
+}
+
+
+

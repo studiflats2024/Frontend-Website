@@ -1,0 +1,261 @@
+<div style="height: 85px;  background: var(--Neutral-Neutral95, #F6F6F6);"></div>
+<p-breadcrumb class="max-w-full" [model]="items">
+  <ng-template pTemplate="item" let-item>
+      <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+          <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+          <span>{{ item.label }}</span>
+      </a>
+  </ng-template>
+</p-breadcrumb>
+<div class="main-container row g-5" >
+
+
+
+  <div class="col-lg-3 col-md-4 col-sm-1">
+
+    <app-app-sider></app-app-sider>
+  </div>
+
+
+
+    <div class="col-lg-9 col-md-8 col-sm-11">
+      <div class="parent">
+
+        <!------------toolbar---------->
+        <p-toolbar>
+          <div class="p-toolbar-group-left" routerLink="/my-bookings">
+            <button pButton type="button" icon="pi pi-arrow-left" class="p-button-text"  [ngStyle]="{'color': '#313033'}"></button>
+            <span class="p-toolbar-text">Booking Details</span>
+          </div>
+
+          <div class="p-toolbar-group-right">
+            <!-- Comments button -->
+            <p-button  class="p-button-rounded p-button-secondary p-button-text"
+              ><img src="message.svg"/>
+            </p-button>
+
+            <!-- Share button -->
+            <p-button   class="p-button-rounded p-button-primary p-button-text"  >
+              <img src="sharedir.svg"/>
+            </p-button>
+
+            <!-- Ellipsis (More Options) button -->
+            <p-button  class="p-button-rounded p-button-text " [ngStyle]="{'color': '#313033'}">
+              <img src="threeDot.svg"/>
+            </p-button>
+          </div>
+        </p-toolbar>
+
+
+
+        <!------------------apartment---------->
+
+        <p-card   [style]="{ width: '360px' }">
+          <ng-template pTemplate="header">
+              <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+          </ng-template>
+
+
+          <div class="booking-card">
+            <div class="head">
+              <h3>The Aston Vill Hotel (1)</h3>
+              <span class="status pending">Pending</span>
+            </div>
+            <p class="location">
+              <i class="pi pi-map-marker" style="color:#4C4DDC"></i> Alice Springs NT 0870...
+            </p>
+            <div class="dates">
+              <div class="checkin">
+                <p class="label">Check In</p>
+                <p class="date">19 Jun 2023</p>
+              </div>
+              <div class="divider"></div>
+              <div class="checkout">
+                <p class="label">Check Out</p>
+                <p class="date">19 Jun 2024</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- <ng-template pTemplate="footer">
+              <div class="flex gap-3 mt-1">
+                  <p-button label="Cancel" severity="secondary" class="w-full" styleClass="w-full" />
+                  <p-button label="Save" class="w-full" styleClass="w-full" />
+              </div>
+          </ng-template> -->
+      </p-card>
+
+
+      <div style="margin-top: 50px;">
+        <p class="address value">guests details</p>
+        <p class="desc">Listed below are the details of the guests who will be staying in this apartment.</p>
+      </div>
+
+
+
+      <div class="parent">
+        <div class=" flex flex-wrap justify-content-between align-content-center mb-2">
+          <div class="col-9">
+
+            <p class="address value" style="margin-top: 0 !important;">Single Room</p>
+            <p class="desc">Below are the details of the guest who will be staying in this room.</p>
+
+        </div>
+
+          <span class="status pending"><img src="mainTenant.svg"/>main tenant</span>
+        </div>
+
+          <div class="info  flex flex-wrap justify-content-between align-content-center">
+               <div>
+                <p class="label">Guest Name</p>
+                <p class="value">ashraf salah</p>
+               </div>
+               <div>
+                <p class="label">Email Address</p>
+                <p class="value">ashrafsalah20&#64;gmail.com</p>
+               </div>
+               <div>
+                <p class="label">what’s app number</p>
+                <p class="value">+20 115 465 2523</p>
+               </div>
+          </div>
+      </div>
+
+
+
+      <div class="parent">
+
+          <div  >
+
+            <p class="address value" style="margin-top: 0 !important;">Double Room</p>
+            <p class="desc">Below are the details of the guest who will be staying in this room.</p>
+
+        </div>
+
+
+          <div class="value mb-3">Bed 1</div>
+          <div class="info  flex flex-wrap justify-content-between align-content-center mb-5">
+               <div>
+                <p class="label">Guest Name</p>
+                <p class="value">ashraf salah</p>
+               </div>
+               <div>
+                <p class="label">Email Address</p>
+                <p class="value">ashrafsalah20&#64;gmail.com</p>
+               </div>
+               <div>
+                <p class="label">what’s app number</p>
+                <p class="value">+20 115 465 2523</p>
+               </div>
+          </div>
+
+          <div class="dividerr mb-5"></div>
+
+          <div class="value mb-3">Bed 2</div>
+          <div class="info  flex flex-wrap justify-content-between align-content-center mb-5">
+               <div>
+                <p class="label">Guest Name</p>
+                <p class="value">ashraf salah</p>
+               </div>
+               <div>
+                <p class="label">Email Address</p>
+                <p class="value">ashrafsalah20&#64;gmail.com</p>
+               </div>
+               <div>
+                <p class="label">what’s app number</p>
+                <p class="value">+20 115 465 2523</p>
+               </div>
+          </div>
+      </div>
+
+
+      <div >
+        <p class="address value">booking summary</p>
+        <p class="desc">view booking details here</p>
+      </div>
+
+
+      <div class=" container mt-4" style=" padding:15px; border: 0.8px solid #DFE4EA; border-radius: 8px;"  >
+
+
+        <div class="booking-summary my-3">Booking Summary</div>
+        <div class="booking-summary-frame">
+        <div   style="width: 100%;">
+          <div    >
+            <div class="d-flex justify-content-between align-items-center w-100 mb-3">
+              <div class="room-title"> Single</div>
+              <div class="room-price">$999</div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center  w-100 mb-3">
+              <div>
+                <span class="fee-title">Security Deposit </span>
+                <span class="refundable">(Refundable)</span>
+              </div>
+              <div class="fee-price">$333</div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center  w-100 mb-3">
+              <div class="fee-title">Service Fee</div>
+              <div class="fee-price">$888</div>
+            </div>
+          </div>
+
+          <div class="dividerr mt-3 mb-3"></div>
+
+          <div  class="booking-frame"  >
+            <div class="d-flex justify-content-between align-items-center my-2"  >
+              <div class="room-title">Double</div>
+
+            </div>
+            <div class="d-flex justify-content-between align-items-center my-2 mb-3"    >
+
+              <div   class="bed-title"  > bed</div>
+              <div   class="bed-price">$666</div>
+            </div>
+
+
+            <div class="d-flex justify-content-between align-items-center   my-2 mb-3"  >
+              <div>
+                <span class="fee-title">Security Deposit </span>
+                <span class="refundable">(Refundable)</span>
+              </div>
+              <div class="fee-price">$2222</div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center   my-2 mb-3"  >
+              <div class="fee-title">Service Fee</div>
+              <div class="fee-price">$999</div>
+            </div>
+          </div>
+        </div>
+
+          <div class="dividerr mt-3 mb-3"></div>
+          <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="total-label">Total</div>
+            <div class="total-price">$750</div>
+          </div>
+
+
+        </div>
+
+
+
+
+    </div>
+
+
+
+    <div class="footer-frame-success">
+      <div class="footer-text-success">To complete the booking process, please download our app.</div>
+      <div class="app-links">
+        <a href="https://play.google.com/store/apps/details?id=com.studiflats.app&hl=ar"><img class="google-play-link" src="apple-store.png" /></a>
+        <a href="https://apps.apple.com/pl/app/studiflats/id6474908385"><img class="apple-store-link" src="google-play.png" /></a>
+      </div>
+    </div>
+
+
+
+
+      </div>
+    </div>
+
+
+  </div>

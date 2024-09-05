@@ -182,8 +182,119 @@
 
 
 
+<div class="HowItWorks" style="background-color: #fff;">
+  <div style="height: 70px;"></div>
+  <div class="header" style="margin-bottom: 50px;" >
+    <h1>How StudiFlats works</h1>
+    <p>From Search to Stay, We’ve Got You Covered</p>
+  </div>
+  <div class="row g-3">
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <p-card header="Search & Select"   [style]="{  padding: '24px',height: '389px'}">
+        <ng-template pTemplate="header">
 
-<app-faq [titleAlignment]="'left'" [titleMargin]="'0'" [faqLimit]="3" [showViewAllButton]="true"></app-faq>
+
+
+            <img alt="Card" src="select.svg"  class="iconwork"/>
+
+
+        </ng-template>
+        <p>
+          Students can set their search criteria in the StudiFlats app to receive personalized apartment suggestions. They can then browse and select the perfect option that fits their needs.
+        </p>
+
+    </p-card>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <p-card header="Lease & Documents"   [style]="{  padding: '24px',height: '389px'}">
+        <ng-template pTemplate="header">
+
+
+
+            <img alt="Card" src="doc.svg"  class="iconwork"/>
+
+
+        </ng-template>
+        <p>
+          After selecting an apartment, users can confirm their inquiry and upload the necessary documents to sign the lease agreement directly through the app.
+        </p>
+
+    </p-card>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <p-card header="Manage & Pay"   [style]="{  padding: '24px',height: '389px'}">
+        <ng-template pTemplate="header">
+
+
+
+            <img alt="Card" src="payment.svg"  class="iconwork"/>
+
+
+        </ng-template>
+        <p>
+          The app lets students manage their rental, handle payments, and report issues seamlessly, ensuring a hassle-free rental experience.
+        </p>
+
+    </p-card>
+    </div>
+  </div>
+
+  <div style="height: 45px;"></div>
+
+</div>
+
+
+
+<div class="HowItWorks" style="background-color: #EBEBEB;">
+  <div style="height: 70px;"></div>
+  <div class="header" style="margin-bottom: 50px;" >
+    <h1>Our Customer Feedback</h1>
+    <p>Don’t take our word for it. Trust our customers</p>
+  </div>
+  <p-carousel
+  [value]="userComments"
+  [numVisible]="3"
+  [numScroll]="1"
+  [circular]="false"
+  [responsiveOptions]="responsiveOptions"
+  styleClass="custom-carousel">
+  <ng-template let-comment pTemplate="item">
+      <div class="p-card comments  shadow-2 p-3 mb-3 border-round" style="height: 250px;">
+          <div class="flex align-items-center ">
+              <img
+                  src="{{ comment.userImage }}"
+                  alt="{{ comment.userName }}"
+                  class="w-4rem h-4rem border-circle mr-3"
+                  style="border: 3px solid #FFDD57; padding: 0.25rem;" />
+              <div class="flex justify-content-between align-items-center w-full">
+                  <div>
+                      <span class="text-lg font-bold">{{ comment.userName }}</span>
+                  </div>
+                  <div class="flex align-items-center">
+                      <span class="text-md font-bold">{{ comment.rating }}</span>
+                      <i class="pi pi-star text-warning ml-2"></i>
+                  </div>
+              </div>
+          </div>
+          <div class="mt-3">
+              <p class="text-md">
+                  {{ comment.userComment }}
+              </p>
+          </div>
+      </div>
+  </ng-template>
+</p-carousel>
+
+
+
+
+  <div style="height: 45px;"></div>
+
+</div>
+
+
+
+<app-faq [fixheight]="'50px'" [customClass]="'custom-accordion-style'" [backgroundColor]="'#fff'" [titleAlignment]="'left'" [titleMargin]="'0'" [faqLimit]="3" [showViewAllButton]="true"></app-faq>
 
 
 <!-- <app-footer ></app-footer> -->

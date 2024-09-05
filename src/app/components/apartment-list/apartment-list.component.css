@@ -204,9 +204,13 @@ button .p-button-icon-right, button .p-button-icon-left {
     font-size: 0.8em;
   }
   #googlemap{
-    margin-bottom: 100px;
+    /* margin-bottom: 100px;
     width: 300px;
-    height: 300px;
+    height: 300px; */
+    display:none;
+  }
+  .map{
+    display:none;
   }
 }
 

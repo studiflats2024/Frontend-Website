@@ -39,6 +39,66 @@ export class HomeComponent implements OnInit{
 
   }
 
+  userComments = [
+    // {
+    //     userImage: 'img1user.png',
+    //     userName: 'Floyd Miles',
+    //     userComment: 'Amet minim mollit non deserunt ullamco est sit aliqua dolor do amet sint.',
+    //     rating: '4.8'
+    // },
+    {
+        userImage: 'img2user.png',
+        userName: 'Jane Smith',
+        userComment: 'I booked a bed in a shared apartment, and it was a fantastic experience. The host was very accommodating, and the location was perfect for exploring the city. The other guests were friendly, and it felt like a home away from home.',
+        rating: '4.7'
+    },
+    {
+        userImage: 'img3user.png',
+        userName: 'Mike Johnson',
+        userComment: 'I stayed in a private room in an apartment and was very impressed with the cleanliness and comfort. The bed was large and comfortable, and the apartment had a very welcoming atmosphere. A great value for the price!',
+        rating: '4.9'
+    },
+    {
+      userImage: 'img1user.png',
+      userName: 'Floyd Miles',
+      userComment: 'The apartment was spotless and exactly as described. The bed was incredibly comfortable, and the view from the balcony was breathtaking. Highly recommend this place for anyone looking for a peaceful stay.',
+      rating: '4.8'
+  },
+  {
+      userImage: 'img2user.png',
+      userName: 'Jane Smith',
+      userComment: 'I booked a bed in a shared apartment, and it was a fantastic experience. The host was very accommodating, and the location was perfect for exploring the city. The other guests were friendly, and it felt like a home away from home.',
+      rating: '4.7'
+  },
+  {
+      userImage: 'img3user.png',
+      userName: 'Mike Johnson',
+      userComment: 'I stayed in a private room in an apartment and was very impressed with the cleanliness and comfort. The bed was large and comfortable, and the apartment had a very welcoming atmosphere. A great value for the price!',
+      rating: '4.9'
+  }
+];
+
+
+responsiveOptions = [
+  {
+      breakpoint: '1024px',
+      numVisible: 3,
+      numScroll: 1
+  },
+  {
+      breakpoint: '768px',
+      numVisible: 2,
+      numScroll: 1
+  },
+  {
+      breakpoint: '560px',
+      numVisible: 1,
+      numScroll: 1
+  }
+];
+
+
+
   handleSearchResults(results: any) {
     this.apartmentsSearch = results.data;
     console.log('Received search results in parent component:', this.apartmentsSearch);

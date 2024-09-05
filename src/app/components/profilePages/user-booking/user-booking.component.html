@@ -1,0 +1,60 @@
+
+<div style="height: 85px;  background: var(--Neutral-Neutral95, #F6F6F6);"></div>
+<p-breadcrumb class="max-w-full" [model]="items">
+  <ng-template pTemplate="item" let-item>
+      <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+          <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+          <span>{{ item.label }}</span>
+      </a>
+  </ng-template>
+</p-breadcrumb>
+<div class="main-container row g-5" routerLink="/booking-details" >
+
+
+
+<div class="col-lg-3 col-md-6 col-sm-1">
+
+  <app-app-sider></app-app-sider>
+</div>
+
+
+
+  <div class="col-lg-9 col-md-6 col-sm-11">
+    <p-card   [style]="{ width: '360px' }">
+      <ng-template pTemplate="header">
+          <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+      </ng-template>
+
+
+      <div class="booking-card">
+        <div class="head">
+          <h3>The Aston Vill Hotel (1)</h3>
+          <span class="status pending">Pending</span>
+        </div>
+        <p class="location">
+          <i class="pi pi-map-marker" style="color:#4C4DDC"></i> Alice Springs NT 0870...
+        </p>
+        <div class="dates">
+          <div class="checkin">
+            <p class="label">Check In</p>
+            <p class="date">19 Jun 2023</p>
+          </div>
+          <div class="divider"></div>
+          <div class="checkout">
+            <p class="label">Check Out</p>
+            <p class="date">19 Jun 2024</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- <ng-template pTemplate="footer">
+          <div class="flex gap-3 mt-1">
+              <p-button label="Cancel" severity="secondary" class="w-full" styleClass="w-full" />
+              <p-button label="Save" class="w-full" styleClass="w-full" />
+          </div>
+      </ng-template> -->
+  </p-card>
+  </div>
+
+
+</div>

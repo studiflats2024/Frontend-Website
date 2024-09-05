@@ -1,0 +1,395 @@
+
+<div style="height: 85px;  background: var(--Neutral-Neutral95, #F6F6F6);"></div>
+<p-breadcrumb class="max-w-full" [model]="items">
+  <ng-template pTemplate="item" let-item>
+      <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+          <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+          <span>{{ item.label }}</span>
+      </a>
+  </ng-template>
+</p-breadcrumb>
+<div class="main-container row g-5" >
+
+
+
+<div class="col-lg-3 col-md-4 col-sm-1">
+
+  <app-app-sider></app-app-sider>
+</div>
+
+
+
+  <div class="col-lg-9 col-md-8 col-sm-11">
+    <div class="parent">
+       <div class="sectionOne">
+        <p-avatar
+        image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+        styleClass="mr-4"
+        size="xlarge"
+        shape="circle"
+        />
+        <div class="info">
+            <h4>ashraf salah</h4>
+            <p>ashraf20&#64;gmail.com</p>
+        </div>
+        <div class="divider"></div>
+        <button pButton>Upload</button>
+       </div>
+
+       <div class="sectionTwo">
+        <form #infoForm="ngForm" (ngSubmit)="onSubmit(infoForm)">
+          <div class="row w-full">
+
+          <div class="col-lg-6 col-sm-12 ">
+          <div class="flex flex-column gap-2 full-width col">
+            <label for="username">Username</label>
+            <input
+                pInputText
+                id="username"
+                aria-describedby="username-help"
+                [(ngModel)]="value"
+                name="username"
+                #username="ngModel"
+                required
+                minlength="3"/>
+            <!-- <small id="username-help">
+                Enter your username to reset your password.
+            </small> -->
+            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="error">
+              <small *ngIf="username.errors?.['required']">Username is required.</small>
+              <small *ngIf="username.errors?.['minlength']">Username must be at least 3 characters long.</small>
+            </div>
+          </div>
+
+          <!-----phone input ------->
+          <div class="flex flex-column gap-2 full-width col">
+            <label for="phone">Phone Number</label>
+            <input
+                id="phone"
+                name="phone"
+                [(ngModel)]="phoneNumber"
+                required
+                #phone="ngModel"
+                class="form-control">
+            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="error">
+              <small *ngIf="phone.errors?.['required']">Phone number is required.</small>
+            </div>
+          </div>
+        </div>
+          <!------gender and date-->
+         <div class="col-lg-6 col-sm-12 ">
+          <div class="flex flex-column gap-2 full-width col">
+            <label for="gender">Gender</label>
+            <p-dropdown
+                [options]="genders"
+                [(ngModel)]="gender"
+                name="gender"
+                placeholder="Select a gender">
+            </p-dropdown>
+          </div>
+
+          <div class="flex flex-column gap-2 full-width col">
+            <label for="birthday">Birthday</label>
+            <p-calendar
+                [(ngModel)]="birthday"
+                name="birthday"
+                dateFormat="mm/dd/yy"
+                showIcon="true">
+            </p-calendar>
+          </div>
+
+
+          <div class="flex flex-column gap-2 full-width col justify-content-end align-content-end">
+            <button  pButton  class="update" type="submit" label="Update" style="align-self: flex-end;"></button>
+          </div>
+        </div>
+        </div>
+        </form>
+
+       </div>
+
+       <div class="sectionTwo row dialog" style="padding: 13px;">
+        <div class="col-lg-11 col-md-9 col-sm-12 ">
+        <p class="label">email address</p>
+        <p class="value">ashraf20&#64;gmail.com</p>
+        </div>
+
+        <div class="col-lg-1 col-md-3 col-sm-12 "> <p-button (onClick)="showDialog()" label="Update"></p-button></div>
+       </div>
+
+
+       <div class="sectionTwo row dialog" style="padding: 13px;">
+        <div class="col-lg-11 col-md-9 col-sm-12 ">
+        <p class="label">what’s app number</p>
+        <p class="value">+20 115 465 2523</p>
+        </div>
+         <!-- <div class="col-lg-1 col-md-3 col-sm-12 "> <a href="">Update</a></div> -->
+         <div class="col-lg-1 col-md-3 col-sm-12 "> <p-button (onClick)="showDialog1()" label="Update"></p-button></div>
+       </div>
+
+
+       <div class="sectionTwo row dialog" style="padding: 13px;">
+        <div class="col-lg-11 col-md-9 col-sm-12 ">
+        <p class="label">change password</p>
+        <p class="value">**************</p>
+        </div>
+        <!-- <div class="col-lg-1 col-md-3 col-sm-12 col"> <a href="">Update</a></div> -->
+        <div class="col-lg-1 col-md-3 col-sm-12 "> <p-button (onClick)=" showDialogPass()" label="Update"></p-button></div>
+
+       </div>
+
+
+    </div>
+  </div>
+
+
+</div>
+
+
+
+
+
+
+
+
+<!----------------otp dialog--------------->
+
+<p-dialog
+    header="Verification"
+    [(visible)]="visible"
+    [modal]="true"
+    [style]="{ width: '25rem' }"
+    [closable]="true">
+
+    <ng-template pTemplate="header">
+        <span class="spanotp">Verification</span>
+    </ng-template>
+
+    <span class="disc">
+        Please enter the verification code sent to your email.
+    </span>
+
+    <!-- Using p-inputMask for OTP -->
+    <div class="flex justify-content-center align-items-center mb-4">
+      <p-inputOtp [(ngModel)]="value" />
+    </div>
+
+    <div class="flex justify-content-center align-items-center gap-2 mb-4">
+        <a href="#" class="resend-link">
+            <i class="pi pi-refresh"></i> Resend verification code
+        </a>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button
+            label="Continue"
+            class="continue-button"
+            styleClass="p-button-primary p-button-block"
+            (onClick)="handleContinue()">
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+
+<p-dialog
+    header="Verification"
+    [(visible)]="visible1"
+    [modal]="true"
+    [style]="{ width: '25rem' }"
+    [closable]="true">
+
+    <ng-template pTemplate="header">
+        <span class="spanotp">Verification</span>
+    </ng-template>
+
+    <span class="disc">
+      Please enter the verification code sent to your what’s app
+    </span>
+
+    <!-- Using p-inputMask for OTP -->
+    <div class="flex justify-content-center align-items-center mb-4">
+      <p-inputOtp [(ngModel)]="value" />
+    </div>
+
+    <div class="flex justify-content-center align-items-center gap-2 mb-4">
+        <a href="#" class="resend-link">
+            <i class="pi pi-refresh"></i> Resend verification code
+        </a>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button
+            label="Continue"
+            class="continue-button"
+            styleClass="p-button-primary p-button-block"
+            (onClick)="handleContinue1()">
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+
+
+<!-------------------email dialog----------->
+
+
+<p-dialog
+    header="Verification"
+    [(visible)]="emailDialog"
+    [modal]="true"
+    [style]="{ width: '25rem' }"
+    [closable]="true">
+
+    <ng-template pTemplate="header">
+        <span class="spanotp">Add New Email</span>
+    </ng-template>
+
+    <span class="disc">
+      Please enter new email address
+    </span>
+
+    <div class="flex flex-column gap-2 full-width col">
+      <label for="email">Email Address</label>
+      <input
+        pInputText
+        id="email"
+
+        aria-describedby="email-help"
+        [(ngModel)]="email"
+        name="email"
+        #email="ngModel"
+        required
+        email
+      />
+      <!-- Uncomment this if you'd like to add some guidance -->
+      <!-- <small id="email-help">
+          Enter your email to reset your password.
+      </small> -->
+
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error">
+        <small *ngIf="email.errors?.['required']">Email is required.</small>
+        <small *ngIf="email.errors?.['email']">Please enter a valid email address.</small>
+      </div>
+    </div>
+
+
+    <ng-template pTemplate="footer">
+        <p-button
+            label="Continue"
+            class="continue-button"
+            styleClass="p-button-primary p-button-block"
+            (onClick)="handleContinueEmail()">
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+<!----------------------phone dialog------------->
+
+
+
+<p-dialog
+    header="Verification"
+    [(visible)]="phoneDialog"
+    [modal]="true"
+    [style]="{ width: '25rem' }"
+    [closable]="true">
+
+    <ng-template pTemplate="header">
+        <span class="spanotp" style="font-size: 28px;">Add New What’s App </span>
+    </ng-template>
+
+    <span class="disc">
+      Please enter new what’s app number
+    </span>
+
+
+    <div class="flex flex-column gap-2 full-width col">
+      <label for="phonee">Phone Number</label>
+      <input
+          id="phonee"
+          name="phonee"
+          [(ngModel)]="phoneNumber"
+          required
+          #phonee="ngModel"
+          class="form-control">
+      <div *ngIf="phonee.invalid && (phonee.dirty || phonee.touched)" class="error">
+        <small *ngIf="phonee.errors?.['required']">Phone number is required.</small>
+      </div>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button
+            label="Continue"
+            class="continue-button"
+            styleClass="p-button-primary p-button-block"
+            (onClick)="handleContinuePhone()">
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+
+<!-----------------password dialog--------------->
+
+<p-dialog
+    header="Verification"
+    [(visible)]="passwordDialog"
+    [modal]="true"
+    [style]="{ width: '25rem' }"
+    [closable]="true">
+
+    <ng-template pTemplate="header">
+        <span class="spanotp">change password</span>
+    </ng-template>
+
+    <span class="disc">
+      Please enter current password then add new password
+    </span>
+
+    <div class="flex flex-column gap-2 full-width col">
+      <label for="password">Current Password*</label>
+      <p-password id="password" [(ngModel)]="currentPass" #password="ngModel" [toggleMask]="true"
+                  required minlength="8"  ></p-password>
+
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error">
+        <small *ngIf="password.errors?.['required']">Password is required.</small>
+        <small *ngIf="password.errors?.['minlength']">
+          Password must be at least 8 characters long.
+        </small>
+      </div>
+    </div>
+
+    <div class="flex flex-column gap-2 full-width col">
+      <label for="password">New Password*</label>
+      <p-password id="password" [(ngModel)]="newPass" #password="ngModel" [toggleMask]="true"
+                  required minlength="8" ></p-password>
+
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error">
+        <small *ngIf="password.errors?.['required']">Password is required.</small>
+        <small *ngIf="password.errors?.['minlength']">
+          Password must be at least 8 characters long.
+        </small>
+      </div>
+    </div>
+
+    <div class="flex flex-column gap-2 full-width col">
+      <label for="password">Confirm New Password*</label>
+      <p-password id="password" [(ngModel)]="confirmNewPass" #password="ngModel" [toggleMask]="true"
+                  required minlength="8"  ></p-password>
+
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error">
+        <small *ngIf="password.errors?.['required']">Password is required.</small>
+        <small *ngIf="password.errors?.['minlength']">
+          Password must be at least 8 characters long.
+        </small>
+      </div>
+    </div>
+
+
+    <ng-template pTemplate="footer">
+        <p-button
+            label="Continue"
+            class="continue-button"
+            styleClass="p-button-primary p-button-block"
+            (onClick)="handleContinuePass()">
+        </p-button>
+    </ng-template>
+</p-dialog>

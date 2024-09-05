@@ -1,0 +1,84 @@
+
+<div style="height: 85px;  background: var(--Neutral-Neutral95, #F6F6F6);"></div>
+<p-breadcrumb class="max-w-full" [model]="items">
+  <ng-template pTemplate="item" let-item>
+      <a [routerLink]="item.routerLink" class="p-menuitem-link" routerLinkActive="text-primary font-semibold">
+          <span *ngIf="item.icon" [ngClass]="item.icon" class="mr-2"></span>
+          <span>{{ item.label }}</span>
+      </a>
+  </ng-template>
+</p-breadcrumb>
+<div class="main-container row g-5" >
+
+
+
+<div class="col-lg-3 col-md-6 col-sm-1">
+
+  <app-app-sider></app-app-sider>
+</div>
+
+
+
+  <div class="col-lg-9 col-md-6 col-sm-11">
+    <p-card   [style]="{ width: '360px' }">
+      <ng-template pTemplate="header">
+          <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+      </ng-template>
+
+
+      <div class="apartment-content">
+        <div class="apartment-header">
+          <div class="apartment-title"><a   style="text-decoration: none; color: inherit;">Togostr 17 Studio 1</a></div><!--routerLink="/apartment-details/{{apartment?.apartment_ID}}"-->
+          <!-- <i class="pi pi-heart"></i> -->
+           <img src="heart.svg"/>
+        </div>
+        <div class="apartment-location">
+          <i class="pi pi-map-marker"></i>
+          <span>Togostr , 17 , 13351 Berlin , Berlin - Wedding</span>
+        </div>
+        <div class="divider-wish"></div>
+        <div class="apartment-details">
+          <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid"> 5 beds</div>
+          <div class="detail-item"><i class="pi pi-user"></i> 4 persons</div>
+          <div class="detail-item"><i class="pi pi-home"></i> 100 m²</div>
+        </div>
+        <div class="amenities">
+          <span ><!-- *ngFor="let amenity of apartment.amenities; let last = last"-->
+            <!-- <ng-container *ngIf="amenity === 'Wifi'; else regularAmenity">
+              <i class="pi pi-wifi"></i> {{ amenity }}
+            </ng-container> -->
+            Wifi · Kitchen · Free Parking
+            <ng-template #regularAmenity>
+              <!-- {{ amenity }} -->
+              Wifi · Kitchen · Free Parking
+            </ng-template>
+            <!-- <span *ngIf="!last" class="dot">·</span> -->
+          </span>
+        </div>
+        <div class="divider-wish"></div>
+        <div class="apartment-footer">
+          <div class="review">
+            <span class="rating">5 </span>
+            <!-- {{ apartment.rating }} -->
+            <i class="pi pi-star"></i>
+            <span class="review-count">aa </span>
+            <!-- ({{ apartment.reviews }} reviews) -->
+          </div>
+          <div class="price">
+            <span> 111€</span>/month
+            <!-- {{ apartment.apartment_Price }} -->
+          </div>
+        </div>
+      </div>
+
+      <!-- <ng-template pTemplate="footer">
+          <div class="flex gap-3 mt-1">
+              <p-button label="Cancel" severity="secondary" class="w-full" styleClass="w-full" />
+              <p-button label="Save" class="w-full" styleClass="w-full" />
+          </div>
+      </ng-template> -->
+  </p-card>
+  </div>
+
+
+</div>

@@ -48,4 +48,7 @@ export class FaqComponent implements OnInit {
       'margin-left': this.titleMargin
     };
   }
+  @Input() backgroundColor: string = '#EBEBEB';
+  @Input() customClass: string = '';
+  @Input() fixheight: string = '100px';
 }

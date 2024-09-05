@@ -215,6 +215,52 @@
   margin-bottom: 30 !important;
 }
 
+.custom-accordion-style  ::ng-deep .p-accordion .p-accordion-header .p-accordion-header-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 15px;
+  font-weight: bold;
+  color: #212529;
+  text-decoration: none;
+  background: #f0f0f0; /* Changed background */
+
+}
+
+
+
+.custom-accordion-style .custom-accordion-header {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  border-radius: 8px;
+  padding: 7px 0;
+ background: #f0f0f0 ;
+}
+
+.custom-accordion-style ::ng-deep .p-accordion .p-accordion-content {
+  /* padding: 15px; */
+  border: 1px solid #dee2e6;
+  border-top: none;
+  border-radius: 0 0 5px 5px;
+  background-color: #f0f0f0;
+  /* margin-bottom: 15px; */
+  /* margin: 0 78px !important; */
+
+}
+.custom-accordion-style .faq-button {
+  background: #dbd9d9;
+
+  border-radius: 24px;
+  width: 35px;
+  height: 35px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border:none;
+  color: #313033;
+}
+
 
 :host ::ng-deep .p-accordion .p-accordion-content {
   /* padding: 15px; */

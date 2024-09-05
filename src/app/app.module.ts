@@ -21,7 +21,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
 import { FaqComponent } from './components/faq/faq.component';
-
+import { AppSiderComponent } from './components/profilePages/app-sider/app-sider.component';
 
 
 
@@ -32,6 +32,7 @@ import { FaqComponent } from './components/faq/faq.component';
     //  HeaderComponent,
      FooterComponent,
     //  FaqComponent
+    // AppSiderComponent
 
   ],
   imports: [

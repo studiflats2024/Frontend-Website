@@ -1,0 +1,19 @@
+
+
+<div  style="position: relative;">
+<p-button  class="pretty-button"  (onClick)="menu.toggle($event)" icon="pi pi-ellipsis-v" *ngIf="popup" ></p-button>
+<p-tieredMenu #menu [model]="items" [popup]="popup" class="custom-popup-menu" >
+  <ng-template pTemplate="item" let-item let-hasSubmenu="hasSubmenu">
+    <a [routerLink]="item.routerLink" class="p-menuitem-link">
+      <span  [class]="item.icon"></span>
+      <span class="ml-2">{{ item.label }}</span>
+      <span   class="pi pi-angle-right ml-auto"></span>
+    </a>
+  </ng-template>
+</p-tieredMenu>
+
+</div>
+
+
+
+<p-toast></p-toast>
