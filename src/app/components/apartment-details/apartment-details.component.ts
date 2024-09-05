@@ -16,7 +16,7 @@ import { FaqService } from '../../services/faq.service';
 import $ from 'jquery';
 import { FormBuilder, FormGroup, Validators, AbstractControl,FormArray } from '@angular/forms';
 import { UserService  } from '../../services/user.service';
-
+import { AuthService } from '../../services/auth.service';
 
 import { HttpClient } from '@angular/common/http';
 
@@ -1169,6 +1169,7 @@ preservedGuests:any
     private faqService: FaqService,
     private fb: FormBuilder,
     private userService: UserService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef)
      {
     this.apt_UUID = _ActivatedRoute.snapshot.paramMap.get('id');
@@ -2067,7 +2068,10 @@ onLoginSubmit(): void {
           this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
           console.log('User account created successfully', response);
           localStorage.setItem('token', response.token);
+
           this.getProfileData();
+
+          this.authService.login(this.namelogin, response.token);
           // if(this.selectedItem < 1 ){
           // this.openModalbooking()
           // }else{
@@ -2095,6 +2099,11 @@ getProfileData(): void {
     data => {
       this.profileData = data;
       console.log('ProfileData :',this.profileData);
+      this.namelogin= this.profileData[0]?.fullName;
+      this.emaillogin=this.profileData[0]?.email;
+      this.phonelogin=this.profileData[0]?.mobile;
+      const token = localStorage.getItem('token') || ''; // Fallback to an empty string if the token is null
+      this.authService.login(this.namelogin, token);
     },
     error => {
       console.error('There was an error!', error);

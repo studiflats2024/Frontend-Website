@@ -7,6 +7,7 @@ import {  MessageService } from 'primeng/api';
 import { HttpClient } from '@angular/common/http';
 import { Globals, isValidEmail } from '../app/globals/global';
 import { ApartmentSearchService } from './services/apartment-search.service';
+import { AuthService } from './services/auth.service';
 
 declare var intlTelInput: any;
 declare var intlTelInputUtils: any;
@@ -55,7 +56,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
   selectedCountry: any;
   isLoggedIn:any;
 
-  constructor(private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef,private apartmentSearchService: ApartmentSearchService) {}
+  constructor(private authService: AuthService,private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef,private apartmentSearchService: ApartmentSearchService) {}
   passwordFieldType: string = 'password'; // This controls the input type
   passwordFieldTypee: string = 'password';
   togglePasswordVisibility(): void {
@@ -692,6 +693,7 @@ onLoginSubmit(): void {
           this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
           console.log('User account created successfully', response);
           localStorage.setItem('token', response.token);
+          this.getProfileData(response.token);
 
 
         //  let namelogin:any= localStorage.getItem('name');
@@ -722,6 +724,28 @@ onLoginSubmit(): void {
 
   }
 }
+
+
+profileData: any;
+getProfileData(token:any): void {
+  this.userService.getProfile().subscribe(
+    data => {
+      this.profileData = data;
+      console.log('ProfileData :',this.profileData);
+      this.userName= this.profileData[0]?.fullName;
+      // this.emaillogin=this.profileData[0]?.email;
+      // this.phonelogin=this.profileData[0]?.mobile;
+      this.authService.login(this.userName, token);
+    },
+    error => {
+      console.error('There was an error!', error);
+    }
+  );
+}
+     userName:any;
+
+
+
 /////////////////////////////////////////
 //social sign/////////////////////
 

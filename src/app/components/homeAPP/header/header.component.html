@@ -79,15 +79,56 @@
               <div class="custom-icon"  ><i class="fas fa-search thin-icon"></i></div>
             </div>
           </div>
-          <div class="custom-signin d-flex justify-content-center align-items-center px-3" style="width: 120px; height: 40px;"  (click)="showLogin()">
-            {{ isAuthenticated() ? 'Logout' : 'Sign in' }}
+
+          <ng-container *ngIf="isAuthenticated();  ">
+            <!-- <p-avatar
+              icon="pi pi-user"
+              styleClass="mr-2"
+              [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+              shape="circle" /> -->
+              <div routerLink="/my-bookings" style="cursor: pointer;">
+                <span class="pi pi-user "  ></span>
+                {{ userName }}
+              </div>
+
+            <!-- <i class="pi pi-sign-out ml-2" style="color: #1151B4"></i> -->
+            <!-- <p-chip
+              label="{{ userName }}"
+              image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+              alt="Avatar image">
+            </p-chip> -->
+          </ng-container>
+          <div  [ngClass]="isAuthenticated() ? 'custom-logged-in' : 'custom-signin'" class="  d-flex justify-content-center align-items-center " style="  height: 40px;"  (click)="showLogin()">
+            <!-- {{ isAuthenticated() ? 'Logout' : 'Sign in' }} -->
+            <!-- {{ isAuthenticated() ? userName : 'Sign in' }} -->
+            <ng-container *ngIf="isAuthenticated(); else signIn">
+              <!-- <p-avatar
+                icon="pi pi-user"
+                styleClass="mr-2"
+                [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
+                shape="circle" /> -->
+                <!-- <span class="pi pi-user mr-2"></span>
+              {{ userName }} -->
+              <i class="pi pi-sign-out " style="color: #1151B4"></i>
+              <!-- <p-chip
+                label="{{ userName }}"
+                image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                alt="Avatar image">
+              </p-chip> -->
+            </ng-container>
+
+            <!-- If the user is not authenticated, show "Sign in" -->
+            <ng-template #signIn>
+              Sign in
+            </ng-template>
+
           </div>
           <!-- <div class="custom-globe rounded-circle d-flex justify-content-center align-items-center" style="width: 24px; height: 24px;">
             <div class="custom-globe rounded-circle d-flex justify-content-center align-items-center" style="width: 14px; height: 14px;"> </div>
             <div class="custom-globe d-flex justify-content-center align-items-center" style="width: 6.5px; height: 14.5px;"></div>
             <div class="custom-globe d-flex justify-content-center align-items-center" style="width: 14px; height: 0;"></div>
           </div> -->
-          <i class="fa fa-globe"></i>
+          <!-- <i class="fa fa-globe"></i> -->
         </div>
       </div>
     </div>

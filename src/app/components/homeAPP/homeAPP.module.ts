@@ -21,8 +21,10 @@ import { TagModule } from 'primeng/tag';
 import { BadgeModule } from 'primeng/badge';
 import { CarouselModule } from 'primeng/carousel';
 import { PaginatorModule } from 'primeng/paginator';
-
+import { ChipModule } from 'primeng/chip';
 import { AppComponent } from '../../app.component';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 
 @NgModule({
@@ -52,6 +54,9 @@ import { AppComponent } from '../../app.component';
     BadgeModule,
     CarouselModule,
     PaginatorModule,
+    ChipModule,
+    AvatarModule,
+    AvatarGroupModule
   ],
   exports: [
     HeaderComponent,
