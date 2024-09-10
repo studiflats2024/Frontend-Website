@@ -11,7 +11,7 @@
 
 // }
 
-import { Component , EventEmitter, Output , OnInit } from '@angular/core';
+import { Component , EventEmitter, Output , OnInit, HostListener } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
@@ -52,6 +52,28 @@ isLoggedIn:any;
 isAuthenticated(): boolean {
 
   return !!localStorage.getItem('token');
+}
+
+
+
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent) {
+  const targetElement = event.target as HTMLElement;
+
+  // إذا تم النقر خارج القائمة
+  if (!targetElement.closest('#navbarNav')) {
+    const navbar = document.getElementById('navbarNav');
+    if (navbar && navbar.classList.contains('show')) {
+
+      navbar.classList.remove('show');
+    }
+  }else{
+    const navbar = document.getElementById('navbarNav');
+    if (navbar && navbar.classList.contains('show')) {
+
+      navbar.classList.remove('show');
+    }
+  }
 }
 
 

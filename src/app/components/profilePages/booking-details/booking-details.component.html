@@ -40,11 +40,15 @@
             </p-button>
 
             <!-- Ellipsis (More Options) button -->
-            <p-button  class="p-button-rounded p-button-text " [ngStyle]="{'color': '#313033'}">
+            <!-- <p-button  class="p-button-rounded p-button-text " [ngStyle]="{'color': '#313033'}">
               <img src="threeDot.svg"/>
-            </p-button>
+            </p-button> -->
+            <!-- <p-toast></p-toast> -->
+            <!-- <p-menu #menu1 [model]="items1" [popup]="true" ></p-menu> -->
+            <p-button (click)="menu1.toggle($event)" icon="pi pi-ellipsis-v"></p-button>
           </div>
         </p-toolbar>
+
 
 
 
@@ -52,27 +56,29 @@
 
         <p-card   [style]="{ width: '360px' }">
           <ng-template pTemplate="header">
-              <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+              <img alt="Card" [src]="bookingDetails?.apartment_Picture" />
           </ng-template>
 
 
           <div class="booking-card">
             <div class="head">
-              <h3>The Aston Vill Hotel (1)</h3>
-              <span class="status pending">Pending</span>
+              <h3>{{ bookingDetails?.apartment_Name }}</h3>
+              <span class="status" [ngClass]="bookingDetails?.booking_Status.toLowerCase()">
+                {{ bookingDetails?.booking_Status }}
+              </span>
             </div>
             <p class="location">
-              <i class="pi pi-map-marker" style="color:#4C4DDC"></i> Alice Springs NT 0870...
+              <i class="pi pi-map-marker" style="color:#4C4DDC"></i> {{ bookingDetails?.apartment_Location }}
             </p>
             <div class="dates">
               <div class="checkin">
                 <p class="label">Check In</p>
-                <p class="date">19 Jun 2023</p>
+                <p class="date">{{ bookingDetails?.check_In | date: 'dd MMM yyyy' }}</p>
               </div>
               <div class="divider"></div>
               <div class="checkout">
                 <p class="label">Check Out</p>
-                <p class="date">19 Jun 2024</p>
+                <p class="date">{{ bookingDetails?.check_Out | date: 'dd MMM yyyy' }}</p>
               </div>
             </div>
           </div>
@@ -91,9 +97,7 @@
         <p class="desc">Listed below are the details of the guests who will be staying in this apartment.</p>
       </div>
 
-
-
-      <div class="parent">
+      <!-- <div class="parent" *ngIf="bookingDetails.guests.length===1">
         <div class=" flex flex-wrap justify-content-between align-content-center mb-2">
           <div class="col-9">
 
@@ -102,38 +106,67 @@
 
         </div>
 
-          <span class="status pending"><img src="mainTenant.svg"/>main tenant</span>
+          <span *ngIf="bookingDetails?.guests.length!==bookingDetails?.booking_Guests_No || (bookingDetails?.guests.length===bookingDetails?.booking_Guests_No && bookingDetails?.full_Booking===true)" class="status pending"><img src="mainTenant.svg"/>main tenant</span>
         </div>
 
           <div class="info  flex flex-wrap justify-content-between align-content-center">
                <div>
                 <p class="label">Guest Name</p>
-                <p class="value">ashraf salah</p>
+                <p class="value">{{guest.guest_Name||userName}}</p>
                </div>
                <div>
                 <p class="label">Email Address</p>
-                <p class="value">ashrafsalah20&#64;gmail.com</p>
+                <p class="value">{{emaillogin}}</p>
                </div>
                <div>
                 <p class="label">what’s app number</p>
-                <p class="value">+20 115 465 2523</p>
+                <p class="value">{{phonelogin}}</p>
                </div>
           </div>
-      </div>
+      </div> -->
+<!-- <div *ngFor="let guest of bookingDetails?.guests; let i=index"> -->
+<div *ngFor="let room of groupedGuests | keyvalue;let i = index">
 
+  <div *ngIf="room.value && room.value.length > 0">
+      <div class="parent"  >
+        <div  *ngFor="let guest of room.value; let x=index">
 
+        <div class=" flex flex-wrap justify-content-between align-content-center mb-2">
+          <div class="col-9">
 
-      <div class="parent">
+            <p *ngIf="x===0" class="address value" style="margin-top: 0 !important;">{{guest.room_Type}}</p>
+            <p *ngIf="x===0" class="desc">Below are the details of the guest who will be staying in this room.</p>
 
-          <div  >
+        </div>
 
-            <p class="address value" style="margin-top: 0 !important;">Double Room</p>
-            <p class="desc">Below are the details of the guest who will be staying in this room.</p>
+          <!-- <span *ngIf="(bookingDetails?.guests.length!==bookingDetails?.booking_Guests_No || (bookingDetails?.guests.length===bookingDetails?.booking_Guests_No && bookingDetails?.full_Booking===true))&&i===0" class="status pending"><img src="mainTenant.svg"/>main tenant</span> -->
+          <!-- <span *ngIf="(bookingDetails?.guests.length>1 || (bookingDetails?.booking_Guests_No===1&& bookingDetails?.full_Booking===true))&&i==0" class="status pending"><img src="mainTenant.svg"/>main tenant</span> -->
+          <span *ngIf="(bookingDetails?.guests.length>1 || (bookingDetails?.booking_Guests_No===1&& bookingDetails?.full_Booking===true)) && guest.guest_ID===booking?.guests[0].guest_ID" class="status pending"><img src="mainTenant.svg"/>main tenant</span>
+
 
         </div>
 
 
-          <div class="value mb-3">Bed 1</div>
+          <div class="value mb-3">{{guest.bed_Name}}</div>
+          <div class="info  flex flex-wrap justify-content-between align-content-center mb-5">
+               <div>
+                <p class="label">Guest Name</p>
+                <p class="value">{{guest.guest_Name }}</p>
+               </div>
+               <div>
+                <p class="label">Email Address</p>
+                <!-- <p class="value">{{emaillogin}}</p> -->
+
+               </div>
+               <div>
+                <p class="label">what’s app number</p>
+                <!-- <p class="value">{{phonelogin}}</p> -->
+               </div>
+          </div>
+
+          <div *ngIf="room.value.length!=(x+1)" class="dividerr mb-5"></div>
+
+          <!-- <div class="value mb-3">Bed 2</div>
           <div class="info  flex flex-wrap justify-content-between align-content-center mb-5">
                <div>
                 <p class="label">Guest Name</p>
@@ -147,26 +180,14 @@
                 <p class="label">what’s app number</p>
                 <p class="value">+20 115 465 2523</p>
                </div>
-          </div>
-
-          <div class="dividerr mb-5"></div>
-
-          <div class="value mb-3">Bed 2</div>
-          <div class="info  flex flex-wrap justify-content-between align-content-center mb-5">
-               <div>
-                <p class="label">Guest Name</p>
-                <p class="value">ashraf salah</p>
-               </div>
-               <div>
-                <p class="label">Email Address</p>
-                <p class="value">ashrafsalah20&#64;gmail.com</p>
-               </div>
-               <div>
-                <p class="label">what’s app number</p>
-                <p class="value">+20 115 465 2523</p>
-               </div>
-          </div>
+          </div> -->
+        </div>
       </div>
+      </div>
+</div>
+
+
+
 
 
       <div >
@@ -175,71 +196,67 @@
       </div>
 
 
-      <div class=" container mt-4" style=" padding:15px; border: 0.8px solid #DFE4EA; border-radius: 8px;"  >
-
-
+      <div class="container mt-4" style="padding: 15px; border: 0.8px solid #DFE4EA; border-radius: 8px;">
         <div class="booking-summary my-3">Booking Summary</div>
+
         <div class="booking-summary-frame">
-        <div   style="width: 100%;">
-          <div    >
-            <div class="d-flex justify-content-between align-items-center w-100 mb-3">
-              <div class="room-title"> Single</div>
-              <div class="room-price">$999</div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center  w-100 mb-3">
-              <div>
-                <span class="fee-title">Security Deposit </span>
-                <span class="refundable">(Refundable)</span>
+          <div style="width: 100%;">
+
+            <!-- Loop through rooms -->
+            <div *ngFor="let room of groupedGuests | keyvalue; let i = index">
+
+              <!-- Check if room has any guests -->
+              <div *ngIf="room.value && room.value.length > 0">
+
+                <!-- Loop through guests -->
+                <div class="booking-frame"  >
+
+                  <!-- Display room type for the first guest in the room -->
+                  <div class="d-flex justify-content-between align-items-center my-2">
+                    <div class="room-title">{{ room.value[0].room_Type }}</div>
+                  </div>
+
+       <div *ngFor="let guest of room.value; let x = index">
+                  <!-- Display bed name and price -->
+                  <div class="d-flex justify-content-between align-items-center my-2 mb-3">
+                    <div class="bed-title">{{ guest.bed_Name }}</div>
+                    <div class="bed-price">{{ guest.bed_Price | currency }}</div>
+                  </div>
+        </div>
+                  <!-- Display security deposit -->
+                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
+                    <div>
+                      <span class="fee-title">Security Deposit</span>
+                      <span class="refundable">(Refundable)</span>
+                    </div>
+                    <div class="fee-price">{{ room.value[0].secuirty_Deposit | currency }}</div>
+                  </div>
+
+                  <!-- Display service fee -->
+                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
+                    <div class="fee-title">Service Fee</div>
+                    <div class="fee-price">{{ room.value[0].service_Fee | currency }}</div>
+                  </div>
+
+                  <!-- Divider between guests -->
+                  <div  *ngIf="(groupedGuests | keyvalue).length!=(i+1)" class="dividerr mt-3 mb-3"></div>
+
+                </div>
               </div>
-              <div class="fee-price">$333</div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center  w-100 mb-3">
-              <div class="fee-title">Service Fee</div>
-              <div class="fee-price">$888</div>
-            </div>
-          </div>
-
-          <div class="dividerr mt-3 mb-3"></div>
-
-          <div  class="booking-frame"  >
-            <div class="d-flex justify-content-between align-items-center my-2"  >
-              <div class="room-title">Double</div>
-
-            </div>
-            <div class="d-flex justify-content-between align-items-center my-2 mb-3"    >
-
-              <div   class="bed-title"  > bed</div>
-              <div   class="bed-price">$666</div>
             </div>
 
+            <!-- Divider before total -->
+            <div  class="dividerr mt-3 mb-3"></div>
 
-            <div class="d-flex justify-content-between align-items-center   my-2 mb-3"  >
-              <div>
-                <span class="fee-title">Security Deposit </span>
-                <span class="refundable">(Refundable)</span>
-              </div>
-              <div class="fee-price">$2222</div>
-            </div>
-            <div class="d-flex justify-content-between align-items-center   my-2 mb-3"  >
-              <div class="fee-title">Service Fee</div>
-              <div class="fee-price">$999</div>
+            <!-- Total amount (placeholder) -->
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="total-label">Total</div>
+              <div class="total-price">{{total | currency }}</div>
             </div>
           </div>
         </div>
+      </div>
 
-          <div class="dividerr mt-3 mb-3"></div>
-          <div class="d-flex justify-content-between align-items-center w-100">
-            <div class="total-label">Total</div>
-            <div class="total-price">$750</div>
-          </div>
-
-
-        </div>
-
-
-
-
-    </div>
 
 
 
@@ -257,5 +274,30 @@
       </div>
     </div>
 
+
+    <p-toast></p-toast>
+    <p-menu #menu1 [model]="items1" [popup]="true" ></p-menu>
+
+    <!-- Change Dates Modal -->
+<p-dialog header="Change Booking Dates" [(visible)]="changeDatesModalVisible" [modal]="true" [closable]="true" [style]="{width: '50vw'}">
+  <p>Choose your new dates</p>
+  <p-calendar [(ngModel)]="startDate" placeholder="start date" />
+  <p-calendar [(ngModel)]="endDate" placeholder="end date" />
+
+  <p-button (onClick)="updateRequestDates()" label="Update Dates" />
+</p-dialog>
+
+<!-- Cancel Booking Modal -->
+<p-dialog header="Cancel Booking" [(visible)]="cancelBookingModalVisible" [modal]="true" [closable]="true" [style]="{width: '50vw'}">
+  <p>Please give the reason for Cancellation</p>
+  <textarea
+    rows="5"
+    cols="30"
+    pInputTextarea
+    [(ngModel)]="cancelReason">
+</textarea>
+<p-calendar [(ngModel)]="cancelDate" placeholder="choose cancel date" />
+  <p-button (onClick)="cancelBooking()" label="Cancel Booking" />
+</p-dialog>
 
   </div>

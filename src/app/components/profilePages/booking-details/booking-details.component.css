@@ -558,3 +558,68 @@ text-transform: capitalize;
   height: 50px;
 
 }
+
+:host ::ng-deep .p-menu ul{
+  padding: 0;
+  width: auto;
+}
+
+:host ::ng-deep .p-menu ul li a{
+  text-decoration: none;
+  width: 100%;
+}
+
+:host ::ng-deep .p-dialog .p-dialog-content{
+  display: flex;
+  flex-direction: column;
+  gap:24px;
+  /* justify-content: center;
+  align-items: center; */
+}
+
+
+:host ::ng-deep .p-datepicker {
+  transform-origin: center bottom;
+  /* top: -600% !important; */
+  top:-100% !important;
+  left: 0% !important;
+  margin-top: calc(var(--p-anchor-gutter));
+  z-index: 99999;
+}
+
+:host ::ng-deep .p-datepicker .p-datepicker-group-container {
+  /* width: 100px; */
+}
+:host ::ng-deep .p-datepicker .p-datepicker-group-container table span {
+ padding: 0;
+ width: 20px;
+ height: 20px;
+
+}
+
+:host ::ng-deep .p-datepicker-header{
+  padding: 0;
+}
+
+:host ::ng-deep .p-datepicker table td {
+  padding: 0;
+}
+
+
+ @media (max-width:900px) {
+  :host ::ng-deep .p-dialog {
+    width: 100% !important;
+    height: 60%;
+   }
+   :host ::ng-deep .p-datepicker {
+    transform-origin: center bottom;
+    top: -400% !important;
+    left: 0% !important;
+    margin-top: calc(var(--p-anchor-gutter));
+    z-index: 9999;
+
+  }
+ }
+
+
+

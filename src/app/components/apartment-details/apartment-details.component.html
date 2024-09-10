@@ -1,6 +1,6 @@
 div
 
-<div class=" mx-6" style="margin-top: 100px;   position:relative">
+<div class=" mx-6 fix-details" style="margin-top: 100px;   position:relative">
 
 
 
@@ -27,10 +27,11 @@ div
 
   <div class=" gallery-container section-to-watch" style="position: relative;">
     <div class="row   ">
-      <div class="col-6    ">
+      <div class="col-6  firstImg  ">
         <img  [src]="currentImage" alt="Main Image" class="main-image w-full h-full">
+        <div class="show-all-btn lg" (click)="openModal()"><span (click)="openModal()" style="z-index: 150;">Show all</span> </div>
       </div>
-      <div class="col-6 ">
+      <div class="col-6 restImg">
         <div class="row h-full">
           <div class="col-6  mt-0"  >
             <img  [src]="aprt_Imgs[1] || 'default_apartment.jpg'" alt="Thumbnail 1" class="thumbnail mb-2 h-50">
@@ -45,7 +46,7 @@ div
         </div>
       </div>
 
-      <div class="modal fade show" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true" [ngClass]="{'d-block': showimages}" style="display: none; z-index: 2500;">
+      <!-- <div class="modal fade show" id="imageModal" tabindex="-1" aria-labelledby="imageModalLabel" aria-hidden="true" [ngClass]="{'d-block': showimages}" style="display: none; z-index: 2500;">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
             <div class="modal-header">
@@ -65,7 +66,25 @@ div
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
+
+
+      <p-galleria
+    [value]="aprt_Imgs"
+    [(visible)]="showimages"
+
+    [containerStyle]="{ 'max-width': '1000px' }"
+
+    [circular]="true"
+    [fullScreen]="true"
+    [showItemNavigators]="true"
+    [showThumbnails]="false">
+        <ng-template pTemplate="item" let-item>
+            <img
+                [src]="item"
+                style="width: 100%; height: 90%; object-fit: cover; display: block;" />
+        </ng-template>
+</p-galleria>
 
 
 
@@ -624,7 +643,7 @@ div
 
   </google-map> -->
   <div class="map-container" style="width: 100vw;">
-    <google-map id="" class="map-container section-to-watch" [center]="center" [zoom]="zoom"   style="width: 100vw !important; height: 500px; margin-bottom: 50px; ">
+    <google-map id="" class="map-container  " [center]="center" [zoom]="zoom"   style="width: 100vw !important; height: 500px; margin-bottom: 50px; ">
       <map-marker [position]="markerPosition" ></map-marker>
     </google-map>
     <!-- <div id="map"></div> -->
@@ -685,7 +704,7 @@ div
 
 
 <div class="d-grid">
-  <div class="row g-2">
+  <div class="row g-3">
     <div class="col-lg-4 col-md-6">
       <div class="  airbnb-comment">
         <div class="user-info">
@@ -1706,4 +1725,124 @@ div
       </div>
     </div>
   </div>
+</div>
+
+
+
+
+
+
+
+<!-------------------------booking button on small screen--------------------->
+<div class="booking-button-small  ">
+<div class="row">
+  <div class="col-6  btnn"  >
+    <p-button  class="btn-book" (onClick)="showDialog()" label="Request Apartment" />
+  </div>
+
+  <div class="small-details col-6">
+    <div class="starting-from">Starting From</div>
+    <div class="price">
+        <div class="amount">€500</div>
+        <div class="per-guest">per guest</div>
+    </div>
+  </div>
+</div>
+
+
+<p-dialog header="Edit Profile" [modal]="true" [(visible)]="visibleBooking" [style]="{ width: '25rem' }">
+  <div class=" bookingdisplay   booking-box   modalBook "   >
+    <div class="d-flex justify-content-start align-items-center gap-3">
+        <div class="d-flex justify-content-start align-items-center gap-2">
+            <i class="bi bi-calendar3 text-secondary"></i>
+            <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">Available from 28 JUN 2024</div>
+        </div>
+    </div>
+    <div class="detailss">
+        <div class="row">
+          <div class="attribute">
+            <label for="checkin" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECK IN</label>
+            <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkin" [(ngModel)]="checkinDate" (ngModelChange)="onCheckinDateChange($event)" >
+            <!-- <div *ngIf="bookingForm.get('checkinDate')?.invalid && bookingForm.get('checkinDate')?.touched" class="text-danger" style="font-size: 12px;">
+              Check-in date is required.
+            </div> -->
+           </div>
+            <!-- <div class="attribute">
+                <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">CHECKOUT</div>
+                <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">2/26/2022</div>
+            </div> -->
+            <div class="attribute">
+              <label for="checkout" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECKOUT</label>
+              <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout"  [(ngModel)]="checkoutDate" (ngModelChange)="onCheckoutDateChange($event)" >
+              <!-- <div *ngIf="bookingForm.get('checkoutDate')?.invalid && bookingForm.get('checkoutDate')?.touched" class="text-danger" style="font-size: 12px;">
+                Check-out date is required.
+              </div> -->
+            </div>
+        </div>
+
+        <!-- <div class="dropdown guests-dropdown">
+          <div class="d-flex justify-content-start align-items-center gap-2 p-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+              <div class="flex-grow-1">
+                  <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">GUESTS</div>
+                  <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">Select guests </div>
+              </div>
+              <i class="bi bi-chevron-down text-secondary"></i>
+          </div>
+          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              <li class="p-2 pl-3"> 1 guest </li>
+              <li class="p-2 pl-3"> 2 guests </li>
+              <li class="p-2 pl-3"> 3 guests </li>
+              <li class="p-2 pl-3"> 4 guests </li>
+          </ul>
+      </div> -->
+      <div class="dropdown guests-dropdown">
+        <!-- <div class="d-flex justify-content-start align-items-center gap-2 p-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="flex-grow-1">
+                <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">GUESTS</div>
+                <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">
+                    {{ selectedGuest }}
+                </div>
+            </div>
+            <i class="bi bi-chevron-down text-secondary"></i>
+        </div>
+        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <li class="p-2 pl-3" *ngFor="let guest of guests" (click)="selectGuest(guest)">
+                {{ guest }}
+            </li>
+        </ul> -->
+        <p-dropdown
+        class="custom-dropdown"
+        [options]="guests"
+        [ngStyle]="{'border':'none !important','width': 'auto', 'max-height': (guests.length * 38) + 'px'} "
+        [(ngModel)]="selectedItem"
+        placeholder="Select guests"
+        [virtualScroll]="true"
+        [virtualScrollItemSize]="38"
+        (onChange)="onGuestSelect($event)"
+         />
+
+    </div>
+    <!-- <div *ngIf="bookingForm.get('guests')?.invalid && bookingForm.get('guests')?.touched" class="text-danger" style="font-size: 12px;">
+      Please select the number of guests.
+    </div> -->
+
+    </div>
+
+    <div id="fixlogin" class="booking-button">
+      <button class="btn-base"  (click)="openModals()"   >Request Apartment</button>
+  </div>
+    <!-- <div class="booking-button">
+        <button class="btn-base" data-bs-toggle="modal" data-bs-target="#loginModal">Request Apartment</button>
+    </div> -->
+    <div class="text-secondary text-center" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">Please enter the complete duration of your stay</div>
+    <div class="dividerr"></div>
+    <div class="row-footer">
+        <div class="starting-from">Starting From</div>
+        <div class="price">
+            <div class="amount">€500</div>
+            <div class="per-guest">per guest</div>
+        </div>
+    </div>
+</div>
+</p-dialog>
 </div>

@@ -20,21 +20,22 @@
 
 
   <div class="col-lg-9 col-md-6 col-sm-11">
-    <p-card   [style]="{ width: '360px' }">
+<div *ngFor="let apartment of wishList.data">
+    <p-card   [style]="{ width: '360px' }" [routerLink]="['/apartment-details', apartment.apt_UUID]">
       <ng-template pTemplate="header">
-          <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+          <img alt="Card"  [src]="apartment.apt_ThumbImg"/>
       </ng-template>
 
 
       <div class="apartment-content">
         <div class="apartment-header">
-          <div class="apartment-title"><a   style="text-decoration: none; color: inherit;">Togostr 17 Studio 1</a></div><!--routerLink="/apartment-details/{{apartment?.apartment_ID}}"-->
+          <div class="apartment-title"><a   style="text-decoration: none; color: inherit;">{{ apartment.apt_Name }}</a></div><!--routerLink="/apartment-details/{{apartment?.apartment_ID}}"-->
           <!-- <i class="pi pi-heart"></i> -->
            <img src="heart.svg"/>
         </div>
         <div class="apartment-location">
           <i class="pi pi-map-marker"></i>
-          <span>Togostr , 17 , 13351 Berlin , Berlin - Wedding</span>
+          <span>{{ apartment.apt_Address }}</span>
         </div>
         <div class="divider-wish"></div>
         <div class="apartment-details">
@@ -65,7 +66,7 @@
             <!-- ({{ apartment.reviews }} reviews) -->
           </div>
           <div class="price">
-            <span> 111€</span>/month
+            <span> {{ apartment.apt_Price }}€€</span>/month
             <!-- {{ apartment.apartment_Price }} -->
           </div>
         </div>
@@ -78,6 +79,7 @@
           </div>
       </ng-template> -->
   </p-card>
+</div>
   </div>
 
 

@@ -8,7 +8,7 @@
       </a>
   </ng-template>
 </p-breadcrumb>
-<div class="main-container row g-5" routerLink="/booking-details" >
+<div class="main-container row g-5"   >
 
 
 
@@ -20,29 +20,35 @@
 
 
   <div class="col-lg-9 col-md-6 col-sm-11">
-    <p-card   [style]="{ width: '360px' }">
+    <div *ngIf="showNoBookingAlert" class="alert alert-info" role="alert">
+      No bookings found .
+    </div>
+    <div *ngIf="!showNoBookingAlert">
+    <p-card  *ngFor="let booking of bookings"  [style]="{ width: '360px' }" [routerLink]="['/booking-details', booking.booking_ID]">
       <ng-template pTemplate="header">
-          <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
+          <img alt="Card" [src]="booking.apartment_Image" />
       </ng-template>
 
 
       <div class="booking-card">
         <div class="head">
-          <h3>The Aston Vill Hotel (1)</h3>
-          <span class="status pending">Pending</span>
+          <h3>{{ booking.apartment_Name }}</h3>
+          <span class="status" [ngClass]="booking.bookingStatus.toLowerCase()">
+            {{ booking.bookingStatus }}
+          </span>
         </div>
         <p class="location">
-          <i class="pi pi-map-marker" style="color:#4C4DDC"></i> Alice Springs NT 0870...
+          <i class="pi pi-map-marker" style="color:#4C4DDC"></i> {{ booking.apartment_Location }}
         </p>
         <div class="dates">
           <div class="checkin">
             <p class="label">Check In</p>
-            <p class="date">19 Jun 2023</p>
+            <p class="date">{{ booking.check_In | date: 'dd MMM yyyy' }}</p>
           </div>
           <div class="divider"></div>
           <div class="checkout">
             <p class="label">Check Out</p>
-            <p class="date">19 Jun 2024</p>
+            <p class="date">{{ booking.check_Out | date: 'dd MMM yyyy' }}</p>
           </div>
         </div>
       </div>
@@ -54,6 +60,7 @@
           </div>
       </ng-template> -->
   </p-card>
+</div>
   </div>
 
 

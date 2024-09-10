@@ -1,5 +1,8 @@
-import { Component ,OnInit, AfterViewInit , AfterViewChecked} from '@angular/core';
-
+import { Component ,OnInit, AfterViewInit , AfterViewChecked, ChangeDetectorRef} from '@angular/core';
+import { BookingService } from '../../../services/booking.service';  // Adjust path based on your project structure
+import { ActivatedRoute } from '@angular/router';
+import { UserService } from '../../../services/user.service';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
@@ -9,18 +12,20 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 
 
   items!: any;
+  constructor(private cdr: ChangeDetectorRef,private messageService: MessageService,private userService:UserService,private bookingService: BookingService, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.items = [
       { label: 'My account', routerLink: '/my-account' },
       { label: 'My Info', routerLink: '/user-info' }
     ];
+    this.getProfileData()
   }
 
   value!: string;
   phoneNumber!: string;
   gender!: string;
-  birthday!: Date;
+  birthday!: string;
 
   ngAfterViewInit(): void {
     const phoneInput = document.querySelector('#phone');
@@ -55,7 +60,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
         : this.phoneNumber;
 
       console.log('Form Submitted', {
-        username: this.value,
+        username: this.userName,
         phone: formattedPhone,
         gender: this.gender,
         birthday: this.birthday
@@ -155,4 +160,64 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     this.passwordDialog = false;
   }
 
+  profileData: any;
+  userName:any;
+  emaillogin:any;
+  phonelogin:any;
+  imgProfile:any;
+getProfileData(): void {
+  this.userService.getProfile().subscribe(
+    data => {
+      this.profileData = data;
+      console.log('ProfileData :',this.profileData);
+      this.userName= this.profileData[0]?.fullName;
+      this.emaillogin=this.profileData[0]?.email;
+      this.phonelogin=this.profileData[0]?.mobile;
+      this.gender=this.profileData[0]?.gender;
+      this.birthday=this.profileData[0]?.doB;
+      this.imgProfile=this.profileData[0]?.doB;
+      console.log(this.birthday)
+
+      // this.authService.login(this.userName, token);
+    },
+    error => {
+      console.error('There was an error!', error);
+    }
+  );
 }
+
+selectedFile: File | null = null;
+onUpload(event: any) {
+  console.log('File Uploaded:', event);
+  const file = event.files[0];
+  this.selectedFile = file;
+  this.cdr.detectChanges();
+  console.log(file)
+  if (file) {
+    this.selectedFile = file;
+  }
+
+
+
+}
+
+updateImg(){
+  if (this.selectedFile) {
+    this.userService.uploadProfileImage(this.selectedFile).subscribe(
+      (response) => {
+        console.log('Image upload successful:', response);
+        this.messageService.add({severity: 'info', summary: 'Success', detail: 'updating image successfully'});
+      },
+      (error) => {
+        console.error('Error uploading image:', error);
+        this.messageService.add({severity: 'danger', summary: 'Error', detail: 'please upload again'});
+      }
+    );
+  } else {
+    console.error('No file selected!');
+  }
+}
+
+}
+
+

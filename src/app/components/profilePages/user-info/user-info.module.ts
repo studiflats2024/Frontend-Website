@@ -26,7 +26,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DialogModule } from 'primeng/dialog';
 import { InputOtpModule } from 'primeng/inputotp';
 import { PasswordModule } from 'primeng/password';
-
+import { FileUploadModule } from 'primeng/fileupload';
 const routes: Routes = [
   { path: '', component: UserInfoComponent }
 ];
@@ -57,8 +57,10 @@ const routes: Routes = [
     DialogModule,
     InputOtpModule,
     PasswordModule,
+    FileUploadModule,
     // BrowserAnimationsModule,
     RouterModule.forChild(routes)
+
 
   ],
   exports: [

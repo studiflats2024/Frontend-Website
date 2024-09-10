@@ -61,7 +61,57 @@ input[type="radio"]:checked {
   background-color: #007bff !important;
 }
 
+.wid{
+  width: 50% !important;
+}
 
+
+@media (max-width:768px) {
+  body{
+    padding: 0;
+    margin: 0;
+  }
+
+  .row{
+    padding:8px !important;
+
+  }
+  .container-fluid{
+    padding:8px !important;
+  }
+
+  .carousel{
+    padding:10px !important;
+  }
+  .apartment-card{
+    width:340px !important;
+  }
+  .HowItWorks{
+    padding:10px !important;
+  }
+  .custom-accordion-style{
+    padding:10px !important;
+  }
+  .faq-button{
+    border-radius: 50% !important;
+  }
+  .layout-list{
+    padding:10px !important;
+  }
+  .fix-card{
+    width:100% !important;
+  }
+  .wid{
+    width: 100% !important;
+  }
+
+  .fix-details{
+   margin-left:10px !important;
+   margin-right:10px !important;
+
+  }
+
+}
 
 
 

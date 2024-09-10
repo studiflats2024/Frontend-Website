@@ -16,8 +16,10 @@ import { CommonModule } from '@angular/common';  // استيراد CommonModule
 import { CardModule } from 'primeng/card';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ToolbarModule } from 'primeng/toolbar';
-
-
+import { DialogModule } from 'primeng/dialog';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { FormsModule } from '@angular/forms';
+import { CalendarModule } from 'primeng/calendar';
 
 const routes: Routes = [
   { path: '', component: BookingDetailsComponent }
@@ -41,6 +43,10 @@ const routes: Routes = [
     CardModule,
     BreadcrumbModule,
     ToolbarModule,
+    DialogModule,
+    InputTextareaModule,
+    FormsModule,
+    CalendarModule,
     RouterModule.forChild(routes)
 
   ],

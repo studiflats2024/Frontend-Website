@@ -23,17 +23,29 @@
     <div class="parent">
        <div class="sectionOne">
         <p-avatar
-        image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+        [image]="imgProfile"
         styleClass="mr-4"
         size="xlarge"
         shape="circle"
         />
         <div class="info">
-            <h4>ashraf salah</h4>
-            <p>ashraf20&#64;gmail.com</p>
+            <h4>{{userName}}</h4>
+            <p>{{emaillogin}}</p>
         </div>
         <div class="divider"></div>
-        <button pButton>Upload</button>
+        <!-- <button pButton>Upload</button> -->
+        <p-fileUpload
+            mode="basic"
+            chooseLabel="Upload"
+            chooseIcon="pi pi-upload"
+            name="demo[]"
+            url="https://www.primefaces.org/cdn/api/upload.php"
+            accept="image/*"
+            maxFileSize="1000000"
+            (onUpload)="onUpload($event)"
+            [auto]="true" />
+            <!-- <button  pButton  class="update" type="submit" label="Update" style="align-self: flex-end;" (click)="updateImg()"></button> -->
+            <div *ngIf="selectedFile" class="dialog ml-4"> <p-button (click)="updateImg()"  label="Update"></p-button></div>
        </div>
 
        <div class="sectionTwo">
@@ -47,7 +59,7 @@
                 pInputText
                 id="username"
                 aria-describedby="username-help"
-                [(ngModel)]="value"
+                [(ngModel)]="userName"
                 name="username"
                 #username="ngModel"
                 required
@@ -94,7 +106,8 @@
                 [(ngModel)]="birthday"
                 name="birthday"
                 dateFormat="mm/dd/yy"
-                showIcon="true">
+                showIcon="true"
+                [placeholder]="birthday">
             </p-calendar>
           </div>
 
@@ -111,7 +124,7 @@
        <div class="sectionTwo row dialog" style="padding: 13px;">
         <div class="col-lg-11 col-md-9 col-sm-12 ">
         <p class="label">email address</p>
-        <p class="value">ashraf20&#64;gmail.com</p>
+        <p class="value">{{emaillogin}}</p>
         </div>
 
         <div class="col-lg-1 col-md-3 col-sm-12 "> <p-button (onClick)="showDialog()" label="Update"></p-button></div>
@@ -121,7 +134,7 @@
        <div class="sectionTwo row dialog" style="padding: 13px;">
         <div class="col-lg-11 col-md-9 col-sm-12 ">
         <p class="label">what’s app number</p>
-        <p class="value">+20 115 465 2523</p>
+        <p class="value">{{phonelogin}}</p>
         </div>
          <!-- <div class="col-lg-1 col-md-3 col-sm-12 "> <a href="">Update</a></div> -->
          <div class="col-lg-1 col-md-3 col-sm-12 "> <p-button (onClick)="showDialog1()" label="Update"></p-button></div>

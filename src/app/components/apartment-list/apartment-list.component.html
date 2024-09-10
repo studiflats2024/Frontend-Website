@@ -237,7 +237,7 @@
   </div>
   <div class="divider wid  "></div>
   <div class="available-apartments  ">+{{ totalRecords }} apartments available</div>
-  <div class="divider wid  "></div>
+  <div class="divider wid "></div>
 
   <!-- <div class="main-content">
     <div class="apartment-list mt-3">
@@ -289,7 +289,7 @@
   </div> -->
   <div class="main-content">
     <div class="apartment-list mt-3">
-      <div *ngFor="let apartment of apartmentList" class="apartment-card" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
+      <div *ngFor="let apartment of apartmentList" class="apartment-card fix-card" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
         <img [src]="apartment.apartment_Image" alt="{{ apartment.apartment_Name }}" class="apartment-image" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
         <div class="apartment-content">
           <div class="apartment-header">

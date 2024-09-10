@@ -212,5 +212,19 @@ export class UserService {
     return this.http.delete(`${environment.apiUrl}/Users/Logout`,{ headers } );
   }
 
+
+  uploadProfileImage(file: File): Observable<any> {
+    const url = `${environment.apiUrl}/Users/UpdateProfileImg`;
+    const formData = new FormData();
+    formData.append('Image_File', file);  // 'Image_File' should match the API parameter name
+
+    // Optionally add headers
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${localStorage.getItem('token')}`  // Add token if necessary
+    });
+
+    return this.http.put(url, formData, { headers });
+  }
+
 }
 

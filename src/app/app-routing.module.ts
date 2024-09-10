@@ -28,7 +28,7 @@ const routes: Routes = [
     path: 'my-bookings', loadChildren: () => import('./components/profilePages/user-booking/user-booking.module').then(m => m.UserBookingModule) // Lazy load FAQ module
   },
   {
-    path: 'booking-details', loadChildren: () => import('./components/profilePages/booking-details/booking-details.module').then(m => m.BookingDetailsModule) // Lazy load FAQ module
+    path: 'booking-details/:bookingID', loadChildren: () => import('./components/profilePages/booking-details/booking-details.module').then(m => m.BookingDetailsModule) // Lazy load FAQ module
   },
   {
     path: 'my-wishlist', loadChildren: () => import('./components/profilePages/wishlist/wishlist.module').then(m => m.WishlistModule) // Lazy load FAQ module
@@ -38,6 +38,12 @@ const routes: Routes = [
   },
   {
     path: 'payments-invoices', loadChildren: () => import('./components/profilePages/invoices/invoices.module').then(m => m.InvoicesModule) // Lazy load FAQ module
+  },
+  {
+    path: 'blogs', loadChildren: () => import('./components/blogs/blogs.module').then(m => m.BlogsModule) // Lazy load FAQ module
+  },
+  {
+    path: 'blog-details', loadChildren: () => import('./components/blog-details/blog-details.module').then(m => m.BlogDetailsModule) // Lazy load FAQ module
   },
 
 ];

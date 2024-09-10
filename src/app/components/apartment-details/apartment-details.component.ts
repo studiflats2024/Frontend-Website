@@ -62,6 +62,21 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
   roles:any;
   guestsAPI :any;
 
+  responsiveOptions: any[] = [
+    {
+      breakpoint: '1024px',
+      numVisible: 5
+    },
+    {
+      breakpoint: '768px',
+      numVisible: 3
+    },
+    {
+      breakpoint: '560px',
+      numVisible: 1
+    }
+  ];
+
   passwordFieldType: string = 'password'; // This controls the input type
 
   passwordFieldTypee: string = 'password';
@@ -1389,7 +1404,7 @@ markerOptions: google.maps.MarkerOptions = {
 markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
   ngOnInit() {
 
-
+    this.isVisible=false;
     // const mapOptions: google.maps.MapOptions = {
     //   center: { lat: 51.1657, lng:  10.4515 },
     //   zoom: 12
@@ -1517,13 +1532,15 @@ markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
     }
 
 
-
+   this.host=true;
   }
+  host:boolean=false;
 
   displayModal:any;
   displayModalbooking:any;
   displayModalsuccess:any;
   openModals(){
+    this.visibleBooking=false;
     this.loginMethod === 'whatsApp';
     const checkinDateString = this.bookingForm.get('bookingStartDate')?.value;
     const checkoutDate = new Date(this.checkoutDate);  // Convert checkoutDate to Date object
@@ -1751,23 +1768,26 @@ private initializeIntlTelInput(selector: string, form: FormGroup  ) {
 
   @HostListener('window:scroll', [])
 onWindowScroll() {
-  const sections = document.getElementsByClassName('section-to-watch');
-  this.isVisible = !Array.from(sections).some(section => {
-    const rect = (section as HTMLElement).getBoundingClientRect();
-    const windowHeight = window.innerHeight;
+  if(this.host===true){
+    const sections = document.getElementsByClassName('section-to-watch');
+    this.isVisible = !Array.from(sections).some(section => {
+      const rect = (section as HTMLElement).getBoundingClientRect();
+      const windowHeight = window.innerHeight;
 
-    // Check if at least half of the section is within the viewport
-    const isSectionVisible = (
-      rect.top < windowHeight / 0.9 && rect.bottom > windowHeight / 2
-    );
+      // Check if at least half of the section is within the viewport
+      const isSectionVisible = (
+        rect.top < windowHeight / 0.9 && rect.bottom > windowHeight / 2
+      );
 
-    //   console.log(this.isVisible);
-    // console.log(sections);
-    // console.log(isSectionVisible);
+      //   console.log(this.isVisible);
+      // console.log(sections);
+      // console.log(isSectionVisible);
 
-    return isSectionVisible;
-  });
-  this.checkViewportWidth();
+      return isSectionVisible;
+    });
+    this.checkViewportWidth();
+  }
+
 
 
 }
@@ -2240,5 +2260,9 @@ openverifyModal(){
   onCloseVerifyModal(){
     this.displayVerify='none';
     this.displayForgetPass='none';
+  }
+  visibleBooking:boolean=false
+  showDialog(){
+   this.visibleBooking=true;
   }
 }
