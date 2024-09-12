@@ -162,7 +162,7 @@ div
           <div class="frame">
             <div class="frame-item pl-0">
               <i class="bi bi-house-door text-secondary"></i>
-              <div class="text">{{aprt.apartment_Rooms.length}} room</div>
+              <div class="text">{{aprt.apartment_Rooms?.length || 0}} room</div>
             </div>
             <div class="frame-divider"></div>
             <div class="frame-item">
@@ -234,7 +234,7 @@ div
                   <div class="transport-mode">{{ transport.transport_Name }}</div>
                 </div>
               </div>
-              <div *ngIf="aprt.apartment_Transports.length > 1 && !showAllTransports" class="see-more">
+              <div *ngIf="aprt.apartment_Transports?.length > 1 && !showAllTransports" class="see-more">
                 <a href="#" (click)="showMore($event)">See More...</a>
               </div>
             </div>
@@ -452,7 +452,7 @@ div
               <div class="divider" style="margin-top: 12px;"></div>
             </div>
           <div class="row">
-            <div *ngIf="apartmentsEquipment.apartment_Features.length!==0" class="col-md-4" >
+            <div *ngIf="apartmentsEquipment.apartment_Features?.length!==0" class="col-md-4" >
               <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="feature.svg" />
                 <div class="item-title">Special Features</div>
@@ -494,7 +494,7 @@ div
                 <div class="item-title">Parking</div>
               </div> -->
             </div>
-            <div *ngIf="apartmentsEquipment.apartment_Facilites.length!==0" class="col-md-4">
+            <div *ngIf="apartmentsEquipment.apartment_Facilites?.length!==0" class="col-md-4">
               <div class="d-flex align-items-center gap-3 mb-3">
                 <img src="bath.svg" />
                 <div class="item-title">Other Facilities</div>
@@ -1750,7 +1750,7 @@ div
 </div>
 
 
-<p-dialog header="Edit Profile" [modal]="true" [(visible)]="visibleBooking" [style]="{ width: '25rem' }">
+<p-dialog header="Booking Steps" [modal]="true" [(visible)]="visibleBooking" [style]="{ width: '25rem' }">
   <div class=" bookingdisplay   booking-box   modalBook "   >
     <div class="d-flex justify-content-start align-items-center gap-3">
         <div class="d-flex justify-content-start align-items-center gap-2">

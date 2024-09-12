@@ -8,6 +8,13 @@ import { Subscription } from 'rxjs';
 import { Apartment_Maps } from '../../models/apartment_map';
 import $ from 'jquery';
 import { ApartmentSearchService } from '../../services/apartment-search.service';
+
+
+declare var intlTelInput: any; // Declare intlTelInput for TypeScript
+declare var intlTelInputUtils: any;
+
+
+
 @Component({
   selector: 'app-apartment-list',
   templateUrl: './apartment-list.component.html',
@@ -91,6 +98,9 @@ fixxxx:boolean=false;
 
   ngOnInit(): void {
     // this.getAllApartment();
+    // this.loadGoogleMapsAPI().then(() => {
+    //   this.initMap();
+    // });
 
     this.checkWindowSize(window.innerWidth);
 
@@ -128,9 +138,36 @@ fixxxx:boolean=false;
 
 
 
+  // loadGoogleMapsAPI(): Promise<void> {
+  //   return new Promise((resolve, reject) => {
+  //     if (typeof google === 'undefined') {
+  //       const script = document.createElement('script');
+  //       script.src = `https://maps.googleapis.com/maps/api/js?key=AIzaSyBHTtV1r89Ln_w2FaVB3WNWCVPe1yAQONo&callback=initMap`;
+  //       script.async = true;
+  //       script.defer = true;
+  //       script.onload = () => resolve();
+  //       script.onerror = (error) => reject(error);
+  //       document.head.appendChild(script);
+  //     } else {
+  //       resolve();
+  //     }
+  //   });
+  // }
+  phoneNumber!: string;
   ngAfterViewInit(): void {
-    this.initMap();  // Initialize the map after the view has been initialized
+    this.initMap();
+    const phoneInput = document.querySelector('#waitPhone');
 
+    const iti = (window as any).intlTelInput(phoneInput, {
+      initialCountry: 'de',
+      separateDialCode: true,  // Separate dial code
+      preferredCountries: ['de', 'us', 'gb'],
+      utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
+    });
+
+    phoneInput!.addEventListener('countrychange', () => {
+      this.phoneNumber = iti.getNumber(); // Update the phone number with country code
+    });
 
 
   }
@@ -652,5 +689,130 @@ isVisible:boolean=true;
     this.apartmentList = [];
   }
 
+
+
+  visible:boolean=false;
+  formattedPhone:string=''
+  formattedPhoneGuest:string='';
+  showDialog(){
+
+
+    setTimeout(() => {
+
+
+      const phoneInput = document.querySelector('#waitPhone');
+
+      const iti = (window as any).intlTelInput(phoneInput, {
+        initialCountry: 'de',
+        separateDialCode: true,  // Separate dial code
+        preferredCountries: ['de', 'us', 'gb'],
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
+      });
+
+      phoneInput!.addEventListener('countrychange', () => {
+        this.phoneNumber = iti.getNumber(); // Update the phone number with country code
+      });
+      console.log(this.visible)
+      // this.formattedPhone = this.phoneNumber.startsWith('+')
+      // ? this.phoneNumber.substring(1)
+      // : this.phoneNumber;
+
+      phoneInput!.addEventListener('blur', () => {
+        let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164); // Get full phone number in E164 format
+        if (fullPhoneNumber.startsWith('+')) {
+          fullPhoneNumber = fullPhoneNumber.substring(1); // Remove the '+' sign
+        }
+
+         console.log('MainPhone',fullPhoneNumber)
+      });
+
+
+
+      // console.log('formattedPhone',this.formattedPhone)
+
+
+    }, 0);
+    this.visible=true;
+  }
+
+userName:string='';
+emaill=''
+  onSubmit(form: any): void {
+    if (form.valid) {
+      // Remove the "+" sign from the phone number
+      const formattedPhone = this.phoneNumber.startsWith('+')
+        ? this.phoneNumber.substring(1)
+        : this.phoneNumber;
+
+      console.log('Form Submitted', {
+        username: this.userName,
+        phone: formattedPhone,
+
+      });
+    } else {
+      console.log('Form is invalid');
+    }
+  }
+
+/////////////////////////////////////////////waitingList/////////////////////////////////////
+  repeatCount: number = 1; // Default number of fields
+  users: Array<{ userName: string; phone: string; email:string }> = []; // Array to store user data
+
+  // Method to initialize the user array based on repeatCount
+  initializeUsers() {
+    this.users = [];
+    for (let i = 0; i < this.repeatCount; i++) {
+      this.users.push({ userName: '', phone: '',email:'' });
+    }
+    this.initializeIntlTelInput(); // Initialize phone input fields
+  }
+
+  // Method to handle repeat count change
+  onRepeatCountChange() {
+    console.log('hellooooooo');
+    this.initializeUsers(); // Update user array and initialize inputs
+  }
+
+  // Initialize intlTelInput for dynamically added phone inputs
+  initializeIntlTelInput() {
+    setTimeout(() => {
+      const phoneInputs = document.querySelectorAll('.iti-phone-input');
+      phoneInputs.forEach((input, index) => {
+        if (input) {
+          const iti = intlTelInput(input, {
+            initialCountry: 'de', // Default to Germany
+            preferredCountries: ['de', 'us', 'gb'], // Preferred countries list
+            separateDialCode: true, // Show country code separate from number
+            utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js'
+          });
+
+          // Add event listener to handle phone number on blur
+          input.addEventListener('blur', () => {
+            let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164); // Get full phone number in E164 format
+            if (fullPhoneNumber.startsWith('+')) {
+              fullPhoneNumber = fullPhoneNumber.substring(1); // Remove the '+' sign
+            }
+
+            // Update the phone value in the user array
+            this.users[index].phone = fullPhoneNumber;
+          });
+        }
+      });
+    }, 0); // Ensures the DOM is fully ready
+  }
+
+  backstep(){
+    this.visible=false;
+  }
+
+  submitForm() {
+    console.log('Form Data:', this.users);
+
+    // Now you can send this formData to your API using HTTP
+    // Example (using HttpClient):
+    // this.http.post('https://your-api-endpoint.com', this.users).subscribe(response => {
+    //   console.log('Response:', response);
+    // });
+  }
 
 }

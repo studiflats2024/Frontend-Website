@@ -81,16 +81,16 @@ input[type="radio"]:checked {
   }
 
   .carousel{
-    padding:10px !important;
+    padding:15px !important;
   }
   .apartment-card{
     width:340px !important;
   }
   .HowItWorks{
-    padding:10px !important;
+    padding:15px !important;
   }
   .custom-accordion-style{
-    padding:10px !important;
+    padding:15px !important;
   }
   .faq-button{
     border-radius: 50% !important;
@@ -100,17 +100,61 @@ input[type="radio"]:checked {
   }
   .fix-card{
     width:100% !important;
+    // margin-right: 50px !important;
   }
   .wid{
     width: 100% !important;
   }
 
   .fix-details{
-   margin-left:10px !important;
-   margin-right:10px !important;
+   margin-left:15px !important;
+   margin-right:15px !important;
 
   }
+  .faqSmall{
+    padding-left:15px !important;
+   padding-right:15px !important;
+  }
 
+}
+
+// @media (max-width:520px) {
+//   .apartment-card{
+//     width:490px !important;
+//   }
+// }
+// @media (max-width:500px) {
+//   .apartment-card{
+//     width:450px !important;
+//   }
+// }
+
+// @media (max-width:470px) {
+//   .apartment-card{
+//     width:420px !important;
+//   }
+// }
+
+// @media (max-width:450px) {
+//   .apartment-card{
+//     width:400px !important;
+//   }
+// }
+// @media (max-width:420px) {
+//   .apartment-card{
+//     width:350px !important;
+//   }
+// }
+// @media (max-width:370px) {
+//   .apartment-card{
+//     width:310px !important;
+//   }
+// }
+
+
+.btn-outline-secondary:hover {
+  background-color: #dbe9fd; /* Custom hover background color */
+  color: #ffffff; /* Custom hover text color */
 }
 
 
@@ -146,3 +190,22 @@ input[type="radio"]:checked {
   top: 32%;
 
 }
+
+
+
+
+
+
+
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+    -webkit-transition: background-color 5000s ease-in-out 0s;
+    transition: background-color 5000s ease-in-out 0s;
+    -webkit-text-fill-color: #000 !important; /* Set text color to default */
+}
+
+

@@ -13,8 +13,9 @@ import { PaginatorModule } from 'primeng/paginator';
 import { GoogleMapsModule } from '@angular/google-maps';
 
 import { CheckboxModule } from 'primeng/checkbox';
+import { DialogModule } from 'primeng/dialog';
 
-
+import { InputTextModule } from 'primeng/inputtext';
 
 
 
@@ -41,6 +42,8 @@ const routes: Routes = [
     CheckboxModule,
     PaginatorModule,
     GoogleMapsModule ,
+    DialogModule,
+    InputTextModule,
     RouterModule.forChild(routes),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -369,7 +369,8 @@ openModalSign(){
 onCloseSignModal() {
   this.displayModalsign='none';
   this.displayInfo='none';
-  this.displayVerify='none'
+  this.displayVerify='none';
+  this.displayVerifyForget='none';
 }
 displayVerify:any
 isOtpValid:boolean=false;
@@ -405,7 +406,7 @@ if(mobileAPI===null){
 
     },
     error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message,life: 500 });
       console.error('Error sending OTP', error);
       // Handle error, e.g., show an error message to the user
     }
@@ -422,7 +423,7 @@ openForgetModal(){
 
     this.userService.checkOtp(this.otp, this.uuidforgot).subscribe(
       response => {
-        this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+        // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
         console.log('OTP verified successfully', response);
         this.displayForgetPass='block';
         this.displayVerifyForget='none'
@@ -510,6 +511,7 @@ onForgetSubmit(): void {
     response => {
       this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
       console.log('Password reset successfully', response);
+      this.displayForgetPass='none';
       // Handle success, e.g., navigate to a login page or show a success message
     },
     error => {
@@ -548,7 +550,7 @@ console.log(this.signupForm)
     console.log('Sending user data to API:', userAccount);
     this.userService.createUser(userAccount).subscribe(
       response => {
-        this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+        // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
         console.log('User account created successfully', response);
         // this.openverifyModal();
         this.displayVerify='block';
@@ -576,7 +578,7 @@ otp:string='';
 onVerifyOtp(): void {
   this.userService.checkOtp(this.otp, this.uuid).subscribe(
     response => {
-      this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+      // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
       console.log('OTP verified successfully', response);
       this.displayModalsign='none';
       this.displayVerify='none';
@@ -733,7 +735,7 @@ getProfileData(token:any): void {
       this.profileData = data;
       console.log('ProfileData :',this.profileData);
       this.userName= this.profileData[0]?.fullName;
-      // this.emaillogin=this.profileData[0]?.email;
+      // this.emaillogin=this.profileData[0]?.email;rr
       // this.phonelogin=this.profileData[0]?.mobile;
       this.authService.login(this.userName, token);
     },

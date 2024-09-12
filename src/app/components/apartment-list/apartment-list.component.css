@@ -493,6 +493,10 @@ button .p-button-icon-right, button .p-button-icon-left {
   margin-bottom: 20px;
   margin-right: 20px;
   height: 270px;
+  transition: box-shadow 0.3s ease-in-out;
+}
+.apartment-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2); /* Darker shadow on hover */
 }
 
 .apartment-image {
@@ -1271,3 +1275,211 @@ p,h1,h2,h3,h4,h5,h6,span,div , .Heading{
 
 
 } */
+.waitingList{
+  display: flex;
+  /* justify-content: space-between; */
+  align-items: center;
+
+padding: 24px;
+
+gap: 53px;
+border-radius: 8px;
+background: #ECF1F9;
+margin-right: 20px;
+margin-bottom: 20px;
+width: 98%;
+}
+.text-wait{
+  display: flex;
+  /* justify-content: start;
+  align-items: center; */
+  flex-direction: column;
+}
+.adWait{
+  color: var(--Gray-800, #1D2939);
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+letter-spacing: 0.374px;
+}
+.txtWait{
+  color: var(--Gray-700, #344054);
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: normal;
+letter-spacing: 0.374px;
+}
+.waitingList button{
+
+  color: var(--Base-White, #FFF);
+text-align: center;
+font-family: "DM Sans";
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+
+border-radius: 8px;
+background: var(--primary-color-600, #1151B4);
+display: flex;
+width: 50%;
+height: 56px;
+padding: 16px 48px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+}
+
+.waitingList ::ng-deep .p-button{
+
+  color: var(--Base-White, #FFF);
+text-align: center;
+font-family: "DM Sans";
+font-size: 18px;
+font-style: normal;
+font-weight: 500;
+line-height: normal;
+
+border-radius: 8px;
+background: var(--primary-color-600, #1151B4);
+display: flex;
+width: 100%;
+height: 56px;
+padding: 16px 48px;
+justify-content: center;
+align-items: center;
+gap: 10px;
+}
+
+.waitingList ::ng-deep p-button{
+  width: 60% !important;
+}
+@media (max-width:768px) {
+  .waitingList{
+    display: flex;
+    /* justify-content: space-between; */
+    align-items: center;
+    flex-direction: column;
+    gap:0 !important;
+  }
+  .waitingList ::ng-deep .p-button{
+    width: 100%;
+
+  }
+  .waitingList ::ng-deep p-button{
+    width: 100%;
+  }
+}
+
+
+
+.sectionTwo{
+
+
+  border:1px solid #E5E7EB;
+  border-radius: 8px;
+
+  padding: 16px;
+
+
+
+}
+
+.sectionTwo {
+  margin-bottom: 20px; /* Adjust spacing */
+}
+
+
+:host ::ng-deep .iti input {
+  padding: 13px;
+}
+.error small {
+  color: red;
+}
+
+
+.modal-footer button {
+  width: 30%; height: 56px; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08); border-radius: 8px; border: 1px #484649 solid; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
+  color: white; font-size: 18px; font-family: Inter; font-weight: 500; line-height: 28px; word-wrap: break-word;
+ }
+
+
+ @media (max-width:768px) {
+  :host ::ng-deep .p-dialog .p-dialog-content {
+    background: #ffffff;
+    color: #495057;
+    padding: 0 !important;
+}
+
+.sectionTwo {
+   padding: 8px;
+}
+
+ }
+
+
+ .pWait{
+  color: var(--black, #000);
+
+/* text style/english text style/Text xl/Medium */
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 500;
+line-height: 30px; /* 150% */
+ }
+ .waittext{
+  display: flex;
+flex-direction: column;
+align-items: flex-start;
+align-self: stretch;
+ }
+
+ .wp1{
+  color: var(--Neutral-Neutral20, #313033);
+font-feature-settings: 'liga' off, 'clig' off;
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 600;
+line-height: 20px; /* 142.857% */
+text-transform: capitalize;
+margin-bottom: 0;
+ }
+ .wp2{
+  color: var(--Neutral-Neutral40, #605D62);
+font-feature-settings: 'liga' off, 'clig' off;
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 142.857% */
+ }
+ @media (max-width:768px) {
+  .pWait{
+    color: var(--black, #000);
+
+  /* text style/english text style/Text xl/Medium */
+  font-family: Inter;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 10px; /* 150% */
+  margin-top: 15px;
+   }
+ }
+
+
+ .spanwait{
+  color: var(--Gray-900, #101828);
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 171.429% */
+text-transform: capitalize;
+ }
