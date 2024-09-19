@@ -289,12 +289,14 @@
   </div> -->
   <div class="main-content">
     <div class="apartment-list mt-3">
-      <div *ngFor="let apartment of apartmentList" class="apartment-card fix-card" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
+      <div *ngFor="let apartment of apartmentList" class="apartment-card fix-card" >
         <img [src]="apartment.apartment_Image" alt="{{ apartment.apartment_Name }}" class="apartment-image" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
         <div class="apartment-content">
           <div class="apartment-header">
             <div class="apartment-title"><a routerLink="/apartment-details/{{apartment?.apartment_ID}}" style="text-decoration: none; color: inherit;">{{ apartment.apartment_Name }}</a></div>
-            <i class="pi pi-heart"></i>
+            <i class="pi pi-heart"
+            [ngClass]="{'red-heart': favoriteApartments[apartment.apartment_ID]}"
+           (click)="toggleFavorite(apartment.apartment_ID)"></i>
           </div>
           <div class="apartment-location">
             <i class="pi pi-map-marker"></i>
@@ -348,9 +350,9 @@
     [(visible)]="visible"
     [style]="{ width: '50rem' }"
     [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
-    <div  >
+    <div class="sectionTwo" >
 
-      <form #infoForm="ngForm"   class="sectionTwo">
+      <!-- <form #infoForm="ngForm"   class="sectionTwo"> -->
         <p class="pWait">place yourself on the waiting list</p>
         <div class="waittext">
           <p class="wp1">enter guests details</p>
@@ -417,11 +419,71 @@
             </div>
 
             <div class="flex flex-column gap-2 full-width col">
-            <input type="number" name="repeatCount" [(ngModel)]="repeatCount" (ngModelChange)="onRepeatCountChange()" id="repeatCount" min="1" placeholder="No Of Guests"  class="form-control" style="width:100%; height:100%; padding: 12px 10px"/>
+            <input type="number" name="repeatCount" [(ngModel)]="repeatCount" (ngModelChange)="onRepeatCountChange()" id="repeatCount" min="1" placeholder="No Of Guests"  class="form-control" style="width:100%; height:100%; padding: 12px 10px"  />
             </div>
 
 
           </div>
+            </div>
+        </div>
+
+
+
+        <div class="sectionTwo">
+          <div class="waittext">
+            <p class="wp1">booking details.</p>
+            <p class="wp2">Please enter the booking details in the form provided below.</p>
+          </div>
+          <div class="row w-full ">
+
+            <div class="col-lg-6 col-sm-12 ">
+              <div class="flex flex-column gap-2 full-width col">
+                <p-calendar
+                [(ngModel)]="startDate"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+                placeholder="Add Start date" />
+
+
+              </div>
+
+              <!-----End Date input ------->
+              <div class="flex flex-column gap-2 full-width col">
+
+                <p-calendar
+                [(ngModel)]="endDate"
+                [iconDisplay]="'input'"
+                [showIcon]="true"
+                placeholder="Add End date"
+                dateFormat="dd.mm.yy" ></p-calendar>
+              </div>
+            </div>
+          <div  class="col-lg-6 col-sm-12 ">
+            <div class="flex flex-column gap-2 full-width col">
+              <p-dropdown
+              [options]="cities"
+              [(ngModel)]="selectedCity"
+              placeholder="Select a City" />
+            </div>
+
+            <div class="flex flex-column gap-2 full-width col">
+            <input type="number" name="repeatCount" [(ngModel)]="rentFee" (ngModelChange)="onRepeatCountChange()" id="repeatCount" min="1" placeholder="Maximum budget for rent ?"  class="form-control" style="width:100%; height:100%; padding: 12px 10px" />
+            </div>
+
+
+
+
+
+          </div>
+          <div class="w-full row mx-auto flex justify-content-center align-items-center p-0">
+            <textarea
+            rows="5"
+            cols="30"
+            pInputTextarea
+            [(ngModel)]="tellMore"
+            placeholder="Do you want to tell us more?">
+        </textarea>
+           </div>
             </div>
         </div>
 
@@ -441,7 +503,7 @@
                   pInputText
                   id="username{{i}}"
                   aria-describedby="username-help"
-                  [(ngModel)]="user.userName"
+                  [(ngModel)]="user.guest_Name"
                   name="username{{i}}"
                   #usernameI="ngModel"
                   required
@@ -462,7 +524,7 @@
               placeholder="Email"
               id="email{{i}}"
               aria-describedby="email-help"
-              [(ngModel)]="user.email"
+              [(ngModel)]="user.guest_Email"
               name="email{{i}}"
               #emailI="ngModel"
               required
@@ -478,7 +540,7 @@
             <input
             id="phone{{i}}"
             name="phone{{i}}"
-            [(ngModel)]="user.phone"
+            [(ngModel)]="user.guest_Phone"
             required
             #phoneI="ngModel"
             placeholder="Phone"
@@ -503,7 +565,7 @@
         <button   class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;"  (click)="submitForm()"  >confirm</button><!--(click)="onSubmitBooking()" -->
       </div>
 
-      </form>
+      <!-- </form> -->
 
      </div>
 </p-dialog>
@@ -583,3 +645,50 @@
 
 
 
+<!----------success waiting list----------->
+<div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayModalsuccess}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-header"  >
+
+      <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close" style="color:#F0F6FF">
+        <span aria-hidden="true" >&times;</span>
+      </button> -->
+    </div>
+    <div class="modal-content">
+      <div class="modal-body p-0">
+        <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseSuccessModal()">×</button>
+        <div class="send-success-container">
+          <div class="modal-form-section-success ">
+            <div class="modal-header-success p-0">
+              <div class="content-success">
+                <div class="text-and-supporting-text-success">
+                  <div class="featured-icon">
+                    <img src="tick_done.svg"/>
+                  </div>
+                  <div class="frame-success">
+                    <div class="text-successs">Send Successfully</div>
+                    <div class="supporting-text-success">your  request has been sent successfully </div>
+                    <!-- <div class="supporting-text-success">
+                      <span>Booking ID </span>
+                      <span class="booking-id">#1254353</span>
+                    </div> -->
+                  </div>
+                </div>
+              </div>
+              <!-- <div class="button-close-x" data-bs-dismiss="modal">
+                <div class="icon-close"></div>
+              </div> -->
+            </div>
+            <!-- <div class="footer-frame-success">
+              <div class="footer-text-success">To complete the booking process, please download our app.</div>
+              <div class="app-links">
+                <a href="https://play.google.com/store/apps/details?id=com.studiflats.app&hl=ar"><img class="google-play-link" src="apple-store.png" /></a>
+                <a href="https://apps.apple.com/pl/app/studiflats/id6474908385"><img class="apple-store-link" src="google-play.png" /></a>
+              </div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

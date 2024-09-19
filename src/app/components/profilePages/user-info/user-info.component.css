@@ -223,6 +223,10 @@ text-decoration: none !important;
 :host ::ng-deep .iti input{
   padding: 13px;
 }
+input{
+  padding: 0.75rem 0.75rem;
+
+}
 
 label .label{
   color: #555;

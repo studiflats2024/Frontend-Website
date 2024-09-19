@@ -19,28 +19,30 @@
 
 
 
-  <div class="col-lg-9 col-md-6 col-sm-11">
-    <p-card   [style]="{ width: '360px' }">
+  <div *ngIf="totalData>0" class="col-lg-9 col-md-6 col-sm-11">
+    <p-card  *ngFor="let invoice of invoices"  [style]="{ width: '360px' }">
       <!-- <ng-template pTemplate="header">
           <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
       </ng-template> -->
 
 
-      <div class="booking-card" (click)="openModal()">
+      <div class="booking-card" (click)="openModal(invoice.inv_ID)">
         <div class="head">
-          <h3>The Aston Vill Hotel (1)</h3>
-          <span class="status unpaid">Unpaid</span>
+          <h3>{{invoice?.apt_Name}}</h3>
+          <span *ngIf="!invoice.inv_Paid" class="status unpaid">Unpaid</span>
+          <span *ngIf="invoice.inv_Paid" class="status paid">Paid</span>
+
         </div>
 
         <div class="dates">
           <div class="checkin">
             <span class="label">Date of Issue</span>
-            <span class="date">19 Jun 2023</span>
+            <span class="date">{{ invoice.inv_Issue | date: 'dd MMM yyyy' }}</span>
           </div>
           <div class="divider"></div>
           <div class="checkout">
             <span class="label">Invoice no</span>
-            <span class="date">#0991234</span>
+            <span class="date">{{ invoice.inv_Code }}</span>
           </div>
         </div>
       </div>
@@ -48,41 +50,16 @@
       <div class="dividerr mt-3 mb-3 mx-4"></div>
       <div class="d-flex justify-content-between align-items-center w-100">
         <div class="total-label">Total</div>
-        <div class="total-price">$750</div>
+        <div class="total-price">${{ invoice.inv_Total }}</div>
       </div>
-  </p-card>
+   </p-card>
 
-  <p-card   [style]="{ width: '360px' }" >
-    <!-- <ng-template pTemplate="header">
-        <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
-    </ng-template> -->
+  </div>
 
-
-    <div class="booking-card" (click)="openModal()">
-      <div class="head">
-        <h3>The Aston Vill Hotel</h3>
-        <span class="status paid">Paid</span>
-      </div>
-
-      <div class="dates">
-        <div class="checkin">
-          <span class="label">Date of Issue</span>
-          <span class="date">19 Jun 2023</span>
-        </div>
-        <div class="divider"></div>
-        <div class="checkout">
-          <span class="label">Invoice no</span>
-          <span class="date">#0991234</span>
-        </div>
-      </div>
+  <div class="col-lg-9 col-md-6 col-sm-11">
+    <div *ngIf="totalData===0" class="alert alert-info " role="alert">
+      No Invoices Found .
     </div>
-
-    <div class="dividerr mt-3 mb-3 mx-4"></div>
-    <div class="d-flex justify-content-between align-items-center w-100">
-      <div class="total-label">Total</div>
-      <div class="total-price">$750</div>
-    </div>
-</p-card>
   </div>
 
 
@@ -107,21 +84,22 @@
 
           <div class="head">
 
-              <h3>The Aston Vill Hotel (1)</h3>
-            <span class="status unpaid">Unpaid</span>
+              <h3>{{invDetails?.apt_Name}}</h3>
+              <span *ngIf="!inv_Paid" class="status unpaid">Unpaid</span>
+              <span *ngIf="inv_Paid" class="status paid">Paid</span>
           </div>
-          <p class="label mb-5">Alice Springs NT 0870...</p>
+          <p class="label mb-5">{{invDetails?.description}}</p>
           <div class="booking-summary-frame">
           <div   style="width: 100%;">
             <div    >
               <div class="d-flex justify-content-between align-items-center w-100 mb-3">
                 <div class="room-title mb-4">
                   <span class="label">Date of Issue</span>
-                  <span class="date">19 Jun 2023</span>
+                  <span class="date">{{ invDetails?.issued_On | date: 'dd MMM yyyy' }}</span>
                 </div>
                 <div class="room-price mb-4">
                   <span class="label">Invoice no</span>
-                  <span class="date">#0991234</span>
+                  <span class="date">{{ invDetails?.invoice_No }}</span>
                 </div>
               </div>
 

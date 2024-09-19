@@ -1,5 +1,7 @@
 import { Component, OnInit, HostListener, Renderer2 } from '@angular/core';
 import { MenuItem } from 'primeng/api';
+import { Router } from '@angular/router';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-app-sider',
@@ -12,7 +14,7 @@ export class AppSiderComponent implements OnInit{
 
   items: any[];
 
-  constructor(private renderer: Renderer2) {
+  constructor(private userService: UserService,private renderer: Renderer2, private router: Router) {
     this.items = [
       { label: 'Personal Information', icon: 'pi pi-user', routerLink: '/user-info' },
       { label: 'My Bookings', icon: 'pi pi-book', routerLink: '/my-bookings' },
@@ -22,7 +24,7 @@ export class AppSiderComponent implements OnInit{
       { label: 'Report Problem', icon: 'pi pi-exclamation-triangle'  },//, routerLink: '/report-problem'
       { label: 'Contact Support', icon: 'pi pi-comments'  },//, routerLink: '/contact-support'
       { label: 'Notifications', icon: 'pi pi-bell'  },//, routerLink: '/notifications'
-      { label: 'Sign Out', icon: 'pi pi-sign-out'  }//, routerLink: '/sign-out'
+      { label: 'Sign Out', icon: 'pi pi-sign-out', command: () => this.signOut()  }//, routerLink: '/sign-out'
     ];
   }
   popup!: boolean;
@@ -38,6 +40,20 @@ export class AppSiderComponent implements OnInit{
   ngOnInit() {
     // Ensure the button visibility is correct when the component is initialized
     this.onResize({ target: window });
+  }
+  signOut() {
+    this.userService.logout().subscribe(
+      (response) => {
+        console.log('Logged out successfully:', response);
+        // Clear user data from local storage
+        localStorage.removeItem('token');
+        // Redirect to the home page
+        this.router.navigate(['/']);
+      },
+      (error) => {
+        console.error('Error during logout:', error);
+      }
+    );
   }
 
 }

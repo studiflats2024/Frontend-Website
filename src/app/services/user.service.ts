@@ -226,5 +226,85 @@ export class UserService {
     return this.http.put(url, formData, { headers });
   }
 
+
+  updateEmail(currentEmail: string, password: string, newMail: string): Observable<any> {
+    const url = `${environment.apiUrl}/Users/UpdateMail`;
+    let params = new HttpParams()
+      .set('CurrentEmail', currentEmail)
+      .set('Password', password)
+      .set('NewMail', newMail);
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      });
+
+    // Send the PUT request with the parameters
+    return this.http.put<any>(url, {}, { params,headers });
+  }
+
+  updatePhone(currentPhone: string, password: string, newPhone: string): Observable<any> {
+    const url = `${environment.apiUrl}/Users/UpdateMobile`;
+    let params = new HttpParams()
+      .set('CurrentPhone', currentPhone)
+      .set('Password', password)
+      .set('NewPhone', newPhone);
+      const token = localStorage.getItem('token');
+      const headers = new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${token}`,
+      });
+
+    // Send the PUT request with the parameters
+    return this.http.put<any>(url, {}, {params ,headers});
+  }
+
+  updateFullProfile(fullName: string, gender: string, country: string, birthDate: string): Observable<any> {
+    const url = `${environment.apiUrl}/Users/Update_FullProfile`;
+
+    const body = {
+      fullName: fullName,
+      gender: gender,
+      country: country,
+      birthDate: birthDate
+    };
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}` // Add Authorization token if required
+    });
+
+    return this.http.put<any>(url, body, { headers });
+  }
+
+
+
+
+  getInvoiceList(pageNumber: number, pageSize: number, status: string): Observable<any> {
+    const url = `${environment.apiUrl}/Accounting/GetInoviceList`;
+    const params = new HttpParams()
+      .set('PageNumber', pageNumber.toString())
+      .set('PageSize', pageSize.toString())
+      .set('status', status);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    });
+
+    return this.http.get<any>(url, { params, headers });
+  }
+
+  getInvoiceDetails(inv_ID: string): Observable<any> {
+    const url = `${environment.apiUrl}/Accounting/GetINVDetails`;
+    const params = new HttpParams().set('Inv_ID', inv_ID);
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming the token is stored in local storage
+    });
+
+    return this.http.get<any>(url, { headers, params });
+  }
 }
 

@@ -2,13 +2,15 @@
 import { Component, OnInit, HostListener, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApartmentService } from '../../services/apartment.service';
+import { BookingService} from '../../services/booking.service';
+
 import { Apartment } from '../../models/apartment.model';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Apartment_Maps } from '../../models/apartment_map';
 import $ from 'jquery';
 import { ApartmentSearchService } from '../../services/apartment-search.service';
-
+import { MessagingService } from '../../services/messaging.service';
 
 declare var intlTelInput: any; // Declare intlTelInput for TypeScript
 declare var intlTelInputUtils: any;
@@ -56,6 +58,9 @@ export class ApartmentListComponent implements OnInit {
   selectedOptionsplace: any = [];
 
 
+
+
+
   selectSize(size: string) {
     this.selectedSize = size;
     console.log(this.single,this.double,this.rooms)
@@ -89,8 +94,8 @@ fixxxx:boolean=false;
 
 
 
-  constructor(private apartmentSearchService: ApartmentSearchService,private apartmentService: ApartmentService, private router: Router,private messageService: MessageService,private cdr: ChangeDetectorRef) {
-
+  constructor(private messagingService: MessagingService,private apartmentSearchService: ApartmentSearchService,private bookingService:BookingService,private apartmentService: ApartmentService, private router: Router,private messageService: MessageService,private cdr: ChangeDetectorRef) {
+    this.cities = ['Berlin' ];
   }
 
   searchResults:any;
@@ -156,18 +161,18 @@ fixxxx:boolean=false;
   phoneNumber!: string;
   ngAfterViewInit(): void {
     this.initMap();
-    const phoneInput = document.querySelector('#waitPhone');
+    // const phoneInput = document.querySelector('#waitPhone');
 
-    const iti = (window as any).intlTelInput(phoneInput, {
-      initialCountry: 'de',
-      separateDialCode: true,  // Separate dial code
-      preferredCountries: ['de', 'us', 'gb'],
-      utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
-    });
+    // const iti = (window as any).intlTelInput(phoneInput, {
+    //   initialCountry: 'de',
+    //   separateDialCode: true,
+    //   preferredCountries: ['de', 'us', 'gb'],
+    //   utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
+    // });
 
-    phoneInput!.addEventListener('countrychange', () => {
-      this.phoneNumber = iti.getNumber(); // Update the phone number with country code
-    });
+    // phoneInput!.addEventListener('countrychange', () => {
+    //   this.phoneNumber = iti.getNumber();
+    // });
 
 
   }
@@ -722,7 +727,7 @@ isVisible:boolean=true;
         if (fullPhoneNumber.startsWith('+')) {
           fullPhoneNumber = fullPhoneNumber.substring(1); // Remove the '+' sign
         }
-
+        this.phoneNumber= fullPhoneNumber;
          console.log('MainPhone',fullPhoneNumber)
       });
 
@@ -756,13 +761,20 @@ emaill=''
 
 /////////////////////////////////////////////waitingList/////////////////////////////////////
   repeatCount: number = 1; // Default number of fields
-  users: Array<{ userName: string; phone: string; email:string }> = []; // Array to store user data
+  users: Array<{ guest_ID: string; guest_Name: string;  guest_Email:string;guest_Phone: string }> = []; // Array to store user data
 
+  generateUUID(): string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
   // Method to initialize the user array based on repeatCount
   initializeUsers() {
     this.users = [];
     for (let i = 0; i < this.repeatCount; i++) {
-      this.users.push({ userName: '', phone: '',email:'' });
+      this.users.push({ guest_ID: this.generateUUID(),guest_Name: '', guest_Email: '', guest_Phone:'' });
     }
     this.initializeIntlTelInput(); // Initialize phone input fields
   }
@@ -794,7 +806,7 @@ emaill=''
             }
 
             // Update the phone value in the user array
-            this.users[index].phone = fullPhoneNumber;
+            this.users[index].guest_Phone = fullPhoneNumber;
           });
         }
       });
@@ -804,15 +816,85 @@ emaill=''
   backstep(){
     this.visible=false;
   }
-
+  startDate:any;
+  endDate:any;
+  cities!: string[]; // Array of city names
+  selectedCity!: string;
+  waitingData :any;
+  rentFee:any;
+  tellMore:any;
+  displayModalsuccess:string='none';
   submitForm() {
     console.log('Form Data:', this.users);
 
-    // Now you can send this formData to your API using HTTP
-    // Example (using HttpClient):
-    // this.http.post('https://your-api-endpoint.com', this.users).subscribe(response => {
-    //   console.log('Response:', response);
-    // });
+    const mainGuest = {
+      guest_ID: this.generateUUID(),
+      guest_Name: this.userName,
+      guest_Email: this.emaill,
+      guest_Phone: this.phoneNumber,
+    };
+    this.users.unshift(mainGuest);
+
+    this.waitingData = {
+      start_Date: this.startDate,
+      end_Date: this.endDate,
+      no_Guests: this.repeatCount,
+      rent_Fees: this.rentFee,
+      city: [this.selectedCity],
+      tell_More: this.tellMore,
+      guests: this.users,
+    };
+    this.apartmentService.addWaitingWS(this.waitingData).subscribe(response => {
+      console.log('API Response:', response);
+
+      this. displayModalsuccess='block';
+      this.visible=false;
+      // Handle success
+    }, error => {
+      console.error('API Error:', error);
+      // Handle error
+    });
   }
+
+  onCloseSuccessModal(){
+    this. displayModalsuccess='none';
+
+  }
+
+  favoriteApartments: { [key: string]: boolean } = {};
+  toggleFavorite(apt_ID: string) {
+    // Toggle favorite status
+    this.favoriteApartments[apt_ID] = !this.favoriteApartments[apt_ID];
+
+    // Call the API service
+
+    this.messagingService.requestPermission()
+      .then((token:any) => {
+        console.log('Device token:', token);
+        this.deviceToken=token;
+        this.addToWishlist(apt_ID,this.deviceToken);
+      })
+      .catch((error:any) => {
+        console.error('Error getting token:', error);
+      });
+
+    // Optionally listen for incoming notifications
+    this.messagingService.receiveMessage();
+  }
+
+  deviceToken:any;
+
+  addToWishlist(apt_ID: string, device_Token: string) {
+    this.bookingService.addToWishlist(apt_ID, device_Token).subscribe(
+      (response) => {
+        console.log('API call success:', response);
+      },
+      (error) => {
+        console.error('API call error:', error);
+        this.messageService.add({severity: 'error', summary: 'Error', detail: error.error.message});
+      }
+    );
+  }
+
 
 }

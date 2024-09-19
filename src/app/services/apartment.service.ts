@@ -100,4 +100,13 @@ export class ApartmentService {
 
     return this.http.get<any>(`${environment.apiUrl + '/ApartmentV2/Get_Google_Maps_List_Apartments'}`, { headers });
   }
+
+  addWaitingWS(data: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+    return this.http.post(`${environment.apiUrl + '/Basics/Add_Waiting_WS'}`, data, { headers });
+  }
 }

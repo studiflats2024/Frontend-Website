@@ -23,16 +23,18 @@ export class UserBookingComponent implements OnInit {
       { label: 'My account', routerLink: '/my-account' },
       { label: 'My bookings', routerLink: '/my-bookings' }
     ];
-    this.fetchBookingList(1, 10, true, false); // Example parameters
+    this.fetchBookingList(); // Example parameters
   }
 
-  fetchBookingList(pageNo: number, pageSize: number, active: boolean, offered: boolean): void {
-    this.bookingService.getBookingList(pageNo, pageSize, active, offered).subscribe(
+  fetchBookingList(): void {
+    this.bookingService.getBookings().subscribe(
       (response) => {
-        this.bookings = response.data;
+        this.bookings = response;
         console.log(this.bookings,response)
-        if (response && response.data && response.data.length > 0 && response.data[0] !== null) {
-          this.bookings = response.data;
+        // if (response && response.data && response.data.length > 0 && response.data[0] !== null) {
+          if (response.length > 0 ) {
+
+          this.bookings = response;
           this.showNoBookingAlert = false; // Hide the alert if bookings are found
         } else {
           this.showNoBookingAlert = true; // Show the alert if no bookings are found

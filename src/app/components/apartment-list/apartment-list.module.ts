@@ -16,7 +16,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { DialogModule } from 'primeng/dialog';
 
 import { InputTextModule } from 'primeng/inputtext';
-
+import { CalendarModule } from 'primeng/calendar';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 
 
@@ -44,6 +45,8 @@ const routes: Routes = [
     GoogleMapsModule ,
     DialogModule,
     InputTextModule,
+    CalendarModule ,
+    InputTextareaModule,
     RouterModule.forChild(routes),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

@@ -19,7 +19,7 @@
 
 
 
-  <div class="col-lg-9 col-md-6 col-sm-11">
+  <div  *ngIf="totalData>0" class="col-lg-9 col-md-6 col-sm-11">
 <div *ngFor="let apartment of wishList.data">
     <p-card   [style]="{ width: '360px' }" [routerLink]="['/apartment-details', apartment.apt_UUID]">
       <ng-template pTemplate="header">
@@ -81,6 +81,9 @@
   </p-card>
 </div>
   </div>
-
-
+<div class="col-lg-9 col-md-6 col-sm-11">
+  <div *ngIf="totalData===0" class="alert alert-info " role="alert">
+    No apartment found on your wishlist .
+  </div>
+</div>
 </div>

@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { Globals, isValidEmail } from '../app/globals/global';
 import { ApartmentSearchService } from './services/apartment-search.service';
 import { AuthService } from './services/auth.service';
+import { Router } from '@angular/router';
 
 declare var intlTelInput: any;
 declare var intlTelInputUtils: any;
@@ -56,7 +57,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
   selectedCountry: any;
   isLoggedIn:any;
 
-  constructor(private authService: AuthService,private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef,private apartmentSearchService: ApartmentSearchService) {}
+  constructor(private router: Router,private authService: AuthService,private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef,private apartmentSearchService: ApartmentSearchService) {}
   passwordFieldType: string = 'password'; // This controls the input type
   passwordFieldTypee: string = 'password';
   togglePasswordVisibility(): void {
@@ -482,6 +483,7 @@ logout(): void {
 
       console.log('Logout successful', response);
       localStorage.removeItem('token');
+      this.router.navigate(['/']);
       // Handle successful logout (e.g., redirect to login page)
     },
     error => {

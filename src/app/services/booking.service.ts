@@ -56,6 +56,18 @@ export class BookingService {
     return this.http.get<any>(url, { params,headers});
   }
 
+  getBookings(): Observable<any> {
+    const url = `${environment.apiUrl}/Basics/GetBookings_WS`;
+    this.token = localStorage.getItem('token');
+    this.headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${this.token}`,
+    });
+    let headers=this.headers;
+
+    return this.http.get<string>(url, { headers });
+  }
+
   getBookingDetails(bookingID: string): Observable<any> {
     const url = `${environment.apiUrl}/ApartmentV2/Booking_Details_Mobile`;
     const params = new HttpParams().set('Booking_ID', bookingID);
@@ -118,7 +130,18 @@ export class BookingService {
       let headers=this.headers;
 
     // Make the GET request with query parameters
-    return this.http.put(url, {},  { params,headers});
+    return this.http.get(url, { params, headers });
+  }
+
+  addToWishlist(apt_ID: string, device_Token: string): Observable<any> {
+    const url = `${environment.apiUrl}/Basics/AddWishList`;
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const body = {
+      apt_ID: apt_ID,
+      device_Token: device_Token
+    };
+
+    return this.http.post<any>(url, body, { headers: headers });
   }
 
 

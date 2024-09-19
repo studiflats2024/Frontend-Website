@@ -39,7 +39,7 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   exports: [
-
+    WishlistComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

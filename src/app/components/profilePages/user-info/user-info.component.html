@@ -75,16 +75,16 @@
 
           <!-----phone input ------->
           <div class="flex flex-column gap-2 full-width col">
-            <label for="phone">Phone Number</label>
+            <label for="phone">Country</label>
             <input
-                id="phone"
-                name="phone"
-                [(ngModel)]="phoneNumber"
+                id="country"
+                name="country"
+                [(ngModel)]="country"
                 required
-                #phone="ngModel"
+                #countryy="ngModel"
                 class="form-control">
-            <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="error">
-              <small *ngIf="phone.errors?.['required']">Phone number is required.</small>
+            <div *ngIf="countryy.invalid && (countryy.dirty || countryy.touched)" class="error">
+              <small *ngIf="countryy.errors?.['required']">Phone number is required.</small>
             </div>
           </div>
         </div>
@@ -113,7 +113,7 @@
 
 
           <div class="flex flex-column gap-2 full-width col justify-content-end align-content-end">
-            <button  pButton  class="update" type="submit" label="Update" style="align-self: flex-end;"></button>
+            <button  pButton  class="update" type="submit" label="Update" style="align-self: flex-end;" (click)="updateProfile()"></button>
           </div>
         </div>
         </div>
@@ -123,7 +123,7 @@
 
        <div class="sectionTwo row dialog" style="padding: 13px;">
         <div class="col-lg-11 col-md-9 col-sm-12 ">
-        <p class="label">email address</p>
+        <p class="label">Email Address</p>
         <p class="value">{{emaillogin}}</p>
         </div>
 
@@ -133,7 +133,7 @@
 
        <div class="sectionTwo row dialog" style="padding: 13px;">
         <div class="col-lg-11 col-md-9 col-sm-12 ">
-        <p class="label">what’s app number</p>
+        <p class="label">what’sApp Number</p>
         <p class="value">{{phonelogin}}</p>
         </div>
          <!-- <div class="col-lg-1 col-md-3 col-sm-12 "> <a href="">Update</a></div> -->
@@ -143,7 +143,7 @@
 
        <div class="sectionTwo row dialog" style="padding: 13px;">
         <div class="col-lg-11 col-md-9 col-sm-12 ">
-        <p class="label">change password</p>
+        <p class="label">Change Password</p>
         <p class="value">**************</p>
         </div>
         <!-- <div class="col-lg-1 col-md-3 col-sm-12 col"> <a href="">Update</a></div> -->
@@ -256,20 +256,20 @@
         <span class="spanotp">Add New Email</span>
     </ng-template>
 
-    <span class="disc">
+    <!-- <span class="disc">
       Please enter new email address
-    </span>
+    </span> -->
 
     <div class="flex flex-column gap-2 full-width col">
-      <label for="email">Email Address</label>
+      <label for="email">Current Email</label>
       <input
         pInputText
-        id="email"
+        id="email1"
 
         aria-describedby="email-help"
-        [(ngModel)]="email"
-        name="email"
-        #email="ngModel"
+        [(ngModel)]="currentEmail"
+        name="emaill"
+        #email1="ngModel"
         required
         email
       />
@@ -278,9 +278,44 @@
           Enter your email to reset your password.
       </small> -->
 
-      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="error">
-        <small *ngIf="email.errors?.['required']">Email is required.</small>
-        <small *ngIf="email.errors?.['email']">Please enter a valid email address.</small>
+      <div *ngIf="email1.invalid && (email1.dirty || email1.touched)" class="error">
+        <small *ngIf="email1.errors?.['required']">Email is required.</small>
+        <small *ngIf="email1.errors?.['email']">Please enter a valid email address.</small>
+      </div>
+    </div>
+    <div class="flex flex-column gap-2 full-width col">
+      <label for="password">Current Password*</label>
+      <p-password id="passwordD" [(ngModel)]="currentPassword" #password="ngModel" [toggleMask]="true"
+                  required minlength="8"  ></p-password>
+
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error">
+        <small *ngIf="password.errors?.['required']">Password is required.</small>
+        <small *ngIf="password.errors?.['minlength']">
+          Password must be at least 8 characters long.
+        </small>
+      </div>
+    </div>
+    <div class="flex flex-column gap-2 full-width col">
+      <label for="email">New Email</label>
+      <input
+        pInputText
+        id="email2"
+
+        aria-describedby="email-help"
+        [(ngModel)]="newEmail"
+        name="emailL"
+        #email2="ngModel"
+        required
+        email
+      />
+      <!-- Uncomment this if you'd like to add some guidance -->
+      <!-- <small id="email-help">
+          Enter your email to reset your password.
+      </small> -->
+
+      <div *ngIf="email2.invalid && (email2.dirty || email2.touched)" class="error">
+        <small *ngIf="email2.errors?.['required']">Email is required.</small>
+        <small *ngIf="email2.errors?.['email']">Please enter a valid email address.</small>
       </div>
     </div>
 
@@ -316,14 +351,39 @@
 
 
     <div class="flex flex-column gap-2 full-width col">
-      <label for="phonee">Phone Number</label>
+      <label for="phonee">Current Phone</label>
       <input
-          id="phonee"
+
           name="phonee"
-          [(ngModel)]="phoneNumber"
+          [(ngModel)]="currentPhone"
+          required
+          #phoneee="ngModel"
+          class="phonee form-control">
+      <div *ngIf="phoneee.invalid && (phoneee.dirty || phoneee.touched)" class="error">
+        <small *ngIf="phoneee.errors?.['required']">Phone number is required.</small>
+      </div>
+    </div>
+    <div class="flex flex-column gap-2 full-width col">
+      <label for="password">Current Password*</label>
+      <p-password id="passwordDD" [(ngModel)]="currentPasswordPhone" #password="ngModel" [toggleMask]="true"
+                  required minlength="8"  ></p-password>
+
+      <div *ngIf="password.invalid && (password.dirty || password.touched)" class="error">
+        <small *ngIf="password.errors?.['required']">Password is required.</small>
+        <small *ngIf="password.errors?.['minlength']">
+          Password must be at least 8 characters long.
+        </small>
+      </div>
+    </div>
+    <div class="flex flex-column gap-2 full-width col">
+      <label for="phonee">New Phone</label>
+      <input
+          class="phonee"
+          name="phonee"
+          [(ngModel)]="newPhone"
           required
           #phonee="ngModel"
-          class="form-control">
+          class="form-control phonee">
       <div *ngIf="phonee.invalid && (phonee.dirty || phonee.touched)" class="error">
         <small *ngIf="phonee.errors?.['required']">Phone number is required.</small>
       </div>
@@ -403,6 +463,42 @@
             class="continue-button"
             styleClass="p-button-primary p-button-block"
             (onClick)="handleContinuePass()">
+        </p-button>
+    </ng-template>
+</p-dialog>
+
+<p-dialog
+    header="Verification"
+    [(visible)]="visible1"
+    [modal]="true"
+    [style]="{ width: '25rem' }"
+    [closable]="true">
+
+    <ng-template pTemplate="header">
+        <span class="spanotp">Verification</span>
+    </ng-template>
+
+    <span class="disc">
+      Please enter the verification code sent to your what’s app
+    </span>
+
+    <!-- Using p-inputMask for OTP -->
+    <div class="flex justify-content-center align-items-center mb-4">
+      <p-inputOtp [(ngModel)]="value" />
+    </div>
+
+    <div class="flex justify-content-center align-items-center gap-2 mb-4">
+        <a href="#" class="resend-link">
+            <i class="pi pi-refresh"></i> Resend verification code
+        </a>
+    </div>
+
+    <ng-template pTemplate="footer">
+        <p-button
+            label="Continue"
+            class="continue-button"
+            styleClass="p-button-primary p-button-block"
+            (onClick)="handleContinue1()">
         </p-button>
     </ng-template>
 </p-dialog>
