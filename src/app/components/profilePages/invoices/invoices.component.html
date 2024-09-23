@@ -26,7 +26,7 @@
       </ng-template> -->
 
 
-      <div class="booking-card" (click)="openModal(invoice.inv_ID)">
+      <div class="booking-card" (click)="openModal(invoice.inv_ID,invoice.inv_Paid)">
         <div class="head">
           <h3>{{invoice?.apt_Name}}</h3>
           <span *ngIf="!invoice.inv_Paid" class="status unpaid">Unpaid</span>
@@ -106,18 +106,18 @@
               <div class="d-flex justify-content-between align-items-center w-100 mb-3">
                 <div class="room-title mb-4">
                   <span class="label">Start Date</span>
-                  <span class="date">19 Jun 2023</span>
+                  <span class="date">{{ invDetails?.payment_Due | date: 'dd MMM yyyy'}}</span>
                 </div>
                 <div class="room-price mb-4">
                   <span class="label">End Date</span>
-                  <span class="date">19 Jun 2023</span>
+                  <span class="date">{{ invDetails?.prepared_Date  | date: 'dd MMM yyyy'}}</span>
                 </div>
               </div>
 
               <div class="dividerr mb-4"></div>
 
 
-              <div class="d-flex justify-content-between align-items-center  w-100 mb-4">
+              <!-- <div class="d-flex justify-content-between align-items-center  w-100 mb-4">
 
                   <span class="label">Security Deposit Amount (25%)  </span>
 
@@ -127,23 +127,23 @@
               <div class="d-flex justify-content-between align-items-center  w-100 mb-0">
                 <div class="label">Service Fee</div>
                 <div class="fee-price">$888</div>
-              </div>
+              </div> -->
             </div>
-            <p class="text mb-4">service fee paid one time</p>
+            <!-- <p class="text mb-4">service fee paid one time</p> -->
 
-            <div class="dividerr mt-3 mb-4"></div>
+            <!-- <div class="dividerr mt-3 mb-4"></div> -->
             <div class="d-flex justify-content-between align-items-center w-100 mb-4">
               <div class="total-label">Total</div>
-              <div class="fee-price">$750</div>
+              <div class="fee-price">${{ invDetails?.price }}</div>
             </div>
 
-            <div class="d-flex justify-content-between align-items-center  w-100 mb-4">
+            <!-- <div class="d-flex justify-content-between align-items-center  w-100 mb-4">
 
                 <span class="label">Payment Method</span>
 
 
               <div class="fee-price">Cash</div>
-            </div>
+            </div> -->
 
 
             <div class="dividerr mt-3 mb-4"></div>
@@ -156,7 +156,7 @@
               <p-button label="Download Invoice" icon="pi pi-download" class="download-button"></p-button>
 
               <!-- Pay Now Button -->
-              <p-button label="Pay Now     " class="pay-button"></p-button>
+              <p-button label="Pay Now " class="pay-button" (click)=" payNow(invID)" [disabled]="inv_Paid"></p-button>
             </div>
 
 

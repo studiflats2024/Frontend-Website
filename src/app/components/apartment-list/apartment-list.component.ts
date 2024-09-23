@@ -318,7 +318,7 @@ fixxxx:boolean=false;
         border-radius: 50%;
         right: 10px;">&#10095;</button>
 
-      <div class="heart-icon" style="
+      <div id="heart-${apartment.title}" class="heart-icon" style="
         position: absolute;
         top: 10px;
         right: 10px;
@@ -363,11 +363,27 @@ fixxxx:boolean=false;
         infoWindow.open(this.map, marker);
       });
 
-      setTimeout(() => {
-        marker.addListener('mouseout', () => {
-          infoWindow.close();
-        });
-      },  1000);
+      // Add event listener for the heart icon after the info window is opened
+google.maps.event.addListener(infoWindow, 'domready', () => {
+  const heartElement = document.getElementById(`heart-${apartment.title}`);
+  if (heartElement) {
+    // Toggle favorite manually
+    heartElement.addEventListener('click', () => {
+      // Toggle the favorite status (you may need to update this to match your logic)
+      const isFavorite = this.favoriteApartments[apartment.title];
+      this.favoriteApartments[apartment.title] = !isFavorite;
+
+      // Update the heart color
+      heartElement.style.color = !isFavorite ? 'red' : 'white';
+    });
+  }
+});
+
+      // setTimeout(() => {
+      //   marker.addListener('mouseout', () => {
+      //     infoWindow.close();
+      //   });
+      // },  1000);
     });
   }
 
@@ -864,7 +880,9 @@ emaill=''
   favoriteApartments: { [key: string]: boolean } = {};
   toggleFavorite(apt_ID: string) {
     // Toggle favorite status
-    this.favoriteApartments[apt_ID] = !this.favoriteApartments[apt_ID];
+    // this.favoriteApartments[apt_ID] = !this.favoriteApartments[apt_ID];
+    this.favoriteApartments[apt_ID] = true;
+
 
     // Call the API service
 

@@ -1,9 +1,9 @@
 
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable,BehaviorSubject } from 'rxjs';
 import { environment } from '../../../src/environments/environment';
-
+import { MessagingService } from '../services/messaging.service';
 
 export interface UserAccount {
   mobile: string;
@@ -19,9 +19,14 @@ export interface UserAccount {
 })
 export class UserService {
 
+  private sharedData = new BehaviorSubject<string>('');
+
+  // Observable to allow subscription
+  uuid = this.sharedData.asObservable();
+
   // private apiUrl = `${environment.apiUrl}/Users`;
 
-  constructor(private http: HttpClient, private ngZone: NgZone) { }
+  constructor(private http: HttpClient, private ngZone: NgZone,private messagingService: MessagingService) { }
 
   createUser(userAccount: UserAccount): Observable<any> {
     const url = `${environment.apiUrl}/Users/Create_Account`;
@@ -133,24 +138,80 @@ export class UserService {
 
 
   /////////////////////////social sign/////////////////
+  // private clientId: string = '727951335686-psv9svhulcsrpv2sc1aqjs7oc87ggg61.apps.googleusercontent.com';
   private clientId: string = '727951335686-psv9svhulcsrpv2sc1aqjs7oc87ggg61.apps.googleusercontent.com';  // Replace with your actual Google Client ID
 
 
+  deviceToken:any;
+  // initGoogleAuth(): void {
+  //   this.messagingService.requestPermission()
+  //   .then((token:any) => {
+  //     console.log('Device token:', token);
+  //     this.deviceToken=token;
+
+  //   })
+  //   .catch((error:any) => {
+  //     console.error('Error getting token:', error);
+  //   });
+
+
+  //   window?.google?.accounts?.id.initialize({
+
+  //     client_id: this.clientId,
+
+  //     callback: (response) => this.handleCredentialResponse(response),
+
+  //   });
+  //   console.log('initGoogle',this.clientId);
+  // }
 
   initGoogleAuth(): void {
-    window.google.accounts.id.initialize({
+    // Check notification permissions before requesting them
+    if (Notification.permission === 'granted') {
+      this.messagingService.requestPermission()
+        .then((token: any) => {
+          console.log('Device token:', token);
+          this.deviceToken = token;
+        })
+        .catch((error: any) => {
+          console.error('Error getting token:', error);
+        });
+    } else if (Notification.permission === 'denied') {
+      console.error('Notification permission was denied. Unable to get device token.');
+    } else {
+      // Request permission from the user
+      this.messagingService.requestPermission()
+        .then((token: any) => {
+          console.log('Device token:', token);
+          this.deviceToken = token;
+        })
+        .catch((error: any) => {
+          console.error('Error getting token:', error);
+        });
+    }
+
+    // Initialize Google Auth
+    window?.google?.accounts?.id.initialize({
       client_id: this.clientId,
-      callback: (response) => this.handleCredentialResponse(response)
+      callback: (response) => this.handleCredentialResponse(response),
     });
+
+    console.log('initGoogle', this.clientId);
   }
 
+
   signInWithGoogle(): void {
+    this. initGoogleAuth();
+    // this.initGoogleAuth();
     window.google.accounts.id.prompt(); // This will show the Google Sign-In prompt
+    console.log('sign in');
+    console.log('initGoogle',this.clientId);
   }
 
   private handleCredentialResponse(response: any): void {
     this.ngZone.run(() => {
       const credential = response.credential;
+      localStorage.setItem('google_token', credential);
       const user = this.decodeJwtResponse(credential);
 
       const sc_id = user.sub;
@@ -158,11 +219,34 @@ export class UserService {
       const email = user.email;
       const provider = 'Google';
       const img = user.picture;
-      const deviceToken = ''; // Add logic to retrieve device token if necessary
+      const deviceToken = this.deviceToken; // Add logic to retrieve device token if necessary
 
       this.socialSignIn(sc_id, fullName, email, provider, img, deviceToken);
     });
+
   }
+
+  signOutFromGoogle(): void {
+    const token = localStorage.getItem('google_token'); // Assume you have stored the token
+
+    if (token) {
+      // Revoke the token by making a request to the Google OAuth2 API
+      const revokeUrl = `https://accounts.google.com/o/oauth2/revoke?token=${token}`;
+
+      this.http.post(revokeUrl, {}).subscribe({
+        next: () => {
+          console.log('User signed out from Google successfully');
+          localStorage.removeItem('google_token'); // Remove token from local storage
+        },
+        error: (err) => {
+          console.error('Error revoking token: ', err);
+        }
+      });
+    } else {
+      console.error('No Google token found to revoke.');
+    }
+  }
+
 
   private decodeJwtResponse(token: string): any {
     const base64Url = token.split('.')[1];
@@ -175,7 +259,7 @@ export class UserService {
   }
 
   private socialSignIn(sc_id: string, fullName: string, email: string, provider: string, img: string, deviceToken: string): void {
-    const url = 'https://api.studiflats.com/api/Users/SocialSign';
+    const url = 'https://api.studiflats.com/api/Users/SocialSign_WS';
     const params = new HttpParams()
       .set('SC_ID', sc_id)
       .set('FullName', fullName)
@@ -186,9 +270,15 @@ export class UserService {
 
     this.http.post<any>(url, {}, { params }).subscribe(
       response => {
-        localStorage.setItem('token', response.token);
+        if(response.token){
+          localStorage.setItem('token', response.token);
+        }
+        this.sharedData.next(response.uuid);
+
         console.log('Sign in successful:', response);
         // Handle successful sign-in
+        this.signOutFromGoogle()
+
       },
       error => {
         console.error('Sign in failed:', error);
@@ -305,6 +395,20 @@ export class UserService {
     });
 
     return this.http.get<any>(url, { headers, params });
+  }
+
+  getStripeCheckout(isCash: boolean, invoiceCodes: string[]): Observable<any> {
+    const url = `${environment.apiUrl}/ApartmentV2/GetStripeCheckout`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('token')}` // Assuming the token is stored in local storage
+    });
+
+    // Add query parameters if needed
+    const params = { Is_Cash: isCash.toString() };
+    const body = invoiceCodes;
+
+    return this.http.post(url, body, { headers, params,responseType: 'text' });
   }
 }
 

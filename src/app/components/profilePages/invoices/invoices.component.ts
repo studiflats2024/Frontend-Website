@@ -28,8 +28,11 @@ export class InvoicesComponent implements OnInit {
   onCloseModal(){
     this.displayDetails='none'
   }
-  openModal(id:string){
-    this.displayDetails='block'
+  invID:any;
+  openModal(id:string,invPaid:boolean){
+    this.invID=id;
+    this.inv_Paid=invPaid
+    console.log(this.inv_Paid)
     this.fetchInvoiceDetails(id);
   }
 
@@ -54,13 +57,36 @@ export class InvoicesComponent implements OnInit {
     this.userService.getInvoiceDetails(inv_ID).subscribe({
       next: (response) => {
         this.invDetails=response;
+        this.invCode=this.invDetails.invoice_No;
         console.log('Invoice Details:', response);
-        this.inv_Paid=this.invDetails.inv_Paid
+
+        this.displayDetails='block'
       },
       error: (error) => {
         console.error('Error fetching invoice details:', error);
       }
     });
+  }
+  invCode:any;
+  payNow(invID:any): void {
+    const invoiceCodes = [this.invCode]; // Replace with actual invoice codes
+    const isCash = false;
+
+    this.userService.getStripeCheckout(isCash, invoiceCodes).subscribe(
+      (response) => {
+        if (response) {
+
+          // window.location.href = response;
+          window.open(response, '_blank');
+        } else {
+          console.error('Invalid response from the server');
+        }
+      },
+      (error) => {
+        console.error('API Error:', error);
+        alert('An error occurred while processing the payment. Please try again later.');
+      }
+    );
   }
 
 }

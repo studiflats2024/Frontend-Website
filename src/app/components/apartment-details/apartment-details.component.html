@@ -15,9 +15,12 @@ div
       </div>
       <div class="icon-text">
 
-          <i class="bi bi-heart"></i>
+          <!-- <i class="bi bi-heart"></i> -->
+          <i class="pi pi-heart"
+          [ngClass]="{'red-heart': favoriteApartments[aprt.apartment_ID]}"
+         (click)="toggleFavorite(aprt.apartment_ID)"></i>
 
-        <div class="favorite-text">Add to favorite</div>
+        <div class="favorite-text" (click)="toggleFavorite(aprt.apartment_ID)">Add to favorite</div>
       </div>
     </div>
   </div>

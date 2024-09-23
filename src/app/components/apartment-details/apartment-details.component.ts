@@ -17,7 +17,9 @@ import $ from 'jquery';
 import { FormBuilder, FormGroup, Validators, AbstractControl,FormArray } from '@angular/forms';
 import { UserService  } from '../../services/user.service';
 import { AuthService } from '../../services/auth.service';
+import { BookingService} from '../../services/booking.service';
 
+import { MessagingService } from '../../services/messaging.service';
 import { HttpClient } from '@angular/common/http';
 
 declare var intlTelInput: any;
@@ -1176,6 +1178,8 @@ preservedGuests:any
   // }
 
   constructor(
+    private messagingService: MessagingService,
+    private bookingService:BookingService,
     private apartmentService: ApartmentService,
     private router: Router,
     private messageService: MessageService ,
@@ -2222,7 +2226,7 @@ openverifyModal(){
 
       this.userService.checkOtp(this.otp, this.uuidforgot).subscribe(
         response => {
-          this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+          // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
           console.log('OTP verified successfully', response);
           this.displayForgetPass='block';
           this.displayVerify='block'
@@ -2265,4 +2269,96 @@ openverifyModal(){
   showDialog(){
    this.visibleBooking=true;
   }
+
+
+
+
+
+  favoriteApartments: { [key: string]: boolean } = {};
+  toggleFavorite(apt_ID: string) {
+    // Toggle favorite status
+    // this.favoriteApartments[apt_ID] = !this.favoriteApartments[apt_ID];
+    this.favoriteApartments[apt_ID] =true;
+
+    // Call the API service
+
+    this.messagingService.requestPermission()
+      .then((token:any) => {
+        console.log('Device token:', token);
+        this.deviceToken=token;
+        this.addToWishlist(apt_ID,this.deviceToken);
+      })
+      .catch((error:any) => {
+        console.error('Error getting token:', error);
+      });
+
+    // Optionally listen for incoming notifications
+    this.messagingService.receiveMessage();
+  }
+
+  deviceToken:any;
+
+  addToWishlist(apt_ID: string, device_Token: string) {
+    this.bookingService.addToWishlist(apt_ID, device_Token).subscribe(
+      (response) => {
+        console.log('API call success:', response);
+      },
+      (error) => {
+        console.error('API call error:', error);
+        this.messageService.add({severity: 'error', summary: 'Error', detail: error.error.message});
+      }
+    );
+  }
+
+
+
+  /////////////////////////////////////////
+//social sign/////////////////////
+uuid:any;
+signInWithGoogle(): void {
+  this.socialSign=true;
+  // const token = localStorage.getItem('token');
+  // if (token) {
+  //   console.error('Token not found, redirecting to login');
+  //   this.logout();
+  //   this.userService.signInWithGoogle();
+  // }else{
+  //   this.userService.signInWithGoogle();
+  // }this.socialSign=true;
+  if(!localStorage.getItem('token')){
+    this.userService.signInWithGoogle();
+
+     setTimeout(() => {
+      this.userService.uuid.subscribe(value => {
+        this.uuid = value;
+        console.log('Component1 received shared data:', this.uuid);
+      });
+
+     if(!localStorage.getItem('token')){
+      // this.displayInfo='block';
+
+    }
+    this.displayModal='none';
+    }, 500);
+  }else{
+    this.userService.signInWithGoogle();
+  }
+
+
+}
+socialSign:boolean=false;
+ signUpWithGoogle(): void {
+
+  console.log('sign up')
+  this.userService.signInWithGoogle();
+  setTimeout(() => {
+    if(!localStorage.getItem('token')){
+      // this.displayInfo='block';
+      // this.displayModalsign='none';
+    }
+
+  }, 0);
+
+}
+
 }

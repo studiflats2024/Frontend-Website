@@ -290,7 +290,7 @@ getProfileData(): void {
       this.phonelogin=this.profileData[0]?.mobile;
       this.gender=this.profileData[0]?.gender;
       this.birthday=this.profileData[0]?.doB;
-      this.imgProfile=this.profileData[0]?.doB;
+      this.imgProfile=this.profileData[0]?.profile_pic ;
       this.country=this.profileData[0]?.nationality;
 
       console.log(this.birthday)

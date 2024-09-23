@@ -182,6 +182,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
   // }
   ngOnInit(): void {
     this.userService.initGoogleAuth();
+
     this.loginMethod='whatsApp';
 
     this.isLoggedIn = this.isAuthenticated();
@@ -594,12 +595,12 @@ onVerifyOtp(): void {
   );
 }
 
-
+emailGoogle:boolean=false;
 onFinishSignSubmit() {
   if (this.finishSignupForm.valid) {
     const formData = this.finishSignupForm.value;
     const genderName = formData.gender.name;
-
+    // formData.email=
     this.userService.sendUserData(
       formData.email,
       genderName,
@@ -613,11 +614,14 @@ onFinishSignSubmit() {
         this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
         console.log('Form Submitted Successfully:', response);
         this.displayInfo='none';
-        setTimeout(() => {
+        if(this.socialSign===false){
+          setTimeout(() => {
 
-          this.isVisiblelogin='block';
+            this.isVisiblelogin='block';
 
-        },  3000);
+          },  3000);
+        }
+
 
       },
       error => {
@@ -754,7 +758,7 @@ getProfileData(token:any): void {
 //social sign/////////////////////
 
   signInWithGoogle(): void {
-
+    this.socialSign=true;
     // const token = localStorage.getItem('token');
     // if (token) {
     //   console.error('Token not found, redirecting to login');
@@ -762,26 +766,44 @@ getProfileData(token:any): void {
     //   this.userService.signInWithGoogle();
     // }else{
     //   this.userService.signInWithGoogle();
-    // }
-    this.userService.signInWithGoogle();
+    // }this.socialSign=true;
+    if(!localStorage.getItem('token')){
+      this.userService.signInWithGoogle();
+
+       setTimeout(() => {
+        this.userService.uuid.subscribe(value => {
+          this.uuid = value;
+          console.log('Component1 received shared data:', this.uuid);
+        });
+
+       if(!localStorage.getItem('token')){
+        this.displayInfo='block';
+
+      }else{
+        this.isVisiblelogin='none';
+      }
+
+      }, 500);
+    }else{
+      this.userService.signInWithGoogle();
+    }
+
 
   }
-
+socialSign:boolean=false;
    signUpWithGoogle(): void {
+
     console.log('sign up')
     this.userService.signInWithGoogle();
-    const self = this;
-    // const token = localStorage.getItem('token');
-    // if (token) {
+    setTimeout(() => {
+      if(!localStorage.getItem('token')){
+        this.displayInfo='block';
 
-      setTimeout(function() {
-        console.log('This message will be displayed after 2 seconds');
-        self.logout();
-    }, 10000);
+      }else{
+        this.displayModalsign='none';
+      }
 
-    // }
-
-
+    }, 0);
 
   }
   // async signUpWithGoogle(): Promise<void> {

@@ -1628,3 +1628,38 @@ text-transform: capitalize;
   /* background-color: red; */
   -webkit-text-stroke: 1px red;
 }
+
+
+
+:host ::ng-deep .gm-style .gm-style-iw-c {
+  padding:0 !important;
+  }
+
+  :host ::ng-deep .gm-style-iw-ch {
+  display: none !important;
+  }
+
+  :host ::ng-deep .gm-style-iw-chr button  {
+      background: none;
+      color: #fff !important;
+      display: block;
+      border: 0px;
+      margin: 0px;
+      padding: 0px;
+      text-transform: none;
+      appearance: none;
+
+      cursor: pointer;
+      user-select: none;
+      width: 48px;
+      height: 48px;
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      z-index: 10 !important;
+  }
+
+
+  :host ::ng-deep .gm-style-iw-d{
+       overflow: unset !important;
+  }

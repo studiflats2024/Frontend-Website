@@ -39,10 +39,10 @@
                   <input  id="phone" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off">
 
                 </div>
-                <div *ngIf="signupForm.get('mobile')?.errors && signupForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
+                <!-- <div *ngIf="signupForm.get('mobile')?.errors && signupForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
                   <div *ngIf="signupForm.get('mobile')?.errors?.['required']">Mobile number is required.</div>
                   <div *ngIf="signupForm.get('mobile')?.errors?.['pattern']">Please enter a valid mobile number (10-15 digits).</div>
-                </div>
+                </div> -->
               </div>
 
 
@@ -278,10 +278,10 @@
                 <span>  Already have an account? <div   (click)="showLogin()" class="text-primary">Login</div></span>
               </div>
               <div class="text-center mb-3">
-                <span>Or Login with</span>
+                <span>Or Signup with</span>
               </div>
               <div class="d-flex justify-content-around ">
-                <button class="btn btn-outline-secondary w-50 mr-2"><img src="googlebtn.svg"/></button>
+                <button class="btn btn-outline-secondary w-50 mr-2" (click)=" signUpWithGoogle()"><img src="googlebtn.svg"/></button>
                 <button class="btn btn-outline-secondary w-50"><img src="applebtn.svg"/></button>
               </div>
             </div>
