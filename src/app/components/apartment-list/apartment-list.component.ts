@@ -297,6 +297,7 @@ fixxxx:boolean=false;
         color: white;
         border: none;
         padding: 10px;
+        padding: 8px 10px;
         cursor: pointer;
         border-radius: 50%;
         left: 10px;">&#10094;</button>
@@ -314,6 +315,7 @@ fixxxx:boolean=false;
         color: white;
         border: none;
         padding: 10px;
+        padding: 8px 10px;
         cursor: pointer;
         border-radius: 50%;
         right: 10px;">&#10095;</button>
@@ -325,7 +327,9 @@ fixxxx:boolean=false;
         background-color: rgba(0, 0, 0, 0.5);
         color: white;
         padding: 5px;
+        padding: 3px 5px;
         border-radius: 50%;
+        font-size: 20px;
         cursor: pointer;">&#9829;</div>
     </div>
 
@@ -358,7 +362,7 @@ fixxxx:boolean=false;
         content: infoWindowContent
       });
 
-      marker.addListener('mouseover', () => {
+      marker.addListener('click', () => {
         console.log('Marker hovered:', apartment.title);
         infoWindow.open(this.map, marker);
       });

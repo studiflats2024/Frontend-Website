@@ -97,6 +97,11 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
     return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
   }
 
+  openModalFromOtherComponent() {
+    this.userService.openModal(); // Use the service to trigger opening the modal
+  this.displayModal='none';
+  }
+
   initializeGuestsAPI() {
     this.guestsAPI = this.selectedBeds.map((i) => ({
       apartment_ID: this.aprt.apartment_ID,
@@ -1341,6 +1346,34 @@ ngAfterViewChecked() {
         this.loginForm.patchValue({ mobile: fullPhoneNumber });
         console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
       });
+
+      // Handle 'countrychange' event to update the flag and dial code
+input.addEventListener("countrychange", function() {
+  // Clear the previous flag and dial code
+  const flagContainer = document.querySelector(".iti__selected-flag");
+  const dialCodeElement = document.querySelector(".iti__dial-code");
+  console.log(flagContainer,dialCodeElement)
+  // Remove previous flag and code visually
+  if (flagContainer) {
+      flagContainer.classList.remove("iti__selected-flag");
+  }
+  if (dialCodeElement) {
+      dialCodeElement.textContent = ''; // Clear the dial code
+  }
+
+  // Get the new country data and update the flag and code
+  const selectedCountryData = iti.getSelectedCountryData();
+
+  // Reapply the new flag and dial code
+  if (flagContainer) {
+      flagContainer.classList.add("iti__selected-flag"); // Re-add flag class
+      dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; // Set the new dial code
+  }
+
+  // Optional: Log the new selected country and dial code
+  console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+});
+
     }
   }
 
@@ -1531,6 +1564,35 @@ markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
         console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
          console.log(typeof( this.loginForm.value.mobile))
       });
+
+
+      // Handle 'countrychange' event to update the flag and dial code
+input.addEventListener("countrychange", function() {
+  // Clear the previous flag and dial code
+  const flagContainer = document.querySelector(".iti__selected-flag");
+  const dialCodeElement = document.querySelector(".iti__dial-code");
+ console.log(flagContainer,dialCodeElement)
+  // Remove previous flag and code visually
+  if (flagContainer) {
+      flagContainer.classList.remove("iti__selected-flag");
+  }
+  if (dialCodeElement) {
+      dialCodeElement.textContent = ''; // Clear the dial code
+  }
+
+  // Get the new country data and update the flag and code
+  const selectedCountryData = iti.getSelectedCountryData();
+
+  // Reapply the new flag and dial code
+  if (flagContainer) {
+      flagContainer.classList.add("iti__selected-flag"); // Re-add flag class
+      dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; // Set the new dial code
+  }
+
+  // Optional: Log the new selected country and dial code
+  console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+});
+
     } else {
       console.error("The phone input element was not found.");
     }
@@ -1645,32 +1707,59 @@ onCloseModal() {
 ngAfterViewInit(): void {
 
   this.initializeIntlTelInput('#bookingphone', this.bookingForm);
-  // this.bookingPhoneInput.nativeElement.focus();
-  //   this.initializeIntlTelInput(this.bookingPhoneInput.nativeElement);
-  const input = document.querySelector("#phoneid");
 
-  if (input) {
-    const iti = intlTelInput(input, {
-      initialCountry: "de",  // الدولة الافتراضية
-      preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
-      separateDialCode: true,  // فصل كود الدولة
-      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"  // تحميل سكربت الأدوات المساعدة
-    });
+//   const input = document.querySelector("#phoneid");
 
-    // حدث عند فقدان التركيز على الحقل
-    input.addEventListener('blur', () => {
-      let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
-      if (fullPhoneNumber.startsWith("+")) {
-        fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
-      }
-      console.log("Full phone number:", fullPhoneNumber);
-      this.loginForm.patchValue({ mobile: fullPhoneNumber });
-      console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-       console.log(typeof( this.loginForm.value.mobile))
-    });
-  } else {
-    console.error("The phone input element was not found.");
-  }
+//   if (input) {
+//     const iti = intlTelInput(input, {
+//       initialCountry: "de",
+//       preferredCountries: ["de", "us", "gb"],
+//       separateDialCode: true,
+//       utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+//     });
+
+
+//     input.addEventListener('blur', () => {
+//       let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+//       if (fullPhoneNumber.startsWith("+")) {
+//         fullPhoneNumber = fullPhoneNumber.substring(1);
+//       }
+//       console.log("Full phone number:", fullPhoneNumber);
+//       this.loginForm.patchValue({ mobile: fullPhoneNumber });
+//       console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+//        console.log(typeof( this.loginForm.value.mobile))
+//     });
+
+
+// input.addEventListener("countrychange", function() {
+
+//   const flagContainer = document.querySelector(".iti__selected-flag");
+//   const dialCodeElement = document.querySelector(".iti__dial-code");
+//   console.log(flagContainer,dialCodeElement)
+
+//   if (flagContainer) {
+//       flagContainer.classList.remove("iti__selected-flag");
+//   }
+//   if (dialCodeElement) {
+//       dialCodeElement.textContent = '';
+//   }
+
+
+//   const selectedCountryData = iti.getSelectedCountryData();
+
+
+//   if (flagContainer) {
+//       flagContainer.classList.add("iti__selected-flag");
+//       dialCodeElement!.textContent = "+" + selectedCountryData.dialCode;
+//   }
+
+
+//   console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+// });
+
+//   } else {
+//     console.error("The phone input element was not found.");
+//   }
 
   this.loginForm.reset();
 
@@ -1726,6 +1815,35 @@ private initializeIntlTelInputbook(selector: string, form: FormGroup ,index:numb
       console.log("Updated mobile field in the form:", form.value.mobile);
       console.log(typeof(form.value.mobile));
     });
+
+
+    // Handle 'countrychange' event to update the flag and dial code
+input.addEventListener("countrychange", function() {
+  // Clear the previous flag and dial code
+  const flagContainer = document.querySelector(".iti__selected-flag");
+  const dialCodeElement = document.querySelector(".iti__dial-code");
+   console.log(flagContainer,dialCodeElement)
+  // Remove previous flag and code visually
+  if (flagContainer) {
+      flagContainer.classList.remove("iti__selected-flag");
+  }
+  if (dialCodeElement) {
+      dialCodeElement.textContent = ''; // Clear the dial code
+  }
+
+  // Get the new country data and update the flag and code
+  const selectedCountryData = iti.getSelectedCountryData();
+
+  // Reapply the new flag and dial code
+  if (flagContainer) {
+      flagContainer.classList.add("iti__selected-flag"); // Re-add flag class
+      dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; // Set the new dial code
+  }
+
+  // Optional: Log the new selected country and dial code
+  console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+});
+
   } else {
     console.error(`The phone input element with selector '${selector}' was not found.`);
   }
@@ -2240,6 +2358,17 @@ openverifyModal(){
       );
 
 
+  }
+  refreshOtp(): void {
+
+    this.userService.refreshOtp(this.uuidforgot).subscribe(
+      (response) => {
+        console.log('OTP refreshed successfully:', response);
+      },
+      (error) => {
+        console.error('Error refreshing OTP:', error);
+      }
+    );
   }
 
   onForgetSubmit(): void {

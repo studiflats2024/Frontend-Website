@@ -387,12 +387,12 @@
                     </div> -->
                 </div>
                 <div class="d-flex justify-content-between mb-3">
-                  <div class="form-check">
+                  <!-- <div class="form-check">
                     <input class="form-check-input" type="checkbox" value="" id="rememberMe">
                     <label class="form-check-label" for="rememberMe">
                       Remember me
                     </label>
-                  </div>
+                  </div> -->
                   <a (click)="openverifyModal()" class="text-primary">Forgot Password</a>
                 </div>
                 <div class="d-grid mb-3">
@@ -525,7 +525,7 @@
             <div class="login-form">
               <div class="mb-5 justify-content-center align-content-center" >
                 <p-inputOtp [(ngModel)]="otp" [integerOnly]="true" />
-                <div class=" rotatee">   <img width="13px" height="13px" src="rotate.svg"/><span class="rotate">Resend verification code</span></div>
+                <div class=" rotatee">   <img width="13px" height="13px" src="rotate.svg"/><span class="rotate" style="cursor: pointer;" (click)="refreshOtp()">Resend verification code</span></div>
 
               </div>
 

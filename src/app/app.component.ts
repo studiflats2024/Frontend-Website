@@ -143,6 +143,37 @@ export class AppComponent implements OnInit, AfterViewInit  {
           this.loginForm.patchValue({ mobile: fullPhoneNumber });
           console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
         });
+
+        input.addEventListener("countrychange", function() {
+
+
+           // Clear the previous flag and dial code
+    const flagContainer = document.querySelector(".iti__selected-flag");
+    const dialCodeElement = document.querySelector(".iti__dial-code");
+    console.log(flagContainer,dialCodeElement)
+
+    // Remove previous flag and code visually
+    if (flagContainer) {
+        flagContainer.classList.remove("iti__selected-flag");
+    }
+    if (dialCodeElement) {
+        dialCodeElement.textContent = ''; // Clear the dial code
+    }
+
+    // Get the new country data and update the flag and code
+    const selectedCountryData = iti.getSelectedCountryData();
+
+    // Reapply the new flag and dial code
+    if (flagContainer) {
+        flagContainer.classList.add("iti__selected-flag"); // Re-add flag class
+        dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; // Set the new dial code
+    }
+
+    // Optional: Log the new selected country and dial code
+    console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+
+
+      });
       }
     }
 
@@ -181,6 +212,12 @@ export class AppComponent implements OnInit, AfterViewInit  {
   //   }
   // }
   ngOnInit(): void {
+
+    this.userService.modalVisibility$.subscribe(show => {
+      this.displayModalsign = show ? 'block' : 'none'; // Show or hide the modal based on the emitted value
+    });
+
+
     this.userService.initGoogleAuth();
 
     this.loginMethod='whatsApp';
@@ -237,7 +274,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
 
 
-      const input = document.querySelector("#phone");
+      const input = document.querySelector("#phone") as HTMLInputElement;
 
       if (input) {
         const iti = intlTelInput(input, {
@@ -247,6 +284,32 @@ export class AppComponent implements OnInit, AfterViewInit  {
           utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
           useFullscreenPopup: false  // تحميل سكربت الأدوات المساعدة
         });
+
+        input.addEventListener("countrychange", function() {
+        // Clear the previous flag and dial code
+    const flagContainer = document.querySelector(".iti__selected-flag");
+    const dialCodeElement = document.querySelector(".iti__dial-code");
+
+    // Remove previous flag and code visually
+    if (flagContainer) {
+        flagContainer.classList.remove("iti__selected-flag");
+    }
+    if (dialCodeElement) {
+        dialCodeElement.textContent = ''; // Clear the dial code
+    }
+
+    // Get the new country data and update the flag and code
+    const selectedCountryData = iti.getSelectedCountryData();
+
+    // Reapply the new flag and dial code
+    if (flagContainer) {
+        flagContainer.classList.add("iti__selected-flag"); // Re-add flag class
+        dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; // Set the new dial code
+    }
+
+    // Optional: Log the new selected country and dial code
+    console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+      });
 
         // حدث عند فقدان التركيز على الحقل
         input.addEventListener('blur', () => {
@@ -259,6 +322,7 @@ export class AppComponent implements OnInit, AfterViewInit  {
           console.log("Updated mobile field in the form:", this.signupForm.value.mobile);
            console.log(typeof( this.signupForm.value.mobile))
         });
+
       } else {
         console.error("The phone input element was not found.");
       }
@@ -289,31 +353,56 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
   ngAfterViewInit(): void {
 
-    const inputlogin = document.querySelector("#phonee");
+//     const inputlogin = document.querySelector("#phonee") as HTMLInputElement;
 
-    if (inputlogin) {
-      const iti = intlTelInput(inputlogin, {
-        initialCountry: "de",  // الدولة الافتراضية
-        preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
-        separateDialCode: true,  // فصل كود الدولة
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" ,
-        useFullscreenPopup: false // تحميل سكربت الأدوات المساعدة
-      });
+//     if (inputlogin) {
+//       const iti = intlTelInput(inputlogin, {
+//         initialCountry: "de",
+//         preferredCountries: ["de", "us", "gb"],
+//         separateDialCode: true,
+//         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" ,
+//         useFullscreenPopup: false
+//       });
+//       inputlogin.addEventListener("countrychange", function() {
 
-      // حدث عند فقدان التركيز على الحقل
-      inputlogin.addEventListener('blur', () => {
-        let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
-        if (fullPhoneNumber.startsWith("+")) {
-          fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
-        }
-        console.log("Full phone number:", fullPhoneNumber);
-        this.loginForm.patchValue({ mobile: fullPhoneNumber });
-        console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-         console.log(typeof( this.loginForm.value.mobile))
-      });
-    } else {
-      console.error("The phone input element was not found.");
-    }
+//  const flagContainer = document.querySelector(".iti__selected-flag");
+//  const dialCodeElement = document.querySelector(".iti__dial-code");
+
+
+//  if (flagContainer) {
+//      flagContainer.classList.remove("iti__selected-flag");
+//  }
+//  if (dialCodeElement) {
+//      dialCodeElement.textContent = '';
+//  }
+
+
+//  const selectedCountryData = iti.getSelectedCountryData();
+
+
+//  if (flagContainer) {
+//      flagContainer.classList.add("iti__selected-flag");
+//      dialCodeElement!.textContent = "+" + selectedCountryData.dialCode;
+//  }
+
+
+//  console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+//     });
+
+
+//       inputlogin.addEventListener('blur', () => {
+//         let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+//         if (fullPhoneNumber.startsWith("+")) {
+//           fullPhoneNumber = fullPhoneNumber.substring(1);
+//         }
+//         console.log("Full phone number:", fullPhoneNumber);
+//         this.loginForm.patchValue({ mobile: fullPhoneNumber });
+//         console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+//          console.log(typeof( this.loginForm.value.mobile))
+//       });
+//     } else {
+//       console.error("The phone input element was not found.");
+//     }
 
     this.loginForm.reset();
 
@@ -373,6 +462,7 @@ onCloseSignModal() {
   this.displayInfo='none';
   this.displayVerify='none';
   this.displayVerifyForget='none';
+  this.userService.closeModal();
 }
 displayVerify:any
 isOtpValid:boolean=false;
@@ -577,6 +667,7 @@ console.log(this.signupForm)
 
 
 uuid:string='';
+reuuid:string='';
 otp:string='';
 onVerifyOtp(): void {
   this.userService.checkOtp(this.otp, this.uuid).subscribe(
@@ -585,12 +676,25 @@ onVerifyOtp(): void {
       console.log('OTP verified successfully', response);
       this.displayModalsign='none';
       this.displayVerify='none';
+
       this.openInfoModal()
+
     },
     error => {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
       console.error('Error verifying OTP', error);
 
+    }
+  );
+}
+refreshOtp(): void {
+
+  this.userService.refreshOtp(this.uuidforgot).subscribe(
+    (response) => {
+      console.log('OTP refreshed successfully:', response);
+    },
+    (error) => {
+      console.error('Error refreshing OTP:', error);
     }
   );
 }

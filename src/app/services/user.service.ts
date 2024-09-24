@@ -1,7 +1,7 @@
 
 import { Injectable, NgZone } from '@angular/core';
 import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
-import { Observable,BehaviorSubject } from 'rxjs';
+import { Observable,BehaviorSubject,Subject } from 'rxjs';
 import { environment } from '../../../src/environments/environment';
 import { MessagingService } from '../services/messaging.service';
 
@@ -23,6 +23,21 @@ export class UserService {
 
   // Observable to allow subscription
   uuid = this.sharedData.asObservable();
+
+  private modalVisibility = new Subject<boolean>(); // A subject to emit changes to modal visibility
+
+  // Observable for other components to listen for modal open/close events
+  modalVisibility$ = this.modalVisibility.asObservable();
+
+  // Method to open the modal
+  openModal() {
+    this.modalVisibility.next(true); // Emit true when the modal should open
+  }
+
+  // Method to close the modal
+  closeModal() {
+    this.modalVisibility.next(false); // Emit false when the modal should close
+  }
 
   // private apiUrl = `${environment.apiUrl}/Users`;
 
@@ -50,6 +65,18 @@ export class UserService {
     // return this.http.put<any>(url, {}, { params: params });
     return this.http.put<any>(url, {}, { params, headers });
 
+  }
+
+  refreshOtp(uuid: string): Observable<any> {
+    // Create HTTP params to include the UUID in the request
+    const url = `${environment.apiUrl}/Users/Refresh_Otp`;
+    let params = new HttpParams().set('UUID', uuid);
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json', // Specify the content type
+
+    });
+    // Send a GET request with the UUID as a query parameter
+    return this.http.get(url, { params,headers });
   }
 
   sendUserData(
