@@ -1669,7 +1669,8 @@ input.addEventListener("countrychange", function() {
       }
 
     }else{
-      this.displayModal='block';
+      // this.displayModal='block';
+      this.userService.openModal();
     }
 
 

@@ -214,7 +214,9 @@ export class AppComponent implements OnInit, AfterViewInit  {
   ngOnInit(): void {
 
     this.userService.modalVisibility$.subscribe(show => {
-      this.displayModalsign = show ? 'block' : 'none'; // Show or hide the modal based on the emitted value
+      // this.displayModalsign = show ? 'block' : 'none';
+      this.isVisiblelogin = show ? 'block' : 'none';
+
     });
 
 
