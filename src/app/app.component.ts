@@ -828,6 +828,10 @@ onLoginSubmit(): void {
         error => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
           console.error('Error creating user account', error);
+          if(error.error.message==="Oops!! Your Profile isn't completed yet , Please complete it"){
+             this.displayInfo='block';
+             this.isVisiblelogin='none';
+          }
 
         }
       );

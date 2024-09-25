@@ -578,18 +578,18 @@ text-transform: capitalize;
 }
 
 
-:host ::ng-deep .p-datepicker {
+/* :host ::ng-deep .p-datepicker {
   transform-origin: center bottom;
-  /* top: -600% !important; */
+
   top:-100% !important;
   left: 0% !important;
   margin-top: calc(var(--p-anchor-gutter));
   z-index: 99999;
-}
+} */
 
-:host ::ng-deep .p-datepicker .p-datepicker-group-container {
-  /* width: 100px; */
-}
+/* :host ::ng-deep .p-datepicker .p-datepicker-group-container {
+
+} */
 :host ::ng-deep .p-datepicker .p-datepicker-group-container table span {
  padding: 0;
  width: 20px;
@@ -611,14 +611,14 @@ text-transform: capitalize;
     width: 100% !important;
     height: 60%;
    }
-   :host ::ng-deep .p-datepicker {
+   /* :host ::ng-deep .p-datepicker {
     transform-origin: center bottom;
     top: -400% !important;
     left: 0% !important;
     margin-top: calc(var(--p-anchor-gutter));
     z-index: 9999;
 
-  }
+  } */
  }
 
 

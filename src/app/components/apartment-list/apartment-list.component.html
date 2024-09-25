@@ -304,11 +304,27 @@
           </div>
           <div class="divider"></div>
           <div class="apartment-details">
-            <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid">{{ apartment.apartment_No_Bedrooms }} beds</div>
+            <!-- <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid">{{ apartment.apartment_No_Bedrooms }} room</div> -->
+            <div class="detail-item">
+              <img src="bed.png" alt="bed" class="img-fluid">
+              <!-- Conditionally display "studio" if apartment_Type is "studio" -->
+              <ng-container *ngIf="apartment.apartment_Type === 'Studio'; else bedrooms">
+                studio
+              </ng-container>
+              <ng-template #bedrooms>
+                {{ apartment.apartment_No_Bedrooms }} room
+              </ng-template>
+            </div>
             <div class="detail-item"><i class="pi pi-user"></i>{{ apartment.apartment_Persons_No }} persons</div>
             <div class="detail-item"><i class="pi pi-home"></i>{{ apartment.apartment_Area_Square }} m²</div>
           </div>
-          <div class="amenities">
+          <div class="divider"></div>
+          <div class="apartment-details">
+            <div *ngIf="apartment.apartment_SharedType==='Shared Apartment' " class="shared-area">shared apartment</div>
+            <div class="bed-left"> beds left: {{ apartment.available_Beds }}</div>
+          </div>
+
+          <!-- <div class="amenities">
             <span *ngFor="let amenity of apartment.amenities; let last = last">
               <ng-container *ngIf="amenity === 'Wifi'; else regularAmenity">
                 <i class="pi pi-wifi"></i> {{ amenity }}
@@ -318,7 +334,7 @@
               </ng-template>
               <span *ngIf="!last" class="dot">·</span>
             </span>
-          </div>
+          </div> -->
           <div class="divider"></div>
           <div class="apartment-footer">
             <div class="review">

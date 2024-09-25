@@ -208,4 +208,70 @@ input:-webkit-autofill:active {
     -webkit-text-fill-color: #000 !important; /* Set text color to default */
 }
 
+  .p-datepicker {
+  transform-origin: center bottom;
+  /* top: -600% !important; */
+  top:100% !important;
+  left: 0% !important;
 
+  z-index: 99999;
+}
+
+/* :host ::ng-deep .p-datepicker .p-datepicker-group-container {
+
+} */
+  .p-datepicker .p-datepicker-group-container table span {
+ padding: 0 !important;
+ width: 20px !important ;
+ height: 20px !important;
+
+}
+
+.p-datepicker .p-datepicker-header{
+  padding: 0 !important;
+}
+
+.p-datepicker .p-datepicker-header .p-datepicker-title .p-datepicker-month {
+  color: #495057;
+  transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+  font-weight: 600;
+  padding: 2px !important;
+}
+.p-datepicker .p-datepicker-header .p-datepicker-title {
+  line-height: 1;
+}
+
+
+@media (max-width:1200px) {
+
+  .p-datepicker {
+    transform-origin: center bottom;
+    /* top: -600% !important; */
+    top:100% !important;
+    left: 0% !important;
+
+    z-index: 99999;
+  }
+
+  /* :host ::ng-deep .p-datepicker .p-datepicker-group-container {
+
+  } */
+    .p-datepicker .p-datepicker-group-container table span {
+   padding: 0 !important;
+   width: 20px !important ;
+   height: 20px !important;
+
+  }
+
+    .p-datepicker-header{
+    padding: 0 !important;
+  }
+
+  .p-datepicker-header .p-datepicker-title .p-datepicker-month {
+    color: #495057;
+    transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
+    font-weight: 600;
+    padding: 2px !important;
+  }
+
+}

@@ -1,0 +1,151 @@
+/* Style for completed steps */
+
+
+/* :host ::ng-deep .p-steps .p-menuitem-link  .p-steps-number {
+    background-color: #007bff !important;
+    border-color: #007bff !important;
+} */
+
+
+.p-steps-item{
+  justify-content: start;
+}
+::ng-deep .p-steps .p-steps-item .p-menuitem-link {
+background: transparent;
+transition: box-shadow 0.2s;
+border-radius: 6px;
+background: #ffffff;
+}
+::ng-deep .p-steps .p-steps-item .p-menuitem-link .p-steps-number {
+color: #90A0B7;
+border: 1px solid #90A0B7;
+background: #ffffff;
+min-width: 2rem;
+height: 2rem;
+line-height: 2rem;
+font-size: 1.143rem;
+z-index: 1;
+border-radius: 50%;
+}
+::ng-deep .p-steps .p-steps-item .p-menuitem-link .p-steps-title {
+margin-top: 0.5rem;
+color: #90A0B7;
+font-size: 16px ;
+}
+
+::ng-deep .p-steps .p-steps-item.p-highlight .p-steps-number {
+background: #1151B4;
+color: #fff;
+}
+::ng-deep .p-steps .p-steps-item.p-highlight .p-steps-title {
+font-weight: 700;
+color: #1151B4;
+}
+
+::ng-deep .p-steps .p-steps-item:not(:last-child):before {
+content: " ";
+border-top: 3px solid #90A0B7;
+width: 50%;
+top: 50%;
+left: 50%;
+display: block;
+position: absolute;
+margin-top: -1rem;
+}
+::ng-deep .p-steps .p-steps-item:not(:first-child):after {
+content: " ";
+border-top: 3px solid #90A0B7;
+width: 50%;
+top: 50%;
+right: 50%;
+display: block;
+position: absolute;
+margin-top: -1rem;
+}
+::ng-deep .p-steps .p-steps-item:last-child::before {
+content: " ";
+border-top: 3px solid #90A0B7;
+width: 0%;
+top: 50%;
+right: 0;
+display: block;
+position: absolute;
+margin-top: -1rem;
+}
+
+/*******************/
+::ng-deep .p-steps  .p-steps-item.p-highlight:not(:last-child):before {
+  content: " ";
+  border-top: 3px solid #1151B4;
+  width: 50%;
+  top: 50%;
+  left: 50%;
+  display: block;
+  position: absolute;
+  margin-top: -1rem;
+  }
+  ::ng-deep .p-steps  .p-steps-item.p-highlight:not(:first-child):after {
+  content: " ";
+  border-top: 3px solid #1151B4;
+  width: 50%;
+  top: 50%;
+  right: 50%;
+  display: block;
+  position: absolute;
+  margin-top: -1rem;
+  }
+  ::ng-deep .p-steps   .p-steps-item.p-highlight:last-child::before {
+  content: " ";
+  border-top: 3px solid #1151B4;
+  width: 0%;
+  top: 50%;
+  right: 0;
+  display: block;
+  position: absolute;
+  margin-top: -1rem;
+  }
+  /*************************/
+::ng-deep .p-menuitem-link {
+box-shadow: none!important;
+text-decoration: none !important;
+}
+
+
+// Define the maximum number of steps
+$step-count: 8;
+
+// Target the p-steps component
+ ::ng-deep .p-steps {
+  // background-color: black !important;
+  // Loop through all possible steps
+  @for $i from 0 to $step-count {
+
+    // Apply styles for steps that are less than the active index
+    &[ng-reflect-active-index='#{$i}'] {
+      @for $j from 0 to $i - 1 {
+       :host .p-steps-item:nth-child(#{$j + 1}) {
+          .p-menuitem-link {
+
+            .p-steps-number {
+              background: #1151B4 !important;
+              color: #fff;
+            }
+            .p-steps-title {
+              font-weight: 700;
+              color: #1151B4;
+            }
+          }
+          // Also remove the disabled class if necessary
+          &.p-disabled {
+            pointer-events: none !important;
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+

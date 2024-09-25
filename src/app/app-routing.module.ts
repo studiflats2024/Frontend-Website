@@ -45,6 +45,9 @@ const routes: Routes = [
   {
     path: 'blog-details', loadChildren: () => import('./components/blog-details/blog-details.module').then(m => m.BlogDetailsModule) // Lazy load FAQ module
   },
+  {
+    path: 'land-lord-steps', loadChildren: () => import('./components/landlordPages/lord-steps/lord-steps.module').then(m => m.LordStepsModule) // Lazy load FAQ module
+  },
 
 ];
 @NgModule({

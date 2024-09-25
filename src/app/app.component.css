@@ -10,7 +10,7 @@
 
 .fixed-search-bar {
   position: fixed;
-  top: 75px;
+ top: 75px;
   width: 100%;
   left: 0;
   z-index: 11;
@@ -176,9 +176,13 @@
   user-select: none;
   width: 100%;
 }
+:host ::ng-deep  .p-calendar {
+
+  width: 100%;
+}
 
 
-:host ::ng-deep  .p-datepicker {
+/* :host ::ng-deep  .p-datepicker {
 
 
 
@@ -187,9 +191,9 @@
   left: -200% !important;
   margin-top: calc(var(--p-anchor-gutter));
   z-index: 1002;
-}
+} */
 
-@media (max-width: 900px) {
+/* @media (max-width: 900px) {
 
   :host ::ng-deep  .p-datepicker {
 
@@ -201,7 +205,7 @@
     margin-top: calc(var(--p-anchor-gutter));
     z-index: 1002;
   }
-}
+} */
 
 
 /* .modal{
