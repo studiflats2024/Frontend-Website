@@ -123,53 +123,57 @@ export class AppComponent implements OnInit, AfterViewInit  {
           initialCountry: "de",
           preferredCountries: ["de", "us", "gb"],
           separateDialCode: true,
-          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-          useFullscreenPopup: false
+          // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+           searchCountry:true,
+          useFullscreenPopup: false,
+
         });
 
 
 
 
-        // Mark the element as initialized
-        input.dataset['itiInitialized'] = 'true';
 
-        // Handle the blur event to save the phone number
+        input.dataset['itiInitialized'] = 'true';
+        console.log(input.dataset['itiInitialized'])
+
+
         input.addEventListener('blur', () => {
-          let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+          let fullPhoneNumber = iti.getNumber();
           if (fullPhoneNumber.startsWith("+")) {
-            fullPhoneNumber = fullPhoneNumber.substring(1); // Remove the "+"
+            fullPhoneNumber = fullPhoneNumber.substring(1);
           }
           console.log("Full phone number:", fullPhoneNumber);
           this.loginForm.patchValue({ mobile: fullPhoneNumber });
           console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
         });
 
+
+
         input.addEventListener("countrychange", function() {
 
 
-           // Clear the previous flag and dial code
+
     const flagContainer = document.querySelector(".iti__selected-flag");
     const dialCodeElement = document.querySelector(".iti__dial-code");
     console.log(flagContainer,dialCodeElement)
 
-    // Remove previous flag and code visually
     if (flagContainer) {
         flagContainer.classList.remove("iti__selected-flag");
     }
     if (dialCodeElement) {
-        dialCodeElement.textContent = ''; // Clear the dial code
+        dialCodeElement.textContent = '';
     }
 
-    // Get the new country data and update the flag and code
+
     const selectedCountryData = iti.getSelectedCountryData();
 
-    // Reapply the new flag and dial code
+
     if (flagContainer) {
-        flagContainer.classList.add("iti__selected-flag"); // Re-add flag class
-        dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; // Set the new dial code
+        flagContainer.classList.add("iti__selected-flag");
+        dialCodeElement!.textContent = "+" + selectedCountryData.dialCode;
     }
 
-    // Optional: Log the new selected country and dial code
     console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
 
 
@@ -218,6 +222,8 @@ export class AppComponent implements OnInit, AfterViewInit  {
       this.isVisiblelogin = show ? 'block' : 'none';
 
     });
+
+
 
 
     this.userService.initGoogleAuth();
@@ -283,8 +289,11 @@ export class AppComponent implements OnInit, AfterViewInit  {
           initialCountry: "de",  // الدولة الافتراضية
           preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
           separateDialCode: true,  // فصل كود الدولة
-          utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-          useFullscreenPopup: false  // تحميل سكربت الأدوات المساعدة
+          // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+           searchCountry:true,
+          useFullscreenPopup: false , // تحميل سكربت الأدوات المساعدة
+
         });
 
         input.addEventListener("countrychange", function() {
@@ -315,7 +324,9 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
         // حدث عند فقدان التركيز على الحقل
         input.addEventListener('blur', () => {
-          let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
+          // let fullPhoneNumber = iti.getNumber(iti.numberFormat.E164);
+          let fullPhoneNumber = iti.getNumber();
+
           if (fullPhoneNumber.startsWith("+")) {
             fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
           }
@@ -336,10 +347,12 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
       this.finishSignupForm = this.fb.group({
         country: ['', Validators.required],
-        email: ['', [Validators.required, Validators.email]],
+        // email: ['', [Validators.required, Validators.email]],
+        email: [''],
+
         gender: ['', Validators.required],
         birthday: ['', Validators.required],
-
+        mobile:['']
       });
       this.http.get<any>('https://restcountries.com/v3.1/all').subscribe((data) => {
         console.log(data);
@@ -702,19 +715,27 @@ refreshOtp(): void {
 }
 
 emailGoogle:boolean=false;
+provider:any;
+mobileSocial:any;
 onFinishSignSubmit() {
   if (this.finishSignupForm.valid) {
     const formData = this.finishSignupForm.value;
     const genderName = formData.gender.name;
+
     // formData.email=
+    this.provider='Local';
+    if(this.socialSign){
+      this.provider='Google';
+
+    }
     this.userService.sendUserData(
       formData.email,
       genderName,
       formData.country,
       formData.birthday,
       this.uuid,
-      formData.mobile,
-      'Local'
+      this.mobileSocial,
+      this.provider
     ).subscribe(
       response => {
         this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
@@ -727,12 +748,13 @@ onFinishSignSubmit() {
 
           },  3000);
         }
-
+          this.socialSign=false;
 
       },
       error => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
         console.error('Error submitting form:', error);
+        // this.socialSign=false;
 
       }
     );
@@ -831,6 +853,7 @@ onLoginSubmit(): void {
           if(error.error.message==="Oops!! Your Profile isn't completed yet , Please complete it"){
              this.displayInfo='block';
              this.isVisiblelogin='none';
+             this.uuid=error.error.uuid;
           }
 
         }
@@ -866,32 +889,82 @@ getProfileData(token:any): void {
 
 /////////////////////////////////////////
 //social sign/////////////////////
+input:any=null;
+initMobileSocial(){
+  console.log('heeeee')
+  const input = document.querySelector("#socialPhone") as HTMLInputElement;
+  this.input=input;
+  // Check if the input exists and hasn't been initialized before
+  if (input && !input.dataset['itiInitialized']) {
+    console.log('Phone input element found and initializing intlTelInput:', input);
+
+    // Initialize intlTelInput
+    const iti = intlTelInput(input, {
+      initialCountry: "de",
+      preferredCountries: ["de", "us", "gb"],
+      separateDialCode: true,
+      // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
+      utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+       searchCountry:true,
+      useFullscreenPopup: false,
+
+    });
+
+
+
+
+
+    input.dataset['itiInitialized'] = 'true';
+    console.log(input.dataset['itiInitialized'])
+
+
+    input.addEventListener('blur', () => {
+      let fullPhoneNumber = iti.getNumber();
+      if (fullPhoneNumber.startsWith("+")) {
+        fullPhoneNumber = fullPhoneNumber.substring(1);
+      }
+      console.log("Full phone number:", fullPhoneNumber);
+      this.mobileSocial=fullPhoneNumber;
+      console.log("Updated mobile field in the form:",this.mobileSocial);
+    });}
+}
 
   signInWithGoogle(): void {
-    this.socialSign=true;
-    // const token = localStorage.getItem('token');
-    // if (token) {
-    //   console.error('Token not found, redirecting to login');
-    //   this.logout();
-    //   this.userService.signInWithGoogle();
-    // }else{
-    //   this.userService.signInWithGoogle();
-    // }this.socialSign=true;
+
+
     if(!localStorage.getItem('token')){
       this.userService.signInWithGoogle();
+      this.socialSign=true;
+
 
        setTimeout(() => {
+
+
+        this.initMobileSocial();
+
         this.userService.uuid.subscribe(value => {
           this.uuid = value;
           console.log('Component1 received shared data:', this.uuid);
         });
+        this.userService.modalInfo$.subscribe(show => {
+          console.log(show)
+          // this.displayModalsign = show ? 'block' : 'none';
+          if( this.input!==null){
+            this.displayInfo = show ? 'block' : 'none';
+          }
+          if(this.displayInfo==='block'){
+            this.isVisiblelogin='none';
+           }
 
-       if(!localStorage.getItem('token')){
-        this.displayInfo='block';
 
-      }else{
-        this.isVisiblelogin='none';
-      }
+        });
+
+
+        // if(this.mobileSocial!==null){
+        //   this.displayInfo='block';
+        //   this.isVisiblelogin='none';
+        // }
+
 
       }, 500);
     }else{
@@ -900,20 +973,42 @@ getProfileData(token:any): void {
 
 
   }
+
+
+
+
+
+
 socialSign:boolean=false;
    signUpWithGoogle(): void {
 
+      this.socialSign=true;
     console.log('sign up')
+    console.log(this.mobileSocial)
     this.userService.signInWithGoogle();
     setTimeout(() => {
-      if(!localStorage.getItem('token')){
-        this.displayInfo='block';
+      // if(!localStorage.getItem('token')){
 
-      }else{
-        this.displayModalsign='none';
-      }
+      //   this.initMobileSocial();
 
-    }, 0);
+      // }else{
+      //   this.displayModalsign='none';
+      // }
+
+      this.userService.modalInfo$.subscribe(show => {
+
+
+        if( this.input!==null){
+          this.displayInfo = show ? 'block' : 'none';
+        }
+        if(this.displayInfo==='block'){
+          this.displayModalsign='none';
+         }
+      });
+
+
+
+    }, 500);
 
   }
   // async signUpWithGoogle(): Promise<void> {

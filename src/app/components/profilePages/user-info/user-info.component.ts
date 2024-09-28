@@ -105,7 +105,9 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
           initialCountry: 'de',
           separateDialCode: true,
           preferredCountries: ['de', 'us', 'gb'],
-          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
+          // utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
+          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+          searchCountry:true,
         });
         // let iti:any;
         // if (!phoneInput.classList.contains("iti")) {

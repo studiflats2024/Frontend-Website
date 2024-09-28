@@ -184,12 +184,21 @@
 
             <form [formGroup]="finishSignupForm" (ngSubmit)="onFinishSignSubmit()" autocomplete="off">
 
-              <div class="mb-3">
-                <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off">
+              <div *ngIf=" !socialSign" class="mb-3">
+                <input  type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off">
                 <div *ngIf="finishSignupForm.get('email')?.touched && finishSignupForm.get('email')?.invalid" class="text-danger" style="font-size: 12px;">
                   <div *ngIf="finishSignupForm.get('email')?.errors?.['required']">Email is required.</div>
                   <div *ngIf="finishSignupForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
                 </div>
+              </div>
+
+              <div *ngIf="socialSign" class="mb-3" >
+                <div class="input-group ">
+
+                  <input  id="socialPhone" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off">
+
+                </div>
+
               </div>
 
               <div class="row pb-3">

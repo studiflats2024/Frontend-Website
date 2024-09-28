@@ -1331,14 +1331,19 @@ ngAfterViewChecked() {
         initialCountry: "de",
         preferredCountries: ["de", "us", "gb"],
         separateDialCode: true,
-        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+        searchCountry:true,
       });
 
       input.dataset['itiInitialized'] = 'true'; // علامة أن العنصر قد تم تهيئته
 
       // التعامل مع حدث blur لحفظ الرقم
       input.addEventListener('blur', () => {
-        let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+        // let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+        let fullPhoneNumber = iti.getNumber();
+
+
         if (fullPhoneNumber.startsWith("+")) {
           fullPhoneNumber = fullPhoneNumber.substring(1); // إزالة رمز "+"
         }
@@ -1555,7 +1560,10 @@ markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
 
       // حدث عند فقدان التركيز على الحقل
       input.addEventListener('blur', () => {
-        let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);  // الحصول على الرقم بتنسيق E164
+        // let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+        let fullPhoneNumber = iti.getNumber();
+
+
         if (fullPhoneNumber.startsWith("+")) {
           fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
         }
@@ -1786,11 +1794,15 @@ private initializeIntlTelInputbook(selector: string, form: FormGroup ,index:numb
       initialCountry: "de",
       preferredCountries: ["de", "us", "gb"],
       separateDialCode: true,
-      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+      // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+      utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+      searchCountry:true,
     });
     console.log('After querying the input element:', input);
     input.addEventListener('blur', () => {
-      let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+      // let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+      let fullPhoneNumber = iti.getNumber();
+
       if (fullPhoneNumber.startsWith("+")) {
         fullPhoneNumber = fullPhoneNumber.substring(1);
       }
@@ -1857,11 +1869,15 @@ private initializeIntlTelInput(selector: string, form: FormGroup  ) {
       initialCountry: "de",
       preferredCountries: ["de", "us", "gb"],
       separateDialCode: true,
-      utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+      // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+      utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+      searchCountry:true,
     });
     console.log('After querying the input element:', input);
     input.addEventListener('blur', () => {
-      let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+      // let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+      let fullPhoneNumber = iti.getNumber();
+
       if (fullPhoneNumber.startsWith("+")) {
         fullPhoneNumber = fullPhoneNumber.substring(1);
       }

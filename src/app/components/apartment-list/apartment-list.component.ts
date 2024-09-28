@@ -727,13 +727,17 @@ isVisible:boolean=true;
 
       const phoneInput = document.querySelector('#waitPhone');
 
+      if (phoneInput && !phoneInput.getAttribute('data-intl-tel-initialized')) {
+
       const iti = (window as any).intlTelInput(phoneInput, {
         initialCountry: 'de',
         separateDialCode: true,  // Separate dial code
         preferredCountries: ['de', 'us', 'gb'],
-        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
+        // utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+        searchCountry:true,
       });
-
+      phoneInput.setAttribute('data-intl-tel-initialized', 'true');
       phoneInput!.addEventListener('countrychange', () => {
         this.phoneNumber = iti.getNumber(); // Update the phone number with country code
       });
@@ -743,7 +747,9 @@ isVisible:boolean=true;
       // : this.phoneNumber;
 
       phoneInput!.addEventListener('blur', () => {
-        let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164); // Get full phone number in E164 format
+        // let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+        let fullPhoneNumber = iti.getNumber();
+
         if (fullPhoneNumber.startsWith('+')) {
           fullPhoneNumber = fullPhoneNumber.substring(1); // Remove the '+' sign
         }
@@ -754,7 +760,9 @@ isVisible:boolean=true;
 
 
       // console.log('formattedPhone',this.formattedPhone)
-
+    } else {
+      console.log('IntlTelInput already initialized or phone input not found.');
+    }
 
     }, 0);
     this.visible=true;
@@ -815,12 +823,16 @@ emaill=''
             initialCountry: 'de', // Default to Germany
             preferredCountries: ['de', 'us', 'gb'], // Preferred countries list
             separateDialCode: true, // Show country code separate from number
-            utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js'
+            // utilsScript: 'https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js'
+            utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+            searchCountry:true,
           });
 
           // Add event listener to handle phone number on blur
           input.addEventListener('blur', () => {
-            let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164); // Get full phone number in E164 format
+            // let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+            let fullPhoneNumber = iti.getNumber();
+
             if (fullPhoneNumber.startsWith('+')) {
               fullPhoneNumber = fullPhoneNumber.substring(1); // Remove the '+' sign
             }

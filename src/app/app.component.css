@@ -281,8 +281,9 @@
  :host ::ng-deep .iti__country-list {
 
   z-index: 3001 !important;
- width: auto !important; /* ضبط العرض ليكون تلقائيًا بناءً على المحتوى */
- max-width: 300px !important; /* أقصى عرض للقائمة */
+  width:100%
+ /* width: auto !important;  */
+ /* max-width: 300px !important;  */
 
 }
 

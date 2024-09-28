@@ -39,6 +39,16 @@ export class UserService {
     this.modalVisibility.next(false); // Emit false when the modal should close
   }
 
+  private modalInfo = new Subject<boolean>(); // A subject to emit changes to modal visibility
+
+  // Observable for other components to listen for modal open/close events
+  modalInfo$ = this.modalInfo.asObservable();
+
+  // Method to open the modal
+  openModalInfo() {
+    this.modalInfo.next(true); // Emit true when the modal should open
+  }
+
   // private apiUrl = `${environment.apiUrl}/Users`;
 
   constructor(private http: HttpClient, private ngZone: NgZone,private messagingService: MessagingService) { }
@@ -243,35 +253,39 @@ export class UserService {
 
       const sc_id = user.sub;
       const fullName = user.name;
+      // const fullName = encodeURIComponent(user.name);
       const email = user.email;
       const provider = 'Google';
       const img = user.picture;
       const deviceToken = this.deviceToken; // Add logic to retrieve device token if necessary
-
+      console.log(fullName)
       this.socialSignIn(sc_id, fullName, email, provider, img, deviceToken);
     });
 
   }
 
   signOutFromGoogle(): void {
-    const token = localStorage.getItem('google_token'); // Assume you have stored the token
+    setTimeout(() => {
+      const token = localStorage.getItem('google_token'); // Assume you have stored the token
 
-    if (token) {
-      // Revoke the token by making a request to the Google OAuth2 API
-      const revokeUrl = `https://accounts.google.com/o/oauth2/revoke?token=${token}`;
+      if (token) {
+        // Revoke the token by making a request to the Google OAuth2 API
+        const revokeUrl = `https://accounts.google.com/o/oauth2/revoke?token=${token}`;
 
-      this.http.post(revokeUrl, {}).subscribe({
-        next: () => {
-          console.log('User signed out from Google successfully');
-          localStorage.removeItem('google_token'); // Remove token from local storage
-        },
-        error: (err) => {
-          console.error('Error revoking token: ', err);
-        }
-      });
-    } else {
-      console.error('No Google token found to revoke.');
-    }
+        this.http.post(revokeUrl, {}).subscribe({
+          next: () => {
+            console.log('User signed out from Google successfully');
+            localStorage.removeItem('google_token'); // Remove token from local storage
+          },
+          error: (err) => {
+            console.error('Error revoking token: ', err);
+          }
+        });
+      } else {
+        console.error('No Google token found to revoke.');
+      }
+    },  2000);
+
   }
 
 
@@ -302,6 +316,10 @@ export class UserService {
         }
         this.sharedData.next(response.uuid);
 
+        if(response.message==="Oops!! Your account is not confirmed yet , A new verification code has been sent to your WhatsApp number. Please use it to verify your account"){
+          this.openModalInfo();
+        }
+
         console.log('Sign in successful:', response);
         // Handle successful sign-in
         this.signOutFromGoogle()
@@ -309,6 +327,7 @@ export class UserService {
       },
       error => {
         console.error('Sign in failed:', error);
+
         // Handle sign-in error
       }
     );

@@ -1,7 +1,19 @@
 
-<div style="height: 120px;"></div>
+<div  class="parent">
 
-<p-steps #stepper [(activeIndex)]="activeIndex" [model]="steps" class="custom-steps"></p-steps>
+<!-- <div class="row"> -->
+
+<div class="stepsDiv   ">
+  <ul class="titles">
+    <li *ngFor="let step of steps; let i = index"  >
+      <span class="spanOne">{{ step.label }}</span>
+      <span [ngClass]="{  'blue-class': i <= activeIndex, 'gray-class': i > activeIndex  }">{{ step.title }}</span>
+      <span class="span3">{{ step.description }}</span>
+    </li>
+  </ul>
+
+  <p-steps #stepper  [(activeIndex)]="activeIndex" [model]="steps" class="custom-steps"  orientation="vertical" (activeIndexChange)="onStepChange()"></p-steps>
+</div>
 
 
 
@@ -9,11 +21,18 @@
 
 
 
-<!-- This is where the dynamic component will be inserted -->
+<div class="page ">
+  <!-- This is where the dynamic component will be inserted -->
 <div dynamicHost></div>
 
 <!-- Navigation buttons -->
 <div class="navigation-buttons">
   <button (click)="prev()" [disabled]="activeIndex === 0">Previous</button>
-  <button (click)="next()" [disabled]="activeIndex === components.length - 1">Next</button>
+  <button (click)="next()" [disabled]="activeIndex === steps.length - 1">Next</button>
+</div>
+
+</div>
+
+
+<!-- </div> -->
 </div>

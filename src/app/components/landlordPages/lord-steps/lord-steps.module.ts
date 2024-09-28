@@ -7,6 +7,7 @@ import { AprtDetailsComponent } from '../aprt-details/aprt-details.component';
 import { AprtLocationComponent } from '../aprt-location/aprt-location.component';
 import { MenuModule } from 'primeng/menu';
 import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 
 
@@ -27,6 +28,7 @@ const routes: Routes = [
   imports: [
     StepsModule,
     MenuModule,
+    CommonModule,
     RouterModule.forChild(routes)
   ],
   exports: [
