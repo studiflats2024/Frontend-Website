@@ -1,0 +1,62 @@
+<div class="parent">
+
+  <div class="head" style="margin-bottom: 50px;">
+    <p class="title">Provide Pricing Details and House Rules</p>
+    <p class="description">
+      Please share the rental price for your property and outline any specific rules or policies that tenants should be aware of.
+    </p>
+  </div>
+
+
+
+
+
+
+<div class="form-container">
+  <div class="form-row">
+    <input
+      pInputText
+      *ngIf="!isSmallScreen"
+      placeholder="what is your monthly rent?"
+      [(ngModel)]="rent" />
+
+    <input
+      pInputText
+      *ngIf="isSmallScreen"
+      placeholder="Monthly Rent?"
+      [(ngModel)]="rent" />
+
+    <input
+      pInputText
+      *ngIf="!isSmallScreen"
+      placeholder="what is the security deposit?"
+      [(ngModel)]="deposit" />
+
+    <input
+      pInputText
+      *ngIf="isSmallScreen"
+      placeholder="Security Deposit?"
+      [(ngModel)]="deposit" />
+  </div>
+
+  </div>
+
+
+
+
+
+
+  <p-floatLabel>
+    <textarea
+        id="float-input"
+        rows="5" cols="30"
+        pInputTextarea>
+    </textarea>
+    <label for="float-input">outline any specific rules or policies that tenants should be aware of</label>
+</p-floatLabel>
+
+
+
+
+
+</div>

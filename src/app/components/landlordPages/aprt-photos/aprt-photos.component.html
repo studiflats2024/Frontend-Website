@@ -1,0 +1,73 @@
+<div class="parent">
+  <div class="head" style="margin-bottom: 50px;">
+    <p class="title">Upload Photos of Your Apartment</p>
+    <p class="description">
+      please upload clear and recent photos of your apartment, showcasing its key features and spaces.
+    </p>
+  </div>
+
+  <!-- File Upload (Browse and Drag/Drop) -->
+  <p-fileUpload
+    mode="advanced"
+    name="demo[]"
+    accept="image/*"
+    maxFileSize="5000000"
+    (onSelect)="onImageSelect($event)">
+
+    <ng-template pTemplate="content">
+      <div style=" width:100%;text-align: center; padding: 20px; margin-top: 10px; padding-bottom:0;">
+        <!-- Cloud Icon -->
+        <!-- <i class="pi pi-cloud-upload" style="font-size: 48px; color: #b3b3b3;"></i> -->
+         <img src="cloud-add.svg"/>
+
+        <!-- Text -->
+        <p class="choosep">Choose a file or drag & drop it here</p>
+
+        <!-- Supported Formats -->
+        <p class="imgtypes">
+          JPEG, PNG, PDG, and MP4 formats, up to 50MB
+        </p>
+      </div>
+    </ng-template>
+    <!-- <ng-template pTemplate="chooseButtonLabel">
+      <span>Browse File</span>
+    </ng-template> -->
+  </p-fileUpload>
+
+  <!-- Galleria Display -->
+  <p-galleria
+    [value]="images"
+    [circular]="true"
+    [showThumbnails]="false"
+    [responsiveOptions]="responsiveOptions"
+    [containerStyle]="{'max-width': '640px'}"
+    [numVisible]="5">
+    <ng-template pTemplate="item" let-item>
+      <img [src]="item.src" [alt]="item.alt" style="width: 100%;">
+    </ng-template>
+    <ng-template pTemplate="thumbnail" let-item>
+      <img [src]="item.src" [alt]="item.alt" style="width: 50px; height: 50px;">
+    </ng-template>
+  </p-galleria>
+
+  <!-- Drag and Drop to Reorder -->
+  <!-- <h5>Reorder Images</h5> -->
+  <div class="image-list">
+    <div
+      *ngFor="let img of images; let i = index"
+      class="item"
+      pDraggable="true"
+      (onDragStart)="onDragStart($event, img)"
+      (onDragEnd)="onDragEnd($event)">
+
+      <div pDroppable="true" (onDrop)="onDrop($event, i)" (onDragEnter)="onDragEnter($event, i)">
+        <img class="image-item" [src]="img.src" [alt]="img.alt"  >
+        <div class="bin" (click)="removeImage(i)"><img src="bin.svg"/></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

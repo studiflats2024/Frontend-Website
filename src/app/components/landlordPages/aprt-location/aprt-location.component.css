@@ -1,0 +1,127 @@
+#map {
+  height: 268px;
+  width: 100%;
+}
+.p-inputgroup-addon button{
+  border:none !important;
+}
+.mapp{
+  margin: 24px 0px;
+}
+input{
+  border: 1px solid #DFE4EA !important;
+  padding: 13px;
+}
+input:focus{
+
+  outline: none !important;
+}
+.head{
+  width: 100%;
+}
+.title{
+  color: #263238;
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+opacity: 0.8;
+margin-bottom: 5px;
+}
+.description{
+  color: var(--Neutral-Neutral40, #605D62);
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 171.429% */
+text-transform: capitalize;
+margin-bottom: 5px;
+
+}
+
+:host ::ng-deep .iti input {
+  padding: 13px;
+}
+.error small {
+  color: red;
+}
+.info input {
+  border-radius: 8px;
+}
+
+.fixbtn{
+  display: flex;
+  height: 48px;
+  padding: 5px 10px;
+  justify-content: center;
+  align-items: center;
+  gap: 2.222px;
+  flex: 1 0 0;
+  border-radius: 8px;
+background: var(--primary-color-600, #1151B4);
+width:40%;
+align-self: center;
+}
+
+.fixdiv{
+  align-self: center;
+}
+
+
+.login-form{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap:30px;
+}
+
+ @media (min-width:768px) {
+  :host ::ng-deep .p-inputotp {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding-bottom: 10px;
+    width: 40%;
+  }
+
+  :host ::ng-deep .p-inputotp-input {
+    text-align: center;
+    width: 100%;
+
+  }
+ }
+
+ @media (min-width:768px) {
+  :host ::ng-deep .p-inputotp-input {
+    text-align: center;
+    width: 100%;
+    padding: 20px 9px !important;
+  }
+ }
+
+ .rotate{
+  color: var(--primary-color-600, #1151B4);
+text-align: center;
+
+/* Body medium */
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 20px; /* 142.857% */
+letter-spacing: 0.035px;
+margin-left: 5px;
+ }
+
+.p-inputgroup-addon button{
+  background: #e9ecef !important;
+  color: #6c757d !important;
+}
+.p-inputgroup-addon {
+  background: #e9ecef !important;
+  color: #6c757d !important;
+}

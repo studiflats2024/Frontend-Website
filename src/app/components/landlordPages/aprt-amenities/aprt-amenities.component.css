@@ -1,0 +1,97 @@
+.section {
+  margin-bottom: 30px;
+  margin-left: 10%;
+  display: flex;
+  align-items: center;
+  /* justify-content:space-evenly; */
+  justify-content:flex-start;
+  gap:20%;
+  /* position: relative; */
+}
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content:flex-start;
+   width:200px;
+  margin-bottom: 30px;
+}
+
+.switch-row p-inputSwitch {
+  margin-right: 10px;
+}
+.section span{
+  color: var(--Neutral-Neutral30, #484649);
+font-family: Inter;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 133.333% */
+text-transform: capitalize;
+}
+
+.parent{
+  margin-bottom: 100px;
+}
+
+.head{
+  width: 100%;
+}
+.title{
+  color: #263238;
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+opacity: 0.8;
+margin-bottom: 5px;
+}
+.description{
+  color: var(--Neutral-Neutral40, #605D62);
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 171.429% */
+text-transform: capitalize;
+margin-bottom: 5px;
+
+}
+
+:host ::ng-deep .p-inputswitch.p-inputswitch-checked .p-inputswitch-slider {
+  background: #1151B4;
+}
+
+@media (max-width:768px) {
+  .section {
+    margin-bottom: 30px;
+    margin-left: 2%;
+    display: flex;
+    align-items:start;
+    /* justify-content:space-evenly; */
+    justify-content:flex-start;
+    gap:10%;
+    flex-direction: column;
+    /* position: relative; */
+  }
+
+  .section span{
+   margin-bottom: 30px;
+   display: block;
+  }
+
+}
+
+.section label{
+  color: var(--Neutral-Neutral50, #787579);
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 171.429% */
+text-transform: capitalize;
+}
+
+
+

@@ -1,1 +1,138 @@
-<p>aprt-details works!</p>
+<!-- <div class="form-container">
+  <div class="form-row">
+    <input pInputText placeholder="What’s the size of apartment?" [(ngModel)]="apartmentSize" />
+    <input pInputText placeholder="What’s Apartment Type?" [(ngModel)]="apartmentType" />
+  </div>
+
+  <div class="form-row">
+    <input pInputText placeholder="What’s Is Apartment Floor?" [(ngModel)]="apartmentFloor" />
+    <input pInputText placeholder="Number Of Rooms." [(ngModel)]="numRooms" />
+  </div>
+
+  <div class="form-row">
+    <input pInputText placeholder="Number Of Bathrooms." [(ngModel)]="numBathrooms" />
+    <input pInputText placeholder="Number Of Kitchens." [(ngModel)]="numKitchens" />
+  </div>
+
+  <div class="form-row">
+    <p-calendar [(ngModel)]="minContractDuration" dateFormat="mm/dd/yy" placeholder="What Is The Minimum Duration Required For The Contract?"></p-calendar>
+  </div>
+
+  <div class="form-row">
+    <p-calendar [(ngModel)]="maxContractDuration" dateFormat="mm/dd/yy" placeholder="What Is The Maximum Duration Required For The Contract?"></p-calendar>
+  </div>
+</div> -->
+
+
+<div class="head" style="margin-bottom: 50px;">
+  <p class="title">Please provide details about your Apartment</p>
+  <p class="description">
+    please provide key information about your property, including its size, type, number of rooms, bathrooms,  kitchens, and available contract duration.
+  </p>
+</div>
+
+
+
+<div class="form-container">
+  <div class="form-row">
+    <input
+      pInputText
+      *ngIf="!isSmallScreen"
+      placeholder="What’s the size of apartment?"
+      [(ngModel)]="apartmentSize" />
+    <input
+      pInputText
+      *ngIf="isSmallScreen"
+      placeholder="Size?"
+      [(ngModel)]="apartmentSize" />
+
+    <input
+      pInputText
+      *ngIf="!isSmallScreen"
+      placeholder="What’s Apartment Type?"
+      [(ngModel)]="apartmentType" />
+    <input
+      pInputText
+      *ngIf="isSmallScreen"
+      placeholder="Type?"
+      [(ngModel)]="apartmentType" />
+  </div>
+
+  <div class="form-row">
+    <input
+      pInputText
+      *ngIf="!isSmallScreen"
+      placeholder="What’s Is Apartment Floor?"
+      [(ngModel)]="apartmentFloor" />
+    <input
+      pInputText
+      *ngIf="isSmallScreen"
+      placeholder="Floor?"
+      [(ngModel)]="apartmentFloor" />
+
+    <input
+      pInputText
+      *ngIf="!isSmallScreen"
+      placeholder="Number Of Rooms."
+      [(ngModel)]="numRooms" />
+    <input
+      pInputText
+      *ngIf="isSmallScreen"
+      placeholder="Rooms?"
+      [(ngModel)]="numRooms" />
+  </div>
+
+  <div class="form-row">
+    <input
+      pInputText
+      *ngIf="!isSmallScreen"
+      placeholder="Number Of Bathrooms."
+      [(ngModel)]="numBathrooms" />
+    <input
+      pInputText
+      *ngIf="isSmallScreen"
+      placeholder="Bathrooms?"
+      [(ngModel)]="numBathrooms" />
+
+    <input
+      pInputText
+      *ngIf="!isSmallScreen"
+      placeholder="Number Of Kitchens."
+      [(ngModel)]="numKitchens" />
+    <input
+      pInputText
+      *ngIf="isSmallScreen"
+      placeholder="Kitchens?"
+      [(ngModel)]="numKitchens" />
+  </div>
+
+  <div class="form-row">
+    <p-calendar
+      *ngIf="!isSmallScreen"
+      [(ngModel)]="minContractDuration"
+      dateFormat="mm/dd/yy"
+      placeholder="What Is The Minimum Duration Required For The Contract?">
+    </p-calendar>
+    <p-calendar
+      *ngIf="isSmallScreen"
+      [(ngModel)]="minContractDuration"
+      dateFormat="mm/dd/yy"
+      placeholder="Min Duration?">
+    </p-calendar>
+  </div>
+
+  <div class="form-row">
+    <p-calendar
+      *ngIf="!isSmallScreen"
+      [(ngModel)]="maxContractDuration"
+      dateFormat="mm/dd/yy"
+      placeholder="What Is The Maximum Duration Required For The Contract?">
+    </p-calendar>
+    <p-calendar
+      *ngIf="isSmallScreen"
+      [(ngModel)]="maxContractDuration"
+      dateFormat="mm/dd/yy"
+      placeholder="Max Duration?">
+    </p-calendar>
+  </div>
+</div>

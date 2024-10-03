@@ -27,8 +27,8 @@
 
 <!-- Navigation buttons -->
 <div class="navigation-buttons">
-  <button (click)="prev()" [disabled]="activeIndex === 0">Previous</button>
-  <button (click)="next()" [disabled]="activeIndex === steps.length - 1">Next</button>
+  <button [ngStyle]="{ visibility: activeIndex > 0 ? 'visible' : 'hidden' }" (click)="prev()"  ><img src="prev-arrow.svg"/>Previous</button><!--[disabled]="activeIndex === 0"-->
+  <button *ngIf="!hideNext" (click)="next()" [disabled]="activeIndex === steps.length - 1">Next<img src="next-arrow.svg"/></button>
 </div>
 
 </div>

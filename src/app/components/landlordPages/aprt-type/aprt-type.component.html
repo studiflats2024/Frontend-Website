@@ -1,0 +1,44 @@
+
+<div class="parent">
+
+<div class="head" style="margin-bottom: 50px;">
+  <p class="title">Apartment Type </p>
+  <p class="description">
+    Please specify whether the apartment is furnished, unfurnished,  apartment group
+  </p>
+</div>
+<div class="apartment-type-options">
+  <p-card>
+    <div class="radio-option">
+      <p-radioButton name="apartmentType" value="furnished" [(ngModel)]="selectedType"></p-radioButton>
+      <label for="furnished">Furnished Apartment</label>
+    </div>
+  </p-card>
+
+  <p-card>
+    <div class="radio-option">
+      <p-radioButton name="apartmentType" value="unfurnished" [(ngModel)]="selectedType"></p-radioButton>
+      <label for="unfurnished">Unfurnished Apartment</label>
+    </div>
+  </p-card>
+
+  <p-card >
+    <div class="radio-option">
+      <p-radioButton name="apartmentType" value="apartmentGroup" [(ngModel)]="selectedType"></p-radioButton>
+      <label for="apartmentGroup">Apartment Group <span class="small-text">(List Of Apartments)</span></label>
+    </div>
+  </p-card>
+</div>
+
+
+
+  <!-- Show the section below when 'apartmentGroup' is selected -->
+  <div *ngIf="selectedType === 'apartmentGroup'" class="apartment-group-details">
+    <p>An Apartment Group Refers To A Collection Of Apartments That Share Similar Characteristics And Features</p>
+
+    <input pInputText placeholder="Enter Number Of Apartments" [(ngModel)]="numOfApartments">
+
+    <textarea pInputTextarea rows="4" placeholder="Enter The Description Of Apartments" [(ngModel)]="apartmentDescription"></textarea>
+  </div>
+
+</div>

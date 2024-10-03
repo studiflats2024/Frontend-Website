@@ -1,0 +1,105 @@
+.head{
+  width: 100%;
+}
+.title{
+  color: #263238;
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+opacity: 0.8;
+margin-bottom: 5px;
+}
+.description{
+  color: var(--Neutral-Neutral40, #605D62);
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 171.429% */
+text-transform: capitalize;
+margin-bottom: 5px;
+
+}
+/* .parent{
+  padding:120px
+} */
+
+:host ::ng-deep .p-card .p-card-body {
+  padding: 0 !important;
+}
+
+:host ::ng-deep .p-card .p-card-content {
+  padding:  20px 24px;
+}
+
+.radio-option label {
+  margin-bottom: 0 !important;
+  margin-left: 10px;
+}
+
+
+
+
+
+:host ::ng-deep .apartment-type-options  .p-card{
+  /* margin-bottom: 24px !important; */
+  box-shadow: none;
+  border-radius: 8px;
+border: 1px solid var(--Neutral-Neutral90, #EBEBEB);
+/* width:80% */
+}
+
+:host ::ng-deep .apartment-type-options p-card {
+  margin-bottom: 24px !important;
+  display: block;
+
+}
+
+:host ::ng-deep .apartment-type-options p-card:last-child {
+  margin-bottom: 0 !important;
+}
+
+@media (max-width:900px) {
+  .radio-option label {
+    font-size: 12px;
+  }
+}
+.radio-option{
+  display:flex;
+}
+.apartment-group-details{
+  display:flex;
+  flex-direction: column;
+
+}
+
+.apartment-group-details input{
+  width: 40%;
+  margin-bottom: 20px;
+}
+
+.apartment-group-details textarea{
+  width: 80%;
+  margin-bottom: 20px;
+}
+.apartment-group-details p{
+  color: var(--Neutral-Neutral50, #787579);
+font-family: Inter;
+font-size: 12px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 200% */
+text-transform: capitalize;
+margin-top: 0;
+}
+
+:host ::ng-deep .p-radiobutton .p-radiobutton-box.p-highlight {
+  border-color: #1151B4;
+  background: #1151B4;
+}
+
+.apartment-type-options{
+  margin-bottom: 100px;
+}

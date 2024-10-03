@@ -1,0 +1,62 @@
+
+.head{
+  width: 100%;
+}
+.title{
+  color: #263238;
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+opacity: 0.8;
+margin-bottom: 5px;
+}
+.description{
+  color: var(--Neutral-Neutral40, #605D62);
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 171.429% */
+text-transform: capitalize;
+margin-bottom: 5px;
+
+}
+:host ::ng-deep p-floatlabel label{
+  position: absolute;
+  left: 15px;
+  top: 10px;
+
+  color: var(--Neutral-Neutral50, #787579);
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 150% */
+text-transform: capitalize;
+}
+:host ::ng-deep p-floatlabel {
+  position: relative;
+  /* margin-bottom: 80px; */
+
+}
+.parent {
+  padding-bottom: 80px;
+}
+:host ::ng-deep p-floatlabel textarea {
+   width: 100%;
+
+   display: flex;
+height: 372px;
+padding: 12px 16px 12px 20px;
+align-items: flex-start;
+gap: 10px;
+flex-shrink: 0;
+align-self: stretch;
+
+border-radius: 6px;
+border: 1px solid var(--Stroke, #DFE4EA);
+background: var(--Base-White, #FFF);
+
+}

@@ -1,113 +1,16 @@
-// import { Component, ComponentFactoryResolver, ViewChild, OnDestroy, AfterViewInit, ElementRef, Renderer2, ChangeDetectorRef } from '@angular/core';
-// import { DynamicHostDirective } from './dynamic-host.directive';
-// import { AprtDetailsComponent } from '../aprt-details/aprt-details.component';
-// import { AprtLocationComponent } from '../aprt-location/aprt-location.component';
-// import { Steps } from 'primeng/steps';
 
-// @Component({
-//   selector: 'app-lord-steps',
-//   templateUrl: './lord-steps.component.html',
-//   styleUrls: ['./lord-steps.component.scss']
-// })
-// export class LordStepsComponent implements AfterViewInit {
-//   @ViewChild(DynamicHostDirective, { static: true }) dynamicHost!: DynamicHostDirective;
-
-//   @ViewChild('stepper', { static: false, read: ElementRef }) stepper!: ElementRef;
-
-//   activeIndex: number = 0;
-//   components = [AprtLocationComponent,AprtDetailsComponent  ];
-//   currentComponent: any = null;
-//   steps: any[] = [
-//     { label: 'Apartment Location' },
-//     { label: 'Apartment Type' },
-//     { label: 'Apartment Details' },
-//     { label: 'Amenities Provided' },
-//     { label: 'Apartment Photos' },
-//     { label: 'Describe Apartment' },
-//     { label: 'Pricing and Rules' },
-//     { label: 'Review and Confirm' }
-//   ];
-
-
-//   constructor(private cdRef: ChangeDetectorRef,private componentFactoryResolver: ComponentFactoryResolver,private renderer: Renderer2) {}
-
-//   ngOnInit(): void {
-//     this.loadComponent(this.activeIndex);
-
-//   }
-//   ngAfterViewInit(): void {
-
-//     setTimeout(() => {
-//       if (this.stepper) {
-//         console.log('Stepper Element:', this.stepper.nativeElement);
-//         this.updateStepClasses();
-//       } else {
-//         console.error('Stepper element not found!');
-//       }
-//     }, 0);
-//   }
-
-
-
-//   updateStepClasses() {
-//     const stepItems = this.stepper.nativeElement.querySelectorAll('.p-steps-item');
-//     console.log('Step Items:', stepItems);
-//     stepItems.forEach((step: any, index: number) => {
-//       if (index < this.activeIndex) {
-//         this.renderer.addClass(step, 'p-highlight');
-//         this.renderer.removeClass(step, 'p-disabled');
-//         step.classList.add('p-highlight');
-//         step.classList.remove('p-disabled');
-//         console.log( step )
-//         console.log(this.activeIndex)
-//         console.log('Step Items:', stepItems);
-//       } else if (index === this.activeIndex) {
-//         this.renderer.addClass(step, 'p-highlight');
-//       } else {
-//         this.renderer.removeClass(step, 'p-highlight');
-//         this.renderer.addClass(step, 'p-disabled');
-//       }
-//     });
-//     this.cdRef.detectChanges();
-//   }
-
-//   loadComponent(index: number) {
-//     const component = this.components[index];
-//     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
-
-//     const viewContainerRef = this.dynamicHost.viewContainerRef;
-//     viewContainerRef.clear();
-
-//     this.currentComponent = viewContainerRef.createComponent(componentFactory);
-
-//   }
-
-//   next() {
-//     if (this.activeIndex < this.components.length - 1) {
-//       this.activeIndex++;
-//       this.loadComponent(this.activeIndex);
-//       this.updateStepClasses();
-//     }
-//   }
-
-//   prev() {
-//     if (this.activeIndex > 0) {
-//       this.activeIndex--;
-//       this.loadComponent(this.activeIndex);
-//       this.updateStepClasses();
-//     }
-//   }
-
-//   ngOnDestroy() {
-//     if (this.currentComponent) {
-//       this.currentComponent.destroy();
-//     }
-//   }
-// }
 import { Component, ComponentFactoryResolver, ViewChild, AfterViewInit } from '@angular/core';
 import { DynamicHostDirective } from './dynamic-host.directive';
 import { AprtDetailsComponent } from '../aprt-details/aprt-details.component';
 import { AprtLocationComponent } from '../aprt-location/aprt-location.component';
+import { AprtTypeComponent } from '../aprt-type/aprt-type.component';
+import {AprtAmenitiesComponent } from '../aprt-amenities/aprt-amenities.component';
+import {AprtPhotosComponent } from '../aprt-photos/aprt-photos.component';
+import {AprtDescripeComponent } from '../aprt-descripe/aprt-descripe.component';
+import {AprtRulesComponent } from '../aprt-rules/aprt-rules.component';
+
+
+
 import { Steps } from 'primeng/steps';
 
 @Component({
@@ -119,7 +22,7 @@ export class LordStepsComponent implements AfterViewInit {
   @ViewChild(DynamicHostDirective, { static: true }) dynamicHost!: DynamicHostDirective;
 
   activeIndex: number = 0;
-  components = [AprtLocationComponent, AprtDetailsComponent];
+  components = [AprtLocationComponent,AprtTypeComponent, AprtDetailsComponent,AprtAmenitiesComponent,AprtPhotosComponent,AprtDescripeComponent,AprtRulesComponent];
   currentComponent: any = null;
 
   steps: any[] = [
@@ -149,8 +52,21 @@ export class LordStepsComponent implements AfterViewInit {
   }
 
   loadComponent(index: number): void {
+    if (index === 0 && this.firstClick === true) {
+      if (this.currentComponent && this.currentComponent.instance instanceof AprtLocationComponent) {
+  console.log('hererrrr')
+        this.currentComponent.instance.firstStepCompleted = true;
+        console.log( this.currentComponent.instance.firstStepCompleted)
+      }
+      return;
+    }
+      // Pass the boolean value to AprtLocationComponent when activeIndex === 0
+      // if (index === 0 && this.currentComponent.instance instanceof AprtLocationComponent) {
+      //   this.currentComponent.instance.firstStepCompleted = this.activeIndex === 0; // Pass boolean
+      //   return;
+      // }
     const component = this.components[index];
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(component);
+    const componentFactory = this.componentFactoryResolver.resolveComponentFactory<any>(component);
 
     const viewContainerRef = this.dynamicHost.viewContainerRef;
     viewContainerRef.clear(); // Clear any previously loaded component
@@ -158,20 +74,30 @@ export class LordStepsComponent implements AfterViewInit {
     this.currentComponent = viewContainerRef.createComponent(componentFactory);
   }
 
+  firstClick:boolean=false;
+  hideNext:boolean=false;
   next(): void {
+    this.hideNext=false;
+
+    this.firstClick=!this.firstClick;
+
     // if (this.activeIndex < this.components.length - 1) {
       if (this.activeIndex < this.steps.length - 1) {
-
+       if(this.activeIndex===0 && this.firstClick===true){
+        this.loadComponent(this.activeIndex);
+        this.hideNext=true;
+        return;
+       }
       this.activeIndex++;
       this.loadComponent(this.activeIndex);
     }
   }
 
   prev(): void {
-    if (this.activeIndex > 0) {
+
       this.activeIndex--;
       this.loadComponent(this.activeIndex);
-    }
+
   }
 
   ngOnDestroy(): void {

@@ -1,1 +1,124 @@
-<p>aprt-location works!</p>
+
+<div *ngIf="!sectionVisible" >
+
+  <div class="p-fluid">
+    <!-- Input for Selecting Apartment Address -->
+     <div class="head">
+        <p class="title">Please Provide Your Details and Apartment Location Information</p>
+        <p class="description">
+          please fill in your contact information and specify the exact address of the apartment
+        </p>
+     </div>
+    <div class="p-inputgroup mapp" >
+      <span class="p-inputgroup-addon">
+        <i class="pi pi-search"></i>
+      </span>
+      <input class="w-full" id="address" pInputText placeholder="Please Select Apartment Address." />
+      <span class="p-inputgroup-addon">
+        <button pButton  (click)="locateUser()"><i class="pi pi-compass"></i></button>
+      </span>
+    </div>
+
+
+    <!-- Leaflet Map Container -->
+    <div id="map" style="  width: 100%; margin-top: 10px;"></div>
+  </div>
+
+  <div class="info mt-4" style="width:100%">
+    <div class="row w-full g-3">
+
+      <div class="col-lg-6 col-sm-12 ">
+        <div class="flex flex-column gap-2 full-width mb-3">
+          <input
+              pInputText
+              id="usernameM"
+              aria-describedby="username-help"
+              [(ngModel)]="userName"
+              name="username"
+              #usernameM="ngModel"
+              required
+              placeholder="Enter Your Email "
+              minlength="3"/>
+
+          <div *ngIf="usernameM.invalid && (usernameM.dirty || usernameM.touched)" class="error">
+            <small *ngIf="usernameM.errors?.['required']">Username is required.</small>
+            <small *ngIf="usernameM.errors?.['minlength']">Username must be at least 3 characters long.</small>
+          </div>
+        </div>
+
+        <!-----phone input ------->
+        <div class="flex flex-column gap-2 full-width">
+
+          <input
+          pInputText
+          placeholder="Enter Your Full Name"
+          id="emailM"
+          aria-describedby="email-help"
+          [(ngModel)]="emaill"
+          name="email"
+          #emailM="ngModel"
+          required
+        />
+        <div *ngIf="emailM.invalid && (emailM.dirty || emailM.touched)" class="error">
+          <small *ngIf="emailM.errors?.['required']">Email is required.</small>
+          <small *ngIf="emailM.errors?.['email']">Please enter a valid email address.</small>
+        </div>
+        </div>
+      </div>
+    <div  class="col-lg-6 col-sm-12 ">
+      <div class="flex flex-column gap-2 full-width ">
+        <input
+        id="phoneLord"
+        name="phone"
+        [(ngModel)]="phoneNumber"
+        required
+        #phone="ngModel"
+        placeholder="1234563788"
+        class="form-control">
+    <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="error">
+      <small *ngIf="phone.errors?.['required']">Phone number is required.</small>
+    </div>
+      </div>
+
+
+
+
+    </div>
+      </div>
+  </div>
+
+</div>
+
+
+
+
+
+<div *ngIf="sectionVisible" style="width:100%">
+  <div class="head" style="margin-bottom: 50px;">
+    <p class="title">Please Confirm Your Phone Number</p>
+    <p class="description">
+      Please Enter the One-Time Passcode (OTP) Sent to Your Registered WhatsApp Number
+    </p>
+ </div>
+  <div class="login-form"  >
+    <!-- <div class="mb-5 justify-content-center align-content-center" > -->
+      <p-inputOtp [(ngModel)]="otp" [integerOnly]="true" />
+      <div class=" rotatee">   <img width="13px" height="13px" src="rotate.svg"/><span class="rotate"  >Resend verification code</span></div>
+
+    <!-- </div> -->
+
+
+
+
+
+
+
+      <button type="submit" class="btn btn-primary fixbtn" style="background-color: #1151B4;" (click)="callParentFunction()"  >Verify</button>
+
+
+
+
+  </div>
+</div>
+
+

@@ -1,0 +1,23 @@
+
+
+<div class="parent">
+  <div class="head" style="margin-bottom: 50px;">
+    <p class="title">Which of the following amenities are available at your property?</p>
+    <p class="description">
+      Please indicate the amenities provided at your property from the list below.
+    </p>
+  </div>
+
+
+  <div class="section" *ngFor="let section of sections">
+    <span >{{ section.name }}</span>
+    <div class="allSections">
+      <div class="switch-row" *ngFor="let option of section.options">
+        <p-inputSwitch [(ngModel)]="option.value"></p-inputSwitch>
+        <label>{{ option.label }}</label>
+      </div>
+    </div>
+
+  </div>
+ </div>
+
