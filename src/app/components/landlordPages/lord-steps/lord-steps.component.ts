@@ -8,6 +8,8 @@ import {AprtAmenitiesComponent } from '../aprt-amenities/aprt-amenities.componen
 import {AprtPhotosComponent } from '../aprt-photos/aprt-photos.component';
 import {AprtDescripeComponent } from '../aprt-descripe/aprt-descripe.component';
 import {AprtRulesComponent } from '../aprt-rules/aprt-rules.component';
+import {AprtConfirmComponent } from '../aprt-confirm/aprt-confirm.component';
+
 
 
 
@@ -22,7 +24,7 @@ export class LordStepsComponent implements AfterViewInit {
   @ViewChild(DynamicHostDirective, { static: true }) dynamicHost!: DynamicHostDirective;
 
   activeIndex: number = 0;
-  components = [AprtLocationComponent,AprtTypeComponent, AprtDetailsComponent,AprtAmenitiesComponent,AprtPhotosComponent,AprtDescripeComponent,AprtRulesComponent];
+  components = [AprtLocationComponent,AprtTypeComponent, AprtDetailsComponent,AprtAmenitiesComponent,AprtPhotosComponent,AprtDescripeComponent,AprtRulesComponent,AprtConfirmComponent];
   currentComponent: any = null;
 
   steps: any[] = [
@@ -77,6 +79,11 @@ export class LordStepsComponent implements AfterViewInit {
   firstClick:boolean=false;
   hideNext:boolean=false;
   next(): void {
+    if(this.activeIndex===7){
+      this.displayModalsuccess='block';
+      console.log('here 7')
+      return;
+      }
     this.hideNext=false;
 
     this.firstClick=!this.firstClick;
@@ -91,6 +98,7 @@ export class LordStepsComponent implements AfterViewInit {
       this.activeIndex++;
       this.loadComponent(this.activeIndex);
     }
+
   }
 
   prev(): void {
@@ -104,5 +112,10 @@ export class LordStepsComponent implements AfterViewInit {
     if (this.currentComponent) {
       this.currentComponent.destroy();
     }
+  }
+
+  displayModalsuccess:string='none';
+  onCloseQrModal(){
+    this.displayModalsuccess='none';
   }
 }

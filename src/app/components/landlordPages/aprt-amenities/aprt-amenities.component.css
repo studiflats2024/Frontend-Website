@@ -63,6 +63,12 @@ margin-bottom: 5px;
   background: #1151B4;
 }
 
+.section .name{
+  margin-bottom: 30px;
+  /* display: block; */
+  width:220px !important;
+ }
+
 @media (max-width:768px) {
   .section {
     margin-bottom: 30px;
@@ -76,9 +82,10 @@ margin-bottom: 5px;
     /* position: relative; */
   }
 
-  .section span{
+  .section .name{
    margin-bottom: 30px;
-   display: block;
+   /* display: block; */
+   /* width:150px !important; */
   }
 
 }

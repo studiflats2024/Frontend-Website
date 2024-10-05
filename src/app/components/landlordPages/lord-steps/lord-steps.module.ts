@@ -24,6 +24,8 @@ import { ButtonModule } from 'primeng/button';
 import { CalendarModule } from 'primeng/calendar';
 import {AprtDescripeComponent } from '../aprt-descripe/aprt-descripe.component';
 import {AprtRulesComponent } from '../aprt-rules/aprt-rules.component';
+import {AprtConfirmComponent } from '../aprt-confirm/aprt-confirm.component';
+
 
 
 
@@ -48,6 +50,7 @@ const routes: Routes = [
     AprtPhotosComponent,
     AprtDescripeComponent,
     AprtRulesComponent,
+    AprtConfirmComponent,
 
      // Other components
 

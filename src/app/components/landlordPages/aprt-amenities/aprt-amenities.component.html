@@ -10,7 +10,7 @@
 
 
   <div class="section" *ngFor="let section of sections">
-    <span >{{ section.name }}</span>
+    <div class="name" >{{ section.name }}</div>
     <div class="allSections">
       <div class="switch-row" *ngFor="let option of section.options">
         <p-inputSwitch [(ngModel)]="option.value"></p-inputSwitch>

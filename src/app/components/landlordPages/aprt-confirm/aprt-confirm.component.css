@@ -1,0 +1,146 @@
+
+.head{
+  width: 100%;
+}
+.title{
+  color: #263238;
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+opacity: 0.8;
+margin-bottom: 5px;
+}
+.description{
+  color: var(--Neutral-Neutral40, #605D62);
+font-family: Inter;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 171.429% */
+text-transform: capitalize;
+margin-bottom: 5px;
+
+}
+.parent{
+  margin-bottom: 40px;
+}
+
+.sec{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  margin:20px 0;
+}
+.address{
+  color: var(--Neutral-Neutral30, #484649);
+font-family: Inter;
+font-size: 18px;
+font-style: normal;
+font-weight: 600;
+line-height: 24px; /* 133.333% */
+text-transform: capitalize;
+margin-bottom: 20px;
+}
+.info{
+  color: var(--Neutral-Neutral30, #484649);
+text-align: right;
+font-family: Inter;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 150% */
+text-transform: capitalize;
+word-break: break-word;
+max-width:280px;
+
+}
+@media (max-width:768px) {
+  .info{
+  text-align: left !important;
+
+  }
+  .sec{
+    display:flex;
+    flex-direction: column;
+    gap: 10px;
+    justify-content: space-between;
+    align-items: start !important;
+    align-items: center;
+    margin:20px 0;
+  }
+}
+.infoo{
+
+    color: var(--Neutral-Neutral30, #484649);
+
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 150% */
+  text-transform: capitalize;
+max-width:280px;
+
+
+}
+.part{
+  margin :32px 0;
+}
+
+.divider{
+  border:solid 1px #CECECE;
+}
+.divide{
+  border:solid 1px #EBEBEB;
+}
+
+
+
+
+.image-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap:24px;
+  margin-top: 32px;
+  margin-bottom: 80px;
+}
+
+.image-item {
+
+  position: relative;
+
+  width: 310px;
+height: 220px;
+flex-shrink: 0;
+border-radius: 8px;
+
+}
+
+@media (max-width:768px) {
+  .image-item{
+    width: 251.667px ;
+    height: 195px;
+  }
+}
+
+
+.bin{
+position: absolute;
+
+top:9px;
+right: 12px;
+border-radius: 1.5px;
+background: rgba(255, 255, 255, 0.80);
+display: flex;
+width: 24px;
+padding: 5.25px;
+justify-content: center;
+align-items: center;
+gap: 7.5px;
+}
+
+.item{
+  position: relative;
+}
