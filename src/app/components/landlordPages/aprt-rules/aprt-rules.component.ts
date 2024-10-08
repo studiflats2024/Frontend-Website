@@ -23,4 +23,21 @@ export class AprtRulesComponent {
   checkScreenSize(): void {
     this.isSmallScreen = window.innerWidth <= 768;  // Check if the screen width is small (e.g., less than 768px)
   }
+
+    // Array to store rules
+  rules: Array<{ ruleName: string, isAllowed: boolean }> = [];
+
+  // Add a new rule (empty at first)
+  addRule() {
+    this.rules.push({
+      ruleName: '',
+      isAllowed: false
+    });
+  }
+
+  // Remove a rule by its index
+  removeRule(index: number) {
+    this.rules.splice(index, 1);
+  }
+
 }

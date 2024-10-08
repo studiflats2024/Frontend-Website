@@ -8,16 +8,53 @@
     </p>
   </div>
 
-
-  <div class="section" *ngFor="let section of sections">
+<div *ngFor="let section of sections">
+  <div class="section">
     <div class="name" >{{ section.name }}</div>
     <div class="allSections">
       <div class="switch-row" *ngFor="let option of section.options">
         <p-inputSwitch [(ngModel)]="option.value"></p-inputSwitch>
         <label>{{ option.label }}</label>
       </div>
+
     </div>
 
   </div>
+
+  <div class=" " >
+    <!-- <div class="title mb-4">Add Other Devices</div> -->
+
+    <!-- Iterate through the array of rules -->
+    <div *ngFor="let rule of rules; let i = index" class=" otherRule mb-3">
+      <!-- <label>Rule Name:</label> -->
+       <div class="rule w-full">
+        <input pInputText [(ngModel)]="rule.ruleName" placeholder="Enter device name" style="width:57%"  />
+
+        <!-- <div class="form-check mt-2">
+          <input type="checkbox" [(ngModel)]="rule.isAllowed" class="form-check-input" />
+          <label class="form-check-label spanOne">Is Allowed</label>
+        </div> -->
+       </div>
+
+
+      <!-- Optional: Add a button to remove a specific rule -->
+      <button type="button" class="btn btn-outline-danger mt-2" (click)="removeRule(i)">Remove Device</button>
+    </div>
+
+    <!-- Button to add new rule -->
+    <button type="button" class="btn btn-outline-primary mb-4 mt-3" (click)="addRule()">
+      + Add New Device
+    </button>
+
+    <!-- Display the rules for debugging -->
+    <!-- <div class="mt-4">
+      <h4>Current Rules</h4>
+      <pre>{{ rules | json }}</pre>
+    </div> -->
+  </div>
+
+</div>
+
+
  </div>
 

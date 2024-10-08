@@ -9,6 +9,22 @@ export class AprtAmenitiesComponent {
 
 
   sections = [
+
+  {
+    name: 'General',
+    options: [
+      { label: 'Wheelchair Accessibility', value: false },
+      { label: 'Elevator', value: false },
+      { label: 'Desk Or Work Space', value: false },
+      { label: 'Door Intercom System', value: false },
+      { label: 'Balcony', value: false },
+      { label: 'Terrace', value: false },
+      { label: 'Tv', value: false },
+      { label: 'Coffee Machine', value: false },
+      { label: 'Washing Machine', value: false }
+    ]
+  }
+    ,
     {
       name: 'Kitchen',
       options: [
@@ -65,5 +81,22 @@ export class AprtAmenitiesComponent {
       ]
     }
   ];
+
+
+     // Array to store rules
+     rules: Array<{ ruleName: string  }> = [];
+
+     // Add a new rule (empty at first)
+     addRule() {
+       this.rules.push({
+         ruleName: '',
+
+       });
+     }
+
+     // Remove a rule by its index
+     removeRule(index: number) {
+       this.rules.splice(index, 1);
+     }
 
 }

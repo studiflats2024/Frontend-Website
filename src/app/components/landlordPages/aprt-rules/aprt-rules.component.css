@@ -123,3 +123,61 @@ text-transform: capitalize;
 
   border: none;
 }
+
+.otherRule{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.rule{
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap:10px;
+}
+.spanOne {
+  text-align: end;
+  color: #263238;
+  font-family: Inter;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
+  opacity: 0.6;
+}
+:host ::ng-deep .form-check-input:checked {
+  background-color: #1151B4;
+  border-color: #1151B4;
+}
+
+.btn-outline-primary {
+  color: #1151B4;
+  background-color: transparent;
+  background-image: none;
+  border-color: #1151B4;
+}
+.btn-outline-primary:hover {
+  color: #fff;
+  background-color:#1151B4;
+
+  border-color: #1151B4;
+}
+.btn-outline-primary:active,
+.btn-outline-primary:focus {
+
+  background-color:#1151B4 !important;
+  color:#fff !important;
+  border-color: #1151B4 !important;
+}
+/* .btn-danger {
+  color: #1151B4;
+  background-color: transparent;
+  background-image: none;
+  border-color: #1151B4;
+}
+.btn-danger:hover {
+  color: #fff;
+  background-color:#1151B4;
+
+  border-color: #1151B4;
+} */
