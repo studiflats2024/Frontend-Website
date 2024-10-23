@@ -18,7 +18,7 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { PaginatorModule } from 'primeng/paginator';
 import { ToolbarModule } from 'primeng/toolbar';
 const routes: Routes = [
-  { path: '', component:BlogDetailsComponent }
+  { path: ':slug', component:BlogDetailsComponent }
 ];
 
 @NgModule({

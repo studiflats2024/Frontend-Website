@@ -1,51 +1,36 @@
  <div class="main">
 
   <p-toolbar>
-    <div class="p-toolbar-group-left" routerLink="/my-bookings">
+    <div class="p-toolbar-group-left" routerLink="/blogs">
       <button pButton type="button" icon="pi pi-arrow-left" class="p-button-text"  [ngStyle]="{'color': '#313033'}"></button>
-      <span class="p-toolbar-text"> The Ultimate Guide to Renting an Apartment</span>
+
+      <span class="p-toolbar-text">{{ title }}</span>
     </div>
 
 
   </p-toolbar>
-  <p class="date"><i class="pi pi-calendar"></i>The publication date is July 1, 2024.</p>
+  <p class="date"><i class="pi pi-calendar"></i>The publication date is {{ blogDate | date: 'MMMM d, yyyy' }}.</p>
 
-  <img  class="mainImg" alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" style="width:100%; height: 500px; margin-bottom: 40px;" />
+  <!-- <img  class="mainImg" alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" style="width:100%; height: 500px; margin-bottom: 40px;" /> -->
+  <img
+  class="mainImg"
+  [src]="images"
+  [alt]="altImg"
+  style="width:100%; height: 500px; margin-bottom: 40px;"
+/>
 
-  <p class="first">
-    Renting an apartment can be an exciting yet daunting process. Whether you’re a first-time renter or someone who’s looking for a new place, navigating the rental market requires careful planning and a keen eye for detail. In this guide, we’ll walk you through everything you need to know to rent an apartment successfully.
-  </p>
+  <!-- Blog Description -->
+  <p class="first" *ngIf="desc">{{ desc }}</p>
 
-
-
-
-  <p class="first">. Determine Your Budget
-Before you start your apartment search, it’s crucial to establish a budget. This will help you narrow down your options and prevent you from falling in love with a place that’s out of your price range. A general rule of thumb is to spend no more than 30% of your monthly income on rent. Don’t forget to factor in additional costs like utilities, internet, and parking.
-2. Choose the Right Location
-Location is one of the most important factors when renting an apartment. Consider your daily commute, proximity to amenities like grocery stores and gyms, and the overall vibe of the neighborhood. If you’re new to the area, take the time to explore different neighborhoods to find the one that suits your lifestyle.
-3. Start Your Search Early
-The best apartments are often snapped up quickly, so it’s a good idea to start your search at least two to three months before your desired move-in date. Use online platforms, visit rental agencies, and keep an eye out for “For Rent” signs in your preferred neighborhoods.
-4. Understand the Lease Agreement
-Before signing any lease, make sure you fully understand the terms and conditions. Pay attention to details like the length of the lease, rent increase policies, and rules regarding pets or subletting. If anything is unclear, don’t hesitate to ask the landlord or property manager for clarification.
-5. Inspect the Property Thoroughly
-When you find an apartment that fits your needs, schedule a visit to inspect the property. Look for any signs of damage or maintenance issues and ask about the building’s security features. It’s also a good idea to talk to current tenants to get a sense of their experience living in the building.
-6. Know Your Rights as a Tenant
-It’s essential to be aware of your rights as a tenant. These rights can vary depending on your location, but generally include the right to a safe and habitable living environment, protection against unfair eviction, and the right to privacy. Familiarize yourself with local rental laws to ensure you’re treated fairly.
-7. Prepare Your Documents
-Landlords typically require a set of documents to process your rental application. These may include proof of income, a credit report, references from previous landlords, and identification. Having these documents ready can speed up the application process and increase your chances of securing the apartment.
-8. Negotiate the Rent
-In some cases, you may be able to negotiate the rent or request additional perks like free parking or a discount on the security deposit. If you have a strong rental history and solid references, don’t be afraid to negotiate terms that work best for you.
-9. Understand the Move-In Process
-Once your application is approved, you’ll need to pay a security deposit and the first month’s rent. Make sure you understand the move-in process, including how to set up utilities, obtain keys, and complete any required inspections. This will help you settle into your new home with ease.
-10. Plan for the Future
-Think about your long-term plans when signing a lease. If you’re considering buying a home in the near future or relocating for work, look for a lease that offers flexibility, such as a month-to-month option. This way, you won’t be locked into a long-term commitment if your circumstances change.</p>
+  <!-- Blog Content rendered as HTML (if it's safe) -->
+  <div class="blog-content" [innerHTML]="blogContent"></div>
 
 
 
 
-<div class="head">Read also</div>
+<!-- <div class="head">Read also</div> -->
 
-<div class="main-div" >
+<!-- <div class="main-div" >
 
 
 
@@ -67,7 +52,7 @@ Think about your long-term plans when signing a lease. If you’re considering b
  </p-card>
  </div>
  <div class="box">
-   <p-card header="Advanced Card"    >
+   <p-card header="Advanced Card">
      <ng-template pTemplate="header">
          <img alt="Card" src="https://primefaces.org/cdn/primeng/images/card-ng.jpg" />
      </ng-template>
@@ -112,7 +97,7 @@ Think about your long-term plans when signing a lease. If you’re considering b
 
 
 
-</div>
+</div> -->
 
 
 

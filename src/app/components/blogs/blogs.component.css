@@ -48,20 +48,43 @@ line-height: 44px; /* 137.5% */
   margin-top: 2rem;
   padding-bottom: 20px;
 }
+
+.main-div{
+
+  height: auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  padding-bottom: 70px;
+}
+
 .container{
   width: 90%;
   display: grid;
   grid-template-columns: repeat(auto-fit , minmax(400px , 1fr));
-  gap: 30px;
+  gap: 24px;
   height: auto;
   padding: 10px;
   justify-content: center;
 }
+.containerr {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+}
 .box{
   text-align: center;
+  position: relative;
 
 
-
+}
+.box .img{
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }
 .box h2{
 
@@ -74,6 +97,79 @@ line-height: 44px; /* 137.5% */
 
 
 :host ::ng-deep .p-paginator{
-  background-color: #F6F6F6;
+  background-color: transparent;
   margin-top: 40px;
+}
+
+:host ::ng-deep .p-card{
+  border-radius: 8px;
+border: 1px solid var(--Gray-200, #E4E7EC);
+
+}
+
+:host ::ng-deep .p-card img{
+  border-radius: 8px 8px 0 0;
+
+
+}
+
+.text{
+  display: flex;
+  flex-direction: column;
+
+
+}
+
+.head{
+  color: var(--Gray-800, #1D2939);
+  font-family: Inter;
+  font-size: 18px;
+  font-size: 22px;
+
+  font-style: normal;
+  font-weight: 500;
+  line-height: 28px; /* 155.556% */
+  text-align: start;
+  padding-bottom: 12px;
+}
+
+.info{
+  color: var(--Gray-700, #344054);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px; /* 171.429% */
+  text-align: start;
+  padding-bottom: 10px;
+  word-break: break-all;
+
+}
+.date{
+  color: var(--Gray-800, #1D2939);
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 150% */
+  text-align: start;
+}
+
+
+.menu{
+  position: absolute;
+  top:10px;
+  right: 30px;
+  background: #fff;
+  color: var(--Color-Style-Grey-2, #5B5B5B);
+
+
+width: 200px;
+padding: var(--corner-radius-16, 16px) 16px;
+
+text-align: start;
+border-radius: 8px;
+background: var(--Key-colors-White, #FFF);
+box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
+
 }
