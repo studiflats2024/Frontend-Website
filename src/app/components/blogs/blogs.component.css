@@ -70,11 +70,13 @@ line-height: 44px; /* 137.5% */
   padding: 10px;
   justify-content: center;
 }
-.containerr {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 32px;
-}
+ @media (min-width:992px) {
+  .containerr {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+  }
+ }
 .box{
   text-align: center;
   position: relative;
