@@ -48,6 +48,12 @@ const routes: Routes = [
   {
     path: 'land-lord-steps', loadChildren: () => import('./components/landlordPages/lord-steps/lord-steps.module').then(m => m.LordStepsModule) // Lazy load FAQ module
   },
+  {
+    path: 'impressum', loadComponent: () =>  import('./components/impressum/impressum.component').then(m => m.ImpressumComponent) // Lazy load FAQ module
+  },
+  {
+    path: 'privacy-policy', loadComponent: () =>  import('./components/privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent) // Lazy load FAQ module
+  },
 
 ];
 @NgModule({
