@@ -9,7 +9,56 @@ font-weight: 600;
 line-height: 44px; /* 137.5% */
  }
 
+ .date{
+  color: var(--Gray-800, #1D2939);
+  font-family: Inter;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 18px; /* 150% */
 
+}
+.foot{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+
+:host ::ng-deep .p-card .p-card-content {
+   padding-bottom: 0 !important;
+}
+:host ::ng-deep .p-chip {
+  background-color: #fff;
+}
+:host ::ng-deep .p-chip img {
+  width:28px;
+  height: 28px;
+}
+:host ::ng-deep .p-card{
+
+
+height: 490px;
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+
+
+}
+
+:host ::ng-deep .p-chip .p-chip-text {
+  line-height: 1.5;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
+
+  color: #000;
+text-align: right;
+font-family: Almarai;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px;
+}
 
 
 
@@ -119,7 +168,7 @@ border: 1px solid var(--Gray-200, #E4E7EC);
   display: flex;
   flex-direction: column;
 
-
+height: 178px;
 }
 
 .head{
@@ -174,4 +223,33 @@ border-radius: 8px;
 background: var(--Key-colors-White, #FFF);
 box-shadow: 0px 10px 20px 0px rgba(0, 0, 0, 0.15);
 
+}
+
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 9999;
+}
+
+.spinner {
+  border: 8px solid #f3f3f3;
+  border-top: 8px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

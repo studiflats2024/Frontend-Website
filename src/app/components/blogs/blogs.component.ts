@@ -13,7 +13,7 @@ import { BlogService } from './blog.service';
 })
 export class BlogsComponent {
 
-
+loading:boolean=true;
   constructor( private blogService: BlogService ,public router: Router){}
 
 
@@ -64,6 +64,7 @@ blogs: any[] = [];
         this.totalRecords = response.total_Records ; // Update this if the API returns total records.
         console.log(this.blogs)
         console.log(this.totalRecords)
+        this.loading=false;
 
       },
       (error) => {

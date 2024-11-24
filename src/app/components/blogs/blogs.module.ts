@@ -5,7 +5,7 @@ import { BlogsComponent } from './blogs.component';
 
 
 import { RouterModule, Routes } from '@angular/router';
-
+import { ChipModule } from 'primeng/chip';
 
 import { PanelMenuModule } from 'primeng/panelmenu';
 import { TieredMenuModule } from 'primeng/tieredmenu';
@@ -39,6 +39,7 @@ const routes: Routes = [
     CardModule,
     BreadcrumbModule,
     PaginatorModule,
+    ChipModule,
     RouterModule.forChild(routes)
 
   ],

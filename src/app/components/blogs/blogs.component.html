@@ -242,6 +242,10 @@
       </div>
     </div> -->
 
+    <div *ngIf="loading" class="loading-overlay">
+      <div class="spinner"></div>
+      <p>Loading...</p>
+    </div>
 
     <div class="containerr">
       <div class="box"  *ngFor="let blog of blogs; let i = index" style="max-width: 412px;">
@@ -258,10 +262,10 @@
         </div>
         <p-card >
           <ng-template pTemplate="header">
-            <img alt="Card" [src]="blog.blog_Main_Image" [alt]="blog.blog_Image_Alt" style="height: 215px;" />
+            <img (click)="viewBlogDetails(blog)" alt="Card" [src]="blog.blog_Main_Image" [alt]="blog.blog_Image_Alt" style="height: 215px;" />
           </ng-template>
 
-          <div class="text">
+          <div (click)="viewBlogDetails(blog)" class="text">
             <div class="head">{{ blog.blog_Title }}</div>
             <div class="info">
               {{ blog.blog_Desc | slice:0:150 }}...
@@ -276,9 +280,12 @@
               <div class="date">{{ blog.blog_Created_at | date: 'shortDate' }}</div>
            </div> -->
            <ng-template pTemplate="footer">
-            <div class="foot">
+            <div (click)="viewBlogDetails(blog)" class="foot">
 
-
+              <p-chip
+              label="Studiflats"
+              image="https://cdn3.iconfinder.com/data/icons/office-485/100/ICON_BASIC-11-512.png"
+              alt="Avatar image" />
                 <div class="date">{{ blog.blog_Created_at | date: 'shortDate' }}</div>
              </div>
           </ng-template>

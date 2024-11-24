@@ -10,6 +10,7 @@ import { BlogService } from '../blogs/blog.service';
 })
 export class BlogDetailsComponent {
   items:any;
+  loading:boolean=true;
 
   blogId: string | null = null;
   constructor(private blogService: BlogService) {}
@@ -83,6 +84,8 @@ loadBlogDetails(blogId: string): void {
       // Optionally, load images if necessary
       this.images = blog.blog_Main_Image;
       this.blogDate=blog.blog_Created_at
+
+      this.loading=false;
     },
     (error) => {
       console.error('Error loading blog details:', error);

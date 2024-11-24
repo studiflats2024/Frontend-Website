@@ -1,5 +1,10 @@
  <div class="main">
 
+  <div *ngIf="loading" class="loading-overlay">
+    <div class="spinner"></div>
+    <p>Loading...</p>
+  </div>
+
   <p-toolbar>
     <div class="p-toolbar-group-left" routerLink="/blogs">
       <button pButton type="button" icon="pi pi-arrow-left" class="p-button-text"  [ngStyle]="{'color': '#313033'}"></button>
