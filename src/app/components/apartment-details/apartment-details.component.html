@@ -1,4 +1,4 @@
-div
+
 
 <div class=" mx-6 fix-details" style="margin-top: 100px;   position:relative">
 
@@ -28,21 +28,21 @@ div
 
   <!-- <div  style=" margin-top: 25px !important;  clear: both; width: 100%; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word; margin-top: 10px;">Alice Springs NT 0870, Germany</div> -->
 
-  <div class=" gallery-container section-to-watch" style="position: relative;">
+  <div class=" gallery-container section-to-watch" style="position: relative; ">
     <div class="row   ">
       <div class="col-6  firstImg  ">
-        <img  [src]="currentImage" alt="Main Image" class="main-image w-full h-full">
+        <img  style="max-height: 500px !important;" [src]="currentImage" alt="Main Image" class="main-image w-full h-full">
         <div class="show-all-btn lg" (click)="openModal()"><span (click)="openModal()" style="z-index: 150;">Show all</span> </div>
       </div>
       <div class="col-6 restImg">
         <div class="row h-full">
           <div class="col-6  mt-0"  >
-            <img  [src]="aprt_Imgs[1] || 'default_apartment.jpg'" alt="Thumbnail 1" class="thumbnail mb-2 h-50">
-            <img [src]="aprt_Imgs[2] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail h-50">
+            <img  style=" max-height: 250px !important;" [src]="aprt_Imgs[1] || 'default_apartment.jpg'" alt="Thumbnail 1" class="thumbnail mb-2 h-50">
+            <img style=" max-height: 250px !important;" [src]="aprt_Imgs[2] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail h-50">
           </div>
           <div class="col-6 ">
-            <img [src]="aprt_Imgs[3] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail mb-2 h-50 ">
-            <img [src]="aprt_Imgs[4] || 'default_apartment.jpg' " alt="Thumbnail 2" class="thumbnail h-50">
+            <img style=" max-height: 250px !important;" [src]="aprt_Imgs[3] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail mb-2 h-50 ">
+            <img style=" max-height: 250px !important;" [src]="aprt_Imgs[4] || 'default_apartment.jpg' " alt="Thumbnail 2" class="thumbnail h-50">
             <div class="show-all-btn" (click)="openModal()"><span (click)="openModal()" style="z-index: 150;">Show all</span> </div>
           </div>
 
