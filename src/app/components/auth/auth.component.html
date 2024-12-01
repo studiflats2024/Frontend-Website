@@ -1,0 +1,585 @@
+
+<!-- <div class="fixed">
+    <app-header (toggleSearchEvent)="toggleSearch()" (toggleSignEvent)="showLogin()"></app-header>
+   </div>
+   <div [@toggleSearch]="searchVisible"   class="fixed-search-bar smooth-transition">
+     <app-search-bar class="mod "    ></app-search-bar>
+   </div>
+   <p-toast></p-toast>
+  
+  <router-outlet ></router-outlet>
+  <app-footer></app-footer> -->
+  
+  
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayModalsign}" style="background-color: rgb(23 22 22 / 50%);">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body p-0" style="position: relative;">
+          <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseSignModal()">×</button>
+  
+          <div class="login-modal-container">
+  
+            <div class="modal-image-section"><img src="loginimg.png"  /></div>
+            <div class="modal-form-section p-4">
+              <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+              <div class="login-header mb-4">
+                <h2 class="login-title">Sign up</h2>
+                <p class="login-subtitle">Welcome! Please enter your personal information</p>
+              </div>
+  
+  
+  
+              <div class="login-form">
+                <div class="mb-3" >
+                  <div class="input-group ">
+                    <!-- <span class="input-group-text">
+                      <img src="https://via.placeholder.com/24x24" alt="flag">
+                      <span class="ms-2">+380</span>
+                    </span> -->
+                    <input  id="phone" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off">
+  
+                  </div>
+                  <!-- <div *ngIf="signupForm.get('mobile')?.errors && signupForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
+                    <div *ngIf="signupForm.get('mobile')?.errors?.['required']">Mobile number is required.</div>
+                    <div *ngIf="signupForm.get('mobile')?.errors?.['pattern']">Please enter a valid mobile number (10-15 digits).</div>
+                  </div> -->
+                </div>
+  
+  
+                <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" autocomplete="off">
+  
+                <div class="mb-3  ">
+                  <input type="text" class="form-control"   formControlName="fullName" placeholder="FullName*" autocomplete="off">
+                  <div *ngIf="signupForm.get('fullName')?.errors && signupForm.get('fullName')?.touched" class="text-danger" style="font-size: 12px;">
+                    <div *ngIf="signupForm.get('fullName')?.errors?.['required']">Full name is required.</div>
+                    <div *ngIf="signupForm.get('fullName')?.errors?.['minlength']">Full name must be at least 3 characters long.</div>
+                    <div *ngIf="signupForm.get('fullName')?.errors?.['maxlength']">Full name cannot exceed 50 characters.</div>
+                  </div>
+                </div>
+                <div class="mb-3 row g-2 ">
+                  <div class="col-6 position-relative">
+                    <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password*"> -->
+                    <div class="input-group position-relative">
+                      <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="Password*">
+                      <i class="toggle-password-icon"
+                         [class]="passwordFieldType === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                         (click)="togglePasswordVisibility()"
+                         style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;  "></i>
+                    </div>
+                    <div *ngIf="signupForm.get('password')?.errors && signupForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
+                      <div *ngIf="signupForm.get('password')?.errors?.['required']">Password is required.</div>
+                      <div *ngIf="signupForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
+                      <div *ngIf="signupForm.get('password')?.errors?.['weakPassword']">
+                        Password must contain upper case, lower case, numeric, and special characters.
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <!-- <input type="password" formControlName="confirmPassword" class="form-control " placeholder="Confirm Password*" autocomplete="off"> -->
+                    <div class="input-group position-relative">
+                      <input [type]="passwordFieldTypee" formControlName="confirmPassword" class="form-control" placeholder="Password*">
+                      <i class="toggle-password-icon"
+                         [class]="passwordFieldTypee === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                         (click)="togglePasswordVisibilityconfirm()"
+                         style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;  "></i>
+                    </div>
+                    <div *ngIf="signupForm.errors?.['mismatch'] && signupForm.get('confirmPassword')?.touched" class="text-danger" style="font-size: 12px; ">
+                      Passwords do not match.
+                    </div>
+                  </div>
+  
+  
+                </div>
+  
+                <div class="d-grid mb-3">
+                  <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"     >Sign up</button>
+                </div>
+              </form>
+  
+                <div class="text-center mb-3">
+                  <span>  Already have an account? <a   (click)="showLogin()" class="text-primary">Login</a></span>
+                </div>
+                <div class="text-center mb-3">
+                  <span>Or Sign up with</span>
+                </div>
+                <div class="d-flex justify-content-around ">
+                  <button class="btn btn-outline-secondary w-50 mr-2" (click)="signUpWithGoogle()" ><img src="googlebtn.svg"/></button>
+                  <button class="btn btn-outline-secondary w-50"><img src="applebtn.svg"/></button>
+                </div>
+              </div>
+  
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayVerify}" style="background-color: rgb(23 22 22 / 50%);">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body p-0" style="position: relative;">
+          <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseSignModal()">×</button>
+  
+          <div class="login-modal-container">
+  
+            <div class="modal-image-section"><img src="loginimg.png"  /></div>
+            <div class="modal-verify-section p-4">
+              <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+              <div class="login-header mb-4">
+                <h2 class="login-title">Verification</h2>
+                <p class="login-subtitle">Please enter the verification code sent to your WhatsApp</p>
+              </div>
+  
+  
+  
+              <div class="login-form">
+                <div class="mb-5 justify-content-center align-content-center" >
+                  <p-inputOtp [(ngModel)]="otp" [integerOnly]="true" />
+                  <div class=" rotatee">   <img width="13px" height="13px" src="rotate.svg"/><span class="rotate">Resend verification code</span></div>
+  
+                </div>
+  
+  
+  
+  
+  
+  
+                <div class="d-grid mb-3">
+                  <button type="submit" class="btn btn-primary" style="background-color: #1151B4;" (click)=" onVerifyOtp() "   >Continue</button>
+                </div>
+  
+  
+  
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayInfo}" style="background-color: rgb(23 22 22 / 50%);">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body p-0" style="position: relative;">
+          <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseSignModal()">×</button>
+  
+          <div class="login-modal-container">
+  
+            <div class="modal-image-section"><img src="loginimg.png"  /></div>
+            <div class="modal-form-section p-4">
+              <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+              <div class="login-header mb-4">
+                <h2 class="login-title">Sign up</h2>
+                <p class="login-subtitle">Welcome! Please enter your personal information</p>
+              </div>
+  
+  
+  
+  
+  
+              <form [formGroup]="finishSignupForm" (ngSubmit)="onFinishSignSubmit()" autocomplete="off">
+  
+                <div *ngIf=" !socialSign" class="mb-3">
+                  <input  type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off">
+                  <div *ngIf="finishSignupForm.get('email')?.touched && finishSignupForm.get('email')?.invalid" class="text-danger" style="font-size: 12px;">
+                    <div *ngIf="finishSignupForm.get('email')?.errors?.['required']">Email is required.</div>
+                    <div *ngIf="finishSignupForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
+                  </div>
+                </div>
+  
+                <div *ngIf="socialSign" class="mb-3" >
+                  <div class="input-group ">
+  
+                    <input  id="socialPhone" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="off">
+  
+                  </div>
+  
+                </div>
+  
+                <div class="row pb-3">
+                  <!-- <div class="col-md-6">
+                    <p-dropdown
+                      [options]="options"
+                      formControlName="gender"
+                      optionLabel="name"
+                      placeholder="Gender*">
+                    </p-dropdown>
+                    <div *ngIf="finishSignupForm.get('gender')?.touched && finishSignupForm.get('gender')?.invalid" class="text-danger" style="font-size: 12px;">
+                      <div *ngIf="finishSignupForm.get('gender')?.errors?.['required']">Gender is required.</div>
+                    </div>
+                  </div> -->
+  
+                  <div class="col-md-6 mb-2 px-2">
+                    <p-calendar
+                      formControlName="birthday"
+                      dateFormat="mm/dd/yy"
+                      placeholder="Birthday*">
+                    </p-calendar>
+                    <div *ngIf="finishSignupForm.get('birthday')?.touched && finishSignupForm.get('birthday')?.invalid" class="text-danger" style="font-size: 12px;">
+                      <div *ngIf="finishSignupForm.get('birthday')?.errors?.['required']">Birthday is required.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6 px-2">
+                    <p-dropdown
+                      [options]="options"
+                      formControlName="gender"
+                      optionLabel="name"
+                      placeholder="Gender*">
+                    </p-dropdown>
+                    <div *ngIf="finishSignupForm.get('gender')?.touched && finishSignupForm.get('gender')?.invalid" class="text-danger" style="font-size: 12px;">
+                      <div *ngIf="finishSignupForm.get('gender')?.errors?.['required']">Gender is required.</div>
+                    </div>
+                  </div>
+                </div>
+  
+  
+  
+  
+                <!-- <div class="row pb-3">
+                  <div class="col-md-6">
+                    <p-dropdown
+                    [options]="options"
+                    [(ngModel)]="selectedOption"
+                    optionLabel="name"
+                    placeholder="Gender*">
+                  </p-dropdown>
+                  </div>
+                  <div class="col-md-6">
+                    <p-calendar
+                      [(ngModel)]="birthday"
+                      dateFormat="mm/dd/yy"
+                      placeholder="Birthday*">
+                    </p-calendar>
+                  </div>
+                </div> -->
+  
+  
+  
+  
+  
+  
+                  <div class="mb-3">
+  
+                    <p-dropdown
+                      [options]="countries"
+                      [(ngModel)]="selectedCountry"
+                      formControlName="country"
+                      optionLabel="name"
+                      placeholder="Select a Country*">
+                      <ng-template let-country pTemplate="item">
+                        <div class="country-item">
+                          <img [src]="country.flag" alt="{{country.name}}" style="width: 20px; height: 15px; margin-right: 8px;">
+                          <span>{{country.name}}</span>
+                        </div>
+                      </ng-template>
+                      <ng-template let-country pTemplate="selectedItem">
+                        <div class="country-item">
+                          <img [src]="country.flag" alt="{{country.name}}" style="width: 20px; height: 15px; margin-right: 8px;">
+                          <span>{{country.name}}</span>
+                        </div>
+                      </ng-template>
+                    </p-dropdown>
+                    <!-- <div *ngIf="finishSignupForm.get('country')?.touched && finishSignupForm.get('country')?.invalid" class="text-danger" style="font-size: 12px;">
+                      <div *ngIf="finishSignupForm.get('country')?.errors?.['required']">Country is required.</div>
+                    </div> -->
+                  </div>
+  
+                <div class="d-grid mb-3">
+                  <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"     >Continue</button>
+                </div>
+  
+              </form>
+                <div class="text-center mb-3">
+                  <span>  Already have an account? <div   (click)="showLogin()" class="text-primary">Login</div></span>
+                </div>
+                <div class="text-center mb-3">
+                  <span>Or Signup with</span>
+                </div>
+                <div class="d-flex justify-content-around ">
+                  <button class="btn btn-outline-secondary w-50 mr-2" (click)=" signUpWithGoogle()"><img src="googlebtn.svg"/></button>
+                  <button class="btn btn-outline-secondary w-50"><img src="applebtn.svg"/></button>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+    <!-- -----------login modal ---------------->
+    <div class="modal " id="loginModalreal"   tabindex="-1"  role="dialog" [ngStyle]="{'display': isVisiblelogin}" style="background-color: rgb(23 22 22 / 50%);">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+  
+  
+  
+          <div class="modal-body p-0" style="position: relative;">
+            <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="hideLogin()">×</button>
+  
+            <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            style="position: absolute; top:0; right:0;"></button> -->
+  
+            <div class="login-modal-container">
+  
+              <div class="modal-form-section p-4">
+                <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+                <div class="login-header mb-4">
+                  <h2 class="login-title">Login</h2>
+                  <p class="login-subtitle">Please login to access your account</p>
+                </div>
+  
+  
+                <div class="login-methods d-flex justify-content-start align-items-center gap-4 mb-3">
+                  <div class="labell">Login by</div>
+                  <div class="d-flex gap-3">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="loginMethod" id="whatsApp" value="whatsApp"   [(ngModel)]="loginMethod">
+                      <label class="form-check-label" for="whatsApp">What’s App</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="loginMethod" id="email" value="email"   [(ngModel)]="loginMethod"> <!--[checked]="loginMethod==='email'"-->
+                      <label class="form-check-label" for="email">Email</label>
+                    </div>
+                  </div>
+                </div>
+  
+  
+                <div class="login-form">
+                  <form [formGroup]="loginForm" (ngSubmit)="onLoginSubmit()" autocomplete="off">
+                  <div class="mb-3" *ngIf="loginMethod === 'whatsApp'">
+  
+                      <div class="input-group ">
+                        <!-- <span class="input-group-text">
+                          <img src="https://via.placeholder.com/24x24" alt="flag">
+                          <span class="ms-2">+380</span>
+                        </span> -->
+                        <input  id="phonee" type="tel"  class="form-control w-100"   placeholder="1234563788" autocomplete="nope"   >
+  
+                      </div>
+                      <div *ngIf="loginForm.get('mobile')?.errors && loginForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
+                        <div *ngIf="loginForm.get('mobile')?.errors?.['required']">Mobile number is Invalid.</div>
+                        <div *ngIf="loginForm.get('mobile')?.errors?.['pattern']">Please enter a valid mobile number (10-15 digits).</div>
+                      </div>
+  
+                  </div>
+  
+                  <div class="mb-3" *ngIf="loginMethod === 'email'">
+                    <div class="input-group">
+                      <span class="input-group-text"><i class="fa fa-envelope"></i></span>
+                      <input type="email" class="form-control" placeholder="Email*" formControlName="email" autocomplete="off"  >
+  
+                    </div>
+                    <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid" class="text-danger" style="font-size: 12px;">
+                      <div *ngIf="loginForm.get('email')?.errors?.['required']">Email is required.</div>
+                      <div *ngIf="loginForm.get('email')?.errors?.['email']">Please enter a valid email address.</div>
+                    </div>
+                  </div>
+  
+                  <div class="mb-3">
+                    <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password*" autocomplete="off"> -->
+                    <div class="input-group position-relative">
+                      <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="Password*">
+                      <i class="toggle-password-icon"
+                         [class]="passwordFieldType === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                         (click)="togglePasswordVisibility()"
+                         style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;  "></i>
+                    </div>
+                      <!-- <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
+                        <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
+                        <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
+                        <div *ngIf="loginForm.get('password')?.errors?.['weakPassword']">
+                          Password must contain upper case, lower case, numeric, and special characters.
+                        </div>
+                      </div> -->
+                  </div>
+                  <div class="d-flex justify-content-between mb-3">
+                    <!-- <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="rememberMe">
+                      <label class="form-check-label" for="rememberMe">
+                        Remember me
+                      </label>
+                    </div> -->
+                    <a (click)="openverifyModal()" class="text-primary">Forgot Password</a>
+                  </div>
+                  <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   data-bs-toggle="modal" data-bs-target="#guestDetailsModal"  >Login</button>
+                  </div>
+  
+                </form>
+  
+                  <div class="text-center mb-3">
+                    <span>Don’t have an account? <a  (click)="openModalSign()" class="text-primary">Sign up</a></span>
+                  </div>
+                  <div class="text-center mb-3">
+                    <span>Or login with</span>
+                  </div>
+                  <div class="d-flex justify-content-around ">
+                    <button class="btn btn-outline-secondary w-50 mr-2" (click)="signInWithGoogle()"><img src="googlebtn.svg"/></button>
+                    <button class="btn btn-outline-secondary w-50"><img src="applebtn.svg"/></button>
+                  </div>
+                </div>
+  
+              </div>
+              <div class="modal-image-section"><img src="loginimg.png"  /></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  <!-- -----------forgot password modal ---------------->
+  
+  
+  
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayForgetPass}" style="background-color: rgb(23 22 22 / 50%);">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+  
+  
+  
+        <div class="modal-body p-0" style="position: relative;">
+          <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="hideLogin()">×</button>
+  
+          <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          style="position: absolute; top:0; right:0;"></button> -->
+  
+          <div class="login-modal-container">
+  
+            <div class="modal-form-section p-4">
+              <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+              <div class="login-header mb-4">
+                <h2 class="login-title">change password</h2>
+                <p class="login-subtitle">Please enter current password then add new password</p>
+              </div>
+  
+  
+  
+  
+              <form [formGroup]="forgetForm" (ngSubmit)="onForgetSubmit()" autocomplete="off">
+              <div class="login-form">
+  
+  
+  
+                <div class="mb-3">
+                  <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password*" autocomplete="off"> -->
+                  <div class="input-group position-relative">
+                    <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="New Password*">
+                    <i class="toggle-password-icon"
+                       [class]="passwordFieldType === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                       (click)="togglePasswordVisibility()"
+                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 11;"></i>
+                  </div>
+                    <div *ngIf="forgetForm.get('password')?.errors && forgetForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
+                      <div *ngIf="forgetForm.get('password')?.errors?.['required']">Password is required.</div>
+                      <div *ngIf="forgetForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.</div>
+                      <div *ngIf="forgetForm.get('password')?.errors?.['weakPassword']">
+                        Password must contain upper case, lower case, numeric, and special characters.
+                      </div>
+                    </div>
+                </div>
+  
+                <div class="mb-3">
+                  <!-- <input type="password" formControlName="confirmPassword" class="form-control " placeholder="Confirm Password*" autocomplete="off"> -->
+                  <div class="input-group position-relative">
+                    <input [type]="passwordFieldTypee" formControlName="confirmPassword" class="form-control" placeholder="Password*">
+                    <i class="toggle-password-icon"
+                       [class]="passwordFieldTypee === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
+                       (click)="togglePasswordVisibilityconfirm()"
+                       style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 11;"></i>
+                  </div>
+                    <div *ngIf="forgetForm.errors?.['mismatch'] && forgetForm.get('confirmPassword')?.touched" class="text-danger" style="font-size: 12px; ">
+                      Passwords do not match.
+                    </div>
+                </div>
+  
+                <div class="d-grid mb-3">
+                  <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   data-bs-toggle="modal" data-bs-target="#guestDetailsModal"  >Continue</button>
+                </div>
+  
+  
+  
+              </div>
+              </form>
+            </div>
+            <div class="modal-image-section"><img src="loginimg.png"  /></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayVerifyForget}" style="background-color: rgb(23 22 22 / 50%);">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-body p-0" style="position: relative;">
+          <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseSignModal()">×</button>
+  
+          <div class="login-modal-container">
+  
+            <div class="modal-image-section"><img src="loginimg.png"  /></div>
+            <div class="modal-verify-section p-4">
+              <img class="logo mb-4" src="logoo.png" alt="Logo"/>
+              <div class="login-header mb-4">
+                <h2 class="login-title">Verification</h2>
+                <p class="login-subtitle">Please enter the verification code sent to your WhatsApp</p>
+              </div>
+  
+  
+  
+              <div class="login-form">
+                <div class="mb-5 justify-content-center align-content-center" >
+                  <p-inputOtp [(ngModel)]="otp" [integerOnly]="true" />
+                  <div class=" rotatee">   <img width="13px" height="13px" src="rotate.svg"/><span class="rotate" style="cursor: pointer;" (click)="refreshOtp()">Resend verification code</span></div>
+  
+                </div>
+  
+  
+  
+  
+  
+  
+                <div class="d-grid mb-3">
+                  <button type="submit" class="btn btn-primary" style="background-color: #1151B4;" (click)=" openForgetModal() "   >Continue</button>
+                </div>
+  
+  
+  
+              </div>
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  <!-- Other existing content -->
+  
+  <!-- <div class="whatsapp-button">
+    <a href="https://wa.me/4915203290607" target="_blank">
+      <img src="whatsappp.gif" alt="WhatsApp" />
+    </a>
+  </div> -->
+  
+  
+  

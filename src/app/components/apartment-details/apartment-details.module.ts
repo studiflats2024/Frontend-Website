@@ -23,7 +23,7 @@ import { GalleriaModule } from 'primeng/galleria';
 import { DialogModule } from 'primeng/dialog';
 
 
-
+import { AuthModule } from '../auth/auth.module';
 
 
 
@@ -59,6 +59,7 @@ const routes: Routes = [
     InputOtpModule,
     GalleriaModule,
     DialogModule,
+    AuthModule,
     RouterModule.forChild(routes),
 
   ],

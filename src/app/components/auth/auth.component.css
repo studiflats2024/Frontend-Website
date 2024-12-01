@@ -28,7 +28,7 @@
 @media (max-width: 990px) {
   .fixed-search-bar {
     position: fixed;
-    top: 320px;
+    top: 290px;
     width: 100%;
     left: 0;
     z-index: 11;
@@ -157,6 +157,13 @@
   margin-left: -1.5em;
   margin-top: 5px;
 }
+
+ 
+
+
+
+
+ 
 
 
 
@@ -303,4 +310,15 @@
   border-radius: 50%;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 9999;
+}
+
+
+.form-check-input:focus {
+  /* border-color: #86b7fe; */
+  outline: 0 !important;
+  /* box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25); */
+  /* background: #0d6efd; */
+
+  /* background-color: #0d6efd !important; */
+  border:3px solid #0d6efd !important;
 }

@@ -25,7 +25,7 @@ import { ChipModule } from 'primeng/chip';
 import { AppComponent } from '../../app.component';
 import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
-
+import { AuthModule } from '../auth/auth.module';
 
 @NgModule({
   declarations: [
@@ -56,7 +56,8 @@ import { AvatarGroupModule } from 'primeng/avatargroup';
     PaginatorModule,
     ChipModule,
     AvatarModule,
-    AvatarGroupModule
+    AvatarGroupModule,
+    AuthModule
   ],
   exports: [
     HeaderComponent,

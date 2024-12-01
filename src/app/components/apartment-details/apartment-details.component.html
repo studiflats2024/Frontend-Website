@@ -616,6 +616,8 @@
 
           <div id="fixlogin" class="booking-button">
             <button class="btn-base"  (click)="openModals()"   >Request Apartment</button>
+            <app-auth *ngIf="auth"></app-auth>
+
         </div>
           <!-- <div class="booking-button">
               <button class="btn-base" data-bs-toggle="modal" data-bs-target="#loginModal">Request Apartment</button>

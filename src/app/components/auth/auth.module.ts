@@ -1,11 +1,11 @@
 import { NgModule,CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+// import { AppRoutingModule } from './app-routing.module';
+import { AuthComponent } from './auth.component';
 
-import { HomeAPPModule } from './components/homeAPP/homeAPP.module';
+// import { HomeAPPModule } from './components/homeAPP/homeAPP.module';
 //  import { HeaderComponent } from './components/homeAPP/header/header.component';
- import { FooterComponent } from './components/homeAPP/footer/footer.component';
+//  import { FooterComponent } from './components/homeAPP/footer/footer.component';
 
 // import { SearchBarComponent } from './components/homeAPP/search-bar/search-bar.component';
 import { CommonModule } from '@angular/common';
@@ -20,29 +20,24 @@ import { InputOtpModule } from 'primeng/inputotp';
 import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { ToastModule } from 'primeng/toast';
-import { FaqComponent } from './components/faq/faq.component';
-import { AppSiderComponent } from './components/profilePages/app-sider/app-sider.component';
-import { AuthModule } from './components/auth/auth.module';
-import { AuthComponent } from './components/auth/auth.component';
+// import { FaqComponent } from './components/faq/faq.component';
+// import { AppSiderComponent } from './components/profilePages/app-sider/app-sider.component';
+
+
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-  // AuthComponent,
-
-    //  HeaderComponent,
-     FooterComponent,
-    //  FaqComponent
-    // AppSiderComponent
+   
+  AuthComponent
 
   ],
   imports: [
-    BrowserModule,
-    AppRoutingModule,
-    HomeAPPModule,
-    HttpClientModule,
-    BrowserAnimationsModule ,
+    // BrowserModule,
+    
+ 
+    // HttpClientModule,
+    // BrowserAnimationsModule ,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -51,12 +46,11 @@ import { AuthComponent } from './components/auth/auth.component';
     DropdownModule,
     CalendarModule,
     ToastModule,
-    AuthModule
 
   ],
- 
+  exports: [AuthComponent],
   providers: [MessageService],
-  bootstrap: [AppComponent],
+ 
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
-export class AppModule { }
+export class AuthModule { }

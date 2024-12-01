@@ -48,378 +48,246 @@ interface Country {
     ])
   ]
 })
-export class AppComponent implements OnInit, AfterViewInit  {
+export class AppComponent implements OnInit  {
 
-  signupForm!: FormGroup;
-  forgetForm!: FormGroup;
-  finishSignupForm!: FormGroup;
-  countries: { name: string; code: string; flag: string }[] = [];
-  selectedCountry: any;
-  isLoggedIn:any;
+  // signupForm!: FormGroup;
+  // forgetForm!: FormGroup;
+  // finishSignupForm!: FormGroup;
+  // countries: { name: string; code: string; flag: string }[] = [];
+  // selectedCountry: any;
+  // isLoggedIn:any;
 
   constructor(private router: Router,private authService: AuthService,private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef,private apartmentSearchService: ApartmentSearchService) {}
-  passwordFieldType: string = 'password'; // This controls the input type
-  passwordFieldTypee: string = 'password';
-  togglePasswordVisibility(): void {
-    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
-  }
-  togglePasswordVisibilityconfirm(): void {
-    this.passwordFieldTypee = this.passwordFieldTypee === 'password' ? 'text' : 'password';
-  }
-  // onLoginMethodChange(event: Event) {
-  //   const inputElement = event.target as HTMLInputElement;
-  //   this.loginMethod = inputElement.value;
-  //   console.log('Login method changed to:', this.loginMethod);
-
-  //   if (this.loginMethod === 'whatsApp') {
-  //     console.log('Login method changed to:', this.loginMethod);
-  //     setTimeout(() => {
-  //       const input = document.querySelector("#phonee") as HTMLInputElement;
-  //       if (input && !input.dataset['itiInitialized']) {
-  //         console.log('Initializing intlTelInput');
-  //         const iti = intlTelInput(input, {
-  //           initialCountry: "de",
-  //           preferredCountries: ["de", "us", "gb"],
-  //           separateDialCode: true,
-  //           utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-  //         });
-  //         input.dataset['itiInitialized'] = 'true';
-  //       }
-  //     }, 1000);
-  //   }
+  // passwordFieldType: string = 'password';  
+  // passwordFieldTypee: string = 'password';
+  // togglePasswordVisibility(): void {
+  //   this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
   // }
-  // ngAfterViewChecked() {
+  // togglePasswordVisibilityconfirm(): void {
+  //   this.passwordFieldTypee = this.passwordFieldTypee === 'password' ? 'text' : 'password';
+  // }
+ 
 
+
+
+  // ngAfterViewChecked() {
 
   //   if (this.loginMethod === 'whatsApp') {
   //     const input = document.querySelector("#phonee") as HTMLInputElement;
-
+ 
   //     if (input && !input.dataset['itiInitialized']) {
-  //       console.log('Phone input element found:', input);
+  //       console.log('Phone input element found and initializing intlTelInput:', input);
 
-
+ 
   //       const iti = intlTelInput(input, {
   //         initialCountry: "de",
   //         preferredCountries: ["de", "us", "gb"],
   //         separateDialCode: true,
-  //         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+         
+  //         utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+  //          searchCountry:true,
+  //         useFullscreenPopup: false,
+
   //       });
 
+
+
+
+
   //       input.dataset['itiInitialized'] = 'true';
+  //       console.log(input.dataset['itiInitialized'])
+
+
+  //       input.addEventListener('blur', () => {
+  //         let fullPhoneNumber = iti.getNumber();
+  //         if (fullPhoneNumber.startsWith("+")) {
+  //           fullPhoneNumber = fullPhoneNumber.substring(1);
+  //         }
+  //         console.log("Full phone number:", fullPhoneNumber);
+  //         this.loginForm.patchValue({ mobile: fullPhoneNumber });
+  //         console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
+  //       });
 
 
 
-  ngAfterViewChecked() {
-
-    if (this.loginMethod === 'whatsApp') {
-      const input = document.querySelector("#phonee") as HTMLInputElement;
-
-      // Check if the input exists and hasn't been initialized before
-      if (input && !input.dataset['itiInitialized']) {
-        console.log('Phone input element found and initializing intlTelInput:', input);
-
-        // Initialize intlTelInput
-        const iti = intlTelInput(input, {
-          initialCountry: "de",
-          preferredCountries: ["de", "us", "gb"],
-          separateDialCode: true,
-          // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
-           searchCountry:true,
-          useFullscreenPopup: false,
-
-        });
+  //       input.addEventListener("countrychange", function() {
 
 
 
+  //   const flagContainer = document.querySelector(".iti__selected-flag");
+  //   const dialCodeElement = document.querySelector(".iti__dial-code");
+  //   console.log(flagContainer,dialCodeElement)
 
-
-        input.dataset['itiInitialized'] = 'true';
-        console.log(input.dataset['itiInitialized'])
-
-
-        input.addEventListener('blur', () => {
-          let fullPhoneNumber = iti.getNumber();
-          if (fullPhoneNumber.startsWith("+")) {
-            fullPhoneNumber = fullPhoneNumber.substring(1);
-          }
-          console.log("Full phone number:", fullPhoneNumber);
-          this.loginForm.patchValue({ mobile: fullPhoneNumber });
-          console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-        });
-
-
-
-        input.addEventListener("countrychange", function() {
-
-
-
-    const flagContainer = document.querySelector(".iti__selected-flag");
-    const dialCodeElement = document.querySelector(".iti__dial-code");
-    console.log(flagContainer,dialCodeElement)
-
-    if (flagContainer) {
-        flagContainer.classList.remove("iti__selected-flag");
-    }
-    if (dialCodeElement) {
-        dialCodeElement.textContent = '';
-    }
-
-
-    const selectedCountryData = iti.getSelectedCountryData();
-
-
-    if (flagContainer) {
-        flagContainer.classList.add("iti__selected-flag");
-        dialCodeElement!.textContent = "+" + selectedCountryData.dialCode;
-    }
-
-    console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
-
-
-      });
-      }
-    }
-
-
-  }
-
-
-
-  // ngOnChanges(changes: SimpleChanges) {
-
-
-
-  //   const input = document.querySelector("#phone");
-
-  //   if (input) {
-  //     const iti = intlTelInput(input, {
-  //       initialCountry: "de",
-  //       preferredCountries: ["de", "us", "gb"],
-  //       separateDialCode: true,
-  //       utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-  //     });
-
-
-  //     input.addEventListener('blur', () => {
-  //       let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
-  //       if (fullPhoneNumber.startsWith("+")) {
-  //         fullPhoneNumber = fullPhoneNumber.substring(1);
-  //       }
-  //       console.log("Full phone number:", fullPhoneNumber);
-  //       this.loginForm.patchValue({ mobile: fullPhoneNumber });
-  //       console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-  //        console.log(typeof( this.loginForm.value.mobile))
-  //     });
-  //   } else {
-  //     console.error("The phone input element was not found.");
+  //   if (flagContainer) {
+  //       flagContainer.classList.remove("iti__selected-flag");
   //   }
+  //   if (dialCodeElement) {
+  //       dialCodeElement.textContent = '';
+  //   }
+
+
+  //   const selectedCountryData = iti.getSelectedCountryData();
+
+
+  //   if (flagContainer) {
+  //       flagContainer.classList.add("iti__selected-flag");
+  //       dialCodeElement!.textContent = "+" + selectedCountryData.dialCode;
+  //   }
+
+  //   console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+
+
+  //     });
+  //     }
+  //   }
+
+
   // }
+
+
+
+ 
+
+ 
   ngOnInit(): void {
 
-    this.userService.modalVisibility$.subscribe(show => {
-      // this.displayModalsign = show ? 'block' : 'none';
-      this.isVisiblelogin = show ? 'block' : 'none';
+    // this.userService.modalVisibility$.subscribe(show => {
+      
+    //   this.isVisiblelogin = show ? 'block' : 'none';
 
-    });
-
-
-
-
-    this.userService.initGoogleAuth();
-
-    this.loginMethod='whatsApp';
-
-    this.isLoggedIn = this.isAuthenticated();
-    this.options=[  { name: 'Male', code: 'NY' },
-      { name: 'Female', code: 'RM' } ];
-
-      this.loginForm = this.fb.group({
-        mobile: '',
-
-        email: '',
-        password: [''],
-
-      } );
-      this.forgetForm=this.fb.group({
-        password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
-        confirmPassword: ['', Validators.required]
-      }, { validator: this.passwordMatchValidator });
-
-      // const inputlogin = document.querySelector("#phonee");
-
-      // if (inputlogin) {
-      //   const iti = intlTelInput(inputlogin, {
-      //     initialCountry: "de",
-      //     preferredCountries: ["de", "us", "gb"],
-      //     separateDialCode: true,
-      //     utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
-      //   });
-
-
-      //   inputlogin.addEventListener('blur', () => {
-      //     let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
-      //     if (fullPhoneNumber.startsWith("+")) {
-      //       fullPhoneNumber = fullPhoneNumber.substring(1);
-      //     }
-      //     console.log("Full phone number:", fullPhoneNumber);
-      //     this.loginForm.patchValue({ mobile: fullPhoneNumber });
-      //     console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-      //      console.log(typeof( this.loginForm.value.mobile))
-      //   });
-      // } else {
-      //   console.error("The phone input element was not found.");
-      // }
-
-      this.signupForm = this.fb.group({
-        mobile: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
-        fullName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-        // email: ['', [Validators.required, Validators.email]],
-        password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
-        confirmPassword: ['', Validators.required]
-      }, { validator: this.passwordMatchValidator });
+    // });
 
 
 
 
-      const input = document.querySelector("#phone") as HTMLInputElement;
+    // this.userService.initGoogleAuth();
 
-      if (input) {
-        const iti = intlTelInput(input, {
-          initialCountry: "de",  // الدولة الافتراضية
-          preferredCountries: ["de", "us", "gb"],  // الدول المفضلة
-          separateDialCode: true,  // فصل كود الدولة
-          // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-          utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
-           searchCountry:true,
-          useFullscreenPopup: false , // تحميل سكربت الأدوات المساعدة
+    // this.loginMethod='whatsApp';
 
-        });
+    // this.isLoggedIn = this.isAuthenticated();
+    // this.options=[  { name: 'Male', code: 'NY' },
+    //   { name: 'Female', code: 'RM' } ];
 
-        input.addEventListener("countrychange", function() {
-        // Clear the previous flag and dial code
-    const flagContainer = document.querySelector(".iti__selected-flag");
-    const dialCodeElement = document.querySelector(".iti__dial-code");
+    //   this.loginForm = this.fb.group({
+    //     mobile: '',
 
-    // Remove previous flag and code visually
-    if (flagContainer) {
-        flagContainer.classList.remove("iti__selected-flag");
-    }
-    if (dialCodeElement) {
-        dialCodeElement.textContent = ''; // Clear the dial code
-    }
+    //     email: '',
+    //     password: [''],
 
-    // Get the new country data and update the flag and code
-    const selectedCountryData = iti.getSelectedCountryData();
+    //   } );
+    //   this.forgetForm=this.fb.group({
+    //     password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
+    //     confirmPassword: ['', Validators.required]
+    //   }, { validator: this.passwordMatchValidator });
 
-    // Reapply the new flag and dial code
-    if (flagContainer) {
-        flagContainer.classList.add("iti__selected-flag"); // Re-add flag class
-        dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; // Set the new dial code
-    }
+      
 
-    // Optional: Log the new selected country and dial code
-    console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
-      });
+    //   this.signupForm = this.fb.group({
+    //     mobile: ['', [Validators.required, Validators.pattern(/^\d{10,15}$/)]],
+    //     fullName: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+         
+    //     password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
+    //     confirmPassword: ['', Validators.required]
+    //   }, { validator: this.passwordMatchValidator });
 
-        // حدث عند فقدان التركيز على الحقل
-        input.addEventListener('blur', () => {
-          // let fullPhoneNumber = iti.getNumber(iti.numberFormat.E164);
-          let fullPhoneNumber = iti.getNumber();
 
-          if (fullPhoneNumber.startsWith("+")) {
-            fullPhoneNumber = fullPhoneNumber.substring(1);  // إزالة رمز "+"
-          }
-          console.log("Full phone number:", fullPhoneNumber);
-          this.signupForm.patchValue({ mobile: fullPhoneNumber });
-          console.log("Updated mobile field in the form:", this.signupForm.value.mobile);
-           console.log(typeof( this.signupForm.value.mobile))
-        });
 
-      } else {
-        console.error("The phone input element was not found.");
-      }
+
+    //   const input = document.querySelector("#phone") as HTMLInputElement;
+
+    //   if (input) {
+    //     const iti = intlTelInput(input, {
+    //       initialCountry: "de",   
+    //       preferredCountries: ["de", "us", "gb"],  
+    //       separateDialCode: true, 
+ 
+    //       utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+    //        searchCountry:true,
+    //       useFullscreenPopup: false , 
+
+    //     });
+
+    //     input.addEventListener("countrychange", function() {
+   
+    // const flagContainer = document.querySelector(".iti__selected-flag");
+    // const dialCodeElement = document.querySelector(".iti__dial-code");
+
+   
+    // if (flagContainer) {
+    //     flagContainer.classList.remove("iti__selected-flag");
+    // }
+    // if (dialCodeElement) {
+    //     dialCodeElement.textContent = ''; 
+    // }
+
+    
+    // const selectedCountryData = iti.getSelectedCountryData();
+
+ 
+    // if (flagContainer) {
+    //     flagContainer.classList.add("iti__selected-flag"); 
+    //     dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; 
+    // }
+
+ 
+    // console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+    //   });
+
+  
+    //     input.addEventListener('blur', () => {
+    
+    //       let fullPhoneNumber = iti.getNumber();
+
+    //       if (fullPhoneNumber.startsWith("+")) {
+    //         fullPhoneNumber = fullPhoneNumber.substring(1);  
+    //       }
+    //       console.log("Full phone number:", fullPhoneNumber);
+    //       this.signupForm.patchValue({ mobile: fullPhoneNumber });
+    //       console.log("Updated mobile field in the form:", this.signupForm.value.mobile);
+    //        console.log(typeof( this.signupForm.value.mobile))
+    //     });
+
+    //   } else {
+    //     console.error("The phone input element was not found.");
+    //   }
 
 
 
 
 
 
-      this.finishSignupForm = this.fb.group({
-        country: ['', Validators.required],
-        // email: ['', [Validators.required, Validators.email]],
-        email: [''],
+    //   this.finishSignupForm = this.fb.group({
+    //     country: ['', Validators.required],
+      
+    //     email: [''],
 
-        gender: ['', Validators.required],
-        birthday: ['', Validators.required],
-        mobile:['']
-      });
-      this.http.get<any>('https://restcountries.com/v3.1/all').subscribe((data) => {
-        console.log(data);
-        this.countries = data.map((country:any) => ({
-          name: country.name.common,
-          code: country.cca2,
-          flag: country.flags.svg
-        }));
-      });
+    //     gender: ['', Validators.required],
+    //     birthday: ['', Validators.required],
+    //     mobile:['']
+    //   });
+    //   this.http.get<any>('https://restcountries.com/v3.1/all').subscribe((data) => {
+    //     console.log(data);
+    //     this.countries = data.map((country:any) => ({
+    //       name: country.name.common,
+    //       code: country.cca2,
+    //       flag: country.flags.svg
+    //     }));
+    //   });
 
 
   }
 
-  ngAfterViewInit(): void {
+//   ngAfterViewInit(): void {
 
-//     const inputlogin = document.querySelector("#phonee") as HTMLInputElement;
-
-//     if (inputlogin) {
-//       const iti = intlTelInput(inputlogin, {
-//         initialCountry: "de",
-//         preferredCountries: ["de", "us", "gb"],
-//         separateDialCode: true,
-//         utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js" ,
-//         useFullscreenPopup: false
-//       });
-//       inputlogin.addEventListener("countrychange", function() {
-
-//  const flagContainer = document.querySelector(".iti__selected-flag");
-//  const dialCodeElement = document.querySelector(".iti__dial-code");
+ 
 
 
-//  if (flagContainer) {
-//      flagContainer.classList.remove("iti__selected-flag");
-//  }
-//  if (dialCodeElement) {
-//      dialCodeElement.textContent = '';
-//  }
+ 
 
 
-//  const selectedCountryData = iti.getSelectedCountryData();
+ 
 
-
-//  if (flagContainer) {
-//      flagContainer.classList.add("iti__selected-flag");
-//      dialCodeElement!.textContent = "+" + selectedCountryData.dialCode;
-//  }
-
-
-//  console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
-//     });
-
-
-//       inputlogin.addEventListener('blur', () => {
-//         let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
-//         if (fullPhoneNumber.startsWith("+")) {
-//           fullPhoneNumber = fullPhoneNumber.substring(1);
-//         }
-//         console.log("Full phone number:", fullPhoneNumber);
-//         this.loginForm.patchValue({ mobile: fullPhoneNumber });
-//         console.log("Updated mobile field in the form:", this.loginForm.value.mobile);
-//          console.log(typeof( this.loginForm.value.mobile))
-//       });
-//     } else {
-//       console.error("The phone input element was not found.");
-//     }
-
-    this.loginForm.reset();
+//     this.loginForm.reset();
 
 
 
@@ -429,17 +297,17 @@ export class AppComponent implements OnInit, AfterViewInit  {
 
 
 
-  }
+//   }
 
 
 
 
-  title = 'StudiFlats';
-  message: any = null;
-  value: string = '';
-  options:any;
-  selectedOption:string='';
-  birthday:any;
+//   title = 'StudiFlats';
+//   message: any = null;
+//   value: string = '';
+//   options:any;
+//   selectedOption:string='';
+//   birthday:any;
 
 
 
@@ -455,573 +323,531 @@ export class AppComponent implements OnInit, AfterViewInit  {
     }
   }
 
-  activeIndex: number = 0;
-
-onStepChange(event: any) {
- this.activeIndex = event.index;
-}
-showBooking:boolean=true;
-
-onsubmitLogin(){
-this.showBooking=true;
-}
-
-displayModalsign:any;
-openModalSign(){
-
-   this.displayModalsign='block';
-   this.hideLogin();
-}
-onCloseSignModal() {
-  this.displayModalsign='none';
-  this.displayInfo='none';
-  this.displayVerify='none';
-  this.displayVerifyForget='none';
-  this.userService.closeModal();
-}
-displayVerify:any
-isOtpValid:boolean=false;
-uuidforgot:any;
-resetToken:any;
+//   activeIndex: number = 0;
+
+// onStepChange(event: any) {
+//  this.activeIndex = event.index;
+// }
+// showBooking:boolean=true;
+
+// onsubmitLogin(){
+// this.showBooking=true;
+// }
+
+// displayModalsign:any;
+// openModalSign(){
+
+//    this.displayModalsign='block';
+//    this.hideLogin();
+// }
+// onCloseSignModal() {
+//   this.displayModalsign='none';
+//   this.displayInfo='none';
+//   this.displayVerify='none';
+//   this.displayVerifyForget='none';
+//   this.userService.closeModal();
+// }
+// displayVerify:any
+// isOtpValid:boolean=false;
+// uuidforgot:any;
+// resetToken:any;
 
-openverifyModal(){
+// openverifyModal(){
 
 
-let mobileAPI=null;
+// let mobileAPI=null;
 
-  mobileAPI=this.loginForm.value.mobile;
-  console.log(mobileAPI)
+//   mobileAPI=this.loginForm.value.mobile;
+//   console.log(mobileAPI)
 
-if(mobileAPI===null){
-  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'you must write your phone' });
+// if(mobileAPI===null){
+//   this.messageService.add({ severity: 'error', summary: 'Error', detail: 'you must write your phone' });
 
-}else{
-
-
-
-  this.userService.sendForgotPasswordOtp(mobileAPI).subscribe(
-    response => {
-      // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
-      console.log('OTP sent successfully', response);
-      this.uuidforgot=response.uuid;
-      this.resetToken=response.reset_Token;
-      localStorage.setItem('token', response.reset_Token);
-      this.displayModalsign='none';
-       this.isVisiblelogin = 'none';
+// }else{
+
+
+
+//   this.userService.sendForgotPasswordOtp(mobileAPI).subscribe(
+//     response => {
+    
+//       console.log('OTP sent successfully', response);
+//       this.uuidforgot=response.uuid;
+//       this.resetToken=response.reset_Token;
+//       localStorage.setItem('token', response.reset_Token);
+//       this.displayModalsign='none';
+//        this.isVisiblelogin = 'none';
 
-        this.displayVerifyForget='block'
+//         this.displayVerifyForget='block'
 
-    },
-    error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message,life: 500 });
-      console.error('Error sending OTP', error);
-      // Handle error, e.g., show an error message to the user
-    }
-  );
-}
-}
-displayInfo:any;
-openInfoModal(){
-  this.displayInfo='block';
-}
-displayForgetPass:any;
+//     },
+//     error => {
+//       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message,life: 500 });
+//       console.error('Error sending OTP', error);
+ 
+//     }
+//   );
+// }
+// }
+// displayInfo:any;
+// openInfoModal(){
+//   this.displayInfo='block';
+// }
+// displayForgetPass:any;
 
-openForgetModal(){
+// openForgetModal(){
 
-    this.userService.checkOtp(this.otp, this.uuidforgot).subscribe(
-      response => {
-        // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
-        console.log('OTP verified successfully', response);
-        this.displayForgetPass='block';
-        this.displayVerifyForget='none'
-         this.isVisiblelogin = 'none';
-      },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-        console.error('Error verifying OTP', error);
+//     this.userService.checkOtp(this.otp, this.uuidforgot).subscribe(
+//       response => {
+         
+//         console.log('OTP verified successfully', response);
+//         this.displayForgetPass='block';
+//         this.displayVerifyForget='none'
+//          this.isVisiblelogin = 'none';
+//       },
+//       error => {
+//         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+//         console.error('Error verifying OTP', error);
 
-      }
-    );
+//       }
+//     );
 
 
-}
-displayVerifyForget:any;
+// }
+// displayVerifyForget:any;
 
-openChangeModal(){
-  this.displayForgetPass='block';
-  this.displayVerifyForget='none'
-  this.isVisiblelogin = 'none';
-}
+// openChangeModal(){
+//   this.displayForgetPass='block';
+//   this.displayVerifyForget='none'
+//   this.isVisiblelogin = 'none';
+// }
 
 
 
 
-passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | null {
-  const password = group.get('password')?.value;
-  const confirmPassword = group.get('confirmPassword')?.value;
-  return password === confirmPassword ? null : { 'mismatch': true };
-}
-passwordStrengthValidator(control: AbstractControl): { [key: string]: boolean } | null {
-  const password = control.value;
-  if (!password) {
-    return null;
-  }
+// passwordMatchValidator(group: AbstractControl): { [key: string]: boolean } | null {
+//   const password = group.get('password')?.value;
+//   const confirmPassword = group.get('confirmPassword')?.value;
+//   return password === confirmPassword ? null : { 'mismatch': true };
+// }
+// passwordStrengthValidator(control: AbstractControl): { [key: string]: boolean } | null {
+//   const password = control.value;
+//   if (!password) {
+//     return null;
+//   }
 
 
-  const hasUpperCase = /[A-Z]/.test(password);
-  const hasLowerCase = /[a-z]/.test(password);
-  const hasNumeric = /[0-9]/.test(password);
-  const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+//   const hasUpperCase = /[A-Z]/.test(password);
+//   const hasLowerCase = /[a-z]/.test(password);
+//   const hasNumeric = /[0-9]/.test(password);
+//   const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
 
-  const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecial;
-  return valid ? null : { 'weakPassword': true };
-}
+//   const valid = hasUpperCase && hasLowerCase && hasNumeric && hasSpecial;
+//   return valid ? null : { 'weakPassword': true };
+// }
 
 
 
 
-logout(): void {
+// logout(): void {
 
 
-  // const deviceToken = 'your_device_token_here'; // Replace with the actual device token
-  this.userService.logout().subscribe(
-    response => {
+ 
+//   this.userService.logout().subscribe(
+//     response => {
 
-      console.log('Logout successful', response);
-      localStorage.removeItem('token');
-      this.router.navigate(['/']);
-      // Handle successful logout (e.g., redirect to login page)
-    },
-    error => {
-      console.error('Logout failed', error);
-      localStorage.removeItem('token');
-      // Handle logout error
-    }
-  );
+//       console.log('Logout successful', response);
+//       localStorage.removeItem('token');
+//       this.router.navigate(['/']);
+ 
+//     },
+//     error => {
+//       console.error('Logout failed', error);
+//       localStorage.removeItem('token');
+      
+//     }
+//   );
 
 
 
 
 
-}
+// }
+
+// isAuthenticated(): boolean {
+
+//   return !!localStorage.getItem('token');
+// }
+
+// onForgetSubmit(): void {
+//   const password = this.forgetForm.get('password')?.value;
+//   const confirmPassword = this.forgetForm.get('confirmPassword')?.value;
+
+
+//   this.userService.resetPassword(password, confirmPassword, this.uuidforgot, this.resetToken).subscribe(
+//     response => {
+//       this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+//       console.log('Password reset successfully', response);
+//       this.displayForgetPass='none';
+ 
+//     },
+//     error => {
+//       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+//       console.error('Error resetting password', error);
+       
+//     }
+//   );
+// }
+
+
+// onSubmit(): void {
+// console.log(this.signupForm)
+
+ 
+
+
+//     const userAccount = {
+//       mobile: this.signupForm.value.mobile,
+//       fullName: this.signupForm.value.fullName,
+//       password: this.signupForm.value.password,
+//       confirm_Password: this.signupForm.value.confirmPassword
+//     };
+//     Globals.name = userAccount.fullName;
+//     localStorage.setItem('name', Globals.name);
+ 
+//     if (isValidEmail(userAccount.mobile)) {
+//       Globals.email = userAccount.mobile;
+//       localStorage.setItem('email', Globals.email);
+//     } else {
+//       Globals.phone = userAccount.mobile;
+//       localStorage.setItem('phone', Globals.phone);
+//     }
+
+//     console.log('Sending user data to API:', userAccount);
+//     this.userService.createUser(userAccount).subscribe(
+//       response => {
+        
+//         console.log('User account created successfully', response);
+ 
+//         this.displayVerify='block';
+//         this.uuid=response.uuid;
+
+
+
+//       },
+//       error => {
+//         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+//         console.error('Error creating user account', error);
+
+//       }
+//     );
+ 
+// }
+
+
+// uuid:string='';
+// reuuid:string='';
+// otp:string='';
+// onVerifyOtp(): void {
+//   this.userService.checkOtp(this.otp, this.uuid).subscribe(
+//     response => {
+       
+//       console.log('OTP verified successfully', response);
+//       this.displayModalsign='none';
+//       this.displayVerify='none';
+
+//       this.openInfoModal()
 
-isAuthenticated(): boolean {
+//     },
+//     error => {
+//       this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+//       console.error('Error verifying OTP', error);
 
-  return !!localStorage.getItem('token');
-}
-
-onForgetSubmit(): void {
-  const password = this.forgetForm.get('password')?.value;
-  const confirmPassword = this.forgetForm.get('confirmPassword')?.value;
-
-
-  this.userService.resetPassword(password, confirmPassword, this.uuidforgot, this.resetToken).subscribe(
-    response => {
-      this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
-      console.log('Password reset successfully', response);
-      this.displayForgetPass='none';
-      // Handle success, e.g., navigate to a login page or show a success message
-    },
-    error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-      console.error('Error resetting password', error);
-      // Handle error, e.g., show an error message to the user
-    }
-  );
-}
-
-
-onSubmit(): void {
-console.log(this.signupForm)
-
-  // if (this.signupForm.valid) {
-
-
-    const userAccount = {
-      mobile: this.signupForm.value.mobile,
-      fullName: this.signupForm.value.fullName,
-      password: this.signupForm.value.password,
-      confirm_Password: this.signupForm.value.confirmPassword
-    };
-    Globals.name = userAccount.fullName;
-    localStorage.setItem('name', Globals.name);
-
-    // Determine whether the mobile input is an email or phone number
-    if (isValidEmail(userAccount.mobile)) {
-      Globals.email = userAccount.mobile;
-      localStorage.setItem('email', Globals.email);
-    } else {
-      Globals.phone = userAccount.mobile;
-      localStorage.setItem('phone', Globals.phone);
-    }
-
-    console.log('Sending user data to API:', userAccount);
-    this.userService.createUser(userAccount).subscribe(
-      response => {
-        // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
-        console.log('User account created successfully', response);
-        // this.openverifyModal();
-        this.displayVerify='block';
-        this.uuid=response.uuid;
-
-
-
-      },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-        console.error('Error creating user account', error);
-
-      }
-    );
-  // } else {
-  //   console.error('Form is invalid');
-  //   this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
-  //   this.signupForm.markAllAsTouched();
-  // }
-}
-
-
-uuid:string='';
-reuuid:string='';
-otp:string='';
-onVerifyOtp(): void {
-  this.userService.checkOtp(this.otp, this.uuid).subscribe(
-    response => {
-      // this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
-      console.log('OTP verified successfully', response);
-      this.displayModalsign='none';
-      this.displayVerify='none';
-
-      this.openInfoModal()
+//     }
+//   );
+// }
+// refreshOtp(): void {
 
-    },
-    error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-      console.error('Error verifying OTP', error);
+//   this.userService.refreshOtp(this.uuidforgot).subscribe(
+//     (response) => {
+//       console.log('OTP refreshed successfully:', response);
+//     },
+//     (error) => {
+//       console.error('Error refreshing OTP:', error);
+//     }
+//   );
+// }
 
-    }
-  );
-}
-refreshOtp(): void {
+// emailGoogle:boolean=false;
+// provider:any;
+// mobileSocial:any;
+// onFinishSignSubmit() {
+//   if (this.finishSignupForm.valid) {
+//     const formData = this.finishSignupForm.value;
+//     const genderName = formData.gender.name;
+ 
+//     this.provider='Local';
+//     if(this.socialSign){
+//       this.provider='Google';
 
-  this.userService.refreshOtp(this.uuidforgot).subscribe(
-    (response) => {
-      console.log('OTP refreshed successfully:', response);
-    },
-    (error) => {
-      console.error('Error refreshing OTP:', error);
-    }
-  );
-}
+//     }
+//     this.userService.sendUserData(
+//       formData.email,
+//       genderName,
+//       formData.country,
+//       formData.birthday,
+//       this.uuid,
+//       this.mobileSocial,
+//       this.provider
+//     ).subscribe(
+//       response => {
+//         this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+//         console.log('Form Submitted Successfully:', response);
+//         this.displayInfo='none';
+//         if(this.socialSign===false){
+//           setTimeout(() => {
 
-emailGoogle:boolean=false;
-provider:any;
-mobileSocial:any;
-onFinishSignSubmit() {
-  if (this.finishSignupForm.valid) {
-    const formData = this.finishSignupForm.value;
-    const genderName = formData.gender.name;
+//             this.isVisiblelogin='block';
 
-    // formData.email=
-    this.provider='Local';
-    if(this.socialSign){
-      this.provider='Google';
+//           },  3000);
+//         }
+//           this.socialSign=false;
 
-    }
-    this.userService.sendUserData(
-      formData.email,
-      genderName,
-      formData.country,
-      formData.birthday,
-      this.uuid,
-      this.mobileSocial,
-      this.provider
-    ).subscribe(
-      response => {
-        this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
-        console.log('Form Submitted Successfully:', response);
-        this.displayInfo='none';
-        if(this.socialSign===false){
-          setTimeout(() => {
+//       },
+//       error => {
+//         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+//         console.error('Error submitting form:', error);
+ 
 
-            this.isVisiblelogin='block';
+//       }
+//     );
+//   } else {
+//     console.error(this.finishSignupForm);
+//     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
+//     this.finishSignupForm.markAllAsTouched();
+//   }
+// }
 
-          },  3000);
-        }
-          this.socialSign=false;
 
-      },
-      error => {
-        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-        console.error('Error submitting form:', error);
-        // this.socialSign=false;
 
-      }
-    );
-  } else {
-    console.error(this.finishSignupForm);
-    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
-    this.finishSignupForm.markAllAsTouched();
-  }
-}
+// isVisiblelogin='none';
+// loginMethod: string = 'whatsApp';
+//   loginForm!: FormGroup;
+//   showLogin(): void {
+
 
 
 
-isVisiblelogin='none';
-loginMethod: string = 'whatsApp';
-  loginForm!: FormGroup;
-  showLogin(): void {
+//     if (!this.isAuthenticated()) {
 
+//       this.isVisiblelogin = 'block';
 
+//       this.displayModalsign='none';
 
+//     this.displayInfo='none';
+//     this.displayVerify='none'
+//     this.displayVerifyForget='none'
+
+//     }else{
+//       this.logout();
+//       this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'you logged out successfully' });
+
+
+//     }
+
+
+
+
+
+//   }
 
-    if (!this.isAuthenticated()) {
 
-      this.isVisiblelogin = 'block';
 
-      this.displayModalsign='none';
+//   hideLogin(): void {
+//     this.isVisiblelogin = 'none';
+//     this.displayForgetPass='none';
+//   }
+// onLoginSubmit(): void {
+//   console.log(this.loginForm)
+//     let mobileAPI='';
+//     let pass=this.loginForm.value.password;
+//     console.log(this.loginForm.value)
 
-    this.displayInfo='none';
-    this.displayVerify='none'
-    this.displayVerifyForget='none'
-
-    }else{
-      this.logout();
-      this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: 'you logged out successfully' });
+//     if (this.loginForm.valid) {
 
+   
+//       if(this.loginMethod==='email'){
+//         mobileAPI=this.loginForm.value.email;
+//       }else if(this.loginMethod==='whatsApp'){
+//         mobileAPI=this.loginForm.value.mobile;
+//       }
 
-    }
+//       console.log('Sending user data to API:',this.loginForm.value.mobile,this.loginForm.value.email );
+//       this.userService.loginUser(mobileAPI,pass).subscribe(
+//         response => {
+//           this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
+//           console.log('User account created successfully', response);
+//           localStorage.setItem('token', response.token);
+//           this.getProfileData(response.token);
 
 
+       
 
 
+//          this.hideLogin();
 
-  }
-
 
+//         },
+//         error => {
+//           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
+//           console.error('Error creating user account', error);
+//           if(error.error.message==="Oops!! Your Profile isn't completed yet , Please complete it"){
+//              this.displayInfo='block';
+//              this.isVisiblelogin='none';
+//              this.uuid=error.error.uuid;
+//           }
 
-  hideLogin(): void {
-    this.isVisiblelogin = 'none';
-    this.displayForgetPass='none';
-  }
-onLoginSubmit(): void {
-  console.log(this.loginForm)
-    let mobileAPI='';
-    let pass=this.loginForm.value.password;
-    console.log(this.loginForm.value)
-
-    if (this.loginForm.valid) {
+//         }
+//       );
+//     } else {
+//       console.error('Form is invalid');
+//       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
+//       this.loginForm.markAllAsTouched();
 
-      // if(this.loginForm.value.mobile===null){
-      //   mobileAPI=this.loginForm.value.email;
-      // }else if(this.loginForm.value.email===null){
-      //   mobileAPI=this.loginForm.value.mobile;
-      // }
-      if(this.loginMethod==='email'){
-        mobileAPI=this.loginForm.value.email;
-      }else if(this.loginMethod==='whatsApp'){
-        mobileAPI=this.loginForm.value.mobile;
-      }
+//   }
+// }
 
-      console.log('Sending user data to API:',this.loginForm.value.mobile,this.loginForm.value.email );
-      this.userService.loginUser(mobileAPI,pass).subscribe(
-        response => {
-          this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
-          console.log('User account created successfully', response);
-          localStorage.setItem('token', response.token);
-          this.getProfileData(response.token);
 
+// profileData: any;
+// getProfileData(token:any): void {
+//   this.userService.getProfile().subscribe(
+//     data => {
+//       this.profileData = data;
+//       console.log('ProfileData :',this.profileData);
+//       this.userName= this.profileData[0]?.fullName;
+ 
+//       this.authService.login(this.userName, token);
+//     },
+//     error => {
+//       console.error('There was an error!', error);
+//     }
+//   );
+// }
+//      userName:any;
 
-        //  let namelogin:any= localStorage.getItem('name');
 
-        //   let emaillogin:any=  localStorage.getItem('email');
 
-        //     let phonelogin:any =localStorage.getItem('phone');
+ 
+// input:any=null;
+// initMobileSocial(){
+//   console.log('heeeee')
+//   const input = document.querySelector("#socialPhone") as HTMLInputElement;
+//   this.input=input;
+ 
+//   if (input && !input.dataset['itiInitialized']) {
+//     console.log('Phone input element found and initializing intlTelInput:', input);
+ 
+//     const iti = intlTelInput(input, {
+//       initialCountry: "de",
+//       preferredCountries: ["de", "us", "gb"],
+//       separateDialCode: true,
+       
+//       utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+//        searchCountry:true,
+//       useFullscreenPopup: false,
 
-        //     localStorage.setItem('namelogin', namelogin);
-        //     localStorage.setItem('emaillogin',emaillogin);
-        //     localStorage.setItem('phonelogin', phonelogin);
+//     });
 
 
-         this.hideLogin();
 
 
-        },
-        error => {
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
-          console.error('Error creating user account', error);
-          if(error.error.message==="Oops!! Your Profile isn't completed yet , Please complete it"){
-             this.displayInfo='block';
-             this.isVisiblelogin='none';
-             this.uuid=error.error.uuid;
-          }
 
-        }
-      );
-    } else {
-      console.error('Form is invalid');
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'signed failed' });
-      this.loginForm.markAllAsTouched();
+//     input.dataset['itiInitialized'] = 'true';
+//     console.log(input.dataset['itiInitialized'])
 
-  }
-}
 
+//     input.addEventListener('blur', () => {
+//       let fullPhoneNumber = iti.getNumber();
+//       if (fullPhoneNumber.startsWith("+")) {
+//         fullPhoneNumber = fullPhoneNumber.substring(1);
+//       }
+//       console.log("Full phone number:", fullPhoneNumber);
+//       this.mobileSocial=fullPhoneNumber;
+//       console.log("Updated mobile field in the form:",this.mobileSocial);
+//     });}
+// }
 
-profileData: any;
-getProfileData(token:any): void {
-  this.userService.getProfile().subscribe(
-    data => {
-      this.profileData = data;
-      console.log('ProfileData :',this.profileData);
-      this.userName= this.profileData[0]?.fullName;
-      // this.emaillogin=this.profileData[0]?.email;rr
-      // this.phonelogin=this.profileData[0]?.mobile;
-      this.authService.login(this.userName, token);
-    },
-    error => {
-      console.error('There was an error!', error);
-    }
-  );
-}
-     userName:any;
+//   signInWithGoogle(): void {
 
 
+//     if(!localStorage.getItem('token')){
+//       this.userService.signInWithGoogle();
+//       this.socialSign=true;
 
-/////////////////////////////////////////
-//social sign/////////////////////
-input:any=null;
-initMobileSocial(){
-  console.log('heeeee')
-  const input = document.querySelector("#socialPhone") as HTMLInputElement;
-  this.input=input;
-  // Check if the input exists and hasn't been initialized before
-  if (input && !input.dataset['itiInitialized']) {
-    console.log('Phone input element found and initializing intlTelInput:', input);
 
-    // Initialize intlTelInput
-    const iti = intlTelInput(input, {
-      initialCountry: "de",
-      preferredCountries: ["de", "us", "gb"],
-      separateDialCode: true,
-      // utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js",
-      utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
-       searchCountry:true,
-      useFullscreenPopup: false,
+//        setTimeout(() => {
 
-    });
 
+//         this.initMobileSocial();
 
+//         this.userService.uuid.subscribe(value => {
+//           this.uuid = value;
+//           console.log('Component1 received shared data:', this.uuid);
+//         });
+//         this.userService.modalInfo$.subscribe(show => {
+//           console.log(show)
+    
+//           if( this.input!==null){
+//             this.displayInfo = show ? 'block' : 'none';
+//           }
+//           if(this.displayInfo==='block'){
+//             this.isVisiblelogin='none';
+//            }
 
 
+//         });
 
-    input.dataset['itiInitialized'] = 'true';
-    console.log(input.dataset['itiInitialized'])
+ 
 
 
-    input.addEventListener('blur', () => {
-      let fullPhoneNumber = iti.getNumber();
-      if (fullPhoneNumber.startsWith("+")) {
-        fullPhoneNumber = fullPhoneNumber.substring(1);
-      }
-      console.log("Full phone number:", fullPhoneNumber);
-      this.mobileSocial=fullPhoneNumber;
-      console.log("Updated mobile field in the form:",this.mobileSocial);
-    });}
-}
+//       }, 500);
+//     }else{
+//       this.userService.signInWithGoogle();
+//     }
 
-  signInWithGoogle(): void {
 
+//   }
 
-    if(!localStorage.getItem('token')){
-      this.userService.signInWithGoogle();
-      this.socialSign=true;
 
 
-       setTimeout(() => {
 
 
-        this.initMobileSocial();
 
-        this.userService.uuid.subscribe(value => {
-          this.uuid = value;
-          console.log('Component1 received shared data:', this.uuid);
-        });
-        this.userService.modalInfo$.subscribe(show => {
-          console.log(show)
-          // this.displayModalsign = show ? 'block' : 'none';
-          if( this.input!==null){
-            this.displayInfo = show ? 'block' : 'none';
-          }
-          if(this.displayInfo==='block'){
-            this.isVisiblelogin='none';
-           }
+// socialSign:boolean=false;
+//    signUpWithGoogle(): void {
 
+//       this.socialSign=true;
+//     console.log('sign up')
+//     console.log(this.mobileSocial)
+//     this.userService.signInWithGoogle();
+//     setTimeout(() => {
+       
 
-        });
+//       this.userService.modalInfo$.subscribe(show => {
 
 
-        // if(this.mobileSocial!==null){
-        //   this.displayInfo='block';
-        //   this.isVisiblelogin='none';
-        // }
+//         if( this.input!==null){
+//           this.displayInfo = show ? 'block' : 'none';
+//         }
+//         if(this.displayInfo==='block'){
+//           this.displayModalsign='none';
+//          }
+//       });
 
 
-      }, 500);
-    }else{
-      this.userService.signInWithGoogle();
-    }
 
+//     }, 500);
 
-  }
-
-
-
-
-
-
-socialSign:boolean=false;
-   signUpWithGoogle(): void {
-
-      this.socialSign=true;
-    console.log('sign up')
-    console.log(this.mobileSocial)
-    this.userService.signInWithGoogle();
-    setTimeout(() => {
-      // if(!localStorage.getItem('token')){
-
-      //   this.initMobileSocial();
-
-      // }else{
-      //   this.displayModalsign='none';
-      // }
-
-      this.userService.modalInfo$.subscribe(show => {
-
-
-        if( this.input!==null){
-          this.displayInfo = show ? 'block' : 'none';
-        }
-        if(this.displayInfo==='block'){
-          this.displayModalsign='none';
-         }
-      });
-
-
-
-    }, 500);
-
-  }
-  // async signUpWithGoogle(): Promise<void> {
-  //   try {
-  //     console.log('sign up');
-  //     await this.userService.signInWithGoogle() ;
-  //     console.log('sign up');
-
-  //    this.logout();
-  //   } catch (error) {
-  //     console.error('An error occurred during sign-in:', error);
-
-  //   }
-  // }
+//   }
+ 
 
 }

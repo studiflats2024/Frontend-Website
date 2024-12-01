@@ -84,55 +84,57 @@
             </div>
           </div>
 
-          <ng-container *ngIf="isAuthenticated();  ">
-            <!-- <p-avatar
-              icon="pi pi-user"
-              styleClass="mr-2"
-              [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-              shape="circle" /> -->
+          <!-------------test ------------------------>
+
+          <!-- <ng-container *ngIf="isAuthenticated();  ">
+           
               <div routerLink="/my-bookings" style="cursor: pointer;">
                 <span class="pi pi-user "  ></span>
                 {{ userName }}
               </div>
 
-            <!-- <i class="pi pi-sign-out ml-2" style="color: #1151B4"></i> -->
-            <!-- <p-chip
-              label="{{ userName }}"
-              image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-              alt="Avatar image">
-            </p-chip> -->
+         
           </ng-container>
           <div  [ngClass]="isAuthenticated() ? 'custom-logged-in' : 'custom-signin'" class="  d-flex justify-content-center align-items-center " style="  height: 40px;"  (click)="showLogin()">
-            <!-- {{ isAuthenticated() ? 'Logout' : 'Sign in' }} -->
-            <!-- {{ isAuthenticated() ? userName : 'Sign in' }} -->
+ 
             <ng-container *ngIf="isAuthenticated(); else signIn">
-              <!-- <p-avatar
-                icon="pi pi-user"
-                styleClass="mr-2"
-                [style]="{ 'background-color': '#dee9fc', color: '#1a2551' }"
-                shape="circle" /> -->
-                <!-- <span class="pi pi-user mr-2"></span>
-              {{ userName }} -->
+            
               <i class="pi pi-sign-out " style="color: #1151B4"></i>
-              <!-- <p-chip
-                label="{{ userName }}"
-                image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-                alt="Avatar image">
-              </p-chip> -->
+              
             </ng-container>
 
-            <!-- If the user is not authenticated, show "Sign in" -->
+           
             <ng-template #signIn>
               Sign in
-            </ng-template>
+            </ng-template> -->
 
-          </div>
-          <!-- <div class="custom-globe rounded-circle d-flex justify-content-center align-items-center" style="width: 24px; height: 24px;">
-            <div class="custom-globe rounded-circle d-flex justify-content-center align-items-center" style="width: 14px; height: 14px;"> </div>
-            <div class="custom-globe d-flex justify-content-center align-items-center" style="width: 6.5px; height: 14.5px;"></div>
-            <div class="custom-globe d-flex justify-content-center align-items-center" style="width: 14px; height: 0;"></div>
-          </div> -->
-          <!-- <i class="fa fa-globe"></i> -->
+            <ng-container *ngIf="isAuthenticated();  ">
+           
+              <div routerLink="/my-bookings" style="cursor: pointer;">
+                <span class="pi pi-user "  ></span>
+                {{ userName }}
+              </div>
+
+         
+          </ng-container>
+
+            <div [ngClass]="isAuthenticated() ? 'custom-logged-in' : 'custom-signin'" class="  d-flex justify-content-center align-items-center " style="  height: 40px;">
+              <ng-container *ngIf="isAuthenticated(); else signIn">
+                <!-- <span>{{ userName }}</span> -->
+                <i class="pi pi-sign-out" style="cursor: pointer;" (click)="logout()"></i>
+              </ng-container>
+              <ng-template #signIn>
+                <div (click)="showLogin()">Sign in</div>
+              </ng-template>
+            </div>
+            
+            <!-- Include AuthComponent -->
+            <app-auth *ngIf="auth"></app-auth>
+          <!-------------test ------------------------>
+            
+
+          <!-- </div> -->
+          
         </div>
       </div>
     </div>

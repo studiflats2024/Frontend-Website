@@ -5,7 +5,7 @@
 
 
 
-import { Component, OnInit ,  HostListener,  AfterViewInit, ElementRef, ViewChild , OnChanges, SimpleChanges, AfterViewChecked, QueryList, ViewChildren,ChangeDetectorRef   } from '@angular/core';
+import { Component , DoCheck , OnInit ,  HostListener,  AfterViewInit, ElementRef, ViewChild , OnChanges, SimpleChanges, AfterViewChecked, QueryList, ViewChildren,ChangeDetectorRef   } from '@angular/core';
 import { Router,  ActivatedRoute } from '@angular/router';
 import { ApartmentService } from '../../services/apartment.service';
 import { Apartment } from '../../models/apartment.model';
@@ -21,6 +21,10 @@ import { BookingService} from '../../services/booking.service';
 
 import { MessagingService } from '../../services/messaging.service';
 import { HttpClient } from '@angular/common/http';
+import { AuthComponent } from '../auth/auth.component';
+import { Globals, isValidEmail } from '../../globals/global';
+
+
 
 declare var intlTelInput: any;
 declare var intlTelInputUtils: any;
@@ -37,7 +41,7 @@ interface FAQ {
   templateUrl: './apartment-details.component.html',
   styleUrls: ['./apartment-details.component.css']
 })
-export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChanges, AfterViewChecked {
+export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChanges, AfterViewChecked , DoCheck  {
   selectedItem:any=0;
   apartments: Apartment[] = [];
   subscriptions: Subscription[] = [];
@@ -78,6 +82,13 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
       numVisible: 1
     }
   ];
+
+  ngDoCheck(): void {
+    if (Globals.authg !== this.auth) {
+      console.log(`Globals.authg changed from ${this.auth} to ${Globals.authg}`);
+      this.auth = Globals.authg;
+    }
+  }
 
   passwordFieldType: string = 'password'; // This controls the input type
 
@@ -1678,11 +1689,15 @@ input.addEventListener("countrychange", function() {
 
     }else{
       // this.displayModal='block';
+      Globals.authg=true;
+      this.auth=Globals.authg;
       this.userService.openModal();
+
     }
 
 
   }
+  auth:boolean=false;
   openModalsuccess(){
     this.displayModalsuccess='block';
     this.displayModalbooking='none';
