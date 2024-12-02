@@ -66,6 +66,14 @@ auth:boolean=false;
 
   }
 
+  handleAuthentication(): void {
+    if (this.isAuthenticated()) {
+      this.logout(); // Log the user out if authenticated
+    } else {
+      this.showLogin(); // Show login screen if not authenticated
+    }
+  }
+
 
   
 logout(): void {

@@ -5,7 +5,7 @@
 
 
 
-import { Component , DoCheck , OnInit ,  HostListener,  AfterViewInit, ElementRef, ViewChild , OnChanges, SimpleChanges, AfterViewChecked, QueryList, ViewChildren,ChangeDetectorRef   } from '@angular/core';
+import { Component , DoCheck , OnInit ,  HostListener,  AfterViewInit, ElementRef, ViewChild , OnChanges, SimpleChanges, AfterViewChecked, QueryList, ViewChildren,ChangeDetectorRef, ViewContainerRef, ComponentFactoryResolver   } from '@angular/core';
 import { Router,  ActivatedRoute } from '@angular/router';
 import { ApartmentService } from '../../services/apartment.service';
 import { Apartment } from '../../models/apartment.model';
@@ -42,6 +42,18 @@ interface FAQ {
   styleUrls: ['./apartment-details.component.css']
 })
 export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChanges, AfterViewChecked , DoCheck  {
+    @ViewChild('container', { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
+    renderAuthComponent() {
+      // Clear the container (optional, in case you're re-rendering)
+      this.container.clear();
+  
+      // Create the component dynamically
+      const factory = this.resolver.resolveComponentFactory(AuthComponent);
+      const componentRef = this.container.createComponent(factory);
+      componentRef.changeDetectorRef.detectChanges();
+  
+      
+    }
   selectedItem:any=0;
   apartments: Apartment[] = [];
   subscriptions: Subscription[] = [];
@@ -1205,7 +1217,8 @@ preservedGuests:any
     private fb: FormBuilder,
     private userService: UserService,
     private authService: AuthService,
-    private cdr: ChangeDetectorRef)
+    private cdr: ChangeDetectorRef,
+    private resolver: ComponentFactoryResolver)
      {
     this.apt_UUID = _ActivatedRoute.snapshot.paramMap.get('id');
     this.initializeGuestsAPI();
@@ -1625,7 +1638,7 @@ input.addEventListener("countrychange", function() {
   displayModalbooking:any;
   displayModalsuccess:any;
   openModals(){
-    this.visibleBooking=false;
+    // this.visibleBooking=false;
     this.loginMethod === 'whatsApp';
     const checkinDateString = this.bookingForm.get('bookingStartDate')?.value;
     const checkoutDate = new Date(this.checkoutDate);  // Convert checkoutDate to Date object
@@ -1692,10 +1705,20 @@ input.addEventListener("countrychange", function() {
       Globals.authg=true;
       this.auth=Globals.authg;
       this.userService.openModal();
+    this.visibleBooking=false;
+    // this.visibleBooking='none';
 
+
+    // this.openauth();
     }
 
 
+  }
+  openauth(){
+    Globals.authg=true;
+
+    this.auth= Globals.authg
+    console.log('hellooooo')
   }
   auth:boolean=false;
   openModalsuccess(){
@@ -2427,8 +2450,18 @@ openverifyModal(){
     this.displayForgetPass='none';
   }
   visibleBooking:boolean=false
+  // visibleBooking='none'
+
   showDialog(){
-   this.visibleBooking=true;
+    if(localStorage.getItem('token')){
+      this.visibleBooking=true;
+    }else{
+      // this.openauth()
+      this.renderAuthComponent()
+    }
+    
+  //  this.visibleBooking='block';
+
   }
 
 

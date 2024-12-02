@@ -1735,7 +1735,7 @@
 
 
 
-
+<div #container></div>
 
 
 <!-------------------------booking button on small screen--------------------->
@@ -1744,6 +1744,7 @@
   <div class="col-6  btnn"  >
     <p-button  class="btn-book" (onClick)="showDialog()" label="Request Apartment" />
   </div>
+  <!-- <app-auth *ngIf="auth"></app-auth> -->
 
   <div class="small-details col-6">
     <div class="starting-from">Starting From</div>
@@ -1754,8 +1755,9 @@
   </div>
 </div>
 
+   
 
-<p-dialog header="Booking Steps" [modal]="true" [(visible)]="visibleBooking" [style]="{ width: '25rem' }">
+<p-dialog header="Booking Steps" [modal]="true" [(visible)]="visibleBooking" [style]="{ width: '25rem' }"   [baseZIndex]="1000">
   <div class=" bookingdisplay   booking-box   modalBook "   >
     <div class="d-flex justify-content-start align-items-center gap-3">
         <div class="d-flex justify-content-start align-items-center gap-2">
@@ -1768,53 +1770,19 @@
           <div class="attribute">
             <label for="checkin" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECK IN</label>
             <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkin" [(ngModel)]="checkinDate" (ngModelChange)="onCheckinDateChange($event)" >
-            <!-- <div *ngIf="bookingForm.get('checkinDate')?.invalid && bookingForm.get('checkinDate')?.touched" class="text-danger" style="font-size: 12px;">
-              Check-in date is required.
-            </div> -->
+          
            </div>
-            <!-- <div class="attribute">
-                <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">CHECKOUT</div>
-                <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">2/26/2022</div>
-            </div> -->
+        
             <div class="attribute">
               <label for="checkout" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECKOUT</label>
               <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout"  [(ngModel)]="checkoutDate" (ngModelChange)="onCheckoutDateChange($event)" >
-              <!-- <div *ngIf="bookingForm.get('checkoutDate')?.invalid && bookingForm.get('checkoutDate')?.touched" class="text-danger" style="font-size: 12px;">
-                Check-out date is required.
-              </div> -->
+              
             </div>
         </div>
 
-        <!-- <div class="dropdown guests-dropdown">
-          <div class="d-flex justify-content-start align-items-center gap-2 p-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-              <div class="flex-grow-1">
-                  <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">GUESTS</div>
-                  <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">Select guests </div>
-              </div>
-              <i class="bi bi-chevron-down text-secondary"></i>
-          </div>
-          <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <li class="p-2 pl-3"> 1 guest </li>
-              <li class="p-2 pl-3"> 2 guests </li>
-              <li class="p-2 pl-3"> 3 guests </li>
-              <li class="p-2 pl-3"> 4 guests </li>
-          </ul>
-      </div> -->
+  
       <div class="dropdown guests-dropdown">
-        <!-- <div class="d-flex justify-content-start align-items-center gap-2 p-2 dropdown-toggle" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="flex-grow-1">
-                <div class="text-dark" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600;">GUESTS</div>
-                <div class="text-secondary" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">
-                    {{ selectedGuest }}
-                </div>
-            </div>
-            <i class="bi bi-chevron-down text-secondary"></i>
-        </div>
-        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <li class="p-2 pl-3" *ngFor="let guest of guests" (click)="selectGuest(guest)">
-                {{ guest }}
-            </li>
-        </ul> -->
+       
         <p-dropdown
         class="custom-dropdown"
         [options]="guests"
@@ -1827,18 +1795,16 @@
          />
 
     </div>
-    <!-- <div *ngIf="bookingForm.get('guests')?.invalid && bookingForm.get('guests')?.touched" class="text-danger" style="font-size: 12px;">
-      Please select the number of guests.
-    </div> -->
+     
 
     </div>
 
     <div id="fixlogin" class="booking-button">
       <button class="btn-base"  (click)="openModals()"   >Request Apartment</button>
   </div>
-    <!-- <div class="booking-button">
-        <button class="btn-base" data-bs-toggle="modal" data-bs-target="#loginModal">Request Apartment</button>
-    </div> -->
+  
+
+ 
     <div class="text-secondary text-center" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400;">Please enter the complete duration of your stay</div>
     <div class="dividerr"></div>
     <div class="row-footer">
@@ -1850,4 +1816,7 @@
     </div>
 </div>
 </p-dialog>
+
+
+ 
 </div>

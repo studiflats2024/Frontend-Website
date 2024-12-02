@@ -118,13 +118,17 @@
          
           </ng-container>
 
-            <div [ngClass]="isAuthenticated() ? 'custom-logged-in' : 'custom-signin'" class="  d-flex justify-content-center align-items-center " style="  height: 40px;">
+            <div (click)="handleAuthentication()" [ngClass]="isAuthenticated() ? 'custom-logged-in' : 'custom-signin'" class="  d-flex justify-content-center align-items-center " style="  height: 40px;">
               <ng-container *ngIf="isAuthenticated(); else signIn">
                 <!-- <span>{{ userName }}</span> -->
-                <i class="pi pi-sign-out" style="cursor: pointer;" (click)="logout()"></i>
+                <!-- <i class="pi pi-sign-out" style="cursor: pointer;" (click)="logout()"></i> -->
+                <i class="pi pi-sign-out" style="cursor: pointer;" ></i>
+
               </ng-container>
               <ng-template #signIn>
-                <div (click)="showLogin()">Sign in</div>
+                <!-- <div (click)="showLogin()">Sign in</div> -->
+                <div  >Sign in</div>
+
               </ng-template>
             </div>
             

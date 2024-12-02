@@ -5,7 +5,7 @@
   background-color: #f9f9f9;
   border-radius: 0.5rem;
   box-shadow: 0 0.125rem 0.625rem rgba(0, 0, 0, 0.1);
-  padding-top: 12.75rem;
+  padding-top: 14.75rem;
   padding-bottom: 9.25rem;
   padding-right: 8.725rem;
   padding-left: 0.5rem;
@@ -156,7 +156,7 @@ line-height: 1.625rem;
   .contact-section {
     flex-direction: column;
     padding: 20px;
-    padding-top: 100px;
+    padding-top: 120px;
     padding-bottom: 90px;
     padding-right: 90px;
   }
@@ -180,7 +180,7 @@ line-height: 1.625rem;
 @media (max-width: 768px) {
   .contact-section {
     padding: 20px;
-    padding-top: 70px;
+    padding-top: 100px;
     padding-bottom: 45px;
     padding-right: 45px;
   }
@@ -200,7 +200,7 @@ line-height: 1.625rem;
 @media (max-width: 480px) {
   .contact-section {
     // padding: 5px;
-    padding-top: 90px;
+    padding-top: 100px;
     padding-bottom: 22.5px;
     padding-right: 22.5px;
   }

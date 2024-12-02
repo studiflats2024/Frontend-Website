@@ -8,7 +8,7 @@ import { BlogService } from '../blogs/blog.service';
   templateUrl: './blog-details.component.html',
   styleUrls: ['./blog-details.component.css']
 })
-export class BlogDetailsComponent {
+export class BlogDetailsComponent implements AfterViewInit {
   items:any;
   loading:boolean=true;
 
@@ -32,7 +32,22 @@ export class BlogDetailsComponent {
     { label: 'blog details', routerLink: '/' }
     ]
 
+
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   const images = document.querySelectorAll<HTMLImageElement>('.blog-content img');  
+    //   images.forEach((img) => {
+    //     img.style.maxWidth = '90vw';  
+    //     img.style.height = 'auto';  
+    //   });
+    // });
+    
+
  }
+
+ ngAfterViewInit() {
+ 
+}
+
 
 
    /**
