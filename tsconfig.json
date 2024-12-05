@@ -1,11 +1,19 @@
-/* To learn more about Typescript configuration file: https://www.typescriptlang.org/docs/handbook/tsconfig-json.html. */
-/* To learn more about Angular compiler options: https://angular.dev/reference/configs/angular-compiler-options. */
+ 
 {
   "compileOnSave": false,
   "compilerOptions": {
-    // "useDefineForClassFields": true,
-    // "target": "es5",
-    // "module": "esnext",
+    "baseUrl": "./",
+    "paths": {
+      "@angular/platform-server": ["libs/platform-server"],
+      "@nguniversal/express-engine": ["libs/universal-main"],
+      "@nguniversal/builders": ["libs/@nguniversal-builders"],
+      "ts-node": ["libs/ts-node"],
+
+
+      
+      "axios": ["libs/axios.min.js"],
+    },
+  
 
     "types": ["jquery"],
     "outDir": "./dist/out-tsc",
@@ -22,12 +30,14 @@
     "moduleResolution": "bundler",
     "importHelpers": true,
     "target": "ES2022",
-    // "target": "ES2017",
+   
     "module": "ES2022",
+    
+    
     "useDefineForClassFields": false,
     "lib": [
       "ES2022",
-      // "ES2017",
+     
       "dom"
     ]
   },
@@ -38,6 +48,9 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true
   },
-
+ 
+  "include": ["server.ts"]
 
 }
+
+ 

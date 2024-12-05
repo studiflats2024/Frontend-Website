@@ -24,6 +24,8 @@ import { FaqComponent } from './components/faq/faq.component';
 import { AppSiderComponent } from './components/profilePages/app-sider/app-sider.component';
 import { AuthModule } from './components/auth/auth.module';
 import { AuthComponent } from './components/auth/auth.component';
+import { BlogsModule } from './components/blogs/blogs.module';
+import { BlogDetailsModule } from './components/blog-details/blog-details.module';
 
 
 @NgModule({
@@ -51,7 +53,9 @@ import { AuthComponent } from './components/auth/auth.component';
     DropdownModule,
     CalendarModule,
     ToastModule,
-    AuthModule
+    AuthModule,
+    BlogsModule,
+    BlogDetailsModule
 
   ],
  

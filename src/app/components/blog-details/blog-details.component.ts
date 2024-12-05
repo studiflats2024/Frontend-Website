@@ -1,6 +1,7 @@
 import { Component, AfterViewInit, ViewChild, ElementRef  } from '@angular/core';
 
 import { BlogService } from '../blogs/blog.service';
+import { Title, Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-blog-details',
@@ -13,7 +14,7 @@ export class BlogDetailsComponent implements AfterViewInit {
   loading:boolean=true;
 
   blogId: string | null = null;
-  constructor(private blogService: BlogService) {}
+  constructor(private titleService: Title, private metaService: Meta,private blogService: BlogService) {}
 
  ngOnInit() {
 
@@ -40,7 +41,13 @@ export class BlogDetailsComponent implements AfterViewInit {
     //     img.style.height = 'auto';  
     //   });
     // });
-    
+
+    this.titleService.setTitle(this.title);
+    this.metaService.updateTag({ name: 'description', content: this.metaDes });
+
+    this.metaService.updateTag({ property: 'og:title', content:this.title });
+    this.metaService.updateTag({ property: 'og:description', content: this.metaDes});
+    this.metaService.updateTag({ property: 'og:url', content: window.location.href });
 
  }
 
@@ -89,8 +96,15 @@ loadBlogDetails(blogId: string): void {
     (blog) => {
       console.log(blog)
       this.title = blog.blog_Title;
+       
+    
+      this.titleService.setTitle(this.title);
+
       this.metaDes = blog.blog_Meta_Desc;
+      this.metaService.updateTag({ name: 'description', content: this.metaDes });
       this.desc = blog.blog_Desc;
+      console.log(this.title,this.metaDes)
+      
       this.altImg = blog.blog_Image_Alt;
       this.blogContent = blog.blog_Content;
       this.category = blog.blog_Category;
@@ -101,6 +115,11 @@ loadBlogDetails(blogId: string): void {
       this.blogDate=blog.blog_Created_at
 
       this.loading=false;
+
+        // Add other relevant meta tags (optional)
+    this.metaService.updateTag({ property: 'og:title', content:this.title });
+    this.metaService.updateTag({ property: 'og:description', content: this.metaDes});
+    this.metaService.updateTag({ property: 'og:url', content: window.location.href });
     },
     (error) => {
       console.error('Error loading blog details:', error);

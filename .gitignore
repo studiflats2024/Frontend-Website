@@ -5,6 +5,14 @@
 /tmp
 /out-tsc
 /bazel-out
+/libs
+/src/app/app.server.module.ts
+/src/main.server.ts
+/generate-dynamic-routes.js
+/routes.txt
+/server.ts
+/tsconfig.server.json
+
 
 # Node
 /node_modules

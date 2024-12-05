@@ -2,15 +2,20 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+ 
   "projects": {
     "studiflat-frontend": {
+      
       "projectType": "application",
       "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
+ 
+        
         "build": {
+          
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "outputPath": "dist/studiflat-frontend",
@@ -26,6 +31,8 @@
                 "input": "public"
               }
             ],
+           
+            
             "styles": [
               "node_modules/primeng/resources/themes/saga-blue/theme.css",
 
@@ -68,6 +75,15 @@
           },
           "defaultConfiguration": "production"
         },
+       
+        "server": {
+          "builder": "@angular-devkit/build-angular:server",
+          "options": {
+            "outputPath": "dist/server",
+                      "main": "src/main.server.ts",
+          "tsConfig": "src/tsconfig.server.json"
+          }},
+   
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
@@ -103,6 +119,8 @@
             "scripts": []
           }
         }
+
+
       }
     }
   },

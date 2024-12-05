@@ -1,5 +1,8 @@
 import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
+import {BlogsComponent}from './components/blogs/blogs.component'
+import {BlogDetailsComponent}from './components/blog-details/blog-details.component'
+
 const routes: Routes = [
   {
     path: '', loadChildren: () => import('./components/homeAPP/homeAPP.module').then(m => m.HomeAPPModule)
@@ -39,11 +42,19 @@ const routes: Routes = [
   {
     path: 'payments-invoices', loadChildren: () => import('./components/profilePages/invoices/invoices.module').then(m => m.InvoicesModule) // Lazy load FAQ module
   },
+  // {
+  //   path: 'blogs', loadChildren: () => import('./components/blogs/blogs.module').then(m => m.BlogsModule)  
+  // },
+  // {
+  //   path: 'blog-details', loadChildren: () => import('./components/blog-details/blog-details.module').then(m => m.BlogDetailsModule)  
+  // },
   {
-    path: 'blogs', loadChildren: () => import('./components/blogs/blogs.module').then(m => m.BlogsModule) // Lazy load FAQ module
+    path: 'blogs',
+    component: BlogsComponent // Directly reference the module or its primary component
   },
   {
-    path: 'blog-details', loadChildren: () => import('./components/blog-details/blog-details.module').then(m => m.BlogDetailsModule) // Lazy load FAQ module
+    path: 'blog-details/:slug',
+    component: BlogDetailsComponent // Directly reference the module or its primary component
   },
   {
     path: 'land-lord-steps', loadChildren: () => import('./components/landlordPages/lord-steps/lord-steps.module').then(m => m.LordStepsModule) // Lazy load FAQ module
