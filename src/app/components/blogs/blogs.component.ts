@@ -86,6 +86,8 @@ blogs: any[] = [];
 
   viewBlogDetails(blog: any): void {
     this.blogService.setBlogId(blog.blog_ID);
-    this.router.navigate(['blog-details',blog.blog_Slug]);
+    // this.router.navigate(['blog-details',blog.blog_Slug]);
+    this.router.navigate([blog.blog_Slug]);
+
   }
 }

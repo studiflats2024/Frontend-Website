@@ -53,7 +53,7 @@ const routes: Routes = [
     component: BlogsComponent // Directly reference the module or its primary component
   },
   {
-    path: 'blog-details/:slug',
+    path: ':slug',
     component: BlogDetailsComponent // Directly reference the module or its primary component
   },
   {

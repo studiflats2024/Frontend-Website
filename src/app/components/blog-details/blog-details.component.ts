@@ -14,7 +14,33 @@ export class BlogDetailsComponent implements AfterViewInit {
   loading:boolean=true;
 
   blogId: string | null = null;
-  constructor(private titleService: Title, private metaService: Meta,private blogService: BlogService) {}
+  constructor(private titleService: Title, private metaService: Meta,private blogService: BlogService) {
+    this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
+
+    
+    if (this.blogId) {
+      this.loadBlogDetails(this.blogId);
+      localStorage.setItem('blogId', this.blogId);
+    }   else {
+      // Handle the case where no blogId is found (e.g., navigate to a list or show an error)
+      console.error('No blog ID found');
+    }
+
+  this.items = [
+    { label: 'manage blogs', routerLink: '/blogs' },
+    { label: 'blog details', routerLink: '/' }
+    ]
+
+
+    
+
+    // this.titleService.setTitle(this.title);
+    // this.metaService.updateTag({ name: 'description', content: this.metaDes });
+
+    // this.metaService.updateTag({ property: 'og:title', content:this.title });
+    // this.metaService.updateTag({ property: 'og:description', content: this.metaDes});
+    // this.metaService.updateTag({ property: 'og:url', content: window.location.href });
+  }
 
  ngOnInit() {
 
@@ -34,20 +60,14 @@ export class BlogDetailsComponent implements AfterViewInit {
     ]
 
 
-    // document.addEventListener('DOMContentLoaded', () => {
-    //   const images = document.querySelectorAll<HTMLImageElement>('.blog-content img');  
-    //   images.forEach((img) => {
-    //     img.style.maxWidth = '90vw';  
-    //     img.style.height = 'auto';  
-    //   });
-    // });
+     
 
-    this.titleService.setTitle(this.title);
-    this.metaService.updateTag({ name: 'description', content: this.metaDes });
+    // this.titleService.setTitle(this.title);
+    // this.metaService.updateTag({ name: 'description', content: this.metaDes });
 
-    this.metaService.updateTag({ property: 'og:title', content:this.title });
-    this.metaService.updateTag({ property: 'og:description', content: this.metaDes});
-    this.metaService.updateTag({ property: 'og:url', content: window.location.href });
+    // this.metaService.updateTag({ property: 'og:title', content:this.title });
+    // this.metaService.updateTag({ property: 'og:description', content: this.metaDes});
+    // this.metaService.updateTag({ property: 'og:url', content: window.location.href });
 
  }
 
@@ -120,6 +140,12 @@ loadBlogDetails(blogId: string): void {
     this.metaService.updateTag({ property: 'og:title', content:this.title });
     this.metaService.updateTag({ property: 'og:description', content: this.metaDes});
     this.metaService.updateTag({ property: 'og:url', content: window.location.href });
+
+    const canonicalUrl = `https://studiflats.de/${blog.blog_Slug}`;
+    this.metaService.updateTag({ rel: 'canonical', href: canonicalUrl });
+
+    console.log(`Canonical tag added: ${canonicalUrl}`);
+    
     },
     (error) => {
       console.error('Error loading blog details:', error);
