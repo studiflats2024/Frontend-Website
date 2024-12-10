@@ -54,6 +54,18 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
   
       
     }
+    onGalleryHide(): void {
+      this.showimages = false;
+      console.log('Gallery closed!');
+    }
+    onGalleryVisibilityChange(visible: boolean): void {
+      console.log('Gallery visibility changed:', visible);
+      this.showimages = visible; // Sync visibility state
+    }
+    
+
+    
+    
   selectedItem:any=0;
   apartments: Apartment[] = [];
   subscriptions: Subscription[] = [];
@@ -339,6 +351,8 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
     }else if(this.activeIndex===2){
       this.activeIndex=1;
 
+    }else if(this.activeIndex===0){
+      this.displayModalbooking='none'
     }
     // else if(this.activeIndex===2){
     //   this.activeIndex=2;
@@ -777,8 +791,18 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
           this.selectedRooms = this.selectedRooms.filter(r => r !== room);
           (event.target as HTMLInputElement).checked=false;
           this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'You cannot book this room.' });
+///after tester///
+            // Remove all beds associated with the room from selectedBeds
+    room.room_Beds.forEach((bed: any) => {
+      this.selectedBeds = this.selectedBeds.filter(b => b !== bed);
+  });
 
-          console.log(this.selectedRooms)
+///after tester///
+
+
+  // Log updated selectedRooms and selectedBeds for debugging
+  console.log("Selected Rooms:", this.selectedRooms);
+  console.log("Selected Beds:", this.selectedBeds);
           break;  // استخدم break للخروج من الحلقة
         } else {
 

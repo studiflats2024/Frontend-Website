@@ -279,7 +279,7 @@
     <p-menu #menu1 [model]="items1" [popup]="true" ></p-menu>
 
     <!-- Change Dates Modal -->
-<p-dialog header="Change Booking Dates" [(visible)]="changeDatesModalVisible" [modal]="true" [closable]="true" [style]="{width: '50vw'}">
+<p-dialog header="Change Booking Dates" [(visible)]="changeDatesModalVisible" [modal]="true" [closable]="true" [style]="{width: '50vw', height:'540px'}">
   <p>Choose your new dates</p>
   <p-calendar [(ngModel)]="startDate" placeholder="start date" />
   <p-calendar [(ngModel)]="endDate" placeholder="end date" />

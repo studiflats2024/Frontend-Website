@@ -29,21 +29,21 @@
   <!-- <div  style=" margin-top: 25px !important;  clear: both; width: 100%; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word; margin-top: 10px;">Alice Springs NT 0870, Germany</div> -->
 
   <div class=" gallery-container section-to-watch" style="position: relative; ">
-    <div class="row   ">
-      <div class="col-6  firstImg  ">
-        <img  style="max-height: 500px !important;" [src]="currentImage" alt="Main Image" class="main-image w-full h-full">
-        <div class="show-all-btn lg" (click)="openModal()"><span (click)="openModal()" style="z-index: 150;">Show all</span> </div>
+    <div   class="row   ">
+      <div (click)="aprt_Imgs.length > 0 ? openModal() : null" class="col-6  firstImg  ">
+        <img   style="max-height: 500px !important;" [src]="currentImage" alt="Main Image" class="main-image w-full h-full">
+        <div  *ngIf="aprt_Imgs.length > 0" class="show-all-btn lg" (click)="openModal()"><span (click)="openModal()" style="z-index: 150;">Show all</span> </div>
       </div>
-      <div class="col-6 restImg">
+      <div (click)="aprt_Imgs.length > 0 ? openModal() : null" class="col-6 restImg">
         <div class="row h-full">
-          <div class="col-6  mt-0"  >
+          <div (click)="aprt_Imgs.length > 0 ? openModal() : null" class="col-6  mt-0"  >
             <img  style=" max-height: 250px !important;" [src]="aprt_Imgs[1] || 'default_apartment.jpg'" alt="Thumbnail 1" class="thumbnail mb-2 h-50">
             <img style=" max-height: 250px !important;" [src]="aprt_Imgs[2] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail h-50">
           </div>
-          <div class="col-6 ">
+          <div (click)="aprt_Imgs.length > 0 ? openModal() : null" class="col-6 ">
             <img style=" max-height: 250px !important;" [src]="aprt_Imgs[3] || 'default_apartment.jpg'" alt="Thumbnail 2" class="thumbnail mb-2 h-50 ">
             <img style=" max-height: 250px !important;" [src]="aprt_Imgs[4] || 'default_apartment.jpg' " alt="Thumbnail 2" class="thumbnail h-50">
-            <div class="show-all-btn" (click)="openModal()"><span (click)="openModal()" style="z-index: 150;">Show all</span> </div>
+            <div  *ngIf="aprt_Imgs.length > 0" class="show-all-btn" (click)="openModal()"><span (click)="openModal()" style="z-index: 150;">Show all</span> </div>
           </div>
 
         </div>
@@ -81,13 +81,21 @@
     [circular]="true"
     [fullScreen]="true"
     [showItemNavigators]="true"
-    [showThumbnails]="false">
+    [showThumbnails]="false"
+    (onHide)="onGalleryHide()"
+    (visibleChange)="onGalleryVisibilityChange($event)">
         <ng-template pTemplate="item" let-item>
             <img
                 [src]="item"
-                style="width: 100%; height: 90%; object-fit: cover; display: block;" />
+                style="width: 100%; height: 80%; object-fit: cover; display: block;" />
         </ng-template>
 </p-galleria>
+
+<!-- <p-galleria [value]="aprt_Imgs" [(visible)]="showimages"  [containerStyle]="{ 'max-width': '850px' }"   [circular]="true" [fullScreen]="true" [showItemNavigators]="true" [showThumbnails]="false">
+  <ng-template pTemplate="item" let-item>
+      <img [src]="item" style="width: 100%; display: block;" />
+  </ng-template>
+</p-galleria> -->
 
 
 

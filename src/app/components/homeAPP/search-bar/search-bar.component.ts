@@ -26,6 +26,23 @@ import { ApartmentSearchService } from '../../../services/apartment-search.servi
   styleUrls: ['./search-bar.component.scss']
 })
 export class SearchBarComponent {
+  // checkInDatee: Date | null = null;
+  // checkOutDatee: Date | null = null;
+  today: Date = new Date();
+  checkOutMinDate: Date | null = null; // Minimum "Check-out" date
+
+  onCheckInDateSelect(): void {
+     // Set the minimum "Check-out" date to one month after the "Check-in" date
+     const minDate = new Date(this.checkInDate!);
+     minDate.setMonth(minDate.getMonth() + 1);
+     this.checkOutMinDate = minDate;
+    // If Check-Out Date is less than Check-In Date, reset it
+    if (this.checkOutDate && this.checkOutDate < this.checkInDate!) {
+      this.checkOutDate = null;
+    }
+  }
+
+
   @Output() searchResults = new EventEmitter<any>();
 
   activePicker: string | null = null;

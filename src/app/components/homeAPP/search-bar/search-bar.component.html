@@ -18,12 +18,13 @@
     <div class="field">
       <label for="check-in date">Check in</label>
 
-      <p-calendar [(ngModel)]="checkInDate" placeholder="Add dates"  (click)="hidePicker('city')" ></p-calendar><!--(focus)="showPicker('check-in')-->
+      <p-calendar [(ngModel)]="checkInDate" placeholder="Add dates"  (click)="hidePicker('city')"  [minDate]="today"
+      (onSelect)="onCheckInDateSelect()"></p-calendar><!--(focus)="showPicker('check-in')-->
     </div>
     <div class="field date">
       <label for="check-out">Check out</label>
 
-      <p-calendar [(ngModel)]="checkOutDate" placeholder="Add dates" (click)="hidePicker('city')" ></p-calendar><!--(focus)="showPicker('check-out')"-->
+      <p-calendar [(ngModel)]="checkOutDate" placeholder="Add dates" (click)="hidePicker('city')"  [minDate]="checkOutMinDate"></p-calendar><!--(focus)="showPicker('check-out')"-->
     </div>
     <div class="field">
       <label for="guests">Guests</label>
