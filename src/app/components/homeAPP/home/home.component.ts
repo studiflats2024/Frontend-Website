@@ -1,7 +1,7 @@
 
 
 
-import { Component, OnInit, HostListener, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component,  AfterViewChecked,OnInit, HostListener, Input, OnChanges, SimpleChanges , AfterViewInit, ElementRef, Renderer2 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApartmentService } from '../../../services/apartment.service';
 import { Apartment } from '../../../models/apartment.model';
@@ -14,7 +14,9 @@ import { ApartmentSearchService } from '../../../services/apartment-search.servi
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
-export class HomeComponent implements OnInit{
+export class HomeComponent implements OnInit, AfterViewInit  {
+  private scrollContainer!: HTMLElement;
+
   apartmentsSearch: any[] = [];
   // @Input() searchResults: any;
 
@@ -24,11 +26,77 @@ export class HomeComponent implements OnInit{
 
   //   }
   // }
+/////////////////////////////////////////////////////////////////////pretty scrollable////////////////////////////////////////
+  ngAfterViewInit(): void {
+     
+    this.scrollContainer = this.elementRef.nativeElement.querySelector('.apartment-list');
 
-  constructor(private apartmentSearchService: ApartmentSearchService, private apartmentService: ApartmentService, private router: Router,private messageService: MessageService) {}
+    
+    this.renderer.listen(this.scrollContainer, 'mousemove', (event: MouseEvent) => {
+      const containerWidth = this.scrollContainer.offsetWidth;
+      
+      
+ 
+      const mouseX = event.clientX;
+
+    
+      if (mouseX < containerWidth * 0.1) {
+        this.scrollContainer.scrollBy({ left: -10, behavior: 'smooth' });
+      
+      }
+
+      
+      if (mouseX > containerWidth * 0.9) {
+        this.scrollContainer.scrollBy({ left: 10, behavior: 'smooth' });
+       
+
+      }
+    });
+
+     
+  }
+  // ngAfterViewInit(): void {
+  //   this.scrollContainer = this.elementRef.nativeElement.querySelector('.apartment-list');
+  
+  //   const cardWidth = 440;  
+  //   const gap = 20;  
+  
+  //   console.log('Scroll Width:', this.scrollContainer.scrollWidth);
+  //   console.log('Offset Width:', this.scrollContainer.offsetWidth);
+  //   console.log('Number of Cards:', this.scrollContainer.querySelectorAll('.apartment-card').length);
+  
+  //   this.renderer.listen(this.scrollContainer, 'mousemove', (event: MouseEvent) => {
+  //     const containerWidth = this.scrollContainer.offsetWidth;
+  //     const scrollWidth = this.scrollContainer.scrollWidth;
+  //     const scrollLeft = this.scrollContainer.scrollLeft;
+  //     const mouseX = event.clientX;
+  
+ 
+  //     if (mouseX < containerWidth * 0.1 && scrollLeft > 0) {
+  //       this.scrollContainer.scrollBy({ left: -(cardWidth + gap), behavior: 'smooth' });
+  //     }
+  
+ 
+  //     if (mouseX > containerWidth * 0.9 && scrollLeft < scrollWidth - containerWidth) {
+  //       this.scrollContainer.scrollBy({ left: cardWidth + gap, behavior: 'smooth' });
+  //     }
+  //   });
+  // }
+  
+  
+
+ 
+  
+  
+  
+/////////////////////////////////////////////////////////////////////end pretty scrollable////////////////////////////////////////
+
+
+  constructor(private elementRef: ElementRef, private renderer: Renderer2,private apartmentSearchService: ApartmentSearchService, private apartmentService: ApartmentService, private router: Router,private messageService: MessageService) {}
   searchResults: any;
   ngOnInit(): void {
     this.getAllApartment();
+    this.getVisibleApartments()
     // this.apartmentSearchService.searchResults$.subscribe(results => {
     //   if (results) {
     //     this.searchResults = results;
@@ -157,7 +225,7 @@ responsiveOptions = [
   //   this.getAllApartment();
   // }
   currentIndex = 0;
-  visibleCount = 4;
+  visibleCount = 5;
   // next(): void {
   //   if (this.currentIndex < this.apartmentList.length - 1) {
   //     this.currentIndex++;
@@ -175,15 +243,28 @@ responsiveOptions = [
   }
 
   next(): void {
-    if (this.currentIndex <= this.apartmentList.length - this.visibleCount) {
-      this.currentIndex++;
-    }
-    // else{
-    //   this.currentIndex=this.apartmentList.length-1;
+    // if (this.currentIndex <= this.apartmentList.length - this.visibleCount) {
+    //   this.currentIndex++;
     // }
-  //   const container = document.querySelector('.apartment-list');
-  // container?.scrollBy({ left: 320, behavior: 'smooth' });
+    if (this.currentIndex < this.visibleCount) {
+      this.currentIndex++;
+    
+    }
+ 
   }
+  nextt(): void {
+    const totalCards = this.apartmentList.length; // Replace with your actual data array
+    const containerWidth = this.scrollContainer.offsetWidth;
+    const cardWidth = 440; // Replace with your actual card width
+    const visibleCount = Math.floor(containerWidth / cardWidth); // Calculate visible cards
+    const maxIndex = totalCards - visibleCount; // Maximum index to allow scrolling
+  
+    if (this.currentIndex < maxIndex) {
+      this.currentIndex++;
+      this.scrollContainer.scrollBy({ left: cardWidth, behavior: 'smooth' });
+    }
+  }
+  
 
   prev(): void {
     if (this.currentIndex > 0) {

@@ -277,13 +277,32 @@ input:-webkit-autofill:active {
 }
 
 
-.p-dialog{
-  z-index: 99999999999999 !important;
+ 
+html, body {
+  font-family: 'Poppins'  !important;
 }
-:host ::ng-deep app-auth{
-  z-index: 99999999999999 !important;
+// * {
+//   font-family: 'Poppins'   !important;
+// }
 
+// i,.pi, .material-icons, .fa, [class*="fa-"], [class*="icon-"] {
+//   font-family: initial !important;  
+//   font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands' !important; 
+// }
+
+// .fas {
+//   font-family: 'Font Awesome 6 Free', 'Font Awesome 6 Brands' !important;  
+// }
+
+
+html, body,div, p, h1, h2, h3, h4, h5, h6, span, a, button, input, textarea, li, td, th ,.p-button{
+  font-family: 'Poppins'   !important;
 }
+
+.pi {
+  font-family: "primeicons" !important;
+}
+
 
 
 

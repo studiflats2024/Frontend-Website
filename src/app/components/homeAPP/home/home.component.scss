@@ -60,7 +60,7 @@
   display: flex;
   // flex-direction: column;
   // scroll-behavior: smooth;
-
+  scroll-behavior: smooth; 
 
 
 }
@@ -84,12 +84,26 @@
   flex-direction: column;
   height: auto;
 }
-.apartment-card:hover {
-  transform: scale(1.05);
-}
+// .apartment-card:hover {
+//   transform: scale(1.05);
+// }
 .scroll-button {
 
   transform: translateY(-50%);
+}
+
+/* Hover effect for smooth scaling */
+.apartment-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(173, 216, 230, 0.5); /* Baby blue shadow */
+  background: linear-gradient(to bottom, #b8dcf2, #ffffff); /* Subtle gradient effect */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+/* Active effect when clicking */
+.apartment-card:active {
+  transform: scale(0.98); /* Slightly shrink on touch */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15); /* Reduce shadow */
 }
 
 
@@ -536,3 +550,35 @@
 
 
 
+/*---------------test scrollling----------------*/
+.apartment-list {
+  display: flex;
+  gap: 20px; /* Space between cards */
+  overflow-x: auto; /* Enable horizontal scrolling */
+  scroll-behavior: smooth; /* Smooth scrolling for a better experience */
+  padding-bottom: 15px; /* Space at the bottom */
+  position: relative;
+ 
+}
+
+/* Hide scrollbars for a cleaner look */
+.apartment-list::-webkit-scrollbar {
+  display: none;
+}
+
+.apartment-list {
+  -ms-overflow-style: none; /* For Internet Explorer */
+  scrollbar-width: none; /* For Firefox */
+}
+
+/* Cards for hover scaling */
+.apartment-card {
+  flex: 0 0 auto; /* Prevent shrinking and define card width */
+  width: 440px; /* Card width */
+  transition: transform 0.3s ease;
+}
+
+.apartment-card:hover {
+  transform: scale(1.05); /* Highlight card on hover */
+}
+ 
