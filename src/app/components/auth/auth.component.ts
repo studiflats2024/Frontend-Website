@@ -10,6 +10,7 @@ import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 import { ApplicationRef } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { GoogleAuthService } from '../../services/google-auth.service';
 
 
 declare var intlTelInput: any;
@@ -47,12 +48,54 @@ export class AuthComponent {
   selectedCountry: any;
   isLoggedIn:any;
 
-  constructor(private appRef: ApplicationRef,private router: Router,private authService: AuthService,private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef,private apartmentSearchService: ApartmentSearchService) {}
+  constructor(private googleAuthService:GoogleAuthService,private appRef: ApplicationRef,private router: Router,private authService: AuthService,private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef,private apartmentSearchService: ApartmentSearchService) {}
   passwordFieldType: string = 'password'; // This controls the input type
   passwordFieldTypee: string = 'password';
   togglePasswordVisibility(): void {
     this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
   }
+
+  // onGoogleSignIn() {
+  //   this.googleAuthService
+  //     .signIn()
+  //     .then((userData) => {
+  //       console.log('User Data:', userData);
+  //       alert('Google Sign-In Successful');
+  //     })
+  //     .catch((error) => {
+  //       console.error('Google Sign-In Failed:', error);
+  //       alert('Google Sign-In Failed');
+  //     });
+  // }
+
+  onGoogleSignIn(): void {
+    this.googleAuthService
+      .signIn()
+      .then((userData) => {
+        console.log('Google Sign-In successful:', userData);
+        // Handle success (e.g., send userData to your backend)
+      })
+      .catch((error) => {
+        if (error.error === 'popup_closed_by_user') {
+          console.warn('Google Sign-In was canceled by the user.');
+          this.messageService.add({
+            severity: 'warn',
+            summary: 'Canceled',
+            detail: 'Google Sign-In was canceled.',
+          });
+        } else {
+          console.error('Google Sign-In failed:', error);
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error',
+            detail: 'Google Sign-In failed. Please try again.',
+          });
+        }
+      });
+  }
+  
+
+
   togglePasswordVisibilityconfirm(): void {
     this.passwordFieldTypee = this.passwordFieldTypee === 'password' ? 'text' : 'password';
   }
@@ -323,10 +366,10 @@ export class AuthComponent {
 
   ngAfterViewInit(): void {
 
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach((input) => {
-      (input as HTMLInputElement).value = ''; // Clear DOM-level cached values
-    });
+    // const inputs = document.querySelectorAll('input');
+    // inputs.forEach((input) => {
+    //   (input as HTMLInputElement).value = ''; 
+    // });
  
     this.resetFormLogin();
     this.resetFormSign();
