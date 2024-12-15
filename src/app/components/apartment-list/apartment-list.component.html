@@ -54,7 +54,7 @@
 
 
             <div class="d-flex justify-content-between align-items-center ">
-              <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
+              <button pButton type="button" label="Clear" class="p-button-clear" (click)=" clearPrice()"></button>
               <button pButton type="button" label="Apply" class="p-button-apply" (click)=" applyFilter()"></button>
             </div>
         </div>
@@ -76,7 +76,7 @@
             </div>
 
             <div class="d-flex justify-content-between align-items-center">
-              <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
+              <button pButton type="button" label="Clear" class="p-button-clear" (click)="clearPlaceType()"></button>
               <button pButton type="button" label="Apply" class="p-button-apply" (click)=" applyFilter()"></button>
             </div>
         </div>
@@ -106,7 +106,11 @@
             </p-inputNumber>
           </div>
         </p-floatLabel>
-        <button pButton type="button" label="Apply" class="p-button-apply" style='width:100%' (click)=" applyFilter()"></button>
+        <!-- <button pButton type="button" label="Apply" class="p-button-apply" style='width:100%' (click)=" applyFilter()"></button> -->
+        <div class="d-flex justify-content-between align-items-center mt-2 mb-0 w-full">
+          <button pButton type="button" label="Clear" class="p-button-clear" (click)="clearGuests()"></button>
+          <button pButton type="button" label="Apply" class="p-button-apply" (click)=" applyFilter()"></button>
+        </div>
       </div>
     </div>
 
@@ -228,12 +232,15 @@
       <hr class="m-0"/>
 
         <div class="d-flex justify-content-between align-items-center mt-2 mb-0">
-          <button pButton type="button" label="Clear" class="p-button-clear" (click)="clear()"></button>
+          <button pButton type="button" label="Clear" class="p-button-clear" (click)="clearFilters()"></button>
           <button pButton type="button" label="Apply" class="p-button-apply" (click)=" applyFilter()"></button>
         </div>
       </div>
       </div>
     </div>
+    <button class="clear-btn" (click)="clear()">
+      Clear All Filters
+    </button>
   </div>
   <div class="divider wid  "></div>
   <div class="available-apartments  ">+{{ totalRecords }} apartments available</div>

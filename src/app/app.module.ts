@@ -27,6 +27,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { BlogsModule } from './components/blogs/blogs.module';
 import { BlogDetailsModule } from './components/blog-details/blog-details.module';
 import { DialogModule } from 'primeng/dialog';
+import { SitemapComponent } from '../sitemap-generator/sitemap.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { DialogModule } from 'primeng/dialog';
     //  HeaderComponent,
      FooterComponent,
     //  FaqComponent
-    // AppSiderComponent
+    // AppSiderComponent,
+    SitemapComponent
 
   ],
   imports: [
@@ -61,7 +63,7 @@ import { DialogModule } from 'primeng/dialog';
   ],
  
   providers: [MessageService],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }

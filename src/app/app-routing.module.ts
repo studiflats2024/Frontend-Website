@@ -2,8 +2,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { NgModule } from '@angular/core';
 import {BlogsComponent}from './components/blogs/blogs.component'
 import {BlogDetailsComponent}from './components/blog-details/blog-details.component'
+import { SitemapComponent } from '../sitemap-generator/sitemap.component';
 
 const routes: Routes = [
+  { path: 'sitemap', component: SitemapComponent },
   {
     path: '', loadChildren: () => import('./components/homeAPP/homeAPP.module').then(m => m.HomeAPPModule)
   },

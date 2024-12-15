@@ -482,6 +482,38 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
     this.showPickerguest=false;
     console.log(`Applied: Min Price: €${this.priceRange[0]}, Max Price: €${this.priceRange[1]}`);
   }
+  clearPrice(){
+    // this.filterData.start_Price=null
+    // this.filterData.end_Price=null
+    this.priceRange[1]=5000
+    this.priceRange[0]=0
+    this.applyFilter()
+  }
+  clearGuests(){
+    // this.filterData.guest_No=null
+    this.guests=null
+     this.applyFilter()
+  }
+  clearPlaceType(){
+    // this.filterData.place_Type=null
+    this.selectedOptionsplace=[]
+    this.applyFilter()
+  }
+  clearFilters(){
+  //  this.filterData.rooms_No=null
+  //  this.filterData.single_Beds_No=null
+  //  this.filterData.double_Bed_No=null
+  //  this.filterData.apartment_Size=null
+
+   this.selectedSize=null
+   this.rooms=null
+   this.single=null
+   this.double=null
+
+   this.applyFilter()
+
+  }
+
 
 
 
@@ -572,7 +604,7 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
         this.showPickerguest=false;
         this.showPickerplace=false;
         this.filters=false;
-        this.clear();
+        // this.clear();
       },
       error => {
         console.error('Error filtering apartments:', error);
@@ -615,18 +647,18 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
     let calcPageNumber = Math.floor(this.first / this.rows) + 1;
 
     this.pageNumber = calcPageNumber;
-    this.filterData = {
-      page_No: this.pageNumber,
-      page_Size: this.pagesize,
-      start_Price: this.priceRange[0],
-      end_Price:  this.fixPriceRangeApi(),
-      place_Type: this.selectedOptionsplace[0]||null,
-      guest_No: this.guests||null,
-      rooms_No: this.rooms||null,
-      single_Beds_No: this.single||null,
-      double_Bed_No: this.double||null,
-      apartment_Size:  this.getNumberFromSelectedSize()||null
-    };
+    // this.filterData = {
+    //   page_No: this.pageNumber,
+    //   page_Size: this.pagesize,
+    //   start_Price: this.priceRange[0],
+    //   end_Price:  this.fixPriceRangeApi(),
+    //   place_Type: this.selectedOptionsplace[0]||null,
+    //   guest_No: this.guests||null,
+    //   rooms_No: this.rooms||null,
+    //   single_Beds_No: this.single||null,
+    //   double_Bed_No: this.double||null,
+    //   apartment_Size:  this.getNumberFromSelectedSize()||null
+    // };
     // this.getAllApartment();
     this.applyFilter()
   }
