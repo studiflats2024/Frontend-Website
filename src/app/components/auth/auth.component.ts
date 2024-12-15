@@ -55,44 +55,36 @@ export class AuthComponent {
     this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
   }
 
-  // onGoogleSignIn() {
+  onGoogleSignIn() {
+    this.googleAuthService.promptSignIn();
+  }
+
+  // onGoogleSignIn(): void {
   //   this.googleAuthService
   //     .signIn()
   //     .then((userData) => {
-  //       console.log('User Data:', userData);
-  //       alert('Google Sign-In Successful');
+  //       console.log('Google Sign-In successful:', userData);
+      
   //     })
   //     .catch((error) => {
-  //       console.error('Google Sign-In Failed:', error);
-  //       alert('Google Sign-In Failed');
+  //       if (error.error === 'popup_closed_by_user') {
+  //         console.warn('Google Sign-In was canceled by the user.');
+  //         this.messageService.add({
+  //           severity: 'warn',
+  //           summary: 'Canceled',
+  //           detail: 'Google Sign-In was canceled.',
+  //         });
+  //       } else {
+  //         console.error('Google Sign-In failed:', error);
+  //         this.messageService.add({
+  //           severity: 'error',
+  //           summary: 'Error',
+  //           detail: 'Google Sign-In failed. Please try again.',
+  //         });
+  //       }
   //     });
   // }
 
-  onGoogleSignIn(): void {
-    this.googleAuthService
-      .signIn()
-      .then((userData) => {
-        console.log('Google Sign-In successful:', userData);
-        // Handle success (e.g., send userData to your backend)
-      })
-      .catch((error) => {
-        if (error.error === 'popup_closed_by_user') {
-          console.warn('Google Sign-In was canceled by the user.');
-          this.messageService.add({
-            severity: 'warn',
-            summary: 'Canceled',
-            detail: 'Google Sign-In was canceled.',
-          });
-        } else {
-          console.error('Google Sign-In failed:', error);
-          this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
-            detail: 'Google Sign-In failed. Please try again.',
-          });
-        }
-      });
-  }
   
 
 
@@ -225,6 +217,16 @@ export class AuthComponent {
   ngOnInit(): void {
   
     // this.loginForm.reset();
+    //////////////////////open complete profile//////////////////////////////////
+    this.userService.getModalState().subscribe((state: string) => {
+      this.displayVerify = state; // Update modal visibility
+      console.log('state',state)
+      if(state==='block'){
+        this. isVisiblelogin='none';
+        this. displayModalsign='none'
+      }
+    });
+    //////////////////////open complete profile//////////////////////////////////
      
 
     this.userService.modalVisibility$.subscribe(show => {
@@ -363,8 +365,13 @@ export class AuthComponent {
 
 
   }
+  signOut() {
+    this.googleAuthService.signOut();
+  }
 
   ngAfterViewInit(): void {
+
+    // this.googleAuthService.renderButton('google-signin-button');///////////////////////////////////////////////
 
     // const inputs = document.querySelectorAll('input');
     // inputs.forEach((input) => {

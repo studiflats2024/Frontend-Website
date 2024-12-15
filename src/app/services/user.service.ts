@@ -39,6 +39,29 @@ export class UserService {
     this.modalVisibility.next(false); // Emit false when the modal should close
   }
 
+  //////////////////////////////open complete profile modal //////////////////////////////
+  private modalTrigger = new BehaviorSubject<string>('none');
+
+  getModalState() {
+    return this.modalTrigger.asObservable();
+  }
+
+  // triggerModal(state: boolean) {
+  //   this.modalTrigger.next(state);
+  // }
+
+    // Method to open the modal
+    openModalComplete() {
+      this.modalTrigger.next('block'); // Emit true when the modal should open
+      console.log('helooo')
+    }
+  
+    // Method to close the modal
+    closeModalComplete() {
+      this.modalTrigger.next('none'); // Emit false when the modal should close
+    }
+  ////////////////////////////////////////////////////////////////////
+
   private modalInfo = new Subject<boolean>(); // A subject to emit changes to modal visibility
 
   // Observable for other components to listen for modal open/close events
@@ -203,46 +226,46 @@ export class UserService {
   // }
 
   initGoogleAuth(): void {
-    // Check notification permissions before requesting them
-    if (Notification.permission === 'granted') {
-      this.messagingService.requestPermission()
-        .then((token: any) => {
-          console.log('Device token:', token);
-          this.deviceToken = token;
-        })
-        .catch((error: any) => {
-          console.error('Error getting token:', error);
-        });
-    } else if (Notification.permission === 'denied') {
-      console.error('Notification permission was denied. Unable to get device token.');
-    } else {
-      // Request permission from the user
-      this.messagingService.requestPermission()
-        .then((token: any) => {
-          console.log('Device token:', token);
-          this.deviceToken = token;
-        })
-        .catch((error: any) => {
-          console.error('Error getting token:', error);
-        });
-    }
+   
+    // if (Notification.permission === 'granted') {
+    //   this.messagingService.requestPermission()
+    //     .then((token: any) => {
+    //       console.log('Device token:', token);
+    //       this.deviceToken = token;
+    //     })
+    //     .catch((error: any) => {
+    //       console.error('Error getting token:', error);
+    //     });
+    // } else if (Notification.permission === 'denied') {
+    //   console.error('Notification permission was denied. Unable to get device token.');
+    // } else {
+      
+    //   this.messagingService.requestPermission()
+    //     .then((token: any) => {
+    //       console.log('Device token:', token);
+    //       this.deviceToken = token;
+    //     })
+    //     .catch((error: any) => {
+    //       console.error('Error getting token:', error);
+    //     });
+    // }
 
-    // Initialize Google Auth
-    window?.google?.accounts?.id.initialize({
-      client_id: this.clientId,
-      callback: (response) => this.handleCredentialResponse(response),
-    });
+   
+    // window?.google?.accounts?.id.initialize({
+    //   client_id: this.clientId,
+    //   callback: (response) => this.handleCredentialResponse(response),
+    // });
 
-    console.log('initGoogle', this.clientId);
+    // console.log('initGoogle', this.clientId);
   }
 
 
   signInWithGoogle(): void {
     this. initGoogleAuth();
-    // this.initGoogleAuth();
-    window.google.accounts.id.prompt(); // This will show the Google Sign-In prompt
-    console.log('sign in');
-    console.log('initGoogle',this.clientId);
+    
+  
+     
+    
   }
 
   private handleCredentialResponse(response: any): void {
@@ -253,11 +276,11 @@ export class UserService {
 
       const sc_id = user.sub;
       const fullName = user.name;
-      // const fullName = encodeURIComponent(user.name);
+     
       const email = user.email;
       const provider = 'Google';
       const img = user.picture;
-      const deviceToken = this.deviceToken; // Add logic to retrieve device token if necessary
+      const deviceToken = this.deviceToken; 
       console.log(fullName)
       this.socialSignIn(sc_id, fullName, email, provider, img, deviceToken);
     });
@@ -266,16 +289,16 @@ export class UserService {
 
   signOutFromGoogle(): void {
     setTimeout(() => {
-      const token = localStorage.getItem('google_token'); // Assume you have stored the token
+      const token = localStorage.getItem('google_token');  
 
       if (token) {
-        // Revoke the token by making a request to the Google OAuth2 API
+        
         const revokeUrl = `https://accounts.google.com/o/oauth2/revoke?token=${token}`;
 
         this.http.post(revokeUrl, {}).subscribe({
           next: () => {
             console.log('User signed out from Google successfully');
-            localStorage.removeItem('google_token'); // Remove token from local storage
+            localStorage.removeItem('google_token'); 
           },
           error: (err) => {
             console.error('Error revoking token: ', err);
@@ -321,14 +344,14 @@ export class UserService {
         }
 
         console.log('Sign in successful:', response);
-        // Handle successful sign-in
+      
         this.signOutFromGoogle()
 
       },
       error => {
         console.error('Sign in failed:', error);
 
-        // Handle sign-in error
+       
       }
     );
   }
@@ -352,9 +375,9 @@ export class UserService {
   uploadProfileImage(file: File): Observable<any> {
     const url = `${environment.apiUrl}/Users/UpdateProfileImg`;
     const formData = new FormData();
-    formData.append('Image_File', file);  // 'Image_File' should match the API parameter name
+    formData.append('Image_File', file);   
 
-    // Optionally add headers
+   
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${localStorage.getItem('token')}`  // Add token if necessary
     });

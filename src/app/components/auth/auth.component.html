@@ -10,13 +10,15 @@
   <router-outlet ></router-outlet>
   <app-footer></app-footer> -->
   
+
   
-  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayModalsign}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayModalsign}" style="background-color: rgb(23 22 22 / 50%);"  >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-body p-0" style="position: relative;">
           <button aria-hidden="true" style="position: absolute; top:0; right:0; background-color: transparent; border:none;" (click)="onCloseSignModal()">×</button>
-  
+          <!-- <div id="google-signin-button"></div> -->
+          <!-- <button (click)="signOut()">Sign Out</button> -->
           <div class="login-modal-container">
   
             <div class="modal-image-section"><img src="loginimg.png"  /></div>
@@ -97,13 +99,13 @@
               </form>
   
                 <div class="text-center mb-3">
-                  <span>  Already have an account? <a   (click)="showLogin()" class="text-primary">Login</a></span>
+                  <span style="cursor: pointer;">  Already have an account? <a   (click)="showLogin()" class="text-primary">Login</a></span>
                 </div>
                 <div class="text-center mb-3">
                   <span>Or Sign up with</span>
                 </div>
                 <div class="d-flex justify-content-around ">
-                  <button class="btn btn-outline-secondary w-50 mr-2" (click)="onGoogleSignIn()" ><img src="googlebtn.svg"/></button>
+                  <button id="google-signin-button" class="btn btn-outline-secondary w-50 mr-2" (click)="onGoogleSignIn()" ><img src="googlebtn.svg"/></button>
                   <button class="btn btn-outline-secondary w-50"><img src="applebtn.svg"/></button>
                 </div>
               </div>
@@ -117,7 +119,7 @@
   </div>
   
   
-  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayVerify}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayVerify}" style="background-color: rgb(23 22 22 / 50%);"  >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-body p-0" style="position: relative;">
@@ -162,7 +164,7 @@
     </div>
   </div>
   
-  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayInfo}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayInfo}" style="background-color: rgb(23 22 22 / 50%);"  >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-body p-0" style="position: relative;">
@@ -321,7 +323,7 @@
   
   
     <!-- -----------login modal ---------------->
-    <div class="modal " id="loginModalreal"   tabindex="-1"  role="dialog" [ngStyle]="{'display': isVisiblelogin}" style="background-color: rgb(23 22 22 / 50%);">
+    <div class="modal " id="loginModalreal"   tabindex="-1"  role="dialog" [ngStyle]="{'display': isVisiblelogin}"  style="background-color: rgb(23 22 22 / 50%);" >
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
   
@@ -413,7 +415,7 @@
                         Remember me
                       </label>
                     </div> -->
-                    <a (click)="openverifyModal()" class="text-primary">Forgot Password</a>
+                    <a (click)="openverifyModal()" style="cursor: pointer;" class="text-primary">Forgot Password</a>
                   </div>
                   <div class="d-grid mb-3">
                     <button type="submit" class="btn btn-primary" style="background-color: #1151B4;"   data-bs-toggle="modal" data-bs-target="#guestDetailsModal"  >Login</button>
@@ -422,7 +424,7 @@
                 </form>
   
                   <div class="text-center mb-3">
-                    <span>Don’t have an account? <a  (click)="openModalSign()" class="text-primary">Sign up</a></span>
+                    <span>Don’t have an account? <a  (click)="openModalSign()" style="cursor: pointer;" class="text-primary">Sign up</a></span>
                   </div>
                   <div class="text-center mb-3">
                     <span>Or login with</span>
@@ -445,7 +447,7 @@
   
   
   
-  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayForgetPass}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayForgetPass}" style="background-color: rgb(23 22 22 / 50%);" >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
   
@@ -524,7 +526,7 @@
   
   
   
-  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayVerifyForget}" style="background-color: rgb(23 22 22 / 50%);">
+  <div class="modal " id="loginModal" tabindex="-1"  role="dialog" [ngStyle]="{'display': displayVerifyForget}" style="background-color: rgb(23 22 22 / 50%);"  >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-body p-0" style="position: relative;">
@@ -573,13 +575,7 @@
   
   
   
-  <!-- Other existing content -->
-  
-  <!-- <div class="whatsapp-button">
-    <a href="https://wa.me/4915203290607" target="_blank">
-      <img src="whatsappp.gif" alt="WhatsApp" />
-    </a>
-  </div> -->
+ 
   
   
   

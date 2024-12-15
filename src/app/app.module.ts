@@ -26,7 +26,7 @@ import { AuthModule } from './components/auth/auth.module';
 import { AuthComponent } from './components/auth/auth.component';
 import { BlogsModule } from './components/blogs/blogs.module';
 import { BlogDetailsModule } from './components/blog-details/blog-details.module';
-
+import { DialogModule } from 'primeng/dialog';
 
 @NgModule({
   declarations: [
@@ -55,7 +55,8 @@ import { BlogDetailsModule } from './components/blog-details/blog-details.module
     ToastModule,
     AuthModule,
     BlogsModule,
-    BlogDetailsModule
+    BlogDetailsModule,
+    DialogModule
 
   ],
  
