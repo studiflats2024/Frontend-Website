@@ -116,6 +116,7 @@ fixxxx:boolean=false;
         // this.searchResults = results;
         // this.apartmentsSearch = results.data;
         this.apartmentList = results.data;
+        console.log(this.apartmentList)
         this.totalofPages =results.totalPages;
         this.totalRecords = results.totalRecords;
         this.showPicker=false;
@@ -475,6 +476,8 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
     //this.fixPriceRangeApi()
 
     this.cdr.detectChanges();
+    // this.applyFilter()
+
   }
 
   apply() {
@@ -514,10 +517,15 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
 
   }
 
+  clearAll(){
+    this.clear()
+    this.applyFilter();
+  }
 
 
 
-  apartmentList:any;
+
+  apartmentList:any=[];
   pageNumber: number = 1;
   pagesize = 8;
   allResponse:any;
@@ -598,6 +606,8 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
         console.log(response)
 
         this.apartmentList = response.data;
+        console.log(this.apartmentList)
+
         this.totalofPages = response.totalPages;
         this.totalRecords = response.totalRecords;
         this.showPicker=false;

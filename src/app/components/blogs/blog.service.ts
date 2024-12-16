@@ -36,7 +36,7 @@ export class BlogService {
   }
 
   getBlogDetails(blogId: string): Observable<any> {
-    const params = new HttpParams().set('Blog_ID', blogId);
+    const params = new HttpParams().set('Slug_Code', blogId);
     return this.http.get(`${environment.apiUrl}/Basics/Get_BlogDetails`, { params, headers: this.headers });
   }
 

@@ -1,7 +1,9 @@
-import { Component, AfterViewInit, ViewChild, ElementRef  } from '@angular/core';
+
+import { Component, AfterViewInit, ViewChild, ElementRef ,OnInit } from '@angular/core';
 
 import { BlogService } from '../blogs/blog.service';
 import { Title, Meta } from '@angular/platform-browser';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-blog-details',
@@ -9,22 +11,23 @@ import { Title, Meta } from '@angular/platform-browser';
   templateUrl: './blog-details.component.html',
   styleUrls: ['./blog-details.component.css']
 })
-export class BlogDetailsComponent implements AfterViewInit {
+export class BlogDetailsComponent implements OnInit, AfterViewInit {
   items:any;
   loading:boolean=true;
 
   blogId: string | null = null;
-  constructor(private titleService: Title, private metaService: Meta,private blogService: BlogService) {
-    this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
+  blogSlug: string | null = null;
+  constructor(  private route: ActivatedRoute,private titleService: Title, private metaService: Meta,private blogService: BlogService) {
+    // this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
 
     
-    if (this.blogId) {
-      this.loadBlogDetails(this.blogId);
-      localStorage.setItem('blogId', this.blogId);
-    }   else {
-      // Handle the case where no blogId is found (e.g., navigate to a list or show an error)
-      console.error('No blog ID found');
-    }
+    // if (this.blogId) {
+    //   this.loadBlogDetails(this.blogId);
+    //   localStorage.setItem('blogId', this.blogId);
+    // }   else {
+ 
+    //   console.error('No blog ID found');
+    // }
 
   this.items = [
     { label: 'manage blogs', routerLink: '/blogs' },
@@ -44,15 +47,22 @@ export class BlogDetailsComponent implements AfterViewInit {
 
  ngOnInit() {
 
-  this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
+  // this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
 
-    if (this.blogId) {
-      this.loadBlogDetails(this.blogId);
-      localStorage.setItem('blogId', this.blogId);
-    }   else {
-      // Handle the case where no blogId is found (e.g., navigate to a list or show an error)
-      console.error('No blog ID found');
-    }
+  //   if (this.blogId) {
+  //     this.loadBlogDetails(this.blogId);
+  //     localStorage.setItem('blogId', this.blogId);
+  //   }   else {
+  
+  //     console.error('No blog ID found');
+  //   }
+  this.blogSlug = this.route.snapshot.paramMap.get('slug') || '';
+  console.log('Blog Slug:', this.blogSlug);
+
+  // 2. Fetch blog details from the service
+  if (this.blogSlug) {
+    this.loadBlogDetails(this.blogSlug);
+  }
 
   this.items = [
     { label: 'manage blogs', routerLink: '/blogs' },
@@ -111,8 +121,8 @@ keywords:any;
 quill: any;
 images:any;
 blogDate:any;
-loadBlogDetails(blogId: string): void {
-  this.blogService.getBlogDetails(blogId).subscribe(
+loadBlogDetails(blogSlug: string): void {
+  this.blogService.getBlogDetails(blogSlug).subscribe(
     (blog) => {
       console.log(blog)
       this.title = blog.blog_Title;
@@ -141,7 +151,7 @@ loadBlogDetails(blogId: string): void {
     this.metaService.updateTag({ property: 'og:description', content: this.metaDes});
     this.metaService.updateTag({ property: 'og:url', content: window.location.href });
 
-    const canonicalUrl = `https://studiflats.de/${blog.blog_Slug}`;
+    const canonicalUrl = `https://studiflats.de/blog-details/${this.blogSlug}`;
     this.metaService.updateTag({ rel: 'canonical', href: canonicalUrl });
 
     console.log(`Canonical tag added: ${canonicalUrl}`);

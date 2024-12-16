@@ -2,7 +2,7 @@
 
 
 
-<div class="layout-list">
+<div  class="layout-list">
   <div class="filter-bar  ">
     <div class="filter-item pricee" style="position: relative;" >
       <button pButton type="button" label="Price" icon="pi pi-chevron-down" iconPos="right" (click)="togglePicker()"  ></button>
@@ -238,7 +238,7 @@
       </div>
       </div>
     </div>
-    <button class="clear-btn" (click)="clear()">
+    <button class="clear-btn" (click)="clearAll()">
       Clear All Filters
     </button>
   </div>
@@ -294,7 +294,7 @@
       <img [src]="mapImage" alt="Map" (click)="navigateToMap()">
     </div>
   </div> -->
-  <div class="main-content">
+  <div *ngIf="apartmentList[0] !==null" class="main-content">
     <div class="apartment-list mt-3">
       <div *ngFor="let apartment of apartmentList" class="apartment-card fix-card" >
         <img [src]="apartment.apartment_Image" alt="{{ apartment.apartment_Name }}" class="apartment-image" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
@@ -608,12 +608,25 @@
     </div> -->
 
   </div>
+  <div *ngIf="apartmentList[0] ===null"  class="not-found-container">
+    <img src="no-result.svg" alt="No Results" class="not-found-image" />
+    <h2 class="not-found-title">No Apartments Found</h2>
+    <p class="not-found-message">
+      Sorry, we couldn't find any apartments that match your filters. <br />
+      Try adjusting your search criteria or clearing the filters.
+    </p>
+    <button class="clear-btn" (click)="clearAll()">
+      Clear All Filters
+    </button>
+  </div>
   <div *ngIf="isVisible"  class="map"  >
     <!-- <img *ngIf="isVisible" [src]="mapImage" alt="Map"  (click)="navigateToMap()"> -->
         <div   id="googlemap"    >
 
         </div>
   </div>
+
+  
   <!-- <div   class="maponsmall"  >
 
         <div   id="googlemap-small"    >
@@ -623,7 +636,7 @@
 
 </div>
 
-
+ 
 
 
 <!--picker price -->
