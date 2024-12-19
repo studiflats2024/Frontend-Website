@@ -827,10 +827,20 @@ onLoginSubmit(): void {
         error => {
           this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message });
           console.error('Error creating user account', error);
-          if(error.error.message==="Oops!! Your Profile isn't completed yet , Please complete it"){
-             this.displayInfo='block';
+          console.error('Error creating user account', error.error);
+
+          if(error.error.profileCompleted===false&&error.error.account_Confirmed===false){
+            //  this.displayInfo='block';
+              this.displayVerify='block';
+
              this.isVisiblelogin='none';
              this.uuid=error.error.uuid;
+          }else if(error.error.profileCompleted===false&&error.error.account_Confirmed===true){
+                this.displayInfo='block';
+              //  this.displayVerify='block';
+
+               this.isVisiblelogin='none';
+               this.uuid=error.error.uuid;
           }
 
         }

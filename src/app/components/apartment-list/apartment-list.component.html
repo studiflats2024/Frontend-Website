@@ -2,7 +2,7 @@
 
 
 
-<div  class="layout-list">
+<div *ngIf="apartmentList[0] !==null"  class="layout-list">
   <div class="filter-bar  ">
     <div class="filter-item pricee" style="position: relative;" >
       <button pButton type="button" label="Price" icon="pi pi-chevron-down" iconPos="right" (click)="togglePicker()"  ></button>
@@ -238,12 +238,15 @@
       </div>
       </div>
     </div>
-    <button class="clear-btn" (click)="clearAll()">
+    <!-- <button class="clear-btn" (click)="clearAll()">
       Clear All Filters
-    </button>
+    </button> -->
   </div>
   <div class="divider wid  "></div>
-  <div class="available-apartments  ">+{{ totalRecords }} apartments available</div>
+  <div class="available-apartments  ">+{{ totalRecords }} apartments available  <button class="clear-btn" style="margin-left: 10px;" (click)="clearAll()">
+    Clear All Filters
+  </button></div>
+     
   <div class="divider wid "></div>
 
   <!-- <div class="main-content">
@@ -301,9 +304,11 @@
         <div class="apartment-content">
           <div class="apartment-header">
             <div class="apartment-title"><a routerLink="/apartment-details/{{apartment?.apartment_ID}}" style="text-decoration: none; color: inherit;">{{ apartment.apartment_Name }}</a></div>
-            <i class="pi pi-heart"
-            [ngClass]="{'red-heart': favoriteApartments[apartment.apartment_ID]}"
+            <i style="cursor: pointer;" class="pi pi-heart-fill "
+            [ngClass]="{'red-heart': apartment.isInWishlist}"
            (click)="toggleFavorite(apartment.apartment_ID)"></i>
+           <!-- <img src="heart.svg"/> -->
+
           </div>
           <div class="apartment-location">
             <i class="pi pi-map-marker"></i>
@@ -608,7 +613,9 @@
     </div> -->
 
   </div>
-  <div *ngIf="apartmentList[0] ===null"  class="not-found-container">
+
+  
+  <!-- <div *ngIf="apartmentList[0] ===null"  class="not-found-container">
     <img src="no-result.svg" alt="No Results" class="not-found-image" />
     <h2 class="not-found-title">No Apartments Found</h2>
     <p class="not-found-message">
@@ -618,7 +625,9 @@
     <button class="clear-btn" (click)="clearAll()">
       Clear All Filters
     </button>
-  </div>
+  </div> -->
+
+
   <div *ngIf="isVisible"  class="map"  >
     <!-- <img *ngIf="isVisible" [src]="mapImage" alt="Map"  (click)="navigateToMap()"> -->
         <div   id="googlemap"    >
@@ -674,8 +683,20 @@
 
 
 
-
-
+<div class="parent-notfound" *ngIf="apartmentList[0] ===null">
+  <div   class="not-found-container">
+    <img src="no-result.svg" alt="No Results" class="not-found-image" />
+    <h2 class="not-found-title">No Apartments Found</h2>
+    <p class="not-found-message">
+      Sorry, we couldn't find any apartments that match your filters. <br />
+      Try adjusting your search criteria or clearing the filters.
+    </p>
+    <button class="clear-btn" (click)="clearAll()">
+      Clear All Filters
+    </button>
+  </div>
+</div>
+ 
 
 
 

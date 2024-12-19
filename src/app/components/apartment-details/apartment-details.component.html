@@ -5,7 +5,7 @@
 
 
   <div class="header section-to-watch">
-    <div class="title" style="">{{ aprt.apartment_Name}}
+    <div class="title"  >{{ aprt.apartment_Name}}
       <div class="location-text"  style="width: 100%; color: #6B7280; font-size: 14px; font-family: Inter; font-weight: 500; line-height: 20px; word-wrap: break-word; margin-top: 10px; overflow-wrap: break-word; ">{{ aprt.apartment_Location}}</div>
     </div>
     <div class="right">
@@ -162,7 +162,7 @@
       <div class="col-12 col-md-6 col-lg-4">
         <div class="location-item">
           <i class="bi bi-calendar2-date"></i>
-          <div class="location-text">  Available from {{ aprt.apartment_Published_at | date: 'dd MMM yyyy' }}</div>
+          <div class="location-text">  Available from {{allResponse.apartment_Contract?.contractDate_Start  | date: 'dd MMM yyyy' }}</div>
         </div>
       </div>
     </div>
@@ -549,7 +549,7 @@
           <div class="d-flex justify-content-start align-items-center gap-3">
               <div class="d-flex justify-content-start align-items-center gap-2">
                   <i class="bi bi-calendar3 text-secondary"></i>
-                  <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">Available from 28 JUN 2024</div>
+                  <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">Available from {{allResponse.apartment_Contract?.contractDate_Start  | date: 'dd MMM yyyy' }}</div>
               </div>
           </div>
           <div class="detailss">
@@ -1583,10 +1583,10 @@
                   <div class="frame-success">
                     <div class="text-successs">Send Successfully</div>
                     <div class="supporting-text-success">Your booking request has been sent successfully</div>
-                    <div class="supporting-text-success">
+                    <!-- <div class="supporting-text-success">
                       <span>Booking ID </span>
                       <span class="booking-id">#1254353</span>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
               </div>
@@ -1770,7 +1770,7 @@
     <div class="d-flex justify-content-start align-items-center gap-3">
         <div class="d-flex justify-content-start align-items-center gap-2">
             <i class="bi bi-calendar3 text-secondary"></i>
-            <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">Available from 28 JUN 2024</div>
+            <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">Available from {{allResponse.apartment_Contract?.contractDate_Start  | date: 'dd MMM yyyy' }}</div>
         </div>
     </div>
     <div class="detailss">

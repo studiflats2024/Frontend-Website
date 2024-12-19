@@ -62,6 +62,15 @@ export class UserService {
     }
   ////////////////////////////////////////////////////////////////////
 
+  /////////////////////////shared username//////////////////////////////
+  private userNameSource = new BehaviorSubject<string>(''); // Default value
+  currentUserName = this.userNameSource.asObservable();
+
+  updateUserName(name: string) {
+    this.userNameSource.next(name);
+  }
+  /////////////////////////////////////////////////////////////////////
+
   private modalInfo = new Subject<boolean>(); // A subject to emit changes to modal visibility
 
   // Observable for other components to listen for modal open/close events
@@ -195,6 +204,19 @@ export class UserService {
 
     return this.http.put<any>(url, {}, { params, headers });
   }
+
+  uploadImage(file: any) {
+    const url = `${environment.apiUrl}/Basics/UploadSingleFile`;
+
+      const formData = new FormData();
+      formData.append('fileData', file);
+
+      const headers = new HttpHeaders({
+        'Authorization': `Bearer ${localStorage.getItem('token')}` // If authentication is required
+      });
+
+      return this.http.post(url, formData, { headers });
+    }
 
 
   /////////////////////////social sign/////////////////

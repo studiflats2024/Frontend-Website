@@ -125,7 +125,7 @@ export class BookingService {
       this.token = localStorage.getItem('token');
       this.headers = new HttpHeaders({
         'Content-Type': 'application/json',
-        Authorization: `Bearer ${this.token}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       });
       let headers=this.headers;
 
@@ -135,13 +135,31 @@ export class BookingService {
 
   addToWishlist(apt_ID: string, device_Token: string): Observable<any> {
     const url = `${environment.apiUrl}/Basics/AddWishList`;
-    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
     const body = {
       apt_ID: apt_ID,
       device_Token: device_Token
     };
 
     return this.http.post<any>(url, body, { headers: headers });
+  }
+
+  removeFromWishlist(wish_ID: string): Observable<any> {
+    const url = `${environment.apiUrl}/Basics/RemoveWishList`;
+
+    // Set Wish_ID as a query parameter
+    const params = new HttpParams().set('Wish_ID', wish_ID);
+
+    // Set headers (e.g., Authorization or Content-Type)
+    const headers =new HttpHeaders({
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${localStorage.getItem('token')}`,
+    });
+
+    return this.http.delete(url, { params, headers });
   }
 
 

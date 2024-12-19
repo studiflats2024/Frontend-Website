@@ -19,31 +19,31 @@
 
 
 
-  <div  *ngIf="totalData>0" class="col-lg-9 col-md-6 col-sm-11">
-<div *ngFor="let apartment of wishList.data">
-    <p-card   [style]="{ width: '360px' }" [routerLink]="['/apartment-details', apartment.apt_UUID]">
+  <div  *ngIf="wishList.length>0" class="col-lg-9 col-md-6 col-sm-11">
+<div *ngFor="let apartment of wishList">
+    <p-card   [style]="{ width: '360px' }" >
       <ng-template pTemplate="header">
-          <img alt="Card"  [src]="apartment.apt_ThumbImg"/>
+          <img alt="Card"  [src]="apartment.apt_ThumbImg" [routerLink]="['/apartment-details', apartment.apt_UUID]" />
       </ng-template>
 
 
       <div class="apartment-content">
         <div class="apartment-header">
-          <div class="apartment-title"><a   style="text-decoration: none; color: inherit;">{{ apartment.apt_Name }}</a></div><!--routerLink="/apartment-details/{{apartment?.apartment_ID}}"-->
+          <div class="apartment-title" [routerLink]="['/apartment-details', apartment.apt_UUID]"><a   style="text-decoration: none; color: inherit;">{{ apartment.apt_Name }}</a></div><!--routerLink="/apartment-details/{{apartment?.apartment_ID}}"-->
           <!-- <i class="pi pi-heart"></i> -->
-           <img src="heart.svg"/>
+           <img src="heart.svg" (click)="removeWish(apartment.wish_ID)" />
         </div>
-        <div class="apartment-location">
+        <div class="apartment-location" [routerLink]="['/apartment-details', apartment.apt_UUID]">
           <i class="pi pi-map-marker"></i>
           <span>{{ apartment.apt_Address }}</span>
         </div>
         <div class="divider-wish"></div>
-        <div class="apartment-details">
+        <div class="apartment-details" [routerLink]="['/apartment-details', apartment.apt_UUID]">
           <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid"> 5 beds</div>
           <div class="detail-item"><i class="pi pi-user"></i> 4 persons</div>
           <div class="detail-item"><i class="pi pi-home"></i> 100 m²</div>
         </div>
-        <div class="amenities">
+        <div class="amenities" [routerLink]="['/apartment-details', apartment.apt_UUID]">
           <span ><!-- *ngFor="let amenity of apartment.amenities; let last = last"-->
             <!-- <ng-container *ngIf="amenity === 'Wifi'; else regularAmenity">
               <i class="pi pi-wifi"></i> {{ amenity }}
@@ -57,7 +57,7 @@
           </span>
         </div>
         <div class="divider-wish"></div>
-        <div class="apartment-footer">
+        <div class="apartment-footer" [routerLink]="['/apartment-details', apartment.apt_UUID]">
           <div class="review">
             <span class="rating">5 </span>
             <!-- {{ apartment.rating }} -->
@@ -82,7 +82,7 @@
 </div>
   </div>
 <div class="col-lg-9 col-md-6 col-sm-11">
-  <div *ngIf="totalData===0" class="alert alert-info " role="alert">
+  <div *ngIf="wishList.length===0" class="alert alert-info " role="alert">
     No apartment found on your wishlist .
   </div>
 </div>

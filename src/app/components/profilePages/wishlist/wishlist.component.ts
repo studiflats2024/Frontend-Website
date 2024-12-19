@@ -47,7 +47,8 @@ export class WishlistComponent  implements OnInit {
     this.bookingService.getWishList(this.pageNumber, this.pageSize,this.deviceToken )
       .subscribe(
         (response) => {
-          this.wishList = response;
+          console.log(response)
+          this.wishList = response.data;
           this.totalData=response.totalRecords;
             // Assign the response to the wishlist array
           console.log('WishList:', this.wishList);
@@ -78,6 +79,19 @@ export class WishlistComponent  implements OnInit {
   // Optionally, receive messages in the foreground
   receiveNotifications() {
     this.messagingService.receiveMessage();
+  }
+
+  removeWish(wish_ID: string) {
+    this.bookingService.removeFromWishlist(wish_ID).subscribe({
+      next: (response) => {
+        console.log('Item successfully removed:', response);
+        this.loadWishList();
+
+      },
+      error: (error) => {
+        console.error('Error removing item:', error);
+      }
+    });
   }
 
 }

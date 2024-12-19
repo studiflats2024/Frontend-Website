@@ -3,6 +3,8 @@ import { BookingService } from '../../../services/booking.service';  // Adjust p
 import { ActivatedRoute } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { MessageService } from 'primeng/api';
+// import { format } from 'date-fns';
+
 @Component({
   selector: 'app-user-info',
   templateUrl: './user-info.component.html',
@@ -276,6 +278,152 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     );
   }
 
+  isValidDate(dateString: string): boolean {
+    console
+    // تحقق من تطابق التنسيق DD/MM/YYYY
+    const dateRegex = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/;
+    const match = dateString.match(dateRegex);
+  
+    if (!match) return false; // التنسيق غير صحيح
+  
+    const [_, day, month, year] = match.map(Number); // استخراج اليوم، الشهر، السنة
+  
+    // التحقق من القيم المنطقية للتاريخ
+    const date = new Date(year, month - 1, day); // إنشاء التاريخ
+    return (
+      date.getFullYear() === year &&
+      date.getMonth() === month - 1 &&
+      date.getDate() === day
+    );
+  }
+
+  
+ 
+  
+
+  convertToISO(dateString: any): string {
+    console.log('Input Date String:', dateString);
+  
+    // التحقق إذا كان dateString من نوع Date مباشرة
+    if (dateString instanceof Date) {
+      console.log('Date object detected, converting to ISO:', dateString);
+      
+
+       
+  
+
+      console.log( dateString.toISOString())
+      return dateString.toISOString();
+    }
+  
+    
+
+   
+    
+  
+    // تحويل التاريخ إلى نص إذا لم يكن نصًا بالفعل
+    if (typeof dateString !== 'string') {
+      console.warn('Converting non-string input to string:', dateString);
+      dateString = String(dateString);
+    }
+  
+    // التحقق إذا كان التاريخ بصيغة MM/DD/YYYY
+    const dateRegex = /^\w{3}, \d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} GMT$/;
+    if (dateRegex.test(dateString)) {
+      console.log('Valid GMT Date String detected:', dateString);
+      const date = new Date(dateString);
+      
+      date.setUTCHours(9, 15, 1, 356);
+      // date.setUTCHours(0, 0, 0, 0);
+      console.log(date.toISOString())
+
+      return date.toISOString();
+    }
+  
+    // تقسيم التاريخ بصيغة MM/DD/YYYY
+    const [month, day, year] = dateString.split('/').map(Number);
+  
+    // التحقق من القيم المدخلة
+    if (!day || !month || !year) {
+      console.error('Invalid date format:', dateString);
+      return '';
+    }
+  
+    // إنشاء التاريخ وضبط التوقيت إلى 09:15:01.356 UTC
+    const date = new Date(Date.UTC(year, month - 1, day, 9, 15, 1, 356));
+    console.log('Created Date Object (UTC):', date.toUTCString());
+  
+    // إرجاع التاريخ بصيغة ISO
+    const isoDate = date.toISOString();
+    console.log('ISO Converted Date:', isoDate);
+    return isoDate;
+  }
+
+
+  
+  
+  
+  
+ 
+//////////////////////////////////////////////////////////////////////////////////////////////////////
+  convertFromISOo(isoString: string): string {
+    // التحقق إذا كان النص بصيغة ISO
+    // const isoRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}.\d{3}Z$/;
+    // if (!isoRegex.test(isoString)) {
+    //   console.error('Invalid ISO date format:', isoString);
+    //   return '';
+    // }
+  console.log(isoString)
+    // إنشاء كائن Date من النص
+    const date = new Date(isoString);
+
+      // ضبط الوقت إلى منتصف الليل UTC
+  // date.setUTCHours(0, 0, 0, 0);
+  console.log(date)
+  
+    // استخراج اليوم، الشهر، والسنة
+    const day = String(date.getUTCDate()).padStart(2, '0');
+    const month = String(date.getUTCMonth() + 1).padStart(2, '0'); // إضافة 1 لأن الأشهر تبدأ من 0
+    const year = date.getUTCFullYear();
+  console.log(`${day}/${month}/${year}`)
+    // إرجاع التاريخ بصيغة DD/MM/YYYY
+    return `${day}/${month}/${year}`;
+  }
+
+
+  convertFromISO(isoString: string): string {
+    console.log('ISO Input:', isoString);
+  
+    // تقسيم التاريخ يدوياً للتأكد من عدم حدوث مشكلة المنطقة الزمنية
+    const [month, day, year] = isoString.split('/').map(Number);
+  
+    if (!day || !month || !year) {
+      console.error('Invalid date format. Expected MM/DD/YYYY:', isoString);
+      return '';
+    }
+  
+    // إنشاء كائن Date بالاعتماد على UTC
+    const date = new Date(Date.UTC(year, month - 1, day));
+  
+    console.log('Date Object (UTC):', date.toUTCString());
+  
+    // استخراج اليوم، الشهر، والسنة بتوقيت UTC
+    const formattedDay = String(date.getUTCDate()).padStart(2, '0');
+    const formattedMonth = String(date.getUTCMonth() + 1).padStart(2, '0');
+    const formattedYear = date.getUTCFullYear();
+  
+    // إرجاع التاريخ بالتنسيق MM/DD/YYYY
+    const formattedDate = `${formattedMonth}/${formattedDay}/${formattedYear}`;
+    console.log('Formatted Date:', formattedDate);
+  
+    return formattedDate;
+  }
+  
+  
+  
+ 
+  
+
   profileData: any;
   userName:any;
   emaillogin:any;
@@ -288,12 +436,16 @@ getProfileData(): void {
       this.profileData = data;
       console.log('ProfileData :',this.profileData);
       this.userName= this.profileData[0]?.fullName;
+      this.userService.updateUserName(this.userName);
       this.emaillogin=this.profileData[0]?.email;
       this.phonelogin=this.profileData[0]?.mobile;
       this.gender=this.profileData[0]?.gender;
-      this.birthday=this.profileData[0]?.doB;
+      // this.birthday=this.profileData[0]?.doB;
+      this.birthday= this.convertFromISO(this.profileData[0]?.doB);
+
       this.imgProfile=this.profileData[0]?.profile_pic ;
       this.country=this.profileData[0]?.nationality;
+
 
       console.log(this.birthday)
 
@@ -310,6 +462,18 @@ onUpload(event: any) {
   console.log('File Uploaded:', event);
   const file = event.files[0];
   this.selectedFile = file;
+  
+  // this.userService.uploadImage(this.selectedFile).subscribe(
+  //   (response: any) => {
+     
+  //     const imageUrl = response[0].file_Path;
+  //     console.log(imageUrl)
+  //     this.selectedFile=response[0].file_Path;
+      
+  //   },
+  //   (error) => {
+  //     console.error('Error uploading file:', error);
+  //   })
   this.cdr.detectChanges();
   console.log(file)
   if (file) {
@@ -326,6 +490,8 @@ updateImg(){
       (response) => {
         console.log('Image upload successful:', response);
         this.messageService.add({severity: 'info', summary: 'Success', detail: 'updating image successfully'});
+        this.imgProfile=response.url ;
+        console.log(this.imgProfile)
       },
       (error) => {
         console.error('Error uploading image:', error);
@@ -336,13 +502,30 @@ updateImg(){
     console.error('No file selected!');
   }
 }
+// Helper method to format a date to 'YYYY-MM-DD'
+formatDateToYYYYMMDD(date: string | Date): string {
+  const d = new Date(date);
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, '0'); // Zero-based month, padStart ensures two digits
+  const day = String(d.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 country:any;
+birthdayApi:string=''
 updateProfile() {
-  if (this.userName && this.gender && this.country && this.birthday) {
-    this.userService.updateFullProfile(this.userName, this.gender, this.country, this.birthday).subscribe(
+  this.birthdayApi= this.convertToISO(this.birthday);
+
+  if (this.userName && this.gender && this.country && this.birthdayApi) {
+    // const formattedBirthday = this.formatDateToYYYYMMDD(this.birthday);
+    this.userService.updateFullProfile(this.userName, this.gender, this.country, this.birthdayApi).subscribe(
       (response) => {
         console.log('Profile updated successfully:', response);
         this.messageService.add({severity: 'info', summary: 'Success', detail: 'Your Info Updated successfully'});
+        ///////SHARE USERNAME///////////////////
+        this.userService.updateUserName(this.userName);
+        localStorage.setItem('userNameUpdated',this.userName)
+
+        this.getProfileData()
 
         // Handle success (e.g., show success message to the user)
       },
@@ -357,6 +540,22 @@ updateProfile() {
     console.error('All fields are required.');
     // Optionally handle form validation errors
   }
+}
+
+onImageSelect(img: any) {
+  
+    this.userService.uploadImage(img).subscribe(
+      (response: any) => {
+        // Assuming the API returns a URL to the uploaded image
+        const imageUrl = response[0].file_Path;
+        console.log(imageUrl)
+        
+      },
+      (error) => {
+        console.error('Error uploading file:', error);
+      }
+    );
+ 
 }
 
 }

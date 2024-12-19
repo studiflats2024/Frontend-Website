@@ -87,6 +87,7 @@ logout(): void {
       localStorage.removeItem('token');
       localStorage.removeItem('userToken');
       localStorage.removeItem('userName');
+      localStorage.removeItem('userNameUpdated')
 
 
       this.router.navigate(['/']);
@@ -120,6 +121,16 @@ logout(): void {
     this.authService.currentUserName.subscribe((name) => {
       this.userName = name;
     });
+////////////////////SHARED UPDATED USERNAME FROM PROFILE
+    this.userService.currentUserName.subscribe((name) => {
+      this.userName = name;
+    });
+    if(localStorage.getItem('userNameUpdated')){
+      this.userName=localStorage.getItem('userNameUpdated')||''
+    }else if(localStorage.getItem('userName')&&!localStorage.getItem('userNameUpdated')){
+      this.userName=localStorage.getItem('userName')||''
+          
+    }
   }
 
   toggleSearch() {

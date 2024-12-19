@@ -20,21 +20,24 @@
 
 /* Clear All Button */
 .clear-btn {
-  background-color: #a1c4f4; /* Red for emphasis */
-  border: none;
+  color: #1151B4;  
+  background-color: transparent;
+  border-color: #1151B4;
+  /* border: none; */
   border-radius: 30px;
   padding: 8px 16px;
   font-size: 14px;
-  color: #fff;
-  font-weight: bold;
+  /* color: #fff; */
+  /* font-weight: bold; */
   cursor: pointer;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  transition: background-color 0.3s ease;
+  /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); */
+  transition: color 0.3s ease, border-color 0.3s ease;
   z-index: 1000;
 }
 
 .clear-btn:hover {
-  background-color: #d32f2f; /* Slightly darker red on hover */
+   color: #d32f2f;  
+   border-color: #d32f2f;
 }
 
 .not-found-container {
@@ -45,6 +48,12 @@
   text-align: center;
   padding: 40px;
   margin-top: 20px;
+}
+.parent-notfound{
+  margin-top: 100px;
+  display: flex;
+  justify-content:center;
+  align-items: center;
 }
 
 .not-found-image {
@@ -76,6 +85,7 @@
   padding-right: 3.5rem !important; */
   padding-left: 3.5rem ;
   padding-right: 3.5rem  ;
+  position: relative;
 }
 
 :host ::ng-deep .map-container {
@@ -257,6 +267,13 @@ button .p-button-icon-right, button .p-button-icon-left {
   white-space: nowrap;
 }
 
+@media (max-width:1050px) {
+  .map{
+    /* margin-bottom: 500px; */
+    display:none;
+  }
+}
+
 /* لضمان أن كل شيء يبدو جيدًا على الشاشات الأصغر */
 @media (max-width: 768px) {
   .item-card-map {
@@ -277,7 +294,8 @@ button .p-button-icon-right, button .p-button-icon-left {
     height: 450px;
   }
   .map{
-    margin-bottom: 300px;
+    /* margin-bottom: 500px; */
+    display:none;
   }
 }
 
@@ -697,9 +715,14 @@ button .p-button-icon-right, button .p-button-icon-left {
   top: 150px;
   right: 0;
   align-self: flex-start;
-  /* bottom: 600px; */
   margin-right: 40px;
 
+
+  /* position: fixed;  
+  top: 0;  
+  transform: translateY(calc(20vh - 50px)); 
+  transition: transform 0.3s ease;  
+z-index: 0 !important; */
 
 }
 .mapp {
@@ -1723,8 +1746,10 @@ text-transform: capitalize;
 
 .red-heart {
   color: red;
+  
   /* background-color: red; */
   -webkit-text-stroke: 1px red;
+   
 }
 
 

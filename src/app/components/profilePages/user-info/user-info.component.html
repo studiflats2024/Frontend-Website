@@ -49,7 +49,7 @@
        </div>
 
        <div class="sectionTwo">
-        <form #infoForm="ngForm" (ngSubmit)="onSubmit(infoForm)">
+        <form>
           <div class="row w-full">
 
           <div class="col-lg-6 col-sm-12 ">
@@ -84,7 +84,7 @@
                 #countryy="ngModel"
                 class="form-control">
             <div *ngIf="countryy.invalid && (countryy.dirty || countryy.touched)" class="error">
-              <small *ngIf="countryy.errors?.['required']">Phone number is required.</small>
+              <small *ngIf="countryy.errors?.['required']">country is required.</small>
             </div>
           </div>
         </div>

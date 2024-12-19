@@ -102,6 +102,7 @@ fixxxx:boolean=false;
   apartmentsSearch:any
 
   ngOnInit(): void {
+     
     // this.getAllApartment();
     // this.loadGoogleMapsAPI().then(() => {
     //   this.initMap();
@@ -138,7 +139,8 @@ fixxxx:boolean=false;
     // this.fixPriceRangeApi()
     console.log(this.filterData)
 
-
+    this. loadWishList()
+    // this.highlightWishlist()
   }
 
 
@@ -518,8 +520,16 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
   }
 
   clearAll(){
+    
     this.clear()
-    this.applyFilter();
+ 
+    window.location.reload();
+    // this.router.navigateByUrl('apartment-list', { skipLocationChange: true }).then(() => {
+    //   this.router.navigate([this.router.url]);
+    // });
+  
+    
+console.log('why')
   }
 
 
@@ -614,6 +624,8 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
         this.showPickerguest=false;
         this.showPickerplace=false;
         this.filters=false;
+
+        this. loadWishList()
         // this.clear();
       },
       error => {
@@ -685,7 +697,7 @@ isVisible:boolean=true;
     const section2 = document.querySelector('.custom-footer.section-to-watch') as HTMLElement;
     const mapElement = document.getElementById('googlemap');
 
-    if (section1 && section2 && mapElement) {
+    if ( section1 && section2 && mapElement) { 
       const rect1 = section1.getBoundingClientRect();
       const rect2 = section2.getBoundingClientRect();
       const windowHeight = window.innerHeight;
@@ -694,7 +706,7 @@ isVisible:boolean=true;
       const section1Visible = rect1.top < windowHeight && rect1.bottom > 0;
       const section2Visible = rect2.top < windowHeight && rect2.bottom > 0;
 
-      if ((section1Visible || section2Visible)&&!this.fixxxx) {
+      if (( section1Visible ||section2Visible)&&!this.fixxxx) {  
         this.deactivateMap();
       } else {
         this.activateMap();
@@ -936,34 +948,129 @@ emaill=''
   }
 
   favoriteApartments: { [key: string]: boolean } = {};
+  // toggleFavorite(apt_ID: string) {
+
+  //   if(!localStorage.getItem('token')&&!localStorage.getItem('userToken')&&!localStorage.getItem('userName')){
+  //     this.messageService.add({severity: 'info', summary: 'Info', detail: 'Please sign up or login to your account'});
+  //      return;
+  //   }
+     
+
+  //   this.messagingService.requestPermission()
+  //     .then((token:any) => {
+  //       console.log('Device token:', token);
+  //       this.deviceToken=token;
+       
+
+       
+  //  const apartment = this.apartmentList.find((apartment:any) => apartment.apartment_ID === apt_ID);
+
+  //  if (apartment) {
+ 
+  //    apartment.isInWishlist = !apartment.isInWishlist;
+ 
+  //    console.log(`Apartment ${apt_ID} wishlist status:`, apartment.isInWishlist);
+ 
+   
+  //  }
+
+  //  if (apartment.isInWishlist) {
+   
+  //   const wishID = this.getWishID(apartment.apartment_Name, apartment.apartment_Location);
+  //   console.log('wishID',wishID)
+
+  //   if (wishID) {
+  //     console.log('Removing from wishlist, Wish_ID:', wishID);
+  //     this.removeWish(wishID);
+  //     apartment.isInWishlist = false; 
+  //   }
+  // } else {
+   
+  //   this.addToWishlist(apt_ID,this.deviceToken);
+  //   apartment.isInWishlist = true;  
+  // }
+
+
+  //     })
+  //     .catch((error:any) => {
+  //       console.error('Error getting token:', error);
+  //     });
+
+    
+  //   this.messagingService.receiveMessage();
+
+ 
+
+    
+  // }
   toggleFavorite(apt_ID: string) {
-    // Toggle favorite status
-    // this.favoriteApartments[apt_ID] = !this.favoriteApartments[apt_ID];
-    this.favoriteApartments[apt_ID] = true;
-
-
-    // Call the API service
-
-    this.messagingService.requestPermission()
-      .then((token:any) => {
-        console.log('Device token:', token);
-        this.deviceToken=token;
-        this.addToWishlist(apt_ID,this.deviceToken);
-      })
-      .catch((error:any) => {
-        console.error('Error getting token:', error);
+    // Check for authentication
+    if (
+      !localStorage.getItem('token') &&
+      !localStorage.getItem('userToken') &&
+      !localStorage.getItem('userName')
+    ) {
+      this.messageService.add({
+        severity: 'info',
+        summary: 'Info',
+        detail: 'Please sign up or login to your account',
       });
-
-    // Optionally listen for incoming notifications
-    this.messagingService.receiveMessage();
+      return;
+    }
+  
+    // Find the apartment by ID
+    const apartment = this.apartmentList.find(
+      (apartment: any) => apartment.apartment_ID === apt_ID
+    );
+  
+    if (apartment) {
+      // Toggle 'isInWishlist' flag
+      apartment.isInWishlist = !apartment.isInWishlist;
+  
+      // Device token logic
+      this.messagingService
+        .requestPermission()
+        .then((token: any) => {
+          console.log('Device token:', token);
+          this.deviceToken = token;
+  
+          if (apartment.isInWishlist) {
+            // Add to wishlist
+            this.addToWishlist(apt_ID, this.deviceToken);
+          } else {
+            // Get the wish_ID to remove from wishlist
+            const wishID = this.getWishID(
+              apartment.apartment_Name,
+              apartment.apartment_Location
+            );
+  
+            if (wishID) {
+              console.log('Removing from wishlist, Wish_ID:', wishID);
+              this.removeWish(wishID);
+            }
+          }
+        })
+        .catch((error: any) => {
+          console.error('Error getting device token:', error);
+        });
+  
+      // Optionally listen for incoming notifications
+      this.messagingService.receiveMessage();
+    } else {
+      console.error('Apartment not found for ID:', apt_ID);
+    }
   }
+  
 
   deviceToken:any;
 
   addToWishlist(apt_ID: string, device_Token: string) {
     this.bookingService.addToWishlist(apt_ID, device_Token).subscribe(
       (response) => {
+        // this.highlightWishlist()
         console.log('API call success:', response);
+        this.messageService.add({severity: 'success', summary: 'Success', detail: "Added successfully to wishlist"});
+
       },
       (error) => {
         console.error('API call error:', error);
@@ -971,6 +1078,70 @@ emaill=''
       }
     );
   }
+
+   
+ wishList:any;
+ totalData:any;
+  loadWishList() {
+    this.bookingService.getWishList( 1, 1000,this.deviceToken )
+      .subscribe(
+        (response) => {
+          console.log(response)
+          this.wishList = response.data;
+          
+            // Assign the response to the wishlist array
+          console.log('WishList:', this.wishList);
+          this.highlightWishlist()
+        },
+        (error) => {
+          console.error('Error fetching wishlist:', error);
+          // this.messageService.add({severity: 'error', summary: 'Error', detail: error.message});
+        }
+      );
+  }
+
+  copyApartmentList:any=[]
+highlightWishlist(){
+  
+  // Compare apartments and highlight those in the wishlist
+  this.apartmentList = this.apartmentList.map((apartment:any) => {
+    const isInWishlist = this.wishList.some((wishItem :any)=>
+      wishItem.apt_Name === apartment.apartment_Name &&
+      wishItem.apt_Address === apartment.apartment_Location
+    );
+
+    return {
+      ...apartment,
+      isInWishlist: isInWishlist // Add a flag for highlighting
+    };
+  })
+  console.log('apartment with wishlist',this.apartmentList)
+}
+
+
+removeWish(wish_ID: string) {
+  this.bookingService.removeFromWishlist(wish_ID).subscribe({
+    next: (response) => {
+      console.log('Item successfully removed:', response);
+    },
+    error: (error) => {
+      console.error('Error removing item:', error);
+    }
+  });
+}
+
+getWishID(apartmentName: string, apartmentLocation: string): string | null {
+  // Search for the apartment in the wishlist using name and address
+  const matchedWishlistItem = this.wishList.find(
+    (wishlistItem:any) =>
+      wishlistItem.apt_Name === apartmentName &&
+      wishlistItem.apt_Address === apartmentLocation
+  );
+
+  // Return the wish_ID if found, otherwise return null
+  return matchedWishlistItem ? matchedWishlistItem.wish_ID : null;
+}
+
 
 
 }
