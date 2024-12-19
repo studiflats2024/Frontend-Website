@@ -307,13 +307,14 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     // التحقق إذا كان dateString من نوع Date مباشرة
     if (dateString instanceof Date) {
       console.log('Date object detected, converting to ISO:', dateString);
-      
 
-       
-  
+       // ضبط التوقيت المحلي
+    const localDate = new Date(dateString.getTime() - dateString.getTimezoneOffset() * 60000);
+    console.log('Adjusted Local Date:', localDate.toISOString());
+    return localDate.toISOString();
 
-      console.log( dateString.toISOString())
-      return dateString.toISOString();
+      // console.log( dateString.toISOString())
+      // return dateString.toISOString();
     }
   
     
@@ -338,6 +339,12 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
       console.log(date.toISOString())
 
       return date.toISOString();
+
+        // ضبط التوقيت المحلي
+  // const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  // console.log('Adjusted Local Date:', localDate.toISOString());
+  // return localDate.toISOString();
+
     }
   
     // تقسيم التاريخ بصيغة MM/DD/YYYY

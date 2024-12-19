@@ -132,6 +132,17 @@ fixxxx:boolean=false;
     });
 
 
+    this.messagingService.requestPermission()
+    .then((token:any) => {
+      console.log('Device token:', token);
+      this.deviceToken=token;
+       this.loadWishList();
+    })
+    .catch((error:any) => {
+      console.error('Error getting token:', error);
+    });
+
+
 
     this.onWindowScroll();
     this.get_Google_Maps();

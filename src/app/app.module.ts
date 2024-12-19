@@ -28,6 +28,9 @@ import { BlogsModule } from './components/blogs/blogs.module';
 import { BlogDetailsModule } from './components/blog-details/blog-details.module';
 import { DialogModule } from 'primeng/dialog';
 import { SitemapComponent } from '../sitemap-generator/sitemap.component';
+import { AuthInterceptorService } from './services/auth-interceptor.service';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+
 
 @NgModule({
   declarations: [
@@ -62,7 +65,13 @@ import { SitemapComponent } from '../sitemap-generator/sitemap.component';
 
   ],
  
-  providers: [MessageService],
+  providers: [MessageService,   
+    {
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptorService,
+    multi: true,
+  }
+  ],
   bootstrap: [AppComponent ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
