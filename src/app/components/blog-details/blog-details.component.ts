@@ -20,12 +20,12 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
   constructor(  private route: ActivatedRoute,private titleService: Title, private metaService: Meta,private blogService: BlogService) {
     // this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
 
-    
+
     // if (this.blogId) {
     //   this.loadBlogDetails(this.blogId);
     //   localStorage.setItem('blogId', this.blogId);
     // }   else {
- 
+
     //   console.error('No blog ID found');
     // }
 
@@ -35,7 +35,7 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
     ]
 
 
-    
+
 
     // this.titleService.setTitle(this.title);
     // this.metaService.updateTag({ name: 'description', content: this.metaDes });
@@ -53,7 +53,7 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
   //     this.loadBlogDetails(this.blogId);
   //     localStorage.setItem('blogId', this.blogId);
   //   }   else {
-  
+
   //     console.error('No blog ID found');
   //   }
   this.blogSlug = this.route.snapshot.paramMap.get('slug') || '';
@@ -70,7 +70,7 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
     ]
 
 
-     
+
 
     // this.titleService.setTitle(this.title);
     // this.metaService.updateTag({ name: 'description', content: this.metaDes });
@@ -82,7 +82,7 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
  }
 
  ngAfterViewInit() {
- 
+
 }
 
 
@@ -126,15 +126,15 @@ loadBlogDetails(blogSlug: string): void {
     (blog) => {
       console.log(blog)
       this.title = blog.blog_Title;
-       
-    
+
+
       this.titleService.setTitle(this.title);
 
       this.metaDes = blog.blog_Meta_Desc;
       this.metaService.updateTag({ name: 'description', content: this.metaDes });
       this.desc = blog.blog_Desc;
       console.log(this.title,this.metaDes)
-      
+
       this.altImg = blog.blog_Image_Alt;
       this.blogContent = blog.blog_Content;
       this.category = blog.blog_Category;
@@ -155,7 +155,7 @@ loadBlogDetails(blogSlug: string): void {
     this.metaService.updateTag({ rel: 'canonical', href: canonicalUrl });
 
     console.log(`Canonical tag added: ${canonicalUrl}`);
-    
+
     },
     (error) => {
       console.error('Error loading blog details:', error);
