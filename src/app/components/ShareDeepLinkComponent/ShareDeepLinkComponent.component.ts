@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute,Router } from '@angular/router';
+import { environment } from '../../../environments/environment';
+
 
 @Component({
   selector: 'app-redirect',
@@ -17,7 +19,9 @@ export class ShareDeepLinkComponentComponent implements OnInit {
     const androidFallbackUrl = 'https://play.google.com/store/apps/details?id=com.studiflats.app';
     const iosFallbackUrl = 'https://apps.apple.com/app/id6474908385';
     const deepLink = `StudiFlats://Apartment?ID=${code}`;
-    const flutterUniversalLink = `https://dev.studiflats.com/Share/${code}`;
+    // const flutterUniversalLink = `https://dev.studiflats.com/Share/${code}`;
+    const flutterUniversalLink = `${environment.apiUrl}/Share/${code}`;
+
 
     // Detect platform
     const userAgent = window.navigator.userAgent || '';
