@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import {BlogsComponent}from './components/blogs/blogs.component'
 import {BlogDetailsComponent}from './components/blog-details/blog-details.component'
 import { SitemapComponent } from '../sitemap-generator/sitemap.component';
+import { ShareDeepLinkComponentComponent } from './components/ShareDeepLinkComponent/ShareDeepLinkComponent.component';
 
 const routes: Routes = [
   { path: 'sitemap', component: SitemapComponent },
@@ -45,10 +46,10 @@ const routes: Routes = [
     path: 'payments-invoices', loadChildren: () => import('./components/profilePages/invoices/invoices.module').then(m => m.InvoicesModule) // Lazy load FAQ module
   },
   // {
-  //   path: 'blogs', loadChildren: () => import('./components/blogs/blogs.module').then(m => m.BlogsModule)  
+  //   path: 'blogs', loadChildren: () => import('./components/blogs/blogs.module').then(m => m.BlogsModule)
   // },
   // {
-  //   path: 'blog-details', loadChildren: () => import('./components/blog-details/blog-details.module').then(m => m.BlogDetailsModule)  
+  //   path: 'blog-details', loadChildren: () => import('./components/blog-details/blog-details.module').then(m => m.BlogDetailsModule)
   // },
   {
     path: 'blogs',
@@ -67,6 +68,8 @@ const routes: Routes = [
   {
     path: 'privacy-policy', loadComponent: () =>  import('./components/privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent) // Lazy load FAQ module
   },
+  { path: 'Share/:code', component: ShareDeepLinkComponentComponent },
+
 
 ];
 @NgModule({
