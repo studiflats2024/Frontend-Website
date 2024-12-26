@@ -20,7 +20,7 @@ export class ShareDeepLinkComponentComponent implements OnInit {
     const iosFallbackUrl = 'https://apps.apple.com/app/id6474908385';
     const deepLink = `StudiFlats://Apartment?ID=${code}`;
     // const flutterUniversalLink = `https://dev.studiflats.com/Share/${code}`;
-    const flutterUniversalLink = `${environment.apiUrl}/Share/${code}`;
+    const flutterUniversalLink = `${environment.deepLinkUrl}/Share/${code}`;
 
 
     // Detect platform
