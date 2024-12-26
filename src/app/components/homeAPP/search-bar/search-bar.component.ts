@@ -115,6 +115,11 @@ export class SearchBarComponent {
     this.apartmentService.searchApartments(pageNo, pageSize, city, checkIn, checkOut, guestNo).subscribe(
       response => {
         console.log('Search results:', response);
+        this.apartmentSearchService.setRequestData({
+          checkIn,
+          checkOut,
+          guests: guestNo,
+        });
         this.apartmentSearchService.setSearchResults(response);
         this.searchResults.emit(response);
         this.router.navigate(['/apartment-list']);

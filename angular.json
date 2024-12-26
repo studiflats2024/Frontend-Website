@@ -12,6 +12,22 @@
       "sourceRoot": "src",
       "prefix": "app",
       "architect": {
+
+        
+        "prerender": {
+  "builder": "@nguniversal/builders:prerender",
+  "options": {
+    "browserTarget": "studiflat-frontend:build:production",
+    "serverTarget": "studiflat-frontend:server:production",
+    "routes": [
+      "/blog-details/accommodation-in-berlin-for-international-students",
+      "/blog-details/cheap-student-accommodation-in-berlin-germany",
+      "/blog-details/best-studio-apartment-berlin-student",
+      "/blog-details/furnished-student-apartments-for-rent-in-berlin"
+    ]
+  }
+}
+,
  
         
         "build": {

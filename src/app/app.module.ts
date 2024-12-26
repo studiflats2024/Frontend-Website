@@ -30,6 +30,7 @@ import { DialogModule } from 'primeng/dialog';
 import { SitemapComponent } from '../sitemap-generator/sitemap.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { MaintenanceInterceptor } from './services/maintenance-interceptor.service';
 
 
 @NgModule({
@@ -70,7 +71,12 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptorService,
     multi: true,
-  }
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: MaintenanceInterceptor, // Add your interceptor here
+    multi: true,
+  },
   ],
   bootstrap: [AppComponent ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

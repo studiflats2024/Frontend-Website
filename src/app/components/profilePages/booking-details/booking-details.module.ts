@@ -20,6 +20,8 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { FormsModule } from '@angular/forms';
 import { CalendarModule } from 'primeng/calendar';
+import { AvatarModule } from 'primeng/avatar';
+import { AvatarGroupModule } from 'primeng/avatargroup';
 
 const routes: Routes = [
   { path: '', component: BookingDetailsComponent }
@@ -47,6 +49,8 @@ const routes: Routes = [
     InputTextareaModule,
     FormsModule,
     CalendarModule,
+    AvatarGroupModule,
+    AvatarModule,
     RouterModule.forChild(routes)
 
   ],

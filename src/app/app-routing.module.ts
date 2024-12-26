@@ -52,11 +52,11 @@ const routes: Routes = [
   // },
   {
     path: 'blogs',
-    component: BlogsComponent // Directly reference the module or its primary component
+    component: BlogsComponent  
   },
   {
     path: 'blog-details/:slug',
-    component: BlogDetailsComponent // Directly reference the module or its primary component
+    component: BlogDetailsComponent  
   },
   {
     path: 'land-lord-steps', loadChildren: () => import('./components/landlordPages/lord-steps/lord-steps.module').then(m => m.LordStepsModule) // Lazy load FAQ module

@@ -69,6 +69,7 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
     { label: 'blog details', routerLink: '/' }
     ]
 
+    this.titleService.setTitle(this.title);
 
      
 
@@ -129,6 +130,7 @@ loadBlogDetails(blogSlug: string): void {
        
     
       this.titleService.setTitle(this.title);
+      console.log(this.titleService.setTitle(this.title))
 
       this.metaDes = blog.blog_Meta_Desc;
       this.metaService.updateTag({ name: 'description', content: this.metaDes });

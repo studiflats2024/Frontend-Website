@@ -16,6 +16,9 @@ interface Guest {
   bed_Price: number;
   secuirty_Deposit:number;
   service_Fee:number;
+  guest_Mail:any;
+  guest_Phone:any;
+  guest_Image_Profile:any;
 }
 
 @Component({
@@ -375,6 +378,7 @@ export class BookingDetailsComponent implements OnInit {
   fetchBookingDetails(bookingID: string): void {
     this.bookingService.getBookingDetails(bookingID).subscribe(
       (response) => {
+        console.log(response)
         // this.bookingDetails = response;
         this.bookingDetails = response;
 

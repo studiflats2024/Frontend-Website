@@ -148,19 +148,34 @@
 
 
           <div class="value mb-3">{{guest.bed_Name}}</div>
-          <div class="info  flex flex-wrap justify-content-between align-content-center mb-5">
+          <div class="info  flex flex-wrap justify-content-between align-content-center mb-3 mr-2 ">
+               <!-- <div>
+                <p class="label">Guest Name</p>
+                <p class="value flex justify-content-center align-items-center"> <p-avatar 
+                  [image]="guest.guest_Image_Profile" 
+                  styleClass="mr-2" 
+                  size="xlarge" 
+                  shape="circle" />  <span class="value"  >{{guest.guest_Name }}</span></p>
+               </div> -->
+               <div class="flex justify-content-center align-items-center">
+                <p-avatar 
+                [image]="guest.guest_Image_Profile" 
+                styleClass="mr-2" 
+                size="xlarge" 
+                shape="circle" />  
+               </div>
                <div>
                 <p class="label">Guest Name</p>
-                <p class="value">{{guest.guest_Name }}</p>
+                <p class="value "> {{guest.guest_Name }} </p>
                </div>
                <div>
                 <p class="label">Email Address</p>
-                <!-- <p class="value">{{emaillogin}}</p> -->
+                <p class="value">{{guest.guest_Mail}}</p>
 
                </div>
                <div>
                 <p class="label">what’s app number</p>
-                <!-- <p class="value">{{phonelogin}}</p> -->
+                <p class="value">{{guest.guest_Phone}}</p>
                </div>
           </div>
 
@@ -222,21 +237,34 @@
                     <div class="bed-title">{{ guest.bed_Name }}</div>
                     <div class="bed-price">{{ guest.bed_Price | currency }}</div>
                   </div>
+                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
+                    <div>
+                      <span class="fee-title">Security Deposit for {{ guest.bed_Name }}</span>
+                      <span class="refundable">(Refundable)</span>
+                    </div>
+                    <div class="fee-price">{{ guest.secuirty_Deposit | currency }}</div>
+                  </div>
+                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
+                    <div class="fee-title">Service Fee for {{ guest.bed_Name }}</div>
+                    <div class="fee-price">{{ guest.service_Fee | currency }}</div>
+                  </div>
+            <div  class="dividerr mt-3 mb-3"></div>
+
         </div>
                   <!-- Display security deposit -->
-                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
+                  <!-- <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
                     <div>
                       <span class="fee-title">Security Deposit</span>
                       <span class="refundable">(Refundable)</span>
                     </div>
                     <div class="fee-price">{{ room.value[0].secuirty_Deposit | currency }}</div>
-                  </div>
+                  </div> -->
 
                   <!-- Display service fee -->
-                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
+                  <!-- <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
                     <div class="fee-title">Service Fee</div>
                     <div class="fee-price">{{ room.value[0].service_Fee | currency }}</div>
-                  </div>
+                  </div> -->
 
                   <!-- Divider between guests -->
                   <div  *ngIf="(groupedGuests | keyvalue).length!=(i+1)" class="dividerr mt-3 mb-3"></div>
@@ -246,7 +274,7 @@
             </div>
 
             <!-- Divider before total -->
-            <div  class="dividerr mt-3 mb-3"></div>
+            <!-- <div  class="dividerr mt-3 mb-3"></div> -->
 
             <!-- Total amount (placeholder) -->
             <div class="d-flex justify-content-between align-items-center w-100">
@@ -263,8 +291,8 @@
     <div class="footer-frame-success">
       <div class="footer-text-success">To complete the booking process, please download our app.</div>
       <div class="app-links">
-        <a href="https://play.google.com/store/apps/details?id=com.studiflats.app&hl=ar"><img class="google-play-link" src="apple-store.png" /></a>
-        <a href="https://apps.apple.com/pl/app/studiflats/id6474908385"><img class="apple-store-link" src="google-play.png" /></a>
+        <a  target="_blank" href="https://play.google.com/store/apps/details?id=com.studiflats.app&hl=ar"><img class="google-play-link" src="apple-store.png" /></a>
+        <a  target="_blank" href="https://apps.apple.com/pl/app/studiflats/id6474908385"><img class="apple-store-link" src="google-play.png" /></a>
       </div>
     </div>
 

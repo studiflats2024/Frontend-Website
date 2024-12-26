@@ -2,6 +2,8 @@
 
 import { NgModule ,CUSTOM_ELEMENTS_SCHEMA  } from '@angular/core';
 import { BlogsComponent } from './blogs.component';
+import { BlogDetailsComponent } from '../blog-details/blog-details.component';
+
 
 
 import { RouterModule, Routes } from '@angular/router';
@@ -18,13 +20,16 @@ import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { PaginatorModule } from 'primeng/paginator';
 
 const routes: Routes = [
-  { path: '', component: BlogsComponent }
+  // { path: '', component: BlogsComponent }
+
+
 ];
 
 @NgModule({
   declarations: [
 
     BlogsComponent,
+    
 
 
   ],

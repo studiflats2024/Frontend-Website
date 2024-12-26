@@ -23,6 +23,8 @@ import { MessagingService } from '../../services/messaging.service';
 import { HttpClient } from '@angular/common/http';
 import { AuthComponent } from '../auth/auth.component';
 import { Globals, isValidEmail } from '../../globals/global';
+import { ApartmentSearchService } from '../../services/apartment-search.service';
+
 
 
 
@@ -173,19 +175,62 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
 
 
   onCheckinDateChange(date: string) {
+    const checkoutDate = new Date(date); // Convert input date to a Date object
+    const availableFrom = new Date(this.aprt.available_From); // Convert available_From to a Date object
+    // console.log(this.aprt.min_Stay)
+
+    if (checkoutDate < availableFrom) {
+        console.log("Not Available");
+        this.messageService.add({
+          severity: 'info',
+          summary: 'Info',
+          detail: `Please change check-in date, check-in date before ${availableFrom.toISOString().split('T')[0]} not available `,
+          life: 6000
+      });
+        return; // Exit the function if the checkout date is invalid
+    }
+
+    console.log("Available");
+
+
     if(date>=new Date().toISOString().slice(0, 10) ){
       this.bookingForm.get('bookingStartDate')?.setValue(date);
     }else{
             this.messageService.add({
-            severity: 'error',
-            summary: 'Error',
+            severity: 'info',
+            summary: 'info',
             detail: "You can't choose this date for check-in"
         });
     }
 
+
+
+
   }
 
   onCheckoutDateChange(date: string) {
+     //.split('T')[0]
+    // let dateFormat=new Date(date)
+    // const checkoutDate =  this.aprt.available_To 
+    // console.log(dateFormat,checkoutDate)
+
+    const checkoutDate = new Date(date); // Convert input date to a Date object
+    const availableTo = new Date(this.aprt.available_To); // Convert available_From to a Date object
+    // console.log(this.aprt.min_Stay)
+
+    if (checkoutDate > availableTo) {
+        console.log("Not Available");
+        this.messageService.add({
+          severity: 'info',
+          summary: 'info',
+          detail: `Please change check-out date, check-out date after ${availableTo.toISOString().split('T')[0]} not available `,
+          life: 6000
+      });
+        return; // Exit the function if the checkout date is invalid
+    }
+
+    console.log("Available");
+
     // const checkinDateString = this.bookingForm.get('bookingStartDate')?.value;
     // const checkoutDate = new Date(this.checkoutDate);
 
@@ -236,10 +281,7 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
   //   return this.newGuestArr;
   // }
 
-
-
-
-
+ 
 
 roomsStep2:any
 totalPriceBooking=0;
@@ -249,6 +291,7 @@ guestPhone: string = '';
 emailTouched: boolean = false;
 fullNameTouched: boolean = false;
 phoneTouched: boolean = false;
+ 
 
   submitstep2(){
     if(this.selectedItem > this.selectedBeds.length){
@@ -661,7 +704,9 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
         room.room_Beds.forEach(bed =>
           //  this.selectedBeds.push(bed)
           {
-            if ( bed.bed_Available) {
+            // if ( bed.bed_Available) {isAvailable
+            if ( bed.isAvailable) { 
+
               bed['room_Type']=room.room_Type;
               bed['apartment_ID']=this.aprt.apartment_ID;
                this.selectedBeds.push(bed);
@@ -787,7 +832,9 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
       for (let i = 0; i < room.room_Beds.length; i++) {
         const bed = room.room_Beds[i];
 
-        if (!bed.bed_Available) {
+        // if (!bed.bed_Available) {isAvailable
+        if (!bed.isAvailable) { 
+
           this.selectedRooms = this.selectedRooms.filter(r => r !== room);
           (event.target as HTMLInputElement).checked=false;
           this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'You cannot book this room.' });
@@ -806,7 +853,9 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
           break;  // استخدم break للخروج من الحلقة
         } else {
 
-          if (isChecked && bed.bed_Available && !this.selectedBeds.includes(bed)) {
+          // if (isChecked && bed.bed_Available && !this.selectedBeds.includes(bed)) {isAvailable
+          if (isChecked && bed.isAvailable && !this.selectedBeds.includes(bed)) { 
+
             bed['room_Type'] = room.room_Type;
             bed['apartment_ID'] = this.aprt.apartment_ID;
             this.selectedBeds.push(bed);
@@ -901,6 +950,8 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
   }
 
   onBedSelected(event: Event,bed:any,room:any,allroom:any ){
+    console.log(this.checkinDate,this.checkoutDate)
+    console.log(bed.beds_Booked_Dates)
     const isChecked = (event.target as HTMLInputElement).checked;
     // this.bedCheckboxes.forEach((checkbox, index) => {
     //   const bedCheckboxElement = checkbox.nativeElement as HTMLInputElement;
@@ -1021,7 +1072,9 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
 
     //  );
     const anyBedSelected = allroom.room_Beds.every((roomBed: any) => {
-      if (!roomBed.bed_Available) {
+      // if (!roomBed.bed_Available) {isAvailable
+      if (!roomBed.isAvailable) { 
+
         return false; // إذا كان السرير غير متاح، نعود false مباشرةً
       }
       return this.selectedBeds.includes(roomBed); // تحقق ما إذا كان السرير متاحًا ومدرجًا في selectedBeds
@@ -1229,6 +1282,8 @@ preservedGuests:any
   //   });
   // }
 
+  requestDataFromSearch:any
+
   constructor(
     private messagingService: MessagingService,
     private bookingService:BookingService,
@@ -1242,8 +1297,20 @@ preservedGuests:any
     private userService: UserService,
     private authService: AuthService,
     private cdr: ChangeDetectorRef,
-    private resolver: ComponentFactoryResolver)
+    private resolver: ComponentFactoryResolver,
+    private apartmentSearchService: ApartmentSearchService)
      {
+      this.apartmentSearchService.requestData$.subscribe((data) => {
+        this.requestDataFromSearch = data;
+        console.log('Shared Request Data From Search:', this.requestDataFromSearch);
+        if(this.requestDataFromSearch.checkIn||this.requestDataFromSearch.checkOut){
+          this.checkinDate=this.requestDataFromSearch.checkIn
+          this.checkoutDate=this.requestDataFromSearch.checkOut
+        }
+        
+        console.log(this.checkinDate, this.checkoutDate)
+      });
+
     this.apt_UUID = _ActivatedRoute.snapshot.paramMap.get('id');
     this.initializeGuestsAPI();
     this.guestsAPI = this.selectedBeds.map((i) => ({
@@ -1285,6 +1352,7 @@ preservedGuests:any
       this.faqs = data;
     });
   }
+
   items:any=[];
   activeIndex: number = 0;
   openModalsCount = 0;
@@ -1656,6 +1724,202 @@ input.addEventListener("countrychange", function() {
 
    this.host=true;
   }
+
+  ////////////////////////////////////////////////////updates on booking and checkin/out dates//////////////////////////////////
+
+
+  testcheckBedAvailability(beds: any[], checkin: string, checkout: string): any[] {
+    const checkinDate = new Date(checkin);
+    const checkoutDate = new Date(checkout);
+  
+    const minimumDurationInDays = 90; // 3 months
+    const oneDay = 24 * 60 * 60 * 1000;
+  
+    return beds.map((bed) => {
+      let isAvailable = false;
+      const bookedDates = bed.beds_Booked_Dates;
+  
+      // Sort the booked dates array by 'from' dates for easier comparisons
+      bookedDates.sort((a: any, b: any) => new Date(a.from).getTime() - new Date(b.from).getTime());
+  
+      if (bookedDates.length === 0) {
+        // No bookings, bed is available
+        isAvailable = true;
+      } else {
+        // Check against the earliest `from` date
+        const earliestFromDate = new Date(bookedDates[0].from);
+        if (checkinDate < earliestFromDate && checkoutDate < earliestFromDate) {
+          // Check minimum booking duration
+          const durationInDays = (checkoutDate.getTime() - checkinDate.getTime()) / oneDay;
+          if (durationInDays >= minimumDurationInDays) {
+            isAvailable = true;
+          }
+        } else {
+          // Loop through booked dates to find a gap
+          for (let i = 0; i < bookedDates.length; i++) {
+            const currentBooking = bookedDates[i];
+            const currentFrom = new Date(currentBooking.from);
+            const currentTo = new Date(currentBooking.to);
+  
+            const nextBooking = bookedDates[i + 1];
+            const previousTo = i > 0 ? new Date(bookedDates[i - 1].to) : null;
+  
+            if (
+              checkinDate > currentTo &&
+              (!nextBooking || checkoutDate < new Date(nextBooking.from)) &&
+              (!previousTo || checkinDate > previousTo)
+            ) {
+              const durationInDays = (checkoutDate.getTime() - checkinDate.getTime()) / oneDay;
+              if (durationInDays >= minimumDurationInDays) {
+                isAvailable = true;
+                break;
+              }
+            }
+          }
+        }
+  
+        // If no gaps are found, check against the last `to` date
+        if (!isAvailable) {
+          const latestToDate = new Date(bookedDates[bookedDates.length - 1].to);
+          if (checkinDate > latestToDate) {
+            const durationInDays = (checkoutDate.getTime() - checkinDate.getTime()) / oneDay;
+            if (durationInDays >= minimumDurationInDays) {
+              isAvailable = true;
+            }
+          }
+        }
+      }
+  
+      // Add `isAvailable` property to the bed object
+      return {
+        ...bed,
+        isAvailable,
+        availableAfter: isAvailable
+          ? null
+          : new Date(
+              Math.max(...bookedDates.map((booking: any) => new Date(booking.to).getTime()))
+            ).toISOString(),
+      };
+    });
+  }
+
+
+
+
+ updateBedAvailability(apartmentRooms: any[], checkin: string, checkout: string): void {
+    const checkinDate = new Date(checkin);
+    const checkoutDate = new Date(checkout);
+    // const minimumDurationInDays = 90;
+    const minimumDurationInDays = this.aprt.min_Stay * 30;
+     // 3 months
+    const oneDay = 24 * 60 * 60 * 1000;
+  
+    apartmentRooms.forEach((room: any) => {
+      room.room_Beds.forEach((bed: any) => {
+        let isAvailable = false;
+        const bookedDates = bed.beds_Booked_Dates || [];
+  
+        // Sort booked dates by 'from' date
+        bookedDates.sort((a: any, b: any) => new Date(a.from).getTime() - new Date(b.from).getTime());
+  
+        if (bookedDates.length === 0) {
+          // No bookings, bed is available
+          isAvailable = true;
+        } else {
+          const earliestFromDate = new Date(bookedDates[0].from);
+  
+          // Check if the requested range is completely before the earliest booking
+          if (checkinDate < earliestFromDate && checkoutDate < earliestFromDate) {
+            const durationInDays = (checkoutDate.getTime() - checkinDate.getTime()) / oneDay;
+            if (durationInDays >= minimumDurationInDays) {
+              isAvailable = true;
+            }
+          } else {
+            // Loop through the booked dates to find a valid gap
+            for (let i = 0; i < bookedDates.length; i++) {
+              const currentBooking = bookedDates[i];
+              const currentTo = new Date(currentBooking.to);
+  
+              const nextBooking = bookedDates[i + 1];
+              const nextFrom = nextBooking ? new Date(nextBooking.from) : null;
+  
+              if (
+                checkinDate > currentTo &&
+                (!nextFrom || checkoutDate < nextFrom) &&
+                (checkoutDate.getTime() - checkinDate.getTime()) / oneDay >= minimumDurationInDays
+              ) {
+                isAvailable = true;
+                break;
+              }
+            }
+  
+            // Check against the last `to` date if no gap is found
+            if (!isAvailable) {
+              const latestToDate = new Date(bookedDates[bookedDates.length - 1].to);
+              if (checkinDate > latestToDate) {
+                const durationInDays = (checkoutDate.getTime() - checkinDate.getTime()) / oneDay;
+                if (durationInDays >= minimumDurationInDays) {
+                  isAvailable = true;
+                }
+              }
+            }
+          }
+        }
+  
+        // Add availability status to the bed
+        bed.isAvailable = isAvailable;
+        bed.availableAfter = isAvailable
+          ? null
+          : new Date(
+              Math.max(...bookedDates.map((booking: any) => new Date(booking.to).getTime()))
+            ).toISOString().split('T')[0] ;  
+      });
+    });
+  }
+  
+  // Example usage:
+  // const apartmentRooms = [
+  //   {
+  //     basically_Room_Name: "Room 1",
+  //     bed_Price: 450,
+  //     room_Beds: [
+  //       {
+  //         bed_ID: "1",
+  //         bookedDate: [
+  //           { from: "2024-12-01", to: "2024-12-30" },
+  //           { from: "2025-01-01", to: "2025-01-31" },
+  //         ],
+  //       },
+  //       {
+  //         bed_ID: "2",
+  //         bookedDate: [],
+  //       },
+  //     ],
+  //   },
+  //   {
+  //     basically_Room_Name: "Room 2",
+  //     bed_Price: 550,
+  //     room_Beds: [
+  //       {
+  //         bed_ID: "3",
+  //         bookedDate: [
+  //           { from: "2024-11-15", to: "2025-01-15" },
+  //         ],
+  //       },
+  //     ],
+  //   },
+  // ];
+  
+  // const checkin = "2025-02-01";
+  // const checkout = "2025-05-01";
+  
+  // updateBedAvailability(this.aprt.apartment_Rooms, checkin, checkout);
+  // console.log(apartmentRooms);
+  
+  
+  
+  
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   host:boolean=false;
 
   displayModal:any;
@@ -1663,16 +1927,56 @@ input.addEventListener("countrychange", function() {
   displayModalsuccess:any;
   openModals(){
     // this.visibleBooking=false;
+     this.updateBedAvailability(this.aprt.apartment_Rooms, this.checkinDate, this.checkoutDate);
+  console.log(this.aprt.apartment_Rooms);
+
+  if (Array.isArray(this.aprt.apartment_Rooms)&&this.checkinDate&&this.checkoutDate) {
+    let nobedAvailableNEW=0;
+  for (let i = 0; i < this.aprt.apartment_Rooms.length; i++) {
+
+
+  
+
+      for (let x = 0; x < this.aprt.apartment_Rooms[i].room_Beds.length; x++) {
+        
+        // bedno++;
+        if(this.aprt.apartment_Rooms[i].room_Beds[x].isAvailable){
+          nobedAvailableNEW++;
+        }else{
+          this.checkaprt=false;
+        }
+        
+      }
+  
+      // console.log(this.selectedItem,nobedAvailableNEW)
+
+
+  }
+  console.log(this.selectedItem,nobedAvailableNEW)
+
+  if(this.selectedItem>nobedAvailableNEW){
+    this.messageService.add({
+      severity: 'info',
+      summary: 'Info',
+      detail: `Guest count must match available beds. Beds available for the selected dates: ${nobedAvailableNEW}.`,
+      life: 6000
+  });
+  return;
+  }
+}
+  //////////////////////////////////////////////////////////////////
     this.loginMethod === 'whatsApp';
     const checkinDateString = this.bookingForm.get('bookingStartDate')?.value;
     const checkoutDate = new Date(this.checkoutDate);  // Convert checkoutDate to Date object
-
+console.log(this.checkinDate,this.checkoutDate)
     // Convert the check-in date string to a Date object
     const checkinDate = new Date(checkinDateString);
 
     // Calculate the date 5 months after the check-in date
     const minCheckoutDate = new Date(checkinDate);
-    minCheckoutDate.setMonth(minCheckoutDate.getMonth() + 1);
+    // minCheckoutDate.setMonth(minCheckoutDate.getMonth() + 1);
+    minCheckoutDate.setMonth(minCheckoutDate.getMonth() + this.aprt.min_Stay);
+
   // if( this.checkinDate<new Date().toISOString().slice(0, 10) ){
 
   //           this.messageService.add({
@@ -1716,7 +2020,7 @@ input.addEventListener("countrychange", function() {
           this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Please change check-out date, Minimum period must be month'
+              detail: 'Please change check-out date, Minimum period must be 3 month'
           });
           return;
         }
@@ -2004,6 +2308,51 @@ onWindowScroll() {
   this.showBooking=true;
   }
 
+  // Calculate the first bed availability date
+//  getFirstAvailableBedDate(apartmentRooms:any) {
+//   let earliestDate:any = null;
+
+//   apartmentRooms.forEach((room:any) => {
+//     room.room_Beds.forEach((bed:any) => {
+//       if (bed.bed_Available_From) {
+//         const bedDate = new Date(bed.bed_Available_From);
+//         if (!earliestDate || bedDate < earliestDate) {
+//           earliestDate = bedDate;
+//         }
+//       }
+//     });
+//   });
+
+//   return earliestDate;
+// }
+
+getFirstAvailableBedDate(apartmentRooms: any): Date | null {
+  let earliestDate: Date | null = null;
+
+  apartmentRooms.forEach((room: any) => {
+    room.room_Beds.forEach((bed: any) => {
+      if (bed.beds_Booked_Dates && bed.beds_Booked_Dates.length > 0) {
+        // Get the latest "to" date from the bed's bookings
+        bed.beds_Booked_Dates.forEach((booking: any) => {
+          const bookingEndDate = new Date(booking.to);
+          if (!earliestDate || bookingEndDate < earliestDate) {
+            earliestDate = bookingEndDate;
+          }
+        });
+      } else {
+        // If no bookings exist, use the current date as available
+        const today = new Date();
+        if (!earliestDate || today < earliestDate) {
+          earliestDate = today;
+        }
+      }
+    });
+  });
+
+  return earliestDate;
+}
+
+
 
   // get apartment details
   apt_UUID:any;
@@ -2033,6 +2382,9 @@ onWindowScroll() {
   bedsPrice=0;
   bedAvailable=0;
   checkaprt:boolean=true;
+
+  firstAvailableDate:any;
+  minDate:any;
   getApartmentDetails() {
 
     this.subscriptions.push(
@@ -2043,7 +2395,19 @@ onWindowScroll() {
           this.aprt = res.apartment_Basic_Info || {};
 
 
-          this.aprt_Imgs = this.aprt.apartment_Images || [];
+          this.firstAvailableDate=this.getFirstAvailableBedDate(this.aprt.apartment_Rooms)
+          console.log(this.firstAvailableDate)
+
+          /////////////test////////////////
+          const today = new Date();
+          this.minDate = this.firstAvailableDate.toISOString().split('T')[0];
+          ////////////////////////////////////////
+
+
+          // this.aprt_Imgs = this.aprt.apartment_Images || [];
+          this.aprt_Imgs = this.aprt.apartment_Images
+  ? this.aprt.apartment_Images.map((image: any) => image.image_Path)
+  : [];
           this.trasponrts = this.aprt.apartment_Transports || [];
           this.rent_Rules = res.apartment_Check_Rules?.apt_rules || [];
           this.features = res.apartment_Equipments?.apartment_Features || [];
@@ -2159,7 +2523,7 @@ onWindowScroll() {
   sanitizedVideoUrl: SafeResourceUrl | null = null;
   sanitized360DUrl: SafeResourceUrl | null = null;
   openVideo(videoURL: string) {
-    this.sanitizedVideoUrl = this.transform(videoURL);
+    this.sanitizedVideoUrl = this.transform(videoURL);  
   }
   open360Video(videoURL: string) {
     this.sanitized360DUrl = this.transform(videoURL);
@@ -2345,14 +2709,51 @@ getProfileData(): void {
 // guests: string[] = ['1 guest', '2 guests', '3 guests', '4 guests'];
 guests: any[] = [];
 updateGuests() {
-  this.guests = [];
-  for (let i = 1; i <= this.bedAvailable; i++) {
+  this.guests = []; 
+  // for (let i = 1; i <= this.bedAvailable; i++) {
+    for (let i = 1; i <= this.noAllbed; i++) {
+
     this.guests.push({ label: `${i} Guest${i > 1 ? 's' : ''}`, value: i });
   }
 }
 
 onGuestSelect(event: any) {
+  
   console.log('Selected guest:', event.value);
+
+//   if (Array.isArray(this.aprt.apartment_Rooms)) {
+//     let nobedAvailableNEW=0;
+//   for (let i = 0; i < this.aprt.apartment_Rooms.length; i++) {
+
+
+  
+
+//       for (let x = 0; x < this.aprt.apartment_Rooms[i].room_Beds.length; x++) {
+        
+       
+//         if(this.aprt.apartment_Rooms[i].room_Beds[x].isAvailable){
+//           nobedAvailableNEW++;
+//         }else{
+//           this.checkaprt=false;
+//         }
+        
+//       }
+  
+//       console.log(event.value,nobedAvailableNEW)
+
+
+//   }
+//   console.log(event.value,nobedAvailableNEW)
+
+//   if(event.value>nobedAvailableNEW){
+//     this.messageService.add({
+//       severity: 'info',
+//       summary: 'Info',
+//       detail: `Guest count must match available beds. Beds available for the selected dates: ${nobedAvailableNEW}.`,
+//       life: 6000
+//   });
+//   }
+// }
   // let guestString = event.value ?? '';
   // let guestNumberMatch = guestString.match(/\d+/);
   // let guestNumber = guestNumberMatch ? parseInt(guestNumberMatch[0], 10) : null;
