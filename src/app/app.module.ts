@@ -31,6 +31,7 @@ import { SitemapComponent } from '../sitemap-generator/sitemap.component';
 import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaintenanceInterceptor } from './services/maintenance-interceptor.service';
+import { PrerenderInterceptor } from './services/prerender-interceptor.service';
 
 
 @NgModule({
@@ -67,6 +68,11 @@ import { MaintenanceInterceptor } from './services/maintenance-interceptor.servi
   ],
  
   providers: [MessageService,   
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: PrerenderInterceptor,
+      multi: true,
+    },
     {
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptorService,
