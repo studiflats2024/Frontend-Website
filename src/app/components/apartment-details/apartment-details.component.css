@@ -1,3 +1,79 @@
+ 
+::ng-deep p-button .icon-button  {
+  background-color: unset !important;
+  border:unset !important;
+  color:#000 !important;
+}
+
+
+.platform-btn {
+   
+  border: none;
+  margin: 0 10px;
+  cursor: pointer;
+ 
+
+  display: flex;
+width: 100px;
+padding: 25px;
+align-items: center;
+gap: 8px;
+border-radius: 100px;
+background: var(--Neutral-Neutral95, #F6F6F6);
+}
+@media (max-width:768px) {
+  .platform-btn{
+    padding:0;
+background: unset;
+    
+  }
+
+  .proLink{
+    margin: 10px 0;
+    color: var(--Neutral-Neutral10, #1C1B1F);
+  font-family: Inter;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 300;
+  line-height: 18px; /* 120% */
+  }
+}
+
+.platform-btn img {
+  
+  /* border-radius: 50%; */
+  transition: transform 0.2s ease;
+}
+
+.platform-btn:hover img {
+  transform: scale(1.1); /* Slight zoom on hover */
+}
+
+.proLink{
+  margin: 15px 0;
+
+  color: var(--Neutral-Neutral10, #1C1B1F);
+font-family: Inter;
+font-size: 20px;
+font-style: normal;
+font-weight: 500;
+line-height: 24px; /* 120% */
+}
+
+.linkDiv{
+  display: flex;
+  height: 65px;
+  padding: 8px 21px 8px 8px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: stretch;
+  border-radius: 8px;
+background: var(--primary-color-100, #F0F6FF);
+width: 100%;
+word-break: break-all;
+
+}
+
 
 /* .modal-backdrop {
   background-color: rgba(0, 0, 0, 0.1) !important;

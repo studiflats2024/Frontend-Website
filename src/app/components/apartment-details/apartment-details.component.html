@@ -10,8 +10,62 @@
     </div>
     <div class="right">
       <div class="icon-text">
-        <i class="bi bi-share icon"></i>
-        <div class="share-text">Share</div>
+        <!-- <i class="bi bi-share icon"></i>
+        <div class="share-text">Share</div> -->
+        <!-- <p-button (onClick)="showDialog()" icon="pi pi-share" /> -->
+        <p-button
+        (onClick)="showShareDialog()"
+        icon="pi pi-share-alt"
+        styleClass="icon-button"
+      />
+
+      <!------------------------dialog for share--------------------->
+      <!-- Share Dialog -->
+<p-dialog [(visible)]="displayShareDialog" header="Share this Propertiy"  [breakpoints]="{ '1199px': '75vw', '992px': '80vw', '768px': '85vw', '576px': '90vw' }"
+[style]="{ width: '50vw' }" [modal]="true">
+  <div class="p-d-flex p-flex-column p-ai-center">
+    <div class="flex justify-content-center align-items-center">
+      <!-- copy link -->
+      <button class="platform-btn" (click)="copyLink()" >
+        <img src="CopyShare.svg" alt="Copy" style="width: 50px; height: 50px;"/>
+      </button>
+      <!-- WhatsApp -->
+      <button class="platform-btn" (click)="shareVia('WhatsApp')">
+        <img src="whatsappShare.svg" alt="WhatsApp" style="width: 50px; height: 50px;"/>
+      </button>
+      
+      <!-- Facebook -->
+      <button class="platform-btn" (click)="shareVia('Facebook')">
+        <img src="FacebookShare.svg" alt="Facebook" style="width: 50px; height: 50px;"/>
+      </button>
+      
+      <!-- Gmail -->
+      <button class="platform-btn" (click)="shareVia('Gmail')">
+        <img src="gmailShare.svg" alt="Gmail" style="width: 50px; height: 50px;"/>
+      </button>
+      
+      <!-- Messenger -->
+      <button class="platform-btn" (click)="shareVia('Messenger')">
+        <img src="massengerShare.svg" alt="Messenger" style="width: 50px; height: 50px;"/>
+      </button>
+    </div>
+
+    <div class="proLink">Propertiy Link</div>
+    <div class="p-inputgroup">
+      <!-- <input type="text" pInputText [readonly]="true" [(ngModel)]="propertyLink" /> -->
+      <div class="linkDiv">
+        <div>{{ allResponse.shareLink}}</div>
+      <p-button icon="pi pi-copy" (onClick)="copyLink()"   styleClass="icon-button"  ></p-button>
+
+      </div>
+
+      <!-- <p-button icon="pi pi-copy" (onClick)="copyLink()"   styleClass="icon-button"></p-button> -->
+    </div>
+  </div>
+</p-dialog>
+      <!------------------------------------------------------------->
+      
+
       </div>
       <div class="icon-text">
 

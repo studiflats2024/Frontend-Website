@@ -2980,4 +2980,53 @@ socialSign:boolean=false;
 
 }
 
+
+///////////////////////////////////////for share design//////////////////////////////////
+displayShareDialog: boolean = false;
+// propertyLink: string = 'https://studiflats.de/Togostr 17 studio 1';
+
+ 
+
+showShareDialog() {
+  this.displayShareDialog = true;
+}
+
+copyLink() {
+  navigator.clipboard.writeText(this.allResponse.shareLink).then(() => {
+    this.messageService.add({ severity: 'success', summary: 'Copied!', detail: 'Link copied to clipboard.' });
+  });
+}
+shareVia(platform: string) {
+  const propertyLink = encodeURIComponent(this.allResponse.shareLink); // URL encode the link
+  let url: string;
+
+  switch (platform) {
+    case 'WhatsApp':
+      url = `https://wa.me/?text=${propertyLink}`;
+      break;
+    case 'Facebook':
+      url = `https://www.facebook.com/sharer/sharer.php?u=${propertyLink}`;
+      break;
+    case 'Gmail':
+      url = `mailto:?subject=Check out this property&body=${propertyLink}`;
+      break;
+    case 'Messenger':
+      url = `https://m.me?link=${propertyLink}`;
+      break;
+    default:
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Error',
+        detail: `Sharing on ${platform} is not supported.`,
+      });
+      return;
+  }
+
+  // Open the share URL in a new window
+  if (url) {
+    window.open(url, '_blank');
+  }
+}
+
+
 }
