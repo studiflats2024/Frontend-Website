@@ -51,8 +51,14 @@ export class SearchBarComponent {
   guests: number = 1;
   showGuestsPicker: boolean = false;
   toggle:boolean=false;
+  disabledDates: Date[] = [];
 
-  constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService, private apartmentSearchService: ApartmentSearchService) {}
+  constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService, private apartmentSearchService: ApartmentSearchService) {
+    // const minDate = new Date(this.checkInDate!);
+    // minDate.setMonth(minDate.getMonth() + 1);
+    // this.checkInDate=minDate
+    this.disabledDates.push(new Date());
+  }
   showPicker(picker: string) {
     // this.activePicker = picker;
     // this.showGuestsPicker = false;
@@ -108,6 +114,9 @@ export class SearchBarComponent {
     const pageNo = 1; // Example value
     const pageSize = 1000; // Example value
     const city = this.selectedCity;
+
+    // const localDate = new Date(dateString.getTime() - dateString.getTimezoneOffset() * 60000);
+    console.log(this.checkInDate,this.checkOutDate)
     const checkIn = this.formatDate(this.checkInDate);
     const checkOut = this.formatDate(this.checkOutDate);
     const guestNo = this.guests;
@@ -134,7 +143,10 @@ export class SearchBarComponent {
 
   formatDate(date: Date | null): string {
     if (!date) return '';
-    const d = new Date(date);
+    // const d = new Date(date);
+    const d = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+
+
     return d.toISOString().split('T')[0]; // Format as YYYY-MM-DD
   }
 }

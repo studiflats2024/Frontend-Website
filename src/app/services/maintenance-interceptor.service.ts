@@ -45,15 +45,27 @@ import { MessageService } from 'primeng/api';
 
 @Injectable()
 export class MaintenanceInterceptor implements HttpInterceptor {
+  private excludedUrls = ['https://www.primefaces.org/cdn/api/upload.php'];
+
   constructor(private messageService: MessageService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+
+      // Check if the URL is in the excluded list
+      if (this.excludedUrls.some(url => req.url.includes(url))) {
+        console.log('MaintenanceInterceptor: Skipping excluded URL:', req.url);
+        return next.handle(req); // Skip the interceptor for excluded URLs
+      }
+
+      
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log('HTTP Status:', error.status); // Debugging log
 
         // Check if status is 503
         if (error.status === 503|| error.status === 0) {
+        // if (error.status === 503 ) {
+
           this.messageService.add({
             severity: 'error',
             summary: 'Service Unavailable',

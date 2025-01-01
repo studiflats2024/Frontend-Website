@@ -147,7 +147,9 @@ export class GoogleAuthService {
   deviceToken:any;
   private initializeMessagingService() {
     this.messagingService.requestPermission()
-      .then((token: string) => {
+      // .then((token: string) => {
+      .then((token) => {
+
         console.log('Device token:', token);
         this.deviceToken = token;  
       })

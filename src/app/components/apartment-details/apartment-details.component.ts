@@ -177,8 +177,22 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
   onCheckinDateChange(date: string) {
     const checkoutDate = new Date(date); // Convert input date to a Date object
     const availableFrom = new Date(this.aprt.available_From); // Convert available_From to a Date object
-    // console.log(this.aprt.min_Stay)
+    // const checkoutDatee = new Date(this.checkoutDate);
+    // this.checkoutDate=checkoutDate.setMonth(checkoutDate.getMonth() + 3).toString();
+    
 
+    //////////////////////////////////////////////////////
+    const checkoutDatee = new Date( checkoutDate);
+    checkoutDatee.setMonth(checkoutDate.getMonth() + this.aprt.min_Stay);
+
+     
+    const formattedCheckoutDate = checkoutDatee.toISOString().split('T')[0];
+
+     
+    this.checkoutDate = formattedCheckoutDate;
+    console.log( this.checkoutDate)
+    ////////////////////////////////////////////////////////
+   
     if (checkoutDate < availableFrom) {
         console.log("Not Available");
         this.messageService.add({
@@ -251,6 +265,7 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
     //         detail: 'Minimum period between check-in and check-out is 5 months'
     //     });
     // }
+  
 
   }
 
@@ -292,7 +307,7 @@ emailTouched: boolean = false;
 fullNameTouched: boolean = false;
 phoneTouched: boolean = false;
  
-
+activeStep2:boolean=false;
   submitstep2(){
     if(this.selectedItem > this.selectedBeds.length){
       this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'guests must be equal no of beds or more' });
@@ -308,7 +323,7 @@ phoneTouched: boolean = false;
     // let guestNumberMatch = guestString.match(/\d+/);
     // let guestNumber = guestNumberMatch ? parseInt(guestNumberMatch[0], 10) : null;
     if(this.activeIndex===1){
-
+     
       for(let i=0; i<this.guestsAPI.length; i++){
         if(this.selectedItem>1 ){
           if (this.guestsAPI[i].guest_Name==='' || this.guestsAPI[i].guest_WA_No==='' || this.guestsAPI[i].guest_Email==='') {
@@ -372,7 +387,7 @@ this.totalPriceBooking = totalPrice;
 
 if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.selectedItem ){
 
-  this.selectedBeds=this.selectedBeds.slice(0, this.selectedItem);
+  this.selectedBeds=this.selectedBeds.slice(0, this.selectedItem);//////////////////////////////////////update without +1 
   console.log('new case', this.selectedBeds)
   this.guestsAPI = this.selectedBeds.map((i) => ({
     apartment_ID: this.aprt.apartment_ID,
@@ -393,6 +408,7 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
 
     }else if(this.activeIndex===2){
       this.activeIndex=1;
+      this.activeStep2=true;
 
     }else if(this.activeIndex===0){
       this.displayModalbooking='none'
@@ -402,13 +418,21 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
     // }
   }
 
-
+  loading:boolean=false;
   namelogin:any;
   emaillogin:any;
   phonelogin:any;
   onSubmitBooking(){
+    const convertToISO = (dateString: string): string => {
+      const date = new Date(dateString); // تحويل النص إلى كائن تاريخ
+      return date.toISOString(); // تحويل التاريخ إلى تنسيق ISO
+    };
+    // this.checkinDate=convertToISO(this.checkinDate)
+    // this.checkoutDate=convertToISO(this.checkoutDate)
 
+    // console.log(this.checkinDate,this.checkoutDate)
 
+    this.loading=true;
     // if(this.selectedItem===1){
     //   this.userService.getProfile().subscribe(
     //     data => {
@@ -442,7 +466,12 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
 
     this.bookingForm.patchValue({
        guestss: this.newGuestArr ,
-       guestProfession: this.selectedRole
+       guestProfession: this.selectedRole,
+       /////////////////////////////////new
+       bookingStartDate:convertToISO(this.checkinDate),
+       bookingEndDate:convertToISO(this.checkoutDate)
+       /////////////////////////////////new
+
     });
     let  bookingData:any;
 
@@ -619,16 +648,57 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
     console.log('Current Guest Data:', this.newGuestArr);
     this.apartmentService.sendBookingData(bookingData).subscribe(
       response => {
+        this.loading=false;
+
         this.messageService.add({ severity: 'success', summary: 'Booking Confirmed', detail: response.message });
         console.log('Booking created successfully', response);
         // localStorage.setItem('bookingConfirmation', response.confirmationNumber);
 
         // Open the booking confirmation modal or any other action
         this.openModalsuccess();
+        this.allResponse.can_Request=false
+
       },
       error => {
-        this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'please check and complete your booking data ' });
+        this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: error.error.message ,life:4000 });
         console.error('Error creating booking', error);
+        this.loading=false;
+        this.inputValues = {};
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+          if (input.type !== 'date') { // Skip inputs of type date
+            input.value = '';
+          }
+        });
+        this.activeIndexd=null
+        this.displayModalbooking='none'
+        this.selectedBeds=[]
+        this.selectedItem=0
+        this.displaymainArray=[]
+        // this.guestsAPI = this.selectedBeds.map((i) => ({
+        //   apartment_ID: this.aprt.apartment_ID,
+        //   room_ID: i.room_ID,
+        //   bed_ID: i.bed_ID,
+        //   guest_Name: '',
+        //   guest_WA_No: '',
+        //   guest_Email: ''
+        // }));
+        // setTimeout(() => {
+        //   window.location.reload();
+        // }, 4000);
+
+  // this.guestsAPI=[];
+  // this.newGuestArr = [];
+ 
+  // this.bookingForm.patchValue({
+  //   guestss:  this.newGuestArr,
+  //   guestProfession: this.selectedRole,
+  // });
+  // console.log("Updated guestsAPI:", this.guestsAPI);
+  // console.log("Cleared newGuestArr:", this.newGuestArr);
+  // console.log("input values:", this.inputValues);
+
+
       }
     );
   }
@@ -1123,9 +1193,12 @@ displaymainArray: boolean[] = [];
 decision:any;
 indexstay:any;
 preservedGuests:any
+indexMainTenant!:number;
   onStayDecisionChange(index: number, decision: string, room_ID:string, bed_ID:string, bed:any) {
     this.newGuestArr=[]
+    // this.guestsAPI=[]
 
+    this.indexMainTenant=index;
     if (decision === 'yes') {
       this.userService.getProfile().subscribe(
         data => {
@@ -1235,6 +1308,17 @@ preservedGuests:any
        this.displaymain='block'
        this.activeIndexd= null;
        this.displaymainArray[index] = true;
+///////////////////////////////new///////////////////////////
+       this.guestsAPI[index]={
+        apartment_ID: this.aprt.apartment_ID,
+        room_ID: bed.room_ID,
+        bed_ID: bed.bed_ID,
+        guest_Name: '',
+        guest_WA_No: '',
+        guest_Email: ''
+      };
+///////////////////////////////new///////////////////////////
+
     //  this.newGuestArr.push({
     //     apartment_ID: this.aprt.apartment_ID,
     //     room_ID: bed.room_ID,
@@ -1300,13 +1384,16 @@ preservedGuests:any
     private resolver: ComponentFactoryResolver,
     private apartmentSearchService: ApartmentSearchService)
      {
+      
       this.apartmentSearchService.requestData$.subscribe((data) => {
         this.requestDataFromSearch = data;
         console.log('Shared Request Data From Search:', this.requestDataFromSearch);
         if(this.requestDataFromSearch.checkIn||this.requestDataFromSearch.checkOut){
           this.checkinDate=this.requestDataFromSearch.checkIn
           this.checkoutDate=this.requestDataFromSearch.checkOut
-        }
+          this.selectedItem=this.requestDataFromSearch.guests
+
+        } 
         
         console.log(this.checkinDate, this.checkoutDate)
       });
@@ -1421,8 +1508,63 @@ private isIntlTelInputInitialized = false;
 //       }, 0); // Delay to ensure elements are in DOM
 //   }
 // }
+private initializePhoneNumbers(): void {
+  const inputs = document.querySelectorAll('.bookingphone'); // الحصول على جميع الحقول
+
+  inputs.forEach((input: Element, index: number) => {
+    const inputElement = input as HTMLInputElement;
+
+    // التحقق من وجود الرقم في المصفوفة
+    if (inputElement && this.guestsAPI[index]?.guest_WA_No) {
+      const phoneNumber = this.guestsAPI[index].guest_WA_No;
+
+      // تهيئة intl-tel-input
+      const iti = intlTelInput(inputElement, {
+        initialCountry: "auto",
+        preferredCountries: ["de", "us", "gb"],
+        separateDialCode: true,
+        utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
+        searchCountry: true,
+      });
+
+      // ضبط الرقم في الحقل
+      iti.setNumber(`+${phoneNumber}`);
+
+      // استخراج كود الدولة عند تغيير الرقم
+      inputElement.addEventListener('blur', () => {
+        const fullPhoneNumber = iti.getNumber(); // الحصول على الرقم الكامل
+        const countryCode = iti.getSelectedCountryData().dialCode; // استخراج كود الدولة
+
+        // تحديث البيانات في المصفوفة
+        this.guestsAPI[index] = {
+          ...this.guestsAPI[index],
+          guest_WA_No: fullPhoneNumber.substring(1), // إزالة "+"
+          countryCode: countryCode,
+        };
+
+        console.log(`Country Code: ${countryCode}, Full Number: ${fullPhoneNumber}`);
+      });
+
+      // التعامل مع حدث تغيير الدولة
+      inputElement.addEventListener("countrychange", () => {
+        const selectedCountryData = iti.getSelectedCountryData();
+
+        // تحديث كود الدولة والعلم
+        this.guestsAPI[index] = {
+          ...this.guestsAPI[index],
+          countryCode: selectedCountryData.dialCode,
+        };
+
+        console.log(`Country changed to: ${selectedCountryData.name} (+${selectedCountryData.dialCode})`);
+      });
+    }
+  });
+}
+
 ngAfterViewChecked() {
-  if (this.activeIndex === 1) {
+  // if (this.activeIndex === 1&&!this.activeStep2) {
+  if (this.activeIndex === 1 ) {
+
       setTimeout(() => {
           const inputs = document.querySelectorAll('.bookingphone');
           inputs.forEach((input: Element, index: number) => {
@@ -1430,10 +1572,15 @@ ngAfterViewChecked() {
               if (inputElement && !inputElement.dataset['initialized']) {
                   this.initializeIntlTelInputbook(`#${inputElement.id}`, this.bookingForm,index);
                   inputElement.dataset['initialized'] = 'true'; // Mark as initialized
+                  console.log('here init')
               }
           });
       }, 0); // Delay to ensure elements are in DOM
   }
+  // else if(this.activeIndex === 1&&this.activeStep2){
+  //   this.initializePhoneNumbers();
+  //   this.activeStep2 = false;
+  // }
 
   if (this.loginMethod === 'whatsApp') {
     this.loginMethod === 'whatsApp';
@@ -1479,7 +1626,7 @@ input.addEventListener("countrychange", function() {
       flagContainer.classList.remove("iti__selected-flag");
   }
   if (dialCodeElement) {
-      dialCodeElement.textContent = ''; // Clear the dial code
+      dialCodeElement.textContent = '';  
   }
 
   // Get the new country data and update the flag and code
@@ -1577,8 +1724,13 @@ markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
       password: ['', [Validators.required, Validators.minLength(8), this.passwordStrengthValidator]],
       confirmPassword: ['', Validators.required]
     }, { validator: this.passwordMatchValidator });
+    
 
-    this.getProfileData();
+    if(localStorage.getItem('token')&&localStorage.getItem('userName')&&localStorage.getItem('userToken')){
+      this.getProfileData();
+      console.log('signed in')
+    }
+    
 
     console.log(this.selectedItem)
     // this.namelogin= localStorage.getItem('namelogin');
@@ -1618,6 +1770,32 @@ markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
     this.getApartmentDetails();
     this.checkViewportWidth();
     this.fetchFaqs();
+
+
+    //////////////////////////////////////////////////////////update checkout/in ////////////////////////////////////
+    // this.apartmentSearchService.requestData$.subscribe((data) => {
+    //   this.requestDataFromSearch = data;
+    //   console.log('Shared Request Data From Search:', this.requestDataFromSearch);
+    //   if(this.requestDataFromSearch.checkIn||this.requestDataFromSearch.checkOut){
+    //     this.checkinDate=this.requestDataFromSearch.checkIn
+    //     this.checkoutDate=this.requestDataFromSearch.checkOut
+    //     this.selectedItem=this.requestDataFromSearch.guests
+
+    //   }else {
+    //     const checkoutDatee = new Date( this.checkinDate);
+    //     checkoutDatee.setMonth(checkoutDatee.getMonth() + this.aprt.min_Stay);
+    
+         
+    //     const formattedCheckoutDate = checkoutDatee.toISOString().split('T')[0];
+    
+         
+    //     this.checkoutDate = formattedCheckoutDate;
+    //     console.log( this.checkoutDate)
+    //   }
+      
+    //   console.log(this.checkinDate, this.checkoutDate)
+    // });
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     // this.addMarker(this.aprt);
 
     this.loginForm = this.fb.group({
@@ -2020,7 +2198,7 @@ console.log(this.checkinDate,this.checkoutDate)
           this.messageService.add({
               severity: 'error',
               summary: 'Error',
-              detail: 'Please change check-out date, Minimum period must be 3 month'
+              detail: `Please change check-out date, Minimum period must be  ${this.aprt.min_Stay} month`
           });
           return;
         }
@@ -2151,10 +2329,13 @@ ngAfterViewInit(): void {
 
 }
 
+ 
 
+
+inputValues: { [key: string]: string } = {};
 private initializeIntlTelInputbook(selector: string, form: FormGroup ,index:number) {
-
-  const input = document.querySelector(selector);
+  console.log('helllloo')
+  const input = document.querySelector(selector) as HTMLInputElement;
   if (input) {
     const iti = intlTelInput(input, {
       initialCountry: "de",
@@ -2164,20 +2345,89 @@ private initializeIntlTelInputbook(selector: string, form: FormGroup ,index:numb
       utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
       searchCountry:true,
     });
+///////////////////////////////////////////////////////////////////////test
+     // قم بتعيين الرقم الحالي من guestsAPI
+     const phoneNumber = this.guestsAPI[index]?.guest_WA_No;
+     if (phoneNumber) {
+       iti.setNumber(`+${phoneNumber}`); // تعيين الرقم الحالي
+     }
+///////////////////////////////////////////////////////////////////////test
+
     console.log('After querying the input element:', input);
     input.addEventListener('blur', () => {
-      // let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+      
       let fullPhoneNumber = iti.getNumber();
-
+     
       if (fullPhoneNumber.startsWith("+")) {
         fullPhoneNumber = fullPhoneNumber.substring(1);
       }
+      // let fullPhoneNumber = iti.getNumber(intlTelInputUtils.numberFormat.E164);
+
+      // طباعة الرقم للتأكد
       console.log("Full phone number:", fullPhoneNumber);
+    
+      console.log("Full phone number:", fullPhoneNumber);
+      
       // form.patchValue({ mobile: fullPhoneNumber });
       this.guestsAPI[index] = {
         ...this.guestsAPI[index],
         guest_WA_No: fullPhoneNumber
       };
+       
+      ///////////////////////////////////////////////////////////////////////test
+        
+  // const selectedCountryData = iti.getSelectedCountryData();
+  // const dialCode = selectedCountryData.dialCode; 
+
+  // console.log('Selected country data:', selectedCountryData);
+
+  //     if (fullPhoneNumber.startsWith(`${dialCode}`)) {
+  //       fullPhoneNumber = fullPhoneNumber.replace(`${dialCode}`, '').trim();
+  //     }
+
+      
+  //    const phoneNumber = this.guestsAPI[index]?.guest_WA_No;
+  //    if (phoneNumber) {
+  //      iti.setNumber(`+${phoneNumber}`); 
+  //    }
+
+
+  // استخراج كود الدولة فقط
+  const selectedCountryData = iti.getSelectedCountryData();
+  const countryCode = selectedCountryData.dialCode;
+
+  // إزالة كود الدولة فقط عند العرض في الحقل (input)
+  const phoneNumberWithoutCountryCode = fullPhoneNumber.startsWith(countryCode)
+    ? fullPhoneNumber.substring(countryCode.length)
+    : fullPhoneNumber;
+
+  // تعيين الرقم بدون كود الدولة في الحقل فقط
+  input.value = phoneNumberWithoutCountryCode;
+  this.inputValues[index]=phoneNumberWithoutCountryCode;
+
+  console.log("Phone number without country code (display only):", phoneNumberWithoutCountryCode);
+    
+   
+
+  
+
+
+      // iti.setNumber(``);
+ 
+//   const phoneNumber = this.guestsAPI[index]?.guest_WA_No;
+  
+//   if (this.guestsAPI[index]) {
+//     this.guestsAPI[index].guest_WA_No = '';
+// }
+
+//       iti.setNumber(`+${phoneNumber}`);
+//       console.log(`+${phoneNumber}`)
+///////////////////////////////////////////////////////////////////////test
+      // iti.setNumber("");
+      // console.log('...')
+      // iti.setNumber(`+${fullPhoneNumber}`);
+      
+     
       // this.newGuestArr[index] = {
       //   ...this.guestsAPI[index],
       //   guest_WA_No: fullPhoneNumber
@@ -2185,6 +2435,8 @@ private initializeIntlTelInputbook(selector: string, form: FormGroup ,index:numb
 
       // Patch the updated guestsAPI array to the form
       form.patchValue({ guestss: this.newGuestArr });
+
+     
 
       console.log("Updated guestsAPI:", this.guestsAPI);
       console.log("Updated guestsAPI:", this.newGuestArr);
@@ -2207,7 +2459,7 @@ input.addEventListener("countrychange", function() {
       flagContainer.classList.remove("iti__selected-flag");
   }
   if (dialCodeElement) {
-      dialCodeElement.textContent = ''; // Clear the dial code
+      dialCodeElement.textContent = '';  
   }
 
   // Get the new country data and update the flag and code
@@ -2352,6 +2604,16 @@ getFirstAvailableBedDate(apartmentRooms: any): Date | null {
   return earliestDate;
 }
 
+checkNotAvailable(){
+  const availableTo = new Date(this.aprt.available_To);
+  this.firstAvailableDate=this.getFirstAvailableBedDate(this.aprt.apartment_Rooms)
+  // console.log(availableTo,this.firstAvailableDate)
+  if(availableTo<=this.firstAvailableDate){
+   return true;
+  }
+  return false;
+}
+
 
 
   // get apartment details
@@ -2402,7 +2664,56 @@ getFirstAvailableBedDate(apartmentRooms: any): Date | null {
           const today = new Date();
           this.minDate = this.firstAvailableDate.toISOString().split('T')[0];
           ////////////////////////////////////////
+          if(this.checkoutDate===''){
+            const checkoutDatee = new Date( this.checkinDate);
+            console.log(checkoutDatee)
+            checkoutDatee.setMonth(checkoutDatee.getMonth() + this.aprt.min_Stay);
+        
+             
+            const formattedCheckoutDate = checkoutDatee.toISOString().split('T')[0];
+        
+             
+            this.checkoutDate = formattedCheckoutDate;
+            console.log( this.checkoutDate)
 
+      //////update guest
+          //   this.updateBedAvailability(this.aprt.apartment_Rooms, this.checkinDate, this.checkoutDate);
+          //   console.log(this.aprt.apartment_Rooms);
+          
+          //   if (Array.isArray(this.aprt.apartment_Rooms)&&this.checkinDate&&this.checkoutDate) {
+          //     let nobedAvailableNEW=0;
+          //   for (let i = 0; i < this.aprt.apartment_Rooms.length; i++) {
+          
+          
+            
+          
+          //       for (let x = 0; x < this.aprt.apartment_Rooms[i].room_Beds.length; x++) {
+                  
+                   
+          //         if(this.aprt.apartment_Rooms[i].room_Beds[x].isAvailable){
+          //           nobedAvailableNEW++;
+          //         }else{
+          //           this.checkaprt=false;
+          //         }
+                  
+          //       }
+            
+               
+          
+          
+          //   }
+          //   console.log(this.selectedItem,nobedAvailableNEW)
+          //   this.guests = []; 
+            
+          //     for (let i = 1; i <= nobedAvailableNEW; i++) {
+          
+          //     this.guests.push({ label: `${i} Guest${i > 1 ? 's' : ''}`, value: i });
+          //   }
+            
+          // }
+          }
+          
+/////////////////////////////////////////////////////////////////////////////////////////////////
 
           // this.aprt_Imgs = this.aprt.apartment_Images || [];
           this.aprt_Imgs = this.aprt.apartment_Images

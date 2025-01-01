@@ -2,7 +2,7 @@
   <div class="search-fields">
     <div class="field">
       <label for="city">City</label>
-      <input type="text" [value]="selectedCity" id="city" [placeholder]="selectedCity!==''?selectedCity:'Where are you going?'" (click)="showPicker('city')">
+      <input type="text" [value]="selectedCity" id="city" [placeholder]="selectedCity!==''?selectedCity:'Where are you going?'" (click)="showPicker('city')"  readonly>
       <!-- <div style="width:100px" *ngIf="toggle" class="date-picker ">
         <ul style="list-style-type: none;" >
           <li >Berlin</li>
@@ -18,7 +18,7 @@
     <div class="field">
       <label for="check-in date">Check in</label>
 
-      <p-calendar [(ngModel)]="checkInDate" placeholder="Add dates"  (click)="hidePicker('city')"  [minDate]="today"
+      <p-calendar [(ngModel)]="checkInDate" placeholder="Add dates"  (click)="hidePicker('city')"  [minDate]="today" [disabledDates]="disabledDates"
       (onSelect)="onCheckInDateSelect()"></p-calendar><!--(focus)="showPicker('check-in')-->
     </div>
     <div class="field date">
@@ -29,7 +29,7 @@
     <div class="field">
       <label for="guests">Guests</label>
 
-      <input type="text" (click)="onFocusGuests()" [placeholder]="guests > 0 ? guests : 'Add guests'"    >
+      <input type="text" (click)="onFocusGuests()" [placeholder]="guests > 0 ? guests : 'Add guests'"   readonly  >
       <div *ngIf="showGuestsPicker" class="guests-picker"  (keydown)="onGuestsKeyDown($event)">
 
 

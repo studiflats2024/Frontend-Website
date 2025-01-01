@@ -10,14 +10,15 @@
     </div>
     <div class="right">
       <div class="icon-text">
-        <!-- <i class="bi bi-share icon"></i>
-        <div class="share-text">Share</div> -->
-        <!-- <p-button (onClick)="showDialog()" icon="pi pi-share" /> -->
+        <!-- <i class="bi bi-share icon"></i> -->
         <p-button
         (onClick)="showShareDialog()"
         icon="pi pi-share-alt"
         styleClass="icon-button"
       />
+        <!-- <div class="share-text">Share</div> -->
+        <!-- <p-button (onClick)="showDialog()" icon="pi pi-share" /> -->
+      
 
       <!------------------------dialog for share--------------------->
       <!-- Share Dialog -->
@@ -217,9 +218,13 @@
         <div class="location-item">
           <i class="bi bi-calendar2-date"></i>
           <!-- <div class="location-text">  Available from {{allResponse.apartment_Contract?.contractDate_Start  | date: 'dd MMM yyyy' }}</div> -->
-          <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
+          <div *ngIf="!checkNotAvailable()" class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
             Available from {{ firstAvailableDate ? (firstAvailableDate | date: 'dd MMM yyyy') : (allResponse.apartment_Contract?.contractDate_Start  | date: 'dd MMM yyyy') }}
           </div>
+          <div *ngIf="checkNotAvailable()" class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
+            Available from {{ firstAvailableDate ? (firstAvailableDate | date: 'dd MMM yyyy') : (allResponse.apartment_Contract?.contractDate_Start  | date: 'dd MMM yyyy') }}
+          </div>
+          
         </div>
       </div>
     </div>
@@ -248,7 +253,7 @@
               <div class="text">{{bedAvailable}} beds left</div>
             </div> -->
           </div>
-          <div class="description-title">Descriptions</div>
+          <div *ngIf="aprt.apartment_Description" class="description-title">Descriptions</div>
 
           <div class="description-content">
             <span>{{ isFullDescription ? aprt.apartment_Description : truncatedDescription }}</span>
@@ -607,9 +612,12 @@
               <div class="d-flex justify-content-start align-items-center gap-2">
                   <i class="bi bi-calendar3 text-secondary"></i>
                   <!-- <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">Available from {{allResponse.apartment_Contract?.contractDate_Start  | date: 'dd MMM yyyy' }}</div> -->
-                  <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
+                  <div *ngIf="!checkNotAvailable()" class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
                     Available from {{ firstAvailableDate ? (firstAvailableDate | date: 'dd MMM yyyy') : (allResponse.apartment_Contract?.contractDate_Start  | date: 'dd MMM yyyy') }}
-                  </div>
+                  </div> 
+                  <div  *ngIf="checkNotAvailable()" class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
+                    This apartment not available now
+                  </div>  
               </div>
           </div>
           <div class="detailss">
@@ -684,7 +692,7 @@
           </div>
 
           <div id="fixlogin" class="booking-button">
-            <button class="btn-base"  (click)="openModals()"   >Request Apartment</button>
+            <button class="btn-base"  (click)="openModals()"  [disabled]="allResponse.can_Request===false" >Request Apartment</button>
             <app-auth *ngIf="auth"></app-auth>
 
         </div>
@@ -1036,7 +1044,10 @@
 
 
 
-
+<div *ngIf="loading" class="loading-overlay">
+  <div class="spinner"></div>
+  <!-- <p>Loading...</p> -->
+</div>
 
 
 
@@ -1366,14 +1377,14 @@
               <div  [ngStyle]="{'display': displaymainArray[x] !==false ? 'block' : 'none'}"  class="mb-3 w-50 mt-3 " >
                 <div class="input-group ">
 
-                  <input  id="{{'bookingphone-' + item.bed_ID}}"  type="tel"  class="form-control w-100 bookingphone"   placeholder="1234563788" autocomplete="off" [(ngModel)]="guestsAPI[x].guest_WA_No" [ngModelOptions]="{standalone: true}"   #phoneInput="ngModel" required>
+                  <input  id="{{'bookingphone-' + item.bed_ID}}"  type="tel"   class="form-control w-100 bookingphone"   placeholder="1234563788" autocomplete="off"         [value]="inputValues[x]||''"  required>  <!--   [(ngModel)]="guestsAPI[x].guest_WA_No"  [ngModelOptions]="{standalone: true}" #phoneInput="ngModel" -->
                   <!-- <input id="{{'bookingphone-' + item.id}}"
                   type="tel"
                   class="form-control w-100 bookingphone"
                   (ngModelChange)="initializeIntlTelInputt('bookingphone-' + item.id)" /> -->
-                  <div *ngIf="(!guestsAPI[x].guest_WA_No && phoneInput.touched)" class="warning-message">
+                  <!-- <div *ngIf="(!guestsAPI[x].guest_WA_No && phoneInput.touched)" class="warning-message">
                     Phone number is required.
-                  </div>
+                  </div> -->
 
                 <div *ngIf="bookingForm.get('mobile')?.errors && bookingForm.get('mobile')?.touched" class="text-danger" style="font-size: 12px;">
                   <div *ngIf="bookingForm.get('mobile')?.errors?.['required']">Mobile number is Invalid.</div>
@@ -1819,7 +1830,7 @@
 <div class="booking-button-small  ">
 <div class="row">
   <div class="col-6  btnn"  >
-    <p-button  class="btn-book" (onClick)="showDialog()" label="Request Apartment" />
+    <p-button  class="btn-book" (onClick)="showDialog()"  [disabled]="allResponse.can_Request===false" label="Request Apartment" />
   </div>
   <!-- <app-auth *ngIf="auth"></app-auth> -->
 
@@ -1843,8 +1854,11 @@
             <!-- <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
               Available from {{ firstAvailableDate ? (firstAvailableDate | date: 'dd MMM yyyy') : 'Not Available' }}
             </div> -->
-            <div class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
+            <div *ngIf="!checkNotAvailable()" class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
               Available from {{ firstAvailableDate ? (firstAvailableDate | date: 'dd MMM yyyy') : (allResponse.apartment_Contract?.contractDate_Start  | date: 'dd MMM yyyy') }}
+            </div>
+            <div  *ngIf="checkNotAvailable()" class="text-secondary" style="font-size: 14px; font-family: Poppins, sans-serif; font-weight: 400;">
+              This apartment not available now
             </div>
             
 
@@ -1885,7 +1899,7 @@
     </div>
 
     <div id="fixlogin" class="booking-button">
-      <button class="btn-base"  (click)="openModals()"   >Request Apartment</button>
+      <button class="btn-base"  (click)="openModals()"  [disabled]="allResponse.can_Request===false" [disabled]="allResponse.can_Request===false" >Request Apartment</button>
   </div>
   
 

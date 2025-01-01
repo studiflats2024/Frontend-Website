@@ -47,7 +47,7 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { Observable, from } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { switchMap, catchError  } from 'rxjs/operators';
 import { MessagingService } from './messaging.service';
 
 @Injectable()
@@ -60,25 +60,56 @@ export class AuthInterceptorService implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     const excludedUrls = ['https://www.primefaces.org/cdn/api/upload.php'];
 
-    // Check if the URL is in the excluded list
-    if (excludedUrls.some(url => request.url.includes(url))) {
-      return next.handle(request); // Skip modification for excluded URLs
+     
+    // if (excludedUrls.some(url => request.url.includes(url))) {
+    //   return next.handle(request);  
+    // }
+
+     // Detect platform
+     const userAgent = window.navigator.userAgent || '';
+     const isMobile = /Android|iPhone|iPad|iPod/i.test(userAgent);
+ 
+     // Skip interceptor for excluded URLs or mobile platforms
+     if (isMobile || excludedUrls.some(url => request.url.includes(url))) {
+       console.log('Interceptor skipped for mobile platform or excluded URL');
+       return next.handle(request);
+     }
+
+    
+  //   return from(this.messagingService.requestPermission()).pipe(
+  //     switchMap((deviceToken: string) => {
+  //       console.log('Adding Device Token to request:', deviceToken);
+
+  //       const modifiedRequest = request.clone({
+  //         setHeaders: {
+  //           'Guest_Token': `${deviceToken}`,
+  //         },
+  //       });
+
+  //       return next.handle(modifiedRequest);
+  //     })
+  //   );
+  // }
+      // Handle notifications with fallback
+      return from(this.messagingService.requestPermission()).pipe(
+        switchMap((deviceToken) => {
+          console.log('Adding Device Token to request:', deviceToken);
+  
+          const modifiedRequest = request.clone({
+            setHeaders: {
+              'Guest_Token': `${deviceToken}`,
+            },
+          });
+  
+          return next.handle(modifiedRequest);
+        }),
+        catchError((error) => {
+          console.error('Notification permission denied or failed:', error);
+  
+          // Fallback: Send the request without the token
+          return next.handle(request);
+        })
+      );
     }
-
-    // Add Guest_Token for all other requests
-    return from(this.messagingService.requestPermission()).pipe(
-      switchMap((deviceToken: string) => {
-        console.log('Adding Device Token to request:', deviceToken);
-
-        const modifiedRequest = request.clone({
-          setHeaders: {
-            'Guest_Token': `${deviceToken}`,
-          },
-        });
-
-        return next.handle(modifiedRequest);
-      })
-    );
-  }
 }
 
