@@ -1,9 +1,9 @@
  <div class="main">
 
-  <div *ngIf="loading" class="loading-overlay">
+  <!-- <div *ngIf="loading" class="loading-overlay">
     <div class="spinner"></div>
     <p>Loading...</p>
-  </div>
+  </div> -->
 
   <p-toolbar>
     <div class="p-toolbar-group-left" routerLink="/blogs">
@@ -22,6 +22,7 @@
   [src]="images"
   [alt]="altImg"
   style="width:100%; height: 500px; margin-bottom: 40px;"
+  loading="lazy"
 />
 
   <!-- Blog Description -->

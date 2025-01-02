@@ -4,6 +4,7 @@ import {BlogsComponent}from './components/blogs/blogs.component'
 import {BlogDetailsComponent}from './components/blog-details/blog-details.component'
 import { SitemapComponent } from '../sitemap-generator/sitemap.component';
 import { ShareDeepLinkComponentComponent } from './components/ShareDeepLinkComponent/ShareDeepLinkComponent.component';
+import { BlogResolver } from './resolvers/blog.resolver';
 
 const routes: Routes = [
   { path: 'sitemap', component: SitemapComponent },
@@ -57,7 +58,10 @@ const routes: Routes = [
   },
   {
     path: 'blog-details/:slug',
-    component: BlogDetailsComponent  
+    component: BlogDetailsComponent  ,
+    resolve: {
+      blog: BlogResolver // ربط الـ Resolver بهذا المسار
+    }
   },
   {
     path: 'land-lord-steps', loadChildren: () => import('./components/landlordPages/lord-steps/lord-steps.module').then(m => m.LordStepsModule) // Lazy load FAQ module

@@ -29,15 +29,16 @@ import 'zone.js';  // Included with Angular CLI.
  */
 
 // For IE11, you would uncomment these imports:
-
-import 'core-js/es/object';
-import 'core-js/es/array';
-import 'core-js/es/promise';
-import 'core-js/es/symbol';
-import 'core-js/es/string';
-import 'core-js/es/map';
-import 'core-js/es/set';
-import 'whatwg-fetch';
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////remove
+// import 'core-js/es/object';
+// import 'core-js/es/array';
+// import 'core-js/es/promise';
+// import 'core-js/es/symbol';
+// import 'core-js/es/string';
+// import 'core-js/es/map';
+// import 'core-js/es/set';
+// import 'whatwg-fetch';
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////remove
 
 /***************************************************************************************************
  * Polyfills for `@angular/platform-browser` for Internet Explorer 9 - 11.

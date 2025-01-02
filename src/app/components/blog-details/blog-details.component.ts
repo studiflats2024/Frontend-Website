@@ -20,7 +20,18 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
   constructor(  private route: ActivatedRoute,private titleService: Title, private metaService: Meta,private blogService: BlogService) {
     // this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
 
+  // الحصول على بيانات الـ Resolver
+  this.route.data.subscribe((data: any) => {
+    this.blog = data.blog;
+    console.log(this.blog)
 
+    // تحديث العنوان والوصف
+    this.titleService.setTitle(this.blog.blog_Title); // تحديث العنوان
+    this.metaService.updateTag({
+      name: 'description',
+      content: this.blog.blog_Meta_Desc // تحديث الوصف
+    });
+  });
     // if (this.blogId) {
     //   this.loadBlogDetails(this.blogId);
     //   localStorage.setItem('blogId', this.blogId);
@@ -45,7 +56,24 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
     // this.metaService.updateTag({ property: 'og:url', content: window.location.href });
   }
 
+  blog:any;
+
  ngOnInit() {
+
+
+      // الحصول على بيانات الـ Resolver
+      this.route.data.subscribe((data: any) => {
+        this.blog = data.blog;
+        console.log(this.blog)
+  
+        // تحديث العنوان والوصف
+        this.titleService.setTitle(this.blog.blog_Title); // تحديث العنوان
+        this.metaService.updateTag({
+          name: 'description',
+          content: this.blog.blog_Meta_Desc // تحديث الوصف
+        });
+      });
+    
 
   // this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
 

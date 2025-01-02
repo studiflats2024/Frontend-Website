@@ -22,6 +22,7 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
       { label: 'My Info', routerLink: '/user-info' }
     ];
     this.getProfileData()
+    this. resetForm()
   }
 
   value!: string;
@@ -95,8 +96,20 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  showDialog1() {
 
+  
+  resetForm() {
+    
+
+    const phoneInput = (<HTMLInputElement>document.getElementById('phonee'));
+    if (phoneInput) {
+      phoneInput.value = ''; // Clear the input manually
+    }
+    
+  }
+
+  showDialog1() {
+       
     this.phoneDialog=true;
     setTimeout(() => {
       // this.phoneDialog = true;
@@ -121,7 +134,10 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
         //   });
 
         // }
-
+         setTimeout(() => {
+          this. resetForm()
+         }, 500);
+         
         phoneInput.addEventListener('blur', () => {
           let phoneNumber = iti.getNumber(); // Get the phone number with country code
           if (phoneNumber.startsWith('+')) {
@@ -138,10 +154,40 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
           }
 
         });
+        phoneInput.addEventListener("countrychange", function() {
+          // Clear the previous flag and dial code
+          const flagContainer = document.querySelector(".iti__selected-flag");
+          const dialCodeElement = document.querySelector(".iti__dial-code");
+           console.log(flagContainer,dialCodeElement)
+          // Remove previous flag and code visually
+          if (flagContainer) {
+              flagContainer.classList.remove("iti__selected-flag");
+          }
+          if (dialCodeElement) {
+              dialCodeElement.textContent = '';  
+          }
+        
+          // Get the new country data and update the flag and code
+          const selectedCountryData = iti.getSelectedCountryData();
+        
+          // Reapply the new flag and dial code
+          if (flagContainer) {
+              flagContainer.classList.add("iti__selected-flag"); // Re-add flag class
+              dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; // Set the new dial code
+          }
+        
+          // Optional: Log the new selected country and dial code
+          console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+        });
+
+
       });
 
       console.log(this.phoneDialog);
+
+      
     }, 500);
+    
   }
 
   handleContinue1() {
@@ -202,7 +248,9 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
       }
     );
   }
-  currentPhone:any;
+
+
+  currentPhone:any='';
   newPhone:any;
   currentPasswordPhone:any
   showDialogPhone() {
