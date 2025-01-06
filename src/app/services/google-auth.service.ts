@@ -126,6 +126,7 @@ import { MessagingService } from './messaging.service';
 import { UserService,UserAccount } from './user.service';
 import { HttpParams } from '@angular/common/http';
 import { AuthService } from './auth.service';
+import { environment } from '../../../src/environments/environment';
 
 
 
@@ -141,7 +142,9 @@ declare global {
 })
 export class GoogleAuthService {
   private clientId: string = '727951335686-psv9svhulcsrpv2sc1aqjs7oc87ggg61.apps.googleusercontent.com';  
-  private backendApiUrl: string = 'https://devapi.studiflats.com/api/Users/SocialSign_WS';  
+  // private backendApiUrl: string = 'https://devapi.studiflats.com/api/Users/SocialSign_WS'; 
+  private backendApiUrl: string = `${environment.apiUrl}/Users/SocialSign_WS`;  
+
 
   constructor(private http: HttpClient, private messagingService: MessagingService,private userService:UserService ,private authService:AuthService) {
     this.initializeGoogleSignIn();
