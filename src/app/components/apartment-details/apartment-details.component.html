@@ -68,12 +68,17 @@
       
 
       </div>
-      <div class="icon-text">
+      <div class="icon-text" style="cursor: pointer;">
 
           <!-- <i class="bi bi-heart"></i> -->
-          <i class="pi pi-heart"
-          [ngClass]="{'red-heart': favoriteApartments[aprt.apartment_ID]}"
+          <i class="pi pi-heart-fill"
+          [ngClass]="{'red-heart': allResponse.is_Wish}"
          (click)="toggleFavorite(aprt.apartment_ID)"></i>
+
+         <!-- <i style="cursor: pointer;
+         " class="pi pi-heart-fill "
+         [ngClass]="{'red-heart': apartment.isInWishlist}"
+        (click)="toggleFavorite(apartment.apartment_ID)"></i> -->
 
         <div class="favorite-text" (click)="toggleFavorite(aprt.apartment_ID)">Add to favorite</div>
       </div>
@@ -1092,7 +1097,7 @@
                   </div>
                   <div class="price-aprt">
                     <span class="price-label">Price: </span>
-                    <span class="price-value">${{ bedsPrice}}</span>
+                    <span class="price-value">€{{ bedsPrice}}</span>
                   </div>
                 </div>
                 <div  *ngFor="let room of aprt.apartment_Rooms;let i = index"  >
@@ -1110,7 +1115,7 @@
                     </div>
                     <div class="price-aprt">
                       <span class="price-label">Room Price: </span>
-                      <span class="price-value">${{room.bed_Price}}</span>
+                      <span class="price-value">€{{room.bed_Price}}</span>
                       <!-- <div *ngIf="!room.room_Beds[0].bed_Available" class="badge-unavailable">isAvailable -->
                       <div *ngIf="!room.room_Beds[0].isAvailable" class="badge-unavailable"> 
 
@@ -1130,11 +1135,11 @@
                     </div>
                     <div class="price-aprt">
                       <span class="price-label">Room Price: </span>
-                      <span class="price-value">${{ room.beds_No * room.bed_Price}}</span>
+                      <span class="price-value">€{{room.beds_No * room.bed_Price}}</span>
                     </div>
                     <div class="price-aprt">
                       <span class="price-label">Bed Price: </span>
-                      <span class="price-value">${{room.bed_Price}}</span>
+                      <span class="price-value">€{{room.bed_Price}}</span>
                     </div>
 
                     <div class="frame-bed pb-2" *ngFor="let bed of room.room_Beds">
@@ -1524,18 +1529,18 @@
                 <div *ngIf="room.room_Type==='Single'"  >
                   <div class="d-flex justify-content-between align-items-center w-100">
                     <div class="room-title">{{room.room_Type}}</div>
-                    <div class="room-price">${{room.bed_Price}}</div>
+                    <div class="room-price">€{{room.bed_Price}}</div>
                   </div>
                   <div class="d-flex justify-content-between align-items-center  w-100">
                     <div>
                       <span class="fee-title">Security Deposit </span>
                       <span class="refundable">(Refundable)</span>
                     </div>
-                    <div class="fee-price">${{room.bed_SecuirtyDeposit}}</div>
+                    <div class="fee-price">€{{room.bed_SecuirtyDeposit}}</div>
                   </div>
                   <div class="d-flex justify-content-between align-items-center  w-100">
                     <div class="fee-title">Service Fee</div>
-                    <div class="fee-price">${{room.bed_Service_Fees}}</div>
+                    <div class="fee-price">€{{room.bed_Service_Fees}}</div>
                   </div>
                 </div>
 
@@ -1549,7 +1554,7 @@
                   <div class="d-flex justify-content-between align-items-center my-2"   *ngFor="let  bed of selectedBeds ">
 
                     <div *ngIf="room.room_ID === bed.room_ID" class="bed-title"  >{{ bed.bed_Name||'bed'}}</div>
-                    <div *ngIf="room.room_ID === bed.room_ID" class="bed-price">${{room.bed_Price}}</div>
+                    <div *ngIf="room.room_ID === bed.room_ID" class="bed-price">€{{room.bed_Price}}</div>
                   </div>
                     <!-- <div class="bed-price">$350</div> -->
 
@@ -1558,11 +1563,11 @@
                       <span class="fee-title">Security Deposit </span>
                       <span class="refundable">(Refundable)</span>
                     </div>
-                    <div class="fee-price">${{room.bed_SecuirtyDeposit}}</div>
+                    <div class="fee-price">€{{room.bed_SecuirtyDeposit}}</div>
                   </div>
                   <div class="d-flex justify-content-between align-items-center   my-2"  >
                     <div class="fee-title">Service Fee</div>
-                    <div class="fee-price">${{room.bed_Service_Fees}}</div>
+                    <div class="fee-price">€{{room.bed_Service_Fees}}</div>
                   </div>
                 </div>
               </div>
@@ -1592,7 +1597,7 @@
                 <div class="divider"></div>
                 <div class="d-flex justify-content-between align-items-center w-100">
                   <div class="total-label">Total</div>
-                  <div class="total-price">${{totalPriceBooking}}</div>
+                  <div class="total-price">€{{totalPriceBooking}}</div>
                 </div>
 
 
@@ -1677,8 +1682,8 @@
             <div class="footer-frame-success">
               <div class="footer-text-success">To complete the booking process, please download our app.</div>
               <div class="app-links">
-                <a href="https://play.google.com/store/apps/details?id=com.studiflats.app&hl=ar"><img class="google-play-link" src="apple-store.png" /></a>
-                <a href="https://apps.apple.com/pl/app/studiflats/id6474908385"><img class="apple-store-link" src="google-play.png" /></a>
+                <a href="https://play.google.com/store/apps/details?id=com.studiflats.app&hl=ar"><img class="google-play-link" src="google-play.png"   /></a>
+                <a href="https://apps.apple.com/pl/app/studiflats/id6474908385"><img class="apple-store-link" src="apple-store.png"  /></a>
               </div>
             </div>
           </div>

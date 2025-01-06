@@ -198,7 +198,7 @@
             label="Continue"
             class="continue-button"
             styleClass="p-button-primary p-button-block"
-            (onClick)="handleContinue()">
+            (onClick)="handleContinue1()">
         </p-button>
     </ng-template>
 </p-dialog>
@@ -355,13 +355,19 @@
       <input
 
           name="phonee"
+           
           [(ngModel)]="currentPhone"
           required
           #phoneee="ngModel"
-          class="phonee form-control">
+          readonly
+          class="phonee form-control"><!--[value]="currentPhone"
+                                       (input)="currentPhone = $event.target.value"-->
       <div *ngIf="phoneee.invalid && (phoneee.dirty || phoneee.touched)" class="error">
         <small *ngIf="phoneee.errors?.['required']">Phone number is required.</small>
       </div>
+      <!-- <div *ngIf="!currentPhone" class="error">
+        <small>Phone number is required.</small>
+      </div> -->
     </div>
     <div class="flex flex-column gap-2 full-width col">
       <label for="password">Current Password*</label>
@@ -380,13 +386,19 @@
       <input
           class="phonee"
           name="phonee"
+          
           [(ngModel)]="newPhone"
-          required
           #phonee="ngModel"
-          class="form-control phonee">
+          required
+           
+          class="form-control phonee"><!--  [value]="newPhone"
+                                            (input)="newPhone = $event.target.value"-->
       <div *ngIf="phonee.invalid && (phonee.dirty || phonee.touched)" class="error">
         <small *ngIf="phonee.errors?.['required']">Phone number is required.</small>
       </div>
+      <!-- <div *ngIf="!newPhone" class="error">
+        <small>Phone number is required.</small>
+      </div> -->
     </div>
 
     <ng-template pTemplate="footer">

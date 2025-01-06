@@ -31,7 +31,7 @@
         <div class="apartment-header">
           <div class="apartment-title" [routerLink]="['/apartment-details', apartment.apt_UUID]"><a   style="text-decoration: none; color: inherit;">{{ apartment.apt_Name }}</a></div><!--routerLink="/apartment-details/{{apartment?.apartment_ID}}"-->
           <!-- <i class="pi pi-heart"></i> -->
-           <img src="heart.svg" (click)="removeWish(apartment.wish_ID)" />
+           <img src="heart.svg" (click)="removeWish(apartment.wish_ID)" style="cursor: pointer;"/>
         </div>
         <div class="apartment-location" [routerLink]="['/apartment-details', apartment.apt_UUID]">
           <i class="pi pi-map-marker"></i>

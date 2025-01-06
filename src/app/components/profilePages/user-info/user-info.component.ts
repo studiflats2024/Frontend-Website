@@ -103,63 +103,80 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 
     const phoneInput = (<HTMLInputElement>document.getElementById('phonee'));
     if (phoneInput) {
-      phoneInput.value = ''; // Clear the input manually
+      phoneInput.value = '';  
     }
     
   }
 
   showDialog1() {
+     
        
     this.phoneDialog=true;
     setTimeout(() => {
-      // this.phoneDialog = true;
-      const phoneInputs = document.querySelectorAll('.phonee'); // Select all elements with class "phonee"
+      
+      const phoneInputs = document.querySelectorAll('.phonee');  
+ 
      console.log(phoneInputs)
       phoneInputs.forEach((phoneInput, index) => {
+     // Remove any existing intl-tel-input container or instance
+     if ((phoneInput as any).iti) {
+      (phoneInput as any).iti.destroy(); // Destroy the intl-tel-input instance
+      delete (phoneInput as any).iti; // Remove reference to the old instance
+    }
+
+    // Remove any residual markup from intl-tel-input
+    const parent = phoneInput.parentElement;
+    if (parent && parent.classList.contains('iti')) {
+      parent.replaceWith(phoneInput); // Replace the input element to clean residual HTML
+    }
+
         const iti = (window as any).intlTelInput(phoneInput, {
           initialCountry: 'de',
           separateDialCode: true,
           preferredCountries: ['de', 'us', 'gb'],
-          // utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
+          
           utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js",
           searchCountry:true,
         });
-        // let iti:any;
-        // if (!phoneInput.classList.contains("iti")) {
-        //    iti = (window as any).intlTelInput(phoneInput, {
-        //     initialCountry: 'de',
-        //     separateDialCode: true,
-        //     preferredCountries: ['de', 'us', 'gb'],
-        //     utilsScript: "https://cdn.jsdelivr.net/npm/intl-tel-input/build/js/utils.js"
-        //   });
 
-        // }
-         setTimeout(() => {
-          this. resetForm()
-         }, 500);
-         
+
+        if (index === 0) {
+       
+          iti.setNumber(`+${this.currentPhone}`);
+        } else if(index===1 && this.submit ){
+          iti.setNumber(`+${this.newPhoneApi}`);
+
+        }
+
+    
+        
+     
         phoneInput.addEventListener('blur', () => {
-          let phoneNumber = iti.getNumber(); // Get the phone number with country code
+          let phoneNumber = iti.getNumber();  
           if (phoneNumber.startsWith('+')) {
-            phoneNumber = phoneNumber.slice(1); // Remove "+" from the phone number
+            phoneNumber = phoneNumber.slice(1);  
           }
 
-          // Assign the phone number to the correct property
+          
           if (index === 0) {
-            this.currentPhone = phoneNumber;
+           
+            this.currentPhoneApi = phoneNumber;
+
             console.log(this.currentPhone);
           } else if (index === 1) {
-            this.newPhone = phoneNumber;
+           
+            this.newPhoneApi = phoneNumber;
+
             console.log(this.newPhone);
           }
 
         });
         phoneInput.addEventListener("countrychange", function() {
-          // Clear the previous flag and dial code
+        
           const flagContainer = document.querySelector(".iti__selected-flag");
           const dialCodeElement = document.querySelector(".iti__dial-code");
            console.log(flagContainer,dialCodeElement)
-          // Remove previous flag and code visually
+     
           if (flagContainer) {
               flagContainer.classList.remove("iti__selected-flag");
           }
@@ -167,16 +184,16 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
               dialCodeElement.textContent = '';  
           }
         
-          // Get the new country data and update the flag and code
+         
           const selectedCountryData = iti.getSelectedCountryData();
         
-          // Reapply the new flag and dial code
+     
           if (flagContainer) {
-              flagContainer.classList.add("iti__selected-flag"); // Re-add flag class
-              dialCodeElement!.textContent = "+" + selectedCountryData.dialCode; // Set the new dial code
+              flagContainer.classList.add("iti__selected-flag");  
+              dialCodeElement!.textContent = "+" + selectedCountryData.dialCode;  
           }
         
-          // Optional: Log the new selected country and dial code
+          
           console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
         });
 
@@ -187,8 +204,12 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 
       
     }, 500);
+   
     
   }
+
+  
+  
 
   handleContinue1() {
     // Logic to handle OTP submission
@@ -201,7 +222,12 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
         (response) => {
           console.log('OTP check successful:', response);
           this.visible1 = false;
-          this.passwordDialog=true;
+          // this.uuid=''
+
+          if( this.updatePass){
+               this.passwordDialog=true;
+          }
+           
           // Handle success (e.g., navigate to another page, show success message)
         },
         (error) => {
@@ -236,9 +262,11 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
       response => {
         console.log('Email updated successfully:', response);
         this.emailDialog = false;
-        // this.visible=true;
+        this.visible1=true;
         this.emaillogin=this.newEmail;
-        this.messageService.add({ severity: 'success', summary: 'Update Mail', detail: 'Email Updated successfully' });
+        this.getProfileData()
+        this.messageService.add({ severity: 'success', summary: 'Update Mail', detail: response.message });
+        this.uuid=response.uuid
 
       },
       error => {
@@ -251,22 +279,35 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
 
 
   currentPhone:any='';
-  newPhone:any;
+  currentPhoneApi:any=''
+  newPhone:any='';
+  newPhoneApi:any;
   currentPasswordPhone:any
   showDialogPhone() {
     // this.phoneDialog = true;
 
   }
+submit:any;
 
   handleContinuePhone() {
+  this.submit='done'
 
+    // this.userService.updatePhone(this.currentPhone, this.currentPasswordPhone, this.newPhone).subscribe(
+    this.userService.updatePhone(this.currentPhoneApi, this.currentPasswordPhone, this.newPhoneApi).subscribe(
 
-    this.userService.updatePhone(this.currentPhone, this.currentPasswordPhone, this.newPhone).subscribe(
       response => {
         this.phoneDialog = false;
         this.phonelogin=this.newPhone;
-        this.messageService.add({ severity: 'success', summary: 'Update Phone', detail: 'Phone Updated successfully' });
+        // this.currentPhone='';
+        // this.currentPhoneApi=''
+    this.getProfileData()
+      //  this.newPhone=''
+        this.messageService.add({ severity: 'success', summary: 'Update Phone', detail: response.message });
         console.log('Phone updated successfully:', response);
+        this.uuid=response.uuid
+        console.log(this.uuid)
+    this.visible1 = true;
+
       },
       error => {
         this.messageService.add({ severity: 'error', summary: 'Update Mail', detail: 'failed to update Phone' });
@@ -283,9 +324,11 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
   passwordDialog:boolean=false;
   uuid:any;
   resetToken:any;
-  showDialogPass() {
-    // this.passwordDialog = true;
 
+  updatePass:boolean=false;
+  showDialogPass() {
+    
+// this.passwordDialog=true
 
     if (this.phonelogin) {
       this.userService.sendForgotPasswordOtp(this.phonelogin).subscribe(
@@ -293,17 +336,19 @@ export class UserInfoComponent implements OnInit, AfterViewInit {
           console.log('OTP sent successfully:', response);
           this.uuid=response.uuid;
           this.resetToken=response.reset_Token;
+          console.log(this.uuid,this.resetToken)
           this.visible1=true;
-          // Handle success (e.g., show a message to the user)
+          this.updatePass=true
+         
         },
         (error) => {
           console.error('Error sending OTP:', error);
-          // Handle error (e.g., show an error message to the user)
+          
         }
       );
     } else {
       console.error('Mobile number is required');
-      // Optionally handle the case where mobile number is empty
+ 
     }
   }
 
@@ -500,7 +545,10 @@ getProfileData(): void {
 
       this.imgProfile=this.profileData[0]?.profile_pic ;
       this.country=this.profileData[0]?.nationality;
+      this.currentPhone=this.phonelogin
+      this.currentPhoneApi=this.phonelogin
 
+      this.currentEmail= this.emaillogin
 
       console.log(this.birthday)
 

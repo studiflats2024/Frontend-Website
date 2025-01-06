@@ -19,6 +19,23 @@ export interface UserAccount {
 })
 export class UserService {
 
+  ///////////////////////////////////////////////////////////////share uuid from social sign//////////////////////
+  private sharedUuid = new BehaviorSubject<any>(null); // Initial value is null
+  uuidData$ = this.sharedUuid.asObservable(); // Observable for subscribing
+
+  
+
+  // Set data globally
+  setUuidData(data: any) {
+    this.sharedUuid.next(data);
+  }
+
+  // Get the current value of the shared data
+  getUuidData(): any {
+    return this.sharedUuid.value;
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
   private sharedData = new BehaviorSubject<string>('');
 
   // Observable to allow subscription

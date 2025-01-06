@@ -124,6 +124,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http'; // Import HttpClient for API calls
 import { MessagingService } from './messaging.service';
 import { UserService,UserAccount } from './user.service';
+import { HttpParams } from '@angular/common/http';
+import { AuthService } from './auth.service';
+
 
 
 // Extend the Window interface for TypeScript compatibility
@@ -138,9 +141,9 @@ declare global {
 })
 export class GoogleAuthService {
   private clientId: string = '727951335686-psv9svhulcsrpv2sc1aqjs7oc87ggg61.apps.googleusercontent.com';  
-  private backendApiUrl: string = 'https://api.studiflats.com/api/Users/SocialSign_WS';  
+  private backendApiUrl: string = 'https://devapi.studiflats.com/api/Users/SocialSign_WS';  
 
-  constructor(private http: HttpClient, private messagingService: MessagingService,private userService:UserService) {
+  constructor(private http: HttpClient, private messagingService: MessagingService,private userService:UserService ,private authService:AuthService) {
     this.initializeGoogleSignIn();
     this.initializeMessagingService();
   }
@@ -206,22 +209,64 @@ export class GoogleAuthService {
     this.sendDataToBackend(userData);
   }
 
+  // private sendDataToBackend(userData: any) {
+  //   this.http.post<any>(this.backendApiUrl, userData).subscribe({
+  //     next: (response) => {
+  //       console.log('Data successfully sent to backend:', response);
+       
+  //     if (!response.account_Confirmed || !response.profileCompleted) {
+  //       console.warn('Account not confirmed or profile not completed');
+  //       this.userService.openModalComplete();  
+  //     }
+  //       this. signOut();
+  //     },
+  //     error: (error) => {
+  //       console.error('Error sending data to backend:', error);
+  //     },
+  //   });
+  // }
+
   private sendDataToBackend(userData: any) {
-    this.http.post<any>(this.backendApiUrl, userData).subscribe({
+    // Convert the `userData` object to query parameters
+    const params = new HttpParams()
+      .set('SC_ID', userData.SC_ID)
+      .set('FullName', userData.FullName)
+      .set('Email', userData.Email)
+      .set('Provider', userData.Provider)
+      .set('img', userData.img)
+      .set('deviceToken', userData.deviceToken);
+  
+    // Send the POST request with query parameters
+    this.http.post<any>(this.backendApiUrl, null, { params }).subscribe({
       next: (response) => {
         console.log('Data successfully sent to backend:', response);
-         // Check if flags are false and trigger the modal
-      if (!response.account_Confirmed || !response.profileCompleted) {
-        console.warn('Account not confirmed or profile not completed');
-        this.userService.openModalComplete(); // Trigger the modal
-      }
-        this. signOut();
+  
+        // Check flags and trigger the modal if needed
+        // if (!response.account_Confirmed || !response.profileCompleted) {
+          if (
+            ('account_Confirmed' in response && !response.account_Confirmed) ||
+            ('profileCompleted' in response && !response.profileCompleted)
+          ) {
+          console.warn('Account not confirmed or profile not completed');
+          this.userService.openModalComplete(); // Trigger the modal
+          this.userService.setUuidData(response.uuid);
+        }else{
+          localStorage.setItem('token',response.token)
+          localStorage.setItem('userName',userData.FullName)
+          localStorage.setItem('userToken',response.token)
+          this.getProfileData(response.token);
+          this.userService.closeModalComplete()
+
+        }
+  
+        this.signOut();
       },
       error: (error) => {
         console.error('Error sending data to backend:', error);
       },
     });
   }
+  
 
   renderButton(buttonId: string) {
     if (!window.google || !window.google.accounts) {
@@ -255,4 +300,22 @@ export class GoogleAuthService {
     window.google.accounts.id.disableAutoSelect();
     console.log('User signed out');
   }
+
+  profileData: any;
+  userName:string=''
+getProfileData(token:any): void {
+  this.userService.getProfile().subscribe(
+    data => {
+      this.profileData = data;
+      console.log('ProfileData :',this.profileData);
+      this.userName= this.profileData[0]?.fullName;
+      // this.emaillogin=this.profileData[0]?.email;rr
+      // this.phonelogin=this.profileData[0]?.mobile;
+      this.authService.login(this.userName, token);
+    },
+    error => {
+      console.error('There was an error!', error);
+    }
+  );
+}
 }

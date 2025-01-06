@@ -1708,7 +1708,8 @@ markerOptions: google.maps.MarkerOptions = {
 };
 markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
   ngOnInit() {
-
+   
+    
     this.isVisible=false;
     // const mapOptions: google.maps.MapOptions = {
     //   center: { lat: 51.1657, lng:  10.4515 },
@@ -1726,10 +1727,7 @@ markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
     }, { validator: this.passwordMatchValidator });
     
 
-    if(localStorage.getItem('token')&&localStorage.getItem('userName')&&localStorage.getItem('userToken')){
-      this.getProfileData();
-      console.log('signed in')
-    }
+    
     
 
     console.log(this.selectedItem)
@@ -1838,7 +1836,12 @@ markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
     //   console.error("The phone input element was not found.");
     // }
 
-
+    if(localStorage.getItem('token')&&localStorage.getItem('userName')&&localStorage.getItem('userToken')){
+      this.getProfileData();
+      console.log('signed in')
+      this. loadWishList()
+       
+    }
 
 
     const input = document.querySelector("#phoneid");
@@ -2594,8 +2597,12 @@ getFirstAvailableBedDate(apartmentRooms: any): Date | null {
       } else {
         // If no bookings exist, use the current date as available
         const today = new Date();
-        if (!earliestDate || today < earliestDate) {
+        // console.log(today,new Date(this.aprt.available_From))
+        if (!earliestDate || (today < earliestDate && today >=new Date(this.aprt.available_From)) ) {
           earliestDate = today;
+        }else if(today <new Date(this.aprt.available_From)){
+          earliestDate =new Date(this.aprt.available_From);
+             
         }
       }
     });
@@ -2655,7 +2662,16 @@ checkNotAvailable(){
           console.log(res)
           this.allResponse=res;
           this.aprt = res.apartment_Basic_Info || {};
+          /////////////////////////fix checkindate///////////////////
+          
+  
+          if(new Date() <new Date(this.aprt.available_From)){
+            this.checkinDate =new Date(this.aprt.available_From).toISOString().slice(0, 10);
+               
+          }
 
+
+////////////////////////////////////////////////////////////////////////
 
           this.firstAvailableDate=this.getFirstAvailableBedDate(this.aprt.apartment_Rooms)
           console.log(this.firstAvailableDate)
@@ -3206,6 +3222,10 @@ openverifyModal(){
 
   favoriteApartments: { [key: string]: boolean } = {};
   toggleFavorite(apt_ID: string) {
+    if(this.allResponse.is_Wish){
+      this.removeWish(this.wishID)
+      return;
+    }
     // Toggle favorite status
     // this.favoriteApartments[apt_ID] = !this.favoriteApartments[apt_ID];
     this.favoriteApartments[apt_ID] =true;
@@ -3232,6 +3252,8 @@ openverifyModal(){
     this.bookingService.addToWishlist(apt_ID, device_Token).subscribe(
       (response) => {
         console.log('API call success:', response);
+        this.allResponse.is_Wish=true;
+        this.loadWishList()
       },
       (error) => {
         console.error('API call error:', error);
@@ -3337,6 +3359,65 @@ shareVia(platform: string) {
   if (url) {
     window.open(url, '_blank');
   }
+}
+
+
+
+/////////////////////////////////////////////////////wishlist/////////////////////
+wishList:any;
+totalData:any;
+wishID:any;
+ loadWishList() {
+
+  this.messagingService.requestPermission()
+  .then((token:any) => {
+    console.log('Device token:', token);
+    this.deviceToken=token;
+    // this.addToWishlist(apt_ID,this.deviceToken);
+  })
+  .catch((error:any) => {
+    console.error('Error getting token:', error);
+  });
+
+   this.bookingService.getWishList( 1, 1000,this.deviceToken )
+     .subscribe(
+       (response) => {
+         console.log(response)
+         this.wishList = response.data;
+         this.wishID=this.getWishID(this.aprt.apartment_Name,this.aprt.apartment_Location)
+           // Assign the response to the wishlist array
+         console.log('WishList:', this.wishList ,this.wishID,this.aprt.apartment_Name,this.aprt.apartment_Location);
+         
+       },
+       (error) => {
+         console.error('Error fetching wishlist:', error);
+         // this.messageService.add({severity: 'error', summary: 'Error', detail: error.message});
+       }
+     );
+ }
+
+removeWish(wish_ID: string) {
+ this.bookingService.removeFromWishlist(wish_ID).subscribe({
+   next: (response) => {
+     console.log('Item successfully removed:', response);
+     this.allResponse.is_Wish=false;
+   },
+   error: (error) => {
+     console.error('Error removing item:', error);
+   }
+ });
+}
+
+getWishID(apartmentName: string, apartmentLocation: string): string | null {
+ // Search for the apartment in the wishlist using name and address
+ const matchedWishlistItem = this.wishList.find(
+   (wishlistItem:any) =>
+     wishlistItem.apt_Name === apartmentName &&
+     wishlistItem.apt_Address === apartmentLocation
+ );
+
+ // Return the wish_ID if found, otherwise return null
+ return matchedWishlistItem ? matchedWishlistItem.wish_ID : null;
 }
 
 

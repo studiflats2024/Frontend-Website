@@ -95,7 +95,7 @@ logout(): void {
     },
     error => {
       console.error('Logout failed', error);
-      localStorage.removeItem('token');
+      // localStorage.removeItem('token');
       // Handle logout error
     }
   );

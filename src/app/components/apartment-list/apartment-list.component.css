@@ -98,7 +98,7 @@
   border-radius: 1.25rem; /* 20px */
   padding: 8px 20px; /* 8px 20px */
   color: #1151B4;
-  font-family: 'Inter', sans-serif;
+  font-family: Poppins;
   font-weight: 400;
   text-transform: capitalize;
   font-size: 16px;
@@ -107,7 +107,7 @@
  color: #EF2011;
  background-color: #FCEEEE;
  padding: 8px 20px; /* 8px 20px */
- font-family: 'Inter', sans-serif;
+ font-family: "Poppins";
  font-weight: 400;
  text-transform: capitalize;
  font-size: 16px;
@@ -361,14 +361,14 @@ button .p-button-icon-right, button .p-button-icon-left {
 
 :host ::ng-deep button .p-button-label {
   font-size: 0.875rem; /* 14px */
-  font-family: Inter ;
+  font-family:"Poppins";
   font-weight: 400;
 }
 
 .available-apartments {
   color: #6B7280;
   font-size: 1rem; /* 16px */
-  font-family: Inter ;
+  font-family: "Poppins" ;
   font-weight: 400;
   padding: 0.625rem 1.25rem; /* 10px 20px */
 }
@@ -748,7 +748,7 @@ z-index: 0 !important; */
   align-items: center;
   font-size: 14px;
   color: #6B7280;
-  font-family: Inter, sans-serif;
+  font-family: "Poppins";
 }
 
 .amenities i {
@@ -914,7 +914,7 @@ z-index: 0 !important; */
   display: block;
   color: #AEAEAE;
   font-size: 14px;
-  font-family: Inter, sans-serif;
+  font-family: "Poppins";
   font-weight: 400;
   text-align: start;
   margin-top: 8px;
@@ -1011,7 +1011,7 @@ z-index: 0 !important; */
   height: 15px;
   color: #343434;
   font-size: 16px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Poppins";
   font-weight: 500;
   line-height: 15px;
   word-wrap: break-word;
@@ -1022,7 +1022,7 @@ z-index: 0 !important; */
   border: none;
   color: black;
   font-size: 16px;
-  font-family: 'Inter' ;
+  font-family: "Poppins" ;
   font-weight: 500;
   word-wrap: break-word;
   padding: 0;
@@ -1039,7 +1039,7 @@ z-index: 0 !important; */
   background: none;
   border: none;
   font-size: 16px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Poppins";
   font-weight: 900;
   box-shadow: none !important;
 }
@@ -1052,7 +1052,7 @@ z-index: 0 !important; */
   border-radius: 10px;
   padding: 10px 20px;
   font-size: 16px;
-  font-family: 'Inter', sans-serif;
+  font-family: "Poppins";
   font-weight: 500;
 }
 
@@ -1364,7 +1364,7 @@ background: #EDF1F4;
 
 
 p,h1,h2,h3,h4,h5,h6,span,div , .Heading{
-  font-family: 'Inter' !important;
+  font-family: "Poppins" !important;
 }
 
 /*
@@ -1418,7 +1418,7 @@ width: 98%;
 }
 .adWait{
   color: var(--Gray-800, #1D2939);
-font-family: Inter;
+font-family: Poppins;
 font-size: 16px;
 font-style: normal;
 font-weight: 500;
@@ -1427,7 +1427,7 @@ letter-spacing: 0.374px;
 }
 .txtWait{
   color: var(--Gray-700, #344054);
-font-family: Inter;
+font-family: Poppins;
 font-size: 16px;
 font-style: normal;
 font-weight: 400;
@@ -1525,7 +1525,7 @@ gap: 10px;
 
 .modal-footer button {
   width: 30%; height: 56px; padding-left: 16px; padding-right: 16px; padding-top: 12px; padding-bottom: 12px; box-shadow: 0px 1px 2px rgba(31, 41, 55, 0.08); border-radius: 8px; border: 1px #484649 solid; justify-content: center; align-items: center; gap: 8px; display: inline-flex;
-  color: white; font-size: 18px; font-family: Inter; font-weight: 500; line-height: 28px; word-wrap: break-word;
+  color: white; font-size: 18px; font-family: Poppins; font-weight: 500; line-height: 28px; word-wrap: break-word;
  }
 
 
@@ -1547,7 +1547,7 @@ gap: 10px;
   color: var(--black, #000);
 
 /* text style/english text style/Text xl/Medium */
-font-family: Inter;
+font-family: Poppins;
 font-size: 20px;
 font-style: normal;
 font-weight: 500;
@@ -1563,7 +1563,7 @@ align-self: stretch;
  .wp1{
   color: var(--Neutral-Neutral20, #313033);
 font-feature-settings: 'liga' off, 'clig' off;
-font-family: Inter;
+font-family:Poppins;
 font-size: 14px;
 font-style: normal;
 font-weight: 600;
@@ -1574,7 +1574,7 @@ margin-bottom: 0;
  .wp2{
   color: var(--Neutral-Neutral40, #605D62);
 font-feature-settings: 'liga' off, 'clig' off;
-font-family: Inter;
+font-family: Poppins;
 font-size: 14px;
 font-style: normal;
 font-weight: 400;
@@ -1585,7 +1585,7 @@ line-height: 20px; /* 142.857% */
     color: var(--black, #000);
 
   /* text style/english text style/Text xl/Medium */
-  font-family: Inter;
+  font-family: Poppins;
   font-size: 20px;
   font-style: normal;
   font-weight: 500;
@@ -1597,7 +1597,7 @@ line-height: 20px; /* 142.857% */
 
  .spanwait{
   color: var(--Gray-900, #101828);
-font-family: Inter;
+font-family: Poppins;
 font-size: 14px;
 font-style: normal;
 font-weight: 400;
@@ -1715,7 +1715,7 @@ text-transform: capitalize;
   text-align: center;
   color: #101828;
   font-size: 24px;
-  font-family: Inter;
+  font-family: Poppins;
   font-weight: 600;
   text-transform: capitalize;
   line-height: 28px;
@@ -1725,7 +1725,7 @@ text-transform: capitalize;
   text-align: center;
   color: #475467;
   font-size: 16px;
-  font-family: Inter;
+  font-family: Poppins;
   font-weight: 400;
   text-transform: capitalize;
   line-height: 20px;

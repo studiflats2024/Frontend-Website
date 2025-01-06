@@ -1086,6 +1086,15 @@ emaill=''
       (error) => {
         console.error('API call error:', error);
         this.messageService.add({severity: 'error', summary: 'Error', detail: error.error.message});
+        console.log( this.apartmentList)
+
+        const apartment = this.apartmentList.find((apartment:any) => apartment.apartment_ID === apt_ID);
+        console.log(apartment,this.apartmentList)
+        // التحقق إذا تم العثور على الشقة
+        if (apartment) {
+            // تعيين الخاصية isInWishlist إلى false
+            apartment.isInWishlist = false;
+        } 
       }
     );
   }

@@ -47,6 +47,9 @@ export class AppSiderComponent implements OnInit{
         console.log('Logged out successfully:', response);
         // Clear user data from local storage
         localStorage.removeItem('token');
+        localStorage.removeItem('userToken');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userNameUpdated')
         // Redirect to the home page
         this.router.navigate(['/']);
       },

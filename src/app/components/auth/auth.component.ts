@@ -57,6 +57,7 @@ export class AuthComponent {
 
   onGoogleSignIn() {
     this.googleAuthService.promptSignIn();
+    this.socialSign=true;
   }
 
   // onGoogleSignIn(): void {
@@ -96,7 +97,7 @@ export class AuthComponent {
   ngAfterViewChecked() {
     // this.resetFormLogin()
     // this.resetFormSign()
- 
+//  this.initPhoneSocial()
 
     if (this.loginMethod === 'whatsApp') {
       const input = document.querySelector("#phonee") as HTMLInputElement;
@@ -215,7 +216,7 @@ export class AuthComponent {
   private isStableSubscription!: Subscription;
 
   ngOnInit(): void {
-  
+  this.socialSign=false
     // this.loginForm.reset();
     //////////////////////open complete profile//////////////////////////////////
     this.userService.getModalState().subscribe((state: string) => {
@@ -224,9 +225,22 @@ export class AuthComponent {
       if(state==='block'){
         this. isVisiblelogin='none';
         this. displayModalsign='none'
+      }else if(state==='none'&&(this.isVisiblelogin==='block'||this.displayModalsign==='block')){
+        this. isVisiblelogin='none';
+        this. displayModalsign='none';
+        
+        this.displayForgetPass='none';
+        Globals.authg=false;
       }
     });
     //////////////////////open complete profile//////////////////////////////////
+    ///////////////////////////////////////////share uuid from social////////////////////////////
+    this.userService.uuidData$.subscribe((data) => {
+      this.uuid = data;
+      console.log('Received shared data:', data);
+      // this.socialSign=true;
+    });
+    ////////////////////////////////////////////////////////////////////////////////////////
      
 
     this.userService.modalVisibility$.subscribe(show => {
@@ -454,8 +468,8 @@ let mobileAPI=null;
   mobileAPI=this.loginForm.value.mobile;
   console.log(mobileAPI)
 
-if(mobileAPI===null){
-  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'you must write your phone' });
+if(mobileAPI===null||mobileAPI===''){
+  this.messageService.add({ severity: 'error', summary: 'Error', detail: 'you must write your phone',life: 5000 });
 
 }else{
 
@@ -475,7 +489,7 @@ if(mobileAPI===null){
 
     },
     error => {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message,life: 500 });
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.message,life: 5000 });
       console.error('Error sending OTP', error);
       // Handle error, e.g., show an error message to the user
     }
@@ -485,6 +499,58 @@ if(mobileAPI===null){
 displayInfo:any;
 openInfoModal(){
   this.displayInfo='block';
+  this.initPhoneSocial()
+}
+initPhoneSocial(){
+ // Select the input field by its ID
+ const phoneInput = document.getElementById('socialPhone') as HTMLInputElement;
+
+ if (phoneInput) {
+   // Initialize intl-tel-input
+   const iti = (window as any).intlTelInput(phoneInput, {
+     initialCountry: 'de', // Default country
+     separateDialCode: true,
+     preferredCountries: ['us', 'gb', 'de'], // Preferred countries
+     utilsScript: 'https://cdn.jsdelivr.net/npm/intl-tel-input@22.0.2/build/js/utils.js', // Utilities script
+   });
+
+   // Example: Handle `blur` event to get the phone number in international format
+   phoneInput.addEventListener('blur', () => {
+     let phoneNumber = iti.getNumber(); // Get the phone number with the country code
+     console.log('Formatted Phone Number:', phoneNumber);
+     if (phoneNumber.startsWith('+')) {
+      phoneNumber = phoneNumber.slice(1);  
+    }
+     this.mobileSocial=phoneNumber
+   });
+     phoneInput.addEventListener("countrychange", function() {
+     
+       const flagContainer = document.querySelector(".iti__selected-flag");
+       const dialCodeElement = document.querySelector(".iti__dial-code");
+        console.log(flagContainer,dialCodeElement)
+  
+       if (flagContainer) {
+           flagContainer.classList.remove("iti__selected-flag");
+       }
+       if (dialCodeElement) {
+           dialCodeElement.textContent = '';  
+       }
+     
+      
+       const selectedCountryData = iti.getSelectedCountryData();
+     
+  
+       if (flagContainer) {
+           flagContainer.classList.add("iti__selected-flag");  
+           dialCodeElement!.textContent = "+" + selectedCountryData.dialCode;  
+       }
+     
+       
+       console.log("New Country Selected: " + selectedCountryData.name + " | Country Code: +" + selectedCountryData.dialCode);
+     });
+
+
+   };
 }
 displayForgetPass:any;
 
@@ -560,7 +626,9 @@ logout(): void {
     },
     error => {
       console.error('Logout failed', error);
-      localStorage.removeItem('token');
+      // localStorage.removeItem('token');
+      // localStorage.removeItem('userToken');
+      // localStorage.removeItem('userName');
       // Handle logout error
     }
   );
@@ -667,7 +735,10 @@ onVerifyOtp(): void {
       console.log('OTP verified successfully', response);
       this.displayModalsign='none';
       this.displayVerify='none';
-
+     if(this.updatedPhone){
+       this.isVisiblelogin='block'
+      return;
+     }
       this.openInfoModal()
 
     },
@@ -690,10 +761,99 @@ refreshOtp(): void {
   );
 }
 
+
+
+convertToISO(dateString: any): string {
+  console.log('Input Date String:', dateString);
+
+  // التحقق إذا كان dateString من نوع Date مباشرة
+  if (dateString instanceof Date) {
+    console.log('Date object detected, converting to ISO:', dateString);
+
+     // ضبط التوقيت المحلي
+  const localDate = new Date(dateString.getTime() - dateString.getTimezoneOffset() * 60000);
+  console.log('Adjusted Local Date:', localDate.toISOString());
+  return localDate.toISOString();
+
+    // console.log( dateString.toISOString())
+    // return dateString.toISOString();
+  }
+
+  
+
+ 
+  
+
+  // تحويل التاريخ إلى نص إذا لم يكن نصًا بالفعل
+  if (typeof dateString !== 'string') {
+    console.warn('Converting non-string input to string:', dateString);
+    dateString = String(dateString);
+  }
+
+  // التحقق إذا كان التاريخ بصيغة MM/DD/YYYY
+  const dateRegex = /^\w{3}, \d{2} \w{3} \d{4} \d{2}:\d{2}:\d{2} GMT$/;
+  if (dateRegex.test(dateString)) {
+    console.log('Valid GMT Date String detected:', dateString);
+    const date = new Date(dateString);
+    
+    date.setUTCHours(9, 15, 1, 356);
+    // date.setUTCHours(0, 0, 0, 0);
+    console.log(date.toISOString())
+
+    return date.toISOString();
+
+      // ضبط التوقيت المحلي
+// const localDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+// console.log('Adjusted Local Date:', localDate.toISOString());
+// return localDate.toISOString();
+
+  }
+
+  // تقسيم التاريخ بصيغة MM/DD/YYYY
+  const [month, day, year] = dateString.split('/').map(Number);
+
+  // التحقق من القيم المدخلة
+  if (!day || !month || !year) {
+    console.error('Invalid date format:', dateString);
+    return '';
+  }
+
+  // إنشاء التاريخ وضبط التوقيت إلى 09:15:01.356 UTC
+  const date = new Date(Date.UTC(year, month - 1, day, 9, 15, 1, 356));
+  console.log('Created Date Object (UTC):', date.toUTCString());
+
+  // إرجاع التاريخ بصيغة ISO
+  const isoDate = date.toISOString();
+  console.log('ISO Converted Date:', isoDate);
+  return isoDate;
+}
+convertToMMDDYYYY(date: string | Date): string {
+  const parsedDate = new Date(date);
+
+  // استخراج الشهر، اليوم، والسنة
+  const month = String(parsedDate.getMonth() + 1).padStart(2, '0'); // الأشهر تبدأ من 0، لذا نضيف 1
+  const day = String(parsedDate.getDate()).padStart(2, '0');
+  const year = parsedDate.getFullYear();
+
+  // إرجاع التاريخ في الصيغة المطلوبة MM/DD/YYYY
+  return `${month}/${day}/${year}`;
+}
+
 emailGoogle:boolean=false;
 provider:any;
-mobileSocial:any;
+mobileSocial:any='';
 onFinishSignSubmit() {
+  console.log(this.finishSignupForm.get('country')?.value)
+  const birthdayValue = this.finishSignupForm.get('birthday')?.value;
+
+  // Convert the birthday to ISO format if it exists
+  if (birthdayValue) {
+    const isoBirthday = this.convertToMMDDYYYY(birthdayValue);
+    console.log(birthdayValue,isoBirthday)
+    this.finishSignupForm.patchValue({
+      birthday: isoBirthday,
+    });
+  }
   if (this.finishSignupForm.valid) {
     const formData = this.finishSignupForm.value;
     const genderName = formData.gender.name;
@@ -707,7 +867,7 @@ onFinishSignSubmit() {
     this.userService.sendUserData(
       formData.email,
       genderName,
-      formData.country,
+      formData.country.name,
       formData.birthday,
       this.uuid,
       this.mobileSocial,
@@ -717,13 +877,20 @@ onFinishSignSubmit() {
         this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
         console.log('Form Submitted Successfully:', response);
         this.displayInfo='none';
-        if(this.socialSign===false){
-          setTimeout(() => {
+        // if(this.socialSign===false){
+        //   setTimeout(() => {
+
+        //     this.isVisiblelogin='block';
+
+        //   },  3000);
+        // }
+
+           setTimeout(() => {
 
             this.isVisiblelogin='block';
 
           },  3000);
-        }
+        
           this.socialSign=false;
 
       },
@@ -781,6 +948,7 @@ loginMethod: string = 'whatsApp';
     this.displayForgetPass='none';
     Globals.authg=false;
   }
+  updatedPhone:boolean=false;
 onLoginSubmit(): void {
   console.log(this.loginForm)
     let mobileAPI='';
@@ -841,6 +1009,12 @@ onLoginSubmit(): void {
 
                this.isVisiblelogin='none';
                this.uuid=error.error.uuid;
+          }else if(error.error.profileCompleted===true&&error.error.account_Confirmed===false){
+            this.displayVerify='block';
+
+            this.isVisiblelogin='none';
+            this.uuid=error.error.uuid;
+            this.updatedPhone=true;
           }
 
         }

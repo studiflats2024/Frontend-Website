@@ -29,6 +29,8 @@ export class AuthService {
   login(userName: string, token: string) {
     localStorage.setItem('userName', userName);
     localStorage.setItem('userToken', token);
+    localStorage.setItem('token', token);
+
     this.loggedIn.next(true);
     this.userName.next(userName);
   }
@@ -36,6 +38,9 @@ export class AuthService {
   logout() {
     localStorage.removeItem('userName');
     localStorage.removeItem('userToken');
+    localStorage.removeItem('token');
+
+
     this.loggedIn.next(false);
     this.userName.next('');
   }
