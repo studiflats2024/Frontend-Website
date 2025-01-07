@@ -304,7 +304,8 @@
         <div class="apartment-content">
           <div class="apartment-header">
             <div class="apartment-title"><a routerLink="/apartment-details/{{apartment?.apartment_ID}}" style="text-decoration: none; color: inherit;">{{ apartment.apartment_Name }}</a></div>
-            <i style="cursor: pointer;" class="pi pi-heart-fill "
+            <i style="cursor: pointer;
+            " class="pi pi-heart-fill "
             [ngClass]="{'red-heart': apartment.isInWishlist}"
            (click)="toggleFavorite(apartment.apartment_ID)"></i>
            <!-- <img src="heart.svg"/> -->
@@ -601,7 +602,7 @@
 
 
 
-      <p-paginator *ngIf="apartmentList.length > 0" (onPageChange)="tiggerPageChange($event)" [rows]="rows"
+      <p-paginator *ngIf="apartmentList.length > 0 && this.fromSearch===false" (onPageChange)="tiggerPageChange($event)" [rows]="rows"
         [totalRecords]="totalRecords" [first]="first" [showPageLinks]="showPageLinks" [ngStyle]="{'z-index': '12', }" ></p-paginator>
     </div>
     <div class="mapp" style="z-index:0" >

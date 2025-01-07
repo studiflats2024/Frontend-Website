@@ -2684,9 +2684,13 @@ checkNotAvailable(){
             const checkoutDatee = new Date( this.checkinDate);
             console.log(checkoutDatee)
             checkoutDatee.setMonth(checkoutDatee.getMonth() + this.aprt.min_Stay);
-        
-             
-            const formattedCheckoutDate = checkoutDatee.toISOString().split('T')[0];
+            console.log(checkoutDatee)
+            
+            const d = new Date(checkoutDatee.getTime() - checkoutDatee.getTimezoneOffset() * 60000);///////added new to fix miss day
+
+
+   
+            const formattedCheckoutDate = d.toISOString().split('T')[0];
         
              
             this.checkoutDate = formattedCheckoutDate;

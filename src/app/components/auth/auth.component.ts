@@ -220,9 +220,12 @@ export class AuthComponent {
     // this.loginForm.reset();
     //////////////////////open complete profile//////////////////////////////////
     this.userService.getModalState().subscribe((state: string) => {
-      this.displayVerify = state; // Update modal visibility
+      // this.displayVerify = state;
+      this.displayInfo = state;  
+
       console.log('state',state)
       if(state==='block'){
+        this.openInfoModal()
         this. isVisiblelogin='none';
         this. displayModalsign='none'
       }else if(state==='none'&&(this.isVisiblelogin==='block'||this.displayModalsign==='block')){
@@ -739,6 +742,22 @@ onVerifyOtp(): void {
        this.isVisiblelogin='block'
       return;
      }
+     if(this.socialSign){
+      this.messageService.add({ 
+        severity: 'success', 
+        summary: 'Congratulations!', 
+        detail: "You have successfully signed up! Welcome aboard!" 
+      });
+        
+      setTimeout(() => {
+
+        this.isVisiblelogin='block';
+
+      },  3000);
+    
+      this.socialSign=false;
+      return;
+    }
       this.openInfoModal()
 
     },
@@ -884,6 +903,10 @@ onFinishSignSubmit() {
 
         //   },  3000);
         // }
+        if(this.socialSign){
+          this.displayVerify='block';
+          return;
+        }
 
            setTimeout(() => {
 
@@ -891,7 +914,7 @@ onFinishSignSubmit() {
 
           },  3000);
         
-          this.socialSign=false;
+          // this.socialSign=false;
 
       },
       error => {

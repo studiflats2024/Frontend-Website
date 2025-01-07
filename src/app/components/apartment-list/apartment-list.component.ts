@@ -100,7 +100,7 @@ fixxxx:boolean=false;
 
   searchResults:any;
   apartmentsSearch:any
-
+  fromSearch:boolean=false;
   ngOnInit(): void {
      
     // this.getAllApartment();
@@ -116,6 +116,8 @@ fixxxx:boolean=false;
       if (results) {  // التحقق من وجود النتائج قبل القيام بأي عملية
         // this.searchResults = results;
         // this.apartmentsSearch = results.data;
+        this.fromSearch=true;
+        
         this.apartmentList = results.data;
         console.log(this.apartmentList)
         this.totalofPages =results.totalPages;
@@ -128,6 +130,8 @@ fixxxx:boolean=false;
         console.log('Received search results in other component:', this.searchResults);
       }else{
         this.applyFilter();
+        console.log(this.apartmentList)
+
       }
     });
 
@@ -539,7 +543,7 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
     //   this.router.navigate([this.router.url]);
     // });
   
-    
+    this.fromSearch=false;
 console.log('why')
   }
 
@@ -693,7 +697,27 @@ console.log('why')
     //   apartment_Size:  this.getNumberFromSelectedSize()||null
     // };
     // this.getAllApartment();
-    this.applyFilter()
+    // this.applyFilter()
+    // this.apartmentSearchService.searchResults$.subscribe(results => {
+      if ( this.fromSearch) {  // التحقق من وجود النتائج قبل القيام بأي عملية
+        
+        // this.apartmentList = results.data;
+        // console.log('Received search results in other component:',this.apartmentList)
+        // this.totalofPages =results.totalPages;
+        // this.totalRecords = results.totalRecords;
+        // this.showPicker=false;
+        // this.showPickerguest=false;
+        // this.showPickerplace=false;
+        // this.filters=false;
+        // this.clear();
+       return;
+
+      }else{
+        this.applyFilter();
+        console.log(this.apartmentList)
+
+      }
+    // });
   }
 
   navigateToMap(): void {
