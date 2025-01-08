@@ -1,3 +1,16 @@
+.title {
+  font-size: inherit; /* Match the parent font size */
+  font-weight: normal; /* Remove bold styling if needed */
+  line-height: inherit; /* Match the parent line height */
+  margin: 0; /* Remove default h1 margins */
+  display: inline; /* Make it inline like a span */
+}
+.blog-content{
+  word-break: break-all;
+  overflow: hidden;
+
+}
+
 .main{
   padding-top: 100px;
   height: auto;
@@ -96,6 +109,8 @@ font-size: 20px;
 font-style: normal;
 font-weight: 400;
 line-height: 38px; /* 190% */
+word-break: break-all;
+
 }
 
 

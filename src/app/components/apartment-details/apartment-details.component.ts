@@ -2665,10 +2665,10 @@ checkNotAvailable(){
           /////////////////////////fix checkindate///////////////////
           
   
-          if(new Date() <new Date(this.aprt.available_From)){
-            this.checkinDate =new Date(this.aprt.available_From).toISOString().slice(0, 10);
+          // if(new Date() <new Date(this.aprt.available_From)){
+          //   this.checkinDate =new Date(this.aprt.available_From).toISOString().slice(0, 10);
                
-          }
+          // }
 
 
 ////////////////////////////////////////////////////////////////////////
@@ -2681,6 +2681,17 @@ checkNotAvailable(){
           this.minDate = this.firstAvailableDate.toISOString().split('T')[0];
           ////////////////////////////////////////
           if(this.checkoutDate===''){
+
+              /////////////////////////fix checkindate///////////////////
+          
+  
+          if(new Date() <new Date(this.aprt.available_From)){
+            this.checkinDate =new Date(this.aprt.available_From).toISOString().slice(0, 10);
+               
+          }
+
+
+////////////////////////////////////////////////////////////////////////
             const checkoutDatee = new Date( this.checkinDate);
             console.log(checkoutDatee)
             checkoutDatee.setMonth(checkoutDatee.getMonth() + this.aprt.min_Stay);

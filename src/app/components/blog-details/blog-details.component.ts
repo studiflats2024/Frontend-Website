@@ -4,6 +4,8 @@ import { Component, AfterViewInit, ViewChild, ElementRef ,OnInit } from '@angula
 import { BlogService } from '../blogs/blog.service';
 import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-blog-details',
@@ -17,7 +19,7 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
 
   blogId: string | null = null;
   blogSlug: string | null = null;
-  constructor(  private route: ActivatedRoute,private titleService: Title, private metaService: Meta,private blogService: BlogService) {
+  constructor( private sanitizer: DomSanitizer, private route: ActivatedRoute,private titleService: Title, private metaService: Meta,private blogService: BlogService) {
     // this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
 
   // الحصول على بيانات الـ Resolver
@@ -146,7 +148,8 @@ desc:string=''
 altImg:string=''
 blogContent:any;
 category:any;
-keywords:any;
+keyword:any;
+tags:any;
 quill: any;
 images:any;
 blogDate:any;
@@ -167,8 +170,12 @@ loadBlogDetails(blogSlug: string): void {
 
       this.altImg = blog.blog_Image_Alt;
       this.blogContent = blog.blog_Content;
+      this.blogContent=this.sanitizer.bypassSecurityTrustHtml(blog.blog_Content)
+
       this.category = blog.blog_Category;
-      this.keywords = blog.blog_KeyWords || [];
+      // this.keywords = blog.blog_KeyWords || [];
+      this.tags = blog.blog_Tags || [];
+      this.keyword=blog.blog_KeyWords
       // this.quill.root.innerHTML = this.blogContent;
       // Optionally, load images if necessary
       this.images = blog.blog_Main_Image;
