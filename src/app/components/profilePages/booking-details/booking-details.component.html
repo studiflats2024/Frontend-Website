@@ -214,7 +214,7 @@
       <div class="container mt-4" style="padding: 15px; border: 0.8px solid #DFE4EA; border-radius: 8px;">
         <div class="booking-summary my-3">Booking Summary</div>
 
-        <div class="booking-summary-frame">
+        <div *ngIf="bookingDetails?.full_Booking===false" class="booking-summary-frame">
           <div style="width: 100%;">
 
             <!-- Loop through rooms -->
@@ -283,6 +283,59 @@
             </div>
           </div>
         </div>
+        <!---------------------full apartment--------------------------->
+        <!-- <div *ngIf="bookingDetails?.full_Booking" class="booking-summary-frame">
+          <div style="width: 100%;">
+
+           
+            <div *ngFor="let room of groupedGuests | keyvalue; let i = index">
+
+             
+              <div *ngIf="room.value && room.value.length > 0">
+
+             
+                <div class="booking-frame"  >
+
+                 
+                  <div class="d-flex justify-content-between align-items-center my-2">
+                    <div class="room-title">{{ room.value[0].room_Type }}</div>
+                  </div>
+
+       <div *ngFor="let guest of room.value; let x = index">
+                  
+                  <div class="d-flex justify-content-between align-items-center my-2 mb-3">
+                    <div class="bed-title">{{ guest.bed_Name }}</div>
+                    <div class="bed-price">{{ guest.bed_Price | currency:'EUR':'symbol':'1.2-2' }}</div>
+                  </div>
+                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
+                    <div>
+                      <span class="fee-title">Security Deposit for {{ guest.bed_Name }}</span>
+                      <span class="refundable">(Refundable)</span>
+                    </div>
+                    <div class="fee-price">{{ guest.secuirty_Deposit | currency:'EUR':'symbol':'1.2-2'}}</div>
+                  </div>
+                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
+                    <div class="fee-title">Service Fee for {{ guest.bed_Name }}</div>
+                    <div class="fee-price">{{ guest.service_Fee | currency:'EUR':'symbol':'1.2-2' }}</div>
+                  </div>
+            <div  class="dividerr mt-3 mb-3"></div>
+
+        </div>
+                 
+                  <div  *ngIf="(groupedGuests | keyvalue).length!=(i+1)" class="dividerr mt-3 mb-3"></div>
+
+                </div>
+              </div>
+            </div>
+
+    
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="total-label">Total</div>
+              <div class="total-price">{{total | currency:'EUR':'symbol':'1.2-2' }}</div>
+            </div>
+          </div>
+        </div> -->
+        <!---------------------------------full apartment------------------------------------>
       </div>
 
 

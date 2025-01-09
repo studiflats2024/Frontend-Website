@@ -1,3 +1,17 @@
+
+.if-full-apartment {
+ 
+  font-weight: bold; /* Make it stand out */
+  color: #2c3e50; /* Elegant dark color */
+  background-color: #ecf0f1; /* Soft background for contrast */
+  padding: 10px 20px; /* Add padding for spacing */
+  border-radius: 8px; /* Rounded corners */
+  text-align: center; /* Center-align text */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  display: inline-block; /* Keep it compact */
+}
+
+
 button:disabled {
   background-color: #dfe7ef !important; /* لون الخلفية */
   cursor: not-allowed; /* تغيير شكل مؤشر الفأرة */

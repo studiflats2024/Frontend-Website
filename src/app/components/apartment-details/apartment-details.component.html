@@ -1524,8 +1524,8 @@
 
 
               <div class="booking-summary my-3">Booking Summary</div>
-              <div class="booking-summary-frame">
-              <div *ngFor="let room of roomsStep2" style="width: 100%;">
+              <div *ngIf="!selectfullaprt" class="booking-summary-frame">
+              <div  *ngFor="let room of roomsStep2" style="width: 100%;">
                 <div *ngIf="room.room_Type==='Single'"  >
                   <div class="d-flex justify-content-between align-items-center w-100">
                     <div class="room-title">{{room.room_Type}}</div>
@@ -1551,14 +1551,31 @@
                     <div class="room-title">{{room.room_Type}}</div>
                     <!-- <div class="room-price">${{room.bed_Price}}</div> -->
                   </div>
-                  <div class="d-flex justify-content-between align-items-center my-2"   *ngFor="let  bed of selectedBeds ">
-
+                  <div class=""   *ngFor="let  bed of selectedBeds; let i=index">
+                  <div class="d-flex justify-content-between align-items-center my-2">
                     <div *ngIf="room.room_ID === bed.room_ID" class="bed-title"  >{{ bed.bed_Name||'bed'}}</div>
                     <div *ngIf="room.room_ID === bed.room_ID" class="bed-price">€{{room.bed_Price}}</div>
                   </div>
+                     
+
+                    <div *ngIf="room.room_ID === bed.room_ID" class="d-flex justify-content-between align-items-center   my-2"  >
+                      <div>
+                        <span class="fee-title">Security Deposit for {{bed.bed_Name}} </span>
+                        <span class="refundable">(Refundable)</span>
+                      </div>
+                      <div class="fee-price">€{{room.bed_SecuirtyDeposit}}</div>
+                    </div>
+                    <div  *ngIf="room.room_ID === bed.room_ID" class="d-flex justify-content-between align-items-center   my-2"  >
+                      <div class="fee-title">Service Fee for {{bed.bed_Name}}</div>
+                      <div class="fee-price">€{{room.bed_Service_Fees}}</div>
+                    </div>
+ 
+
+                    <div *ngIf="i<selectedBeds.length - 1" class="divider"></div>
+                  </div>
                     <!-- <div class="bed-price">$350</div> -->
 
-                  <div class="d-flex justify-content-between align-items-center   my-2"  >
+                  <!-- <div class="d-flex justify-content-between align-items-center   my-2"  >
                     <div>
                       <span class="fee-title">Security Deposit </span>
                       <span class="refundable">(Refundable)</span>
@@ -1568,9 +1585,14 @@
                   <div class="d-flex justify-content-between align-items-center   my-2"  >
                     <div class="fee-title">Service Fee</div>
                     <div class="fee-price">€{{room.bed_Service_Fees}}</div>
-                  </div>
+                  </div> -->
                 </div>
+
+                 
+
               </div>
+
+              
 
                 <!-- <div class="d-flex justify-content-between align-items-center  w-100">
                   <div class="room-title">Double Room</div>
@@ -1602,7 +1624,84 @@
 
 
               </div>
+<!-----------------if full apart-->
+              <div *ngIf="selectfullaprt" class="booking-summary-frame">
+                <div class="if-full-apartment">Full Apartment</div>
 
+                <div  *ngFor="let room of selectedRooms;let R=index" style="width: 100%;">
+                  <div *ngIf="room.room_Type==='Single'"  >
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                      <div class="room-title">{{room.room_Type}}</div>
+                      <div class="room-price">€{{room.bed_Price}}</div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center  w-100">
+                      <div>
+                        <span class="fee-title">Security Deposit </span>
+                        <span class="refundable">(Refundable)</span>
+                      </div>
+                      <div class="fee-price">€{{room.bed_SecuirtyDeposit}}</div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center  w-100">
+                      <div class="fee-title">Service Fee</div>
+                      <div class="fee-price">€{{room.bed_Service_Fees}}</div>
+                    </div>
+                  </div>
+  
+                  <div class="divider"></div>
+  
+                  <div *ngIf="room.room_Type!=='Single'" class="booking-frame"  >
+                    <div class="d-flex justify-content-between align-items-center my-2"  >
+                      <div class="room-title">{{room.room_Type}}</div>
+                      <!-- <div class="room-price">${{room.bed_Price}}</div> -->
+                    </div>
+                    <div class=""   *ngFor="let  bed of selectedRooms[R].room_Beds; let i=index">
+                    <div class="d-flex justify-content-between align-items-center my-2">
+                      <div *ngIf="room.room_ID === bed.room_ID" class="bed-title"  >{{ bed.bed_Name||'bed'}}</div>
+                      <div *ngIf="room.room_ID === bed.room_ID" class="bed-price">€{{room.bed_Price}}</div>
+                    </div>
+                       
+  
+                      <div *ngIf="room.room_ID === bed.room_ID" class="d-flex justify-content-between align-items-center   my-2"  >
+                        <div>
+                          <span class="fee-title">Security Deposit for {{bed.bed_Name}} </span>
+                          <span class="refundable">(Refundable)</span>
+                        </div>
+                        <div class="fee-price">€{{room.bed_SecuirtyDeposit}}</div>
+                      </div>
+                      <div  *ngIf="room.room_ID === bed.room_ID" class="d-flex justify-content-between align-items-center   my-2"  >
+                        <div class="fee-title">Service Fee for {{bed.bed_Name}}</div>
+                        <div class="fee-price">€{{room.bed_Service_Fees}}</div>
+                      </div>
+   
+  
+                      <div *ngIf="i<selectedBeds.length - 1" class="divider"></div>
+                    </div>
+                      <!-- <div class="bed-price">$350</div> -->
+  
+                    <!-- <div class="d-flex justify-content-between align-items-center   my-2"  >
+                      <div>
+                        <span class="fee-title">Security Deposit </span>
+                        <span class="refundable">(Refundable)</span>
+                      </div>
+                      <div class="fee-price">€{{room.bed_SecuirtyDeposit}}</div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center   my-2"  >
+                      <div class="fee-title">Service Fee</div>
+                      <div class="fee-price">€{{room.bed_Service_Fees}}</div>
+                    </div> -->
+                  </div>
+  
+                   
+  
+                </div>
+
+                <!---------------------------->
+                <div class="divider"></div>
+                <div class="d-flex justify-content-between align-items-center w-100">
+                  <div class="total-label">Total</div>
+                  <div class="total-price">€{{totalPriceBooking}}</div>
+                </div>
+              </div>
 
 
 
