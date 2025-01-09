@@ -60,7 +60,10 @@ blogs: any[] = [];
     const pageNo = this.first / this.rows + 1;
     this.blogService.getAllBlogs(pageNo, this.rows).subscribe(
       (response) => {
-        this.blogs = response.data; // Adjust this based on your API response structure.
+        console.log(response)
+        this.blogs = response.data; 
+        this.blogs = response.data.filter((blog: any) => blog.is_Published === true);
+
         this.totalRecords = response.total_Records ; // Update this if the API returns total records.
         console.log(this.blogs)
         console.log(this.totalRecords)

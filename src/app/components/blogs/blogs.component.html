@@ -242,57 +242,60 @@
       </div>
     </div> -->
 
-    <div *ngIf="loading" class="loading-overlay">
+    <!-- <div *ngIf="loading" class="loading-overlay">
       <div class="spinner"></div>
       <p>Loading...</p>
-    </div>
+    </div> -->
 
-    <div class="containerr">
-      <div class="box"  *ngFor="let blog of blogs; let i = index" style="max-width: 412px;">
-        <div style="cursor: pointer;" class="img" (click)="openMenu(i)">
-          <img src="blog/threeDot.svg"/>
-        </div>
-        <div class="menu"  [ngStyle]="{ 'display': openMenuIndex === i ? 'block' : 'none' }">
-          <div>
-            <ul style="list-style: none; padding:0;">
-              <li class="" style="cursor: pointer;"  (click)="viewBlogDetails(blog)">View Blog Details</li>
-              <!-- <li style="cursor: pointer;" (click)="editBlog(blog)">Update Blog</li> -->
-            </ul>
+    <div  class="containerr">
+      <div class="box"  *ngFor="let blog of blogs; let i = index"  >
+        <div   style="max-width: 412px;">
+          <div style="cursor: pointer;" class="img" (click)="openMenu(i)">
+            <img src="blog/threeDot.svg"  />
           </div>
-        </div>
-        <p-card >
-          <ng-template pTemplate="header">
-            <img (click)="viewBlogDetails(blog)" alt="Card" [src]="blog.blog_Main_Image" [alt]="blog.blog_Image_Alt" style="height: 215px;" />
-          </ng-template>
-
-          <div (click)="viewBlogDetails(blog)" class="text">
-            <div class="head">{{ blog.blog_Title }}</div>
-            <div class="info">
-              {{ blog.blog_Desc | slice:0:150 }}...
+          <div class="menu"  [ngStyle]="{ 'display': openMenuIndex === i ? 'block' : 'none' }">
+            <div>
+              <ul style="list-style: none; padding:0;">
+                <li class="" style="cursor: pointer;"  (click)="viewBlogDetails(blog)">View Blog Details</li>
+                <!-- <li style="cursor: pointer;" (click)="editBlog(blog)">Update Blog</li> -->
+              </ul>
             </div>
-            </div>
-           <!-- <div class="foot">
-            <p-chip
-              label="Amy Elsner"
-              image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
-              alt="Avatar image" />
-
-              <div class="date">{{ blog.blog_Created_at | date: 'shortDate' }}</div>
-           </div> -->
-           <ng-template pTemplate="footer">
-            <div (click)="viewBlogDetails(blog)" class="foot">
-
+          </div>
+          <p-card >
+            <ng-template pTemplate="header">
+              <img (click)="viewBlogDetails(blog)" alt="Card" [src]="blog.blog_Main_Image" [alt]="blog.blog_Image_Alt" style="height: 215px;width: 400px;" />
+            </ng-template>
+  
+            <div (click)="viewBlogDetails(blog)" class="text">
+              <div class="head">{{ blog.blog_Title }}</div>
+              <div class="info">
+                {{ blog.blog_Desc | slice:0:150 }}...
+              </div>
+              </div>
+             <!-- <div class="foot">
               <p-chip
-              label="Studiflats"
-              image="https://cdn3.iconfinder.com/data/icons/office-485/100/ICON_BASIC-11-512.png"
-              alt="Avatar image" />
+                label="Amy Elsner"
+                image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png"
+                alt="Avatar image" />
+  
                 <div class="date">{{ blog.blog_Created_at | date: 'shortDate' }}</div>
-             </div>
-          </ng-template>
-
-
-
-      </p-card>
+             </div> -->
+             <ng-template pTemplate="footer">
+              <div (click)="viewBlogDetails(blog)" class="foot">
+  
+                <p-chip
+                label="Studiflats"
+                image="https://cdn3.iconfinder.com/data/icons/office-485/100/ICON_BASIC-11-512.png"
+                alt="Avatar image" />
+                  <div class="date">{{ blog.blog_Created_at | date: 'shortDate' }}</div>
+               </div>
+            </ng-template>
+  
+  
+  
+        </p-card>
+        </div>
+       
       </div>
       <!-- <div class="box">
         <div class="img">

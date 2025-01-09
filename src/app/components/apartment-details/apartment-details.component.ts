@@ -182,11 +182,22 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
     
 
     //////////////////////////////////////////////////////
-    const checkoutDatee = new Date( checkoutDate);
-    checkoutDatee.setMonth(checkoutDate.getMonth() + this.aprt.min_Stay);
+    let checkoutDatee = new Date( checkoutDate);
+    checkoutDatee.setMonth(checkoutDate.getMonth() + this.minStay);
+
+    if(new Date(checkoutDatee) >new Date(this.aprt.available_To)){
+      checkoutDatee =new Date(this.aprt.available_To) ;
+         
+    }
+
+    const d = new Date(checkoutDatee.getTime() - checkoutDatee.getTimezoneOffset() * 60000);///////added new to fix miss day
+
+
+   
+    const formattedCheckoutDate = d.toISOString().split('T')[0];
 
      
-    const formattedCheckoutDate = checkoutDatee.toISOString().split('T')[0];
+    // const formattedCheckoutDate = checkoutDatee.toISOString().split('T')[0];
 
      
     this.checkoutDate = formattedCheckoutDate;
@@ -777,6 +788,17 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
   // }
   selectfullaprt:boolean=false;
   onFullApartmentSelected(event: any) {
+      /////////////////clear////////////////////
+      const inputs = document.querySelectorAll('input');
+      inputs.forEach(input => {
+        if (input.type !== 'date'&& input.type !=='checkbox') { // Skip inputs of type date
+          input.value = '';
+        }
+      });
+      this.activeIndexd=null
+    
+      this.displaymainArray=[]
+      //////////////////////////////////////
     // الحصول على القيمة المحدثة للـ checkbox من النموذج
     // this.selectfullaprt = this.bookingForm.get('fullApartment')?.value;
     const fullApartmentSelected = event.target.checked;
@@ -867,6 +889,10 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
   @ViewChildren('bedCheckbox') bedCheckboxes!: QueryList<ElementRef>;
   onRoomSelected(event: Event, room: any) {
 
+     
+
+      
+
 
     // if(room.room_Type==='Trible'){
 
@@ -878,6 +904,13 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
 
 
     let isChecked = (event.target as HTMLInputElement).checked;
+
+
+
+
+
+
+    
     if( !(this.selectedItem===1&&this.selectedBeds.length!==0) ){
     this.selectedrommID=room.room_ID;
     this.selectedroom=room.room_Type;
@@ -898,7 +931,39 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
       (event.target as HTMLInputElement).checked=false;
       return;
     }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////clear/////////////
+    if (!(isChecked && this.selectedBeds.length !== 0 && noBedsNeed <= 0)) {
+      /////////////////clear////////////////////
 
+     
+
+      let allBedsAvailable = true; // متغير لتحديد إذا كانت كل الأسرة متاحة
+
+      for (let i = 0; i < room.room_Beds.length; i++) {
+        const bed = room.room_Beds[i];
+      
+        if (!bed.isAvailable) { // إذا كان السرير غير متاح
+          allBedsAvailable = false; // السرير غير متاح
+          break; // توقف التكرار
+        }
+      }
+      
+      // تنفيذ الكود فقط إذا كانت كل الأسرة متاحة
+      if (allBedsAvailable) {
+        const inputs = document.querySelectorAll('input');
+        inputs.forEach(input => {
+          if (input.type !== 'date' && input.type !== 'checkbox') { // تخطي الحقول من نوع date و checkbox
+            input.value = '';
+          }
+        });
+        this.activeIndexd = null;
+        this.displaymainArray = [];
+      }
+      
+      //////////////////////////////////////
+    }
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////clear/////////////
 
     if (isChecked) {
       // Add the room to selectedRooms array if it's selected
@@ -1039,9 +1104,13 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
     console.log('Room Selected:', room.selected);
     console.log('Selected Rooms:', this.selectedRooms);
     console.log('Selected Beds:', this.selectedBeds);
+
+    
   }
 
   onBedSelected(event: Event,bed:any,room:any,allroom:any ){
+
+ 
     console.log(this.checkinDate,this.checkoutDate)
     console.log(bed.beds_Booked_Dates)
     const isChecked = (event.target as HTMLInputElement).checked;
@@ -1057,6 +1126,20 @@ if(this.selectfullaprt && this.selectedItem>1 && this.selectedBeds.length>this.s
       this.messageService.add({ severity: 'error', summary: 'Booking Failed', detail: 'You cannot select more.' });
       (event.target as HTMLInputElement).checked=false;
       return;
+    }
+
+    if(!(isChecked&&this.selectedBeds.length!==0 && noBedsNeed<=0  )){
+       /////////////////clear///////////////////////////////////////////////////////////////////
+       const inputs = document.querySelectorAll('input');
+       inputs.forEach(input => {
+         if (input.type !== 'date'&& input.type !=='checkbox') { // Skip inputs of type date
+           input.value = '';
+         }
+       });
+       this.activeIndexd=null
+     
+       this.displaymainArray=[]
+       ////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
     if(!(this.selectedItem===1&&this.selectedBeds.length!==0) ){
@@ -2013,7 +2096,7 @@ input.addEventListener("countrychange", function() {
     const checkinDate = new Date(checkin);
     const checkoutDate = new Date(checkout);
     // const minimumDurationInDays = 90;
-    const minimumDurationInDays = this.aprt.min_Stay * 30;
+    const minimumDurationInDays = this.minStay * 30;
      // 3 months
     const oneDay = 24 * 60 * 60 * 1000;
   
@@ -2178,7 +2261,7 @@ console.log(this.checkinDate,this.checkoutDate)
     // Calculate the date 5 months after the check-in date
     const minCheckoutDate = new Date(checkinDate);
     // minCheckoutDate.setMonth(minCheckoutDate.getMonth() + 1);
-    minCheckoutDate.setMonth(minCheckoutDate.getMonth() + this.aprt.min_Stay);
+    minCheckoutDate.setMonth(minCheckoutDate.getMonth() + this.minStay);
 
   // if( this.checkinDate<new Date().toISOString().slice(0, 10) ){
 
@@ -2676,6 +2759,8 @@ checkNotAvailable(){
 
   firstAvailableDate:any;
   minDate:any;
+  maxCheckOut:any;
+  minStay:any;
   getApartmentDetails() {
 
     this.subscriptions.push(
@@ -2684,6 +2769,33 @@ checkNotAvailable(){
           console.log(res)
           this.allResponse=res;
           this.aprt = res.apartment_Basic_Info || {};
+          ///////////////////minstay///////////////////////
+          let min_stay=this.aprt.min_Stay
+          this.minStay=min_stay-1
+          console.log(this.minStay,this.aprt.min_Stay)
+          // if(min_stay===1){
+          //   this.minStay=min_stay
+          // }else if(min_stay>1){
+
+          // }
+          ///////////////////minstay///////////////////////
+
+          // this.maxCheckOut= this.aprt.available_To
+          // this.maxCheckOut= new Date( this.maxCheckOut.getTime() - this.maxCheckOut.getTimezoneOffset() * 60000).toISOString().split('T')[0]
+          // console.log(this.maxCheckOut)
+
+          // Create a copy of the value instead of holding a reference
+let maxCheckOut = new Date(this.aprt.available_To);
+
+// Adjust the timezone offset
+maxCheckOut = new Date(maxCheckOut.getTime() - maxCheckOut.getTimezoneOffset() * 60000);
+
+// Convert to ISO format and extract the date part
+this.maxCheckOut = maxCheckOut.toISOString().split('T')[0];
+
+// Log the result
+console.log(this.maxCheckOut);
+
           /////////////////////////fix checkindate///////////////////
           
   
@@ -2714,10 +2826,15 @@ checkNotAvailable(){
 
 
 ////////////////////////////////////////////////////////////////////////
-            const checkoutDatee = new Date( this.checkinDate);
+            let checkoutDatee = new Date( this.checkinDate);
             console.log(checkoutDatee)
-            checkoutDatee.setMonth(checkoutDatee.getMonth() + this.aprt.min_Stay);
+            checkoutDatee.setMonth(checkoutDatee.getMonth() + this.minStay);
             console.log(checkoutDatee)
+
+            if(new Date(checkoutDatee) >new Date(this.aprt.available_To)){
+              checkoutDatee =new Date(this.aprt.available_To) ;
+                 
+            }
             
             const d = new Date(checkoutDatee.getTime() - checkoutDatee.getTimezoneOffset() * 60000);///////added new to fix miss day
 

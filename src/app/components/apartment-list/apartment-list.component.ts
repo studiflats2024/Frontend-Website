@@ -1146,6 +1146,10 @@ emaill=''
 
   copyApartmentList:any=[]
 highlightWishlist(){
+
+  if(this.apartmentList[0]===null){
+    return;
+  }
   
   // Compare apartments and highlight those in the wishlist
   this.apartmentList = this.apartmentList.map((apartment:any) => {

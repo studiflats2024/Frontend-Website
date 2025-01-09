@@ -641,7 +641,7 @@
                   </div> -->
                   <div class="attribute">
                     <label for="checkout" style="font-size: 10px; font-family: Inter, sans-serif; font-weight: 600; color: black;">CHECKOUT</label>
-                    <input type="date" style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout"  [(ngModel)]="checkoutDate" (ngModelChange)="onCheckoutDateChange($event)" >
+                    <input type="date" [max]="maxCheckOut"  style="font-size: 14px; font-family: Inter, sans-serif; font-weight: 400; color: #6B7280; border: none; outline: none;" id="checkout"  [(ngModel)]="checkoutDate" (ngModelChange)="onCheckoutDateChange($event)" >
                     <!-- <div *ngIf="bookingForm.get('checkoutDate')?.invalid && bookingForm.get('checkoutDate')?.touched" class="text-danger" style="font-size: 12px;">
                       Check-out date is required.
                     </div> -->

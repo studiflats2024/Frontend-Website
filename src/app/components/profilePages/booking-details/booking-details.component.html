@@ -127,6 +127,9 @@
 <!-- <div *ngFor="let guest of bookingDetails?.guests; let i=index"> -->
 <div *ngFor="let room of groupedGuests | keyvalue;let i = index">
 
+  <div *ngIf="bookingDetails?.full_Booking" class="if-full-apartment">Full Apartment booking</div>
+
+
   <div *ngIf="room.value && room.value.length > 0">
       <div class="parent"  >
         <div  *ngFor="let guest of room.value; let x=index">
@@ -134,20 +137,20 @@
         <div class=" flex flex-wrap justify-content-between align-content-center mb-2">
           <div class="col-9">
 
-            <p *ngIf="x===0" class="address value" style="margin-top: 0 !important;">{{guest.room_Type}}</p>
-            <p *ngIf="x===0" class="desc">Below are the details of the guest who will be staying in this room.</p>
+            <p  *ngIf="x===0&&bookingDetails?.full_Booking===false" class="address value" style="margin-top: 0 !important;">{{guest.room_Type}}</p>
+            <p *ngIf="x===0&&bookingDetails?.full_Booking===false" class="desc">Below are the details of the guest who will be staying in this room.</p>
+
+        </div>
+ 
+          <!-- <span *ngIf="(bookingDetails?.guests.length>1 || (bookingDetails?.booking_Guests_No===1&& bookingDetails?.full_Booking===true)) && guest.guest_ID===booking?.guests[0].guest_ID" class="status pending"><img src="mainTenant.svg"/>main tenant</span> -->
+          <span *ngIf="bookingDetails?.booking_Guests_No>1 && bookingDetails?.booking_Guests_No===bookingDetails?.guests.length  && guest.guest_ID===bookingDetails?.guests[0].guest_ID" class="status pending"><img src="mainTenant.svg"/>main tenant</span>
+
+
 
         </div>
 
-          <!-- <span *ngIf="(bookingDetails?.guests.length!==bookingDetails?.booking_Guests_No || (bookingDetails?.guests.length===bookingDetails?.booking_Guests_No && bookingDetails?.full_Booking===true))&&i===0" class="status pending"><img src="mainTenant.svg"/>main tenant</span> -->
-          <!-- <span *ngIf="(bookingDetails?.guests.length>1 || (bookingDetails?.booking_Guests_No===1&& bookingDetails?.full_Booking===true))&&i==0" class="status pending"><img src="mainTenant.svg"/>main tenant</span> -->
-          <span *ngIf="(bookingDetails?.guests.length>1 || (bookingDetails?.booking_Guests_No===1&& bookingDetails?.full_Booking===true)) && guest.guest_ID===booking?.guests[0].guest_ID" class="status pending"><img src="mainTenant.svg"/>main tenant</span>
 
-
-        </div>
-
-
-          <div class="value mb-3">{{guest.bed_Name}}</div>
+          <div *ngIf="bookingDetails?.full_Booking===false" class="value mb-3">{{guest.bed_Name}}</div>
           <div class="info  flex flex-wrap justify-content-between align-content-center mb-3 mr-2 ">
                <!-- <div>
                 <p class="label">Guest Name</p>
@@ -284,57 +287,42 @@
           </div>
         </div>
         <!---------------------full apartment--------------------------->
-        <!-- <div *ngIf="bookingDetails?.full_Booking" class="booking-summary-frame">
+        <div *ngIf="bookingDetails?.full_Booking" class="booking-summary-frame">
           <div style="width: 100%;">
 
            
-            <div *ngFor="let room of groupedGuests | keyvalue; let i = index">
-
-             
-              <div *ngIf="room.value && room.value.length > 0">
-
-             
-                <div class="booking-frame"  >
-
-                 
-                  <div class="d-flex justify-content-between align-items-center my-2">
-                    <div class="room-title">{{ room.value[0].room_Type }}</div>
-                  </div>
-
-       <div *ngFor="let guest of room.value; let x = index">
-                  
-                  <div class="d-flex justify-content-between align-items-center my-2 mb-3">
-                    <div class="bed-title">{{ guest.bed_Name }}</div>
-                    <div class="bed-price">{{ guest.bed_Price | currency:'EUR':'symbol':'1.2-2' }}</div>
-                  </div>
-                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
-                    <div>
-                      <span class="fee-title">Security Deposit for {{ guest.bed_Name }}</span>
-                      <span class="refundable">(Refundable)</span>
-                    </div>
-                    <div class="fee-price">{{ guest.secuirty_Deposit | currency:'EUR':'symbol':'1.2-2'}}</div>
-                  </div>
-                  <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
-                    <div class="fee-title">Service Fee for {{ guest.bed_Name }}</div>
-                    <div class="fee-price">{{ guest.service_Fee | currency:'EUR':'symbol':'1.2-2' }}</div>
-                  </div>
-            <div  class="dividerr mt-3 mb-3"></div>
-
-        </div>
-                 
-                  <div  *ngIf="(groupedGuests | keyvalue).length!=(i+1)" class="dividerr mt-3 mb-3"></div>
-
-                </div>
-              </div>
-            </div>
+            
 
     
-            <div class="d-flex justify-content-between align-items-center w-100">
-              <div class="total-label">Total</div>
-              <div class="total-price">{{total | currency:'EUR':'symbol':'1.2-2' }}</div>
+            <!-- <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="label">Total Secuirty Deposit</div>
+              <div class="value">{{total | currency:'EUR':'symbol':'1.2-2' }}</div>
             </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="label">Total Service Fee</div>
+              <div class="value">{{total | currency:'EUR':'symbol':'1.2-2' }}</div>
+            </div>
+            <div class="d-flex justify-content-between align-items-center w-100">
+              <div class="label">Final Total </div>
+              <div class="value">{{total | currency:'EUR':'symbol':'1.2-2' }}</div>
+            </div> -->
+
+            <div class="summary-item">
+              <span>Total Security Deposit</span>
+              <span class="amount">€{{bookingDetails?.full_Sec||0}}</span>
+            </div>
+            <div class="summary-item">
+              <span>Total Service Fee</span>
+              <span class="amount">€{{bookingDetails?.full_Serv||0 }}</span>
+            </div>
+            <div class="summary-item final-total">
+              <span>Final Total</span>
+              <span class="amount">€{{bookingDetails?.total ||0}}</span>
+            </div>
+
+
           </div>
-        </div> -->
+        </div>
         <!---------------------------------full apartment------------------------------------>
       </div>
 

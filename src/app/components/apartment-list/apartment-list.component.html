@@ -2,7 +2,7 @@
 
 
 
-<div *ngIf="apartmentList[0] !==null"  class="layout-list">
+<div *ngIf="apartmentList[0] !==null "  class="layout-list">
   <div class="filter-bar  ">
     <div class="filter-item pricee" style="position: relative;" >
       <button pButton type="button" label="Price" icon="pi pi-chevron-down" iconPos="right" (click)="togglePicker()"  ></button>
@@ -297,7 +297,7 @@
       <img [src]="mapImage" alt="Map" (click)="navigateToMap()">
     </div>
   </div> -->
-  <div *ngIf="apartmentList[0] !==null" class="main-content">
+  <div *ngIf="apartmentList[0] !==null  " class="main-content">
     <div class="apartment-list mt-3">
       <div *ngFor="let apartment of apartmentList" class="apartment-card fix-card" >
         <img [src]="apartment.apartment_Image" alt="{{ apartment.apartment_Name }}" class="apartment-image" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
@@ -684,7 +684,7 @@
 
 
 
-<div class="parent-notfound" *ngIf="apartmentList[0] ===null">
+<div class="parent-notfound" *ngIf="apartmentList[0] ===null   ">
   <div   class="not-found-container">
     <img src="no-result.svg" alt="No Results" class="not-found-image" />
     <h2 class="not-found-title">No Apartments Found</h2>

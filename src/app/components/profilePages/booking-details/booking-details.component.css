@@ -1,3 +1,46 @@
+
+.summary-title {
+  font-size: 1.5rem; /* Larger title */
+  font-weight: bold;
+  color: #2c3e50; /* Dark gray for prominence */
+  margin-bottom: 20px; /* Space below title */
+  text-align: center; /* Center the title */
+}
+
+.summary-item {
+  display: flex;
+  justify-content: space-between; /* Space between text and amount */
+  font-size: 1rem; /* Standard font size */
+  margin: 10px 0; /* Space between items */
+}
+
+.amount {
+  font-weight: bold; /* Highlight the amounts */
+  color: #2c3e50; /* Dark gray for prominence */
+}
+
+.final-total {
+  border-top: 1px solid #e0e0e0; /* Add top border for separation */
+  padding-top: 15px; /* Space above final total */
+  font-size: 1.2rem; /* Slightly larger font */
+  font-weight: bold; /* Highlight the final total */
+  color: #e74c3c; /* Use a prominent color for final total */
+}
+
+.if-full-apartment {
+  
+  font-weight: bold; /* Make it stand out */
+  color: #2c3e50; /* Elegant dark color */
+  background-color: #ecf0f1; /* Soft background for contrast */
+  padding: 10px 20px; /* Add padding for spacing */
+  border-radius: 8px; /* Rounded corners */
+  text-align: center; /* Center-align text */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Add subtle shadow */
+  display: inline-block; /* Keep it compact */
+  margin-bottom: 20px;
+}
+
+
 .main-container{
   padding-left: 45px;
   background: var(--Neutral-Neutral95, #F6F6F6);
