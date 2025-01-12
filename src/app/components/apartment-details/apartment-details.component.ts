@@ -1528,7 +1528,15 @@ indexMainTenant!:number;
       fullApartment: [this.selectfullaprt]
     });
 
-
+      this.messagingService.requestPermission()
+  .then((token:any) => {
+    console.log('Device token:', token);
+    this.deviceToken=token;
+    // this.addToWishlist(apt_ID,this.deviceToken);
+  })
+  .catch((error:any) => {
+    console.error('Error getting token:', error);
+  });
     }
 
 
@@ -1944,7 +1952,7 @@ markerPosition: google.maps.LatLngLiteral = { lat: 40.730610, lng: -73.935242 };
     if(localStorage.getItem('token')&&localStorage.getItem('userName')&&localStorage.getItem('userToken')){
       this.getProfileData();
       console.log('signed in')
-      this. loadWishList()
+      // this. loadWishList()
        
     }
 
@@ -2004,7 +2012,7 @@ input.addEventListener("countrychange", function() {
 });
 
     } else {
-      console.error("The phone input element was not found.");
+      console.log("The phone input element was not found.");
     }
 
 
@@ -2689,6 +2697,11 @@ onWindowScroll() {
 getFirstAvailableBedDate(apartmentRooms: any): Date | null {
   let earliestDate: Date | null = null;
 
+  if (!Array.isArray(apartmentRooms)) {
+    console.error("apartmentRooms is not an array:", apartmentRooms);
+    return null;
+  }
+
   apartmentRooms.forEach((room: any) => {
     room.room_Beds.forEach((bed: any) => {
       if (bed.beds_Booked_Dates && bed.beds_Booked_Dates.length > 0) {
@@ -2761,6 +2774,7 @@ checkNotAvailable(){
   minDate:any;
   maxCheckOut:any;
   minStay:any;
+  checkNotAvailableVar:any;
   getApartmentDetails() {
 
     this.subscriptions.push(
@@ -2769,6 +2783,8 @@ checkNotAvailable(){
           console.log(res)
           this.allResponse=res;
           this.aprt = res.apartment_Basic_Info || {};
+          this.checkNotAvailableVar=this.checkNotAvailable()
+          this. loadWishList()
           ///////////////////minstay///////////////////////
           let min_stay=this.aprt.min_Stay
           this.minStay=min_stay-1
@@ -3538,7 +3554,12 @@ wishID:any;
        (response) => {
          console.log(response)
          this.wishList = response.data;
-         this.wishID=this.getWishID(this.aprt.apartment_Name,this.aprt.apartment_Location)
+          setTimeout(() => {
+            // this.wishID=this.getWishID(this.aprt.apartment_Name,this.aprt.apartment_Location)apt_UUID
+            this.wishID=this.getWishID(this.aprt.apartment_ID) 
+
+          }, 500);
+         console.log(this.wishID)
            // Assign the response to the wishlist array
          console.log('WishList:', this.wishList ,this.wishID,this.aprt.apartment_Name,this.aprt.apartment_Location);
          
@@ -3562,17 +3583,27 @@ removeWish(wish_ID: string) {
  });
 }
 
-getWishID(apartmentName: string, apartmentLocation: string): string | null {
- // Search for the apartment in the wishlist using name and address
- const matchedWishlistItem = this.wishList.find(
-   (wishlistItem:any) =>
-     wishlistItem.apt_Name === apartmentName &&
-     wishlistItem.apt_Address === apartmentLocation
- );
+// getWishID(apartmentName: string, apartmentLocation: string): string | null {
+ 
+//  const matchedWishlistItem = this.wishList.find(
+//    (wishlistItem:any) =>
+//      wishlistItem.apt_Name === apartmentName &&
+//      wishlistItem.apt_Address === apartmentLocation
+//  );
+//  console.log(matchedWishlistItem.wish_ID )
+ 
+//  return matchedWishlistItem ? matchedWishlistItem.wish_ID : null;
+// }
 
- // Return the wish_ID if found, otherwise return null
- return matchedWishlistItem ? matchedWishlistItem.wish_ID : null;
-}
-
+getWishID(apartmentID:string): string | null {
+ 
+  const matchedWishlistItem = this.wishList.find(
+    (wishlistItem:any) =>
+      wishlistItem.apt_UUID === apartmentID  
+  );
+  console.log(matchedWishlistItem )
+  
+  return matchedWishlistItem ? matchedWishlistItem.wish_ID : null;
+ }
 
 }
