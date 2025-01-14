@@ -11,7 +11,7 @@
 
 // }
 
-import { Component , EventEmitter, Output , OnInit, HostListener, ViewChild , DoCheck } from '@angular/core';
+import { Component , EventEmitter, Output , OnInit, HostListener, ViewChild , ElementRef,  DoCheck } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { Globals, isValidEmail } from '../../../globals/global';
 import { AuthComponent } from '../../auth/auth.component';
@@ -32,6 +32,11 @@ export class HeaderComponent implements OnInit , DoCheck {
   //////////////////////test/////////////////
 
   @ViewChild(AuthComponent) authComponent!: AuthComponent;
+
+
+  @ViewChild('navbarNav', { static: false }) navbarNav!: ElementRef;
+
+  
   
   // isLoggedIn: boolean = false;
 
@@ -88,6 +93,8 @@ logout(): void {
       localStorage.removeItem('userToken');
       localStorage.removeItem('userName');
       localStorage.removeItem('userNameUpdated')
+    localStorage.removeItem('refreshToken');
+
 
 
       this.router.navigate(['/']);
@@ -136,6 +143,11 @@ logout(): void {
   toggleSearch() {
     this.toggleSearchEvent.emit();
 
+
+    // Add logic to close the navigation menu
+    if (this.navbarNav.nativeElement.classList.contains('show')) {
+      this.navbarNav.nativeElement.classList.remove('show');
+    }
   }
 
 

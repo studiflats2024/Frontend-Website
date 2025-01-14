@@ -104,7 +104,7 @@ export class AuthInterceptorService implements HttpInterceptor {
           return next.handle(modifiedRequest);
         }),
         catchError((error) => {
-          console.error('Notification permission denied or failed:', error);
+          console.log('Notification permission denied or failed:', error);
   
           // Fallback: Send the request without the token
           return next.handle(request);

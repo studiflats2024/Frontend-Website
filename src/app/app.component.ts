@@ -315,12 +315,12 @@ export class AppComponent implements OnInit  {
 
   toggleSearch() {
     this.searchVisible = !this.searchVisible;
-    const searchElement = this.renderer.selectRootElement('#search', true);
-    if (this.searchVisible) {
-      this.renderer.appendChild(document.body, searchElement);
-    } else {
-      this.renderer.removeChild(document.body, searchElement);
-    }
+    // const searchElement = this.renderer.selectRootElement('#search', true);
+    // if (this.searchVisible) {
+    //   this.renderer.appendChild(document.body, searchElement);
+    // } else {
+    //   this.renderer.removeChild(document.body, searchElement);
+    // }
   }
 
 //   activeIndex: number = 0;

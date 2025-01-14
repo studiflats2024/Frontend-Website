@@ -153,7 +153,11 @@
 
             <div class="button-container mt-6">
               <!-- Download Invoice Button -->
-              <p-button label="Download Invoice" icon="pi pi-download" class="download-button"></p-button>
+              <!-- <p-button label="Download Invoice" icon="pi pi-download" class="download-button"><a [href]="invDetails?.inv_Path"></a></p-button> -->
+              <a [href]="invDetails?.inv_Path"  download style="text-decoration: none;" target="_blank">
+                <p-button label="Download Invoice" icon="pi pi-download" class="download-button"></p-button>
+              </a>
+              
 
               <!-- Pay Now Button -->
               <p-button label="Pay Now " class="pay-button" (click)=" payNow(invID)" [disabled]="inv_Paid"></p-button>

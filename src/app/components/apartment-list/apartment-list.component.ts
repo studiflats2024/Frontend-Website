@@ -14,6 +14,8 @@ import { MessagingService } from '../../services/messaging.service';
 
 declare var intlTelInput: any; // Declare intlTelInput for TypeScript
 declare var intlTelInputUtils: any;
+import { AuthService } from '../../services/auth.service';
+
 
 
 
@@ -93,9 +95,10 @@ fixxxx:boolean=false;
   }
 
 
-
-  constructor(private messagingService: MessagingService,private apartmentSearchService: ApartmentSearchService,private bookingService:BookingService,private apartmentService: ApartmentService, private router: Router,private messageService: MessageService,private cdr: ChangeDetectorRef) {
+  requestDataFromSearch:any;
+  constructor(private authService: AuthService,private messagingService: MessagingService,private apartmentSearchService: ApartmentSearchService,private bookingService:BookingService,private apartmentService: ApartmentService, private router: Router,private messageService: MessageService,private cdr: ChangeDetectorRef) {
     this.cities = ['Berlin' ];
+      
   }
 
   searchResults:any;
@@ -140,7 +143,12 @@ fixxxx:boolean=false;
     .then((token:any) => {
       console.log('Device token:', token);
       this.deviceToken=token;
-       this.loadWishList();
+      
+      //  this.loadWishList();
+      if(this.authService.isLoggedIn2()){
+        this. loadWishList()
+        console.log('logged')
+     }
     })
     .catch((error:any) => {
       console.error('Error getting token:', error);
@@ -154,7 +162,17 @@ fixxxx:boolean=false;
     // this.fixPriceRangeApi()
     console.log(this.filterData)
 
-    this. loadWishList()
+    // this. loadWishList()
+    if(this.authService.isLoggedIn2()){
+      this. loadWishList()
+      console.log('logged')
+   }
+
+   this.authService.loginStatus$.subscribe((status: boolean) => {
+    if (status) {
+      this.loadWishList();
+    }
+  });
     // this.highlightWishlist()
   }
 
@@ -639,8 +657,11 @@ console.log('why')
         this.showPickerguest=false;
         this.showPickerplace=false;
         this.filters=false;
-
-        this. loadWishList()
+        if(this.authService.isLoggedIn2()){
+           this. loadWishList()
+           console.log('logged')
+        }
+         
         // this.clear();
       },
       error => {

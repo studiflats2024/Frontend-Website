@@ -997,8 +997,11 @@ onLoginSubmit(): void {
           this.messageService.add({ severity: 'success', summary: 'Confirmed', detail: response.message });
           console.log('User account created successfully', response);
           localStorage.setItem('token', response.token);
+          localStorage.setItem('refreshToken', response.refreshToken);
+
           this.getProfileData(response.token);
 
+          this.authService.notifyLoginStatus(true);
 
         //  let namelogin:any= localStorage.getItem('name');
 

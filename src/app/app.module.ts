@@ -32,6 +32,7 @@ import { AuthInterceptorService } from './services/auth-interceptor.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaintenanceInterceptor } from './services/maintenance-interceptor.service';
 import { PrerenderInterceptor } from './services/prerender-interceptor.service';
+import { TokenInterceptor } from './services/refreshToken-interceptor.service';
 
 
 @NgModule({
@@ -83,6 +84,11 @@ import { PrerenderInterceptor } from './services/prerender-interceptor.service';
     useClass: MaintenanceInterceptor, // Add your interceptor here
     multi: true,
   },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: TokenInterceptor,
+    multi: true,
+  }
   ],
   bootstrap: [AppComponent ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

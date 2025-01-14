@@ -52,12 +52,24 @@ export class SearchBarComponent {
   showGuestsPicker: boolean = false;
   toggle:boolean=false;
   disabledDates: Date[] = [];
-
+  requestDataFromSearch:any;
   constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService, private apartmentSearchService: ApartmentSearchService) {
     // const minDate = new Date(this.checkInDate!);
     // minDate.setMonth(minDate.getMonth() + 1);
     // this.checkInDate=minDate
     this.disabledDates.push(new Date());
+    this.apartmentSearchService.requestData$.subscribe((data) => {
+      this.requestDataFromSearch = data;
+      console.log('Shared Request Data From Search:', this.requestDataFromSearch);
+      if(this.requestDataFromSearch.checkIn||this.requestDataFromSearch.checkOut){
+        this.checkInDate= new Date(this.requestDataFromSearch.checkIn)
+        this.checkOutDate= new Date(this.requestDataFromSearch.checkOut)
+        this.guests=this.requestDataFromSearch.guests
+
+      } 
+      
+      console.log(this.checkInDate, this.checkOutDate)
+    });
   }
   showPicker(picker: string) {
     // this.activePicker = picker;
@@ -131,6 +143,18 @@ export class SearchBarComponent {
         });
         this.apartmentSearchService.setSearchResults(response);
         this.searchResults.emit(response);
+        // this.apartmentSearchService.requestData$.subscribe((data) => {
+        //   this.requestDataFromSearch = data;
+        //   console.log('Shared Request Data From Search:', this.requestDataFromSearch);
+        //   if(this.requestDataFromSearch.checkIn||this.requestDataFromSearch.checkOut){
+        //     this.checkInDate=this.requestDataFromSearch.checkIn
+        //     this.checkOutDate=this.requestDataFromSearch.checkOut
+        //     this.guests=this.requestDataFromSearch.guests
+    
+        //   } 
+          
+        //   console.log(this.checkInDate, this.checkOutDate)
+        // });
         this.router.navigate(['/apartment-list']);
         // Handle the response, display results, etc.
       },

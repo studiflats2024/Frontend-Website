@@ -25,17 +25,17 @@
   transition: all 1s ease;
 }
 
-@media (max-width: 990px) {
+/* @media (max-width: 990px) {
   .fixed-search-bar {
     position: fixed;
     top: 320px;
     width: 100%;
     left: 0;
     z-index: 11;
-    /* // padding-top: 15px; */
+   
     background-color: white;
   }
-}
+} */
 
 
 /*----------------------login modal----------------------------*/
