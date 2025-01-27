@@ -2103,10 +2103,22 @@ input.addEventListener("countrychange", function() {
  updateBedAvailability(apartmentRooms: any[], checkin: string, checkout: string): void {
     const checkinDate = new Date(checkin);
     const checkoutDate = new Date(checkout);
-    // const minimumDurationInDays = 90;
-    const minimumDurationInDays = this.minStay * 30;
-     // 3 months
+    console.log(checkinDate,checkoutDate)
+    
+    // const minimumDurationInDays = this.minStay * 30;
+    
     const oneDay = 24 * 60 * 60 * 1000;
+
+
+     // Calculate dynamic minimum duration
+  const calculateMinimumStay = (minStay: number): number => {
+    const currentDate = new Date();
+    const futureDate = new Date(currentDate);
+    futureDate.setMonth(currentDate.getMonth() + minStay);
+    return Math.ceil((futureDate.getTime() - currentDate.getTime()) / oneDay);
+  };
+
+  const minimumDurationInDays = calculateMinimumStay(this.minStay);
   
     apartmentRooms.forEach((room: any) => {
       room.room_Beds.forEach((bed: any) => {
@@ -2222,7 +2234,7 @@ input.addEventListener("countrychange", function() {
   openModals(){
     // this.visibleBooking=false;
      this.updateBedAvailability(this.aprt.apartment_Rooms, this.checkinDate, this.checkoutDate);
-  console.log(this.aprt.apartment_Rooms);
+  console.log(this.aprt.apartment_Rooms, this.checkinDate,this.checkoutDate);
 
   if (Array.isArray(this.aprt.apartment_Rooms)&&this.checkinDate&&this.checkoutDate) {
     let nobedAvailableNEW=0;
