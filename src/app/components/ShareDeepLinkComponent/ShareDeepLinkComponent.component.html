@@ -1,3 +1,28 @@
-<p>
-  ShareDeepLinkComponent works!
-</p>
+<div class="fullscreen-center">
+  <div class="circle-container">
+    <svg width="120" height="120" class="progress-ring">
+      <circle
+        class="progress-ring__background"
+        [attr.r]="radius"
+        [attr.cx]="60"
+        [attr.cy]="60"
+        stroke="#eee"
+        stroke-width="10"
+        fill="none"
+      ></circle>
+      <circle
+        class="progress-ring__progress"
+        [attr.r]="radius"
+        [attr.cx]="60"
+        [attr.cy]="60"
+        [attr.stroke-dasharray]="circumference"
+        [attr.stroke-dashoffset]="dashOffset"
+        stroke="#007BFF"
+        stroke-width="10"
+        stroke-linecap="round"
+        fill="none"
+      ></circle>
+    </svg>
+    <div class="countdown-text">{{ counter }}S</div>
+  </div>
+</div>
