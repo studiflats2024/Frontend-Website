@@ -11,17 +11,17 @@
 //   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 //     console.log('interceptor maintenance')
 
- 
+
 //     console.log('MaintenanceInterceptor: Intercepting request:', req.url);
 //     return next.handle(req).pipe(
 //       catchError((error: HttpErrorResponse) => {
 //         if (error.status === 503) {
-          
+
 //           this.messageService.add({
 //             severity: 'error',
 //             summary: 'Maintenance Alert',
 //             detail: 'The website is currently under maintenance. Please try again later.',
-//             life: 6000  
+//             life: 6000
 //           });
 //           console.log('interceptor maintenance')
 //         }
@@ -57,13 +57,13 @@ export class MaintenanceInterceptor implements HttpInterceptor {
         return next.handle(req); // Skip the interceptor for excluded URLs
       }
 
-      
+
     return next.handle(req).pipe(
       catchError((error: HttpErrorResponse) => {
         console.log('HTTP Status:', error.status); // Debugging log
 
         // Check if status is 503
-        if (error.status === 503|| error.status === 0) {
+        if (error.status === 503) {
         // if (error.status === 503 ) {
 
           this.messageService.add({
