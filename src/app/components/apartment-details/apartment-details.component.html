@@ -267,25 +267,25 @@
           <div class="read-more text-decoration-none"><a href="#" (click)="toggleDescription($event)" *ngIf="isFullDescription">
             Read More. . .
           </a> </div>
-          <hr />
+          <!-- <hr  /> -->
 
 
-          <div class="d-flex flex-column align-items-start gap-3 my-3">
+          <!-- <div class="d-flex flex-column align-items-start gap-3 my-3">
             <div class="title-description">Additional Information</div>
             <div class="d-flex flex-column align-items-start gap-2">
               <div class="d-flex align-items-center gap-2">
-                <!-- <i class="fas fa-file-invoice-dollar icon-bill"></i> -->
+ 
                   <img src="utility.svg"/>
                 <div class="utilities">Utilities Not Included</div>
               </div>
               <div class="details">Electricity, Gas, and Water</div>
             </div>
           </div>
-          <hr/>
+          <hr/> -->
 
 
           <div class="d-flex flex-column align-items-start gap-3">
-            <div class="d-flex align-items-center gap-3">
+            <div *ngIf="aprt.apartment_Transports.length!==0" class="d-flex align-items-center gap-3">
               <!-- <i class="fas fa-bus icon-bill" style="font-size: 24px; color: #344054;"></i> -->
               <img src="transport.svg"/>
               <div class="section-title">Public transport</div>
@@ -318,10 +318,10 @@
             </div>
 
           </div>
-          <hr />
+          <hr *ngIf="aprt.apartment_Transports.length!==0" />
 
           <div class="d-flex flex-column gap-3">
-            <div class="frame-title">Key Features</div>
+            <div *ngIf="aprt.apartment_Features.length!==0" class="frame-title">Key Features</div>
             <div class="d-flex align-items-center gap-3">
               <div class="item-title">Rooms  </div>
               <div class="divider  " style="margin-top: 12px;"></div>
@@ -517,6 +517,7 @@
 
               </div>
 
+
             </div>
           </div>
 
@@ -525,7 +526,7 @@
 
           <div class="d-flex flex-column gap-3" >
 
-            <div class="d-flex align-items-center gap-3">
+            <div *ngIf="apartmentsEquipment.apartment_Features?.length!==0" class="d-flex align-items-center gap-3">
               <div class="item-title">Other</div>
               <div class="divider" style="margin-top: 12px;"></div>
             </div>
@@ -742,7 +743,7 @@
   <div class="frame-title mb-5">apartment rules</div>
   <div class="row">
     <div class="col-md-6 col-sm-12 ">
-      <div class="d-flex flex-column gap-3">
+      <!-- <div class="d-flex flex-column gap-3">
         <div class="icon-text">
           <img src="clock.svg" />
           <div class="text">Check-in: After 4:00 PM</div>
@@ -755,14 +756,14 @@
           <img src="door-enter.png" />
           <div class="text">Self check-in with lockbox</div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="col-md-6  col-sm-12 mt-3">
       <div class="d-flex flex-column gap-3">
-        <div class="icon-text">
+        <!-- <div class="icon-text">
          <img src="shopping-cart.svg" />
           <div class="text">Not suitable for infants (under 2 years)</div>
-        </div>
+        </div> -->
         <div class="icon-text">
           <img src="fire.svg" />
           <div class="text">No smoking</div>
@@ -779,7 +780,7 @@
     </div>
   </div>
   <hr/>
-
+<!-- 
   <div class="rating-section">
     <div class="star-container">
       <i class="fas fa-star star-icon"></i>
@@ -787,10 +788,10 @@
     </div>
     <div class="dot"></div>
     <div class="reviews-text">12 reviews</div>
-  </div>
+  </div> -->
 
 
-<div class="d-grid">
+<!-- <div class="d-grid">
   <div class="row g-3">
     <div class="col-lg-4 col-md-6">
       <div class="  airbnb-comment">
@@ -889,13 +890,13 @@
 
 
   </div>
-</div>
+</div> -->
 
-<div class="button-container my-3">
+<!-- <div class="button-container my-3">
   <div class="button-base">
     <div class="button-text">Show all 12 reviews</div>
   </div>
-</div>
+</div> -->
 
 <div class="headerf">
   <h1>Frequently asked questions</h1>

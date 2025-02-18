@@ -384,18 +384,20 @@ activeStep2:boolean=false;
     //  this.totalPriceBooking=totalPrice;
     // });
     let totalPrice = 0;
-this.roomsStep2.forEach((room: any) => {
-  // totalPrice += Number(room.bed_Price) || 0;
-  // totalPrice += Number(room.bed_SecuirtyDeposit) || 0;
-  // totalPrice += Number(room.bed_Service_Fees) || 0;
-  this.selectedBeds.forEach((bed: any) => {
-    if (room.room_ID === bed.room_ID) {
-      totalPrice += room.bed_Price || 0;
-      totalPrice +=room.bed_SecuirtyDeposit||0
-      totalPrice +=room.bed_Service_Fees||0
-    }
+ if(!this.selectfullaprt){
+  this.roomsStep2.forEach((room: any) => {
+   
+    this.selectedBeds.forEach((bed: any) => {
+      if (room.room_ID === bed.room_ID) {
+        totalPrice += room.bed_Price || 0;
+        totalPrice +=room.bed_SecuirtyDeposit||0
+        totalPrice +=room.bed_Service_Fees||0
+      }
+    });
   });
-});
+ }
+
+
 this.totalPriceBooking = totalPrice;
 console.log(this.totalPriceBooking)
 ////////////////////////////////////////////////////full apart
@@ -2248,6 +2250,8 @@ input.addEventListener("countrychange", function() {
         // bedno++;
         if(this.aprt.apartment_Rooms[i].room_Beds[x].isAvailable){
           nobedAvailableNEW++;
+          this.checkaprt=true;
+
         }else{
           this.checkaprt=false;
         }
@@ -2856,6 +2860,10 @@ console.log(this.maxCheckOut);
 ////////////////////////////////////////////////////////////////////////
             let checkoutDatee = new Date( this.checkinDate);
             console.log(checkoutDatee)
+            console.log(this.minStay)
+            // if(this.minStay<0){
+            //   this.minStay=0
+            // }
             checkoutDatee.setMonth(checkoutDatee.getMonth() + this.minStay);
             console.log(checkoutDatee)
 
