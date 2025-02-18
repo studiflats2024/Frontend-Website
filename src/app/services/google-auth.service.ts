@@ -1,7 +1,7 @@
 // import { Injectable } from '@angular/core';
 // import { BehaviorSubject } from 'rxjs';
 
-// declare const gapi: any;  
+// declare const gapi: any;
 
 // @Injectable({
 //   providedIn: 'root',
@@ -15,7 +15,7 @@
 //   }
 
 //   private initializeGoogleAuth() {
-  
+
 //     gapi.load('auth2', () => {
 //       this.googleAuth = gapi.auth2.init({
 //         client_id: '727951335686-psv9svhulcsrpv2sc1aqjs7oc87ggg61.apps.googleusercontent.com',
@@ -48,13 +48,13 @@
 //     return this.userSubject.asObservable();
 //   }
 
-  
+
 // }
 ///////////////////////////////////////////////////////////////////////////////////////////////
 
 // import { Injectable } from '@angular/core';
 
- 
+
 // declare global {
 //   interface Window {
 //     google?: any;
@@ -83,14 +83,14 @@
 //     });
 //   }
 
-  
+
 //   private handleCredentialResponse(response: any) {
-//     const jwt = response.credential; 
+//     const jwt = response.credential;
 //     console.log('Google Sign-In Successful:', jwt);
-    
+
 //   }
 
-  
+
 //   renderButton(buttonId: string) {
 //     if (!window.google || !window.google.accounts) {
 //       console.error('Google Identity Services script not loaded.');
@@ -107,7 +107,7 @@
 //     );
 //   }
 
-  
+
 //   signOut() {
 //     if (!window.google || !window.google.accounts) {
 //       console.error('Google Identity Services script not loaded.');
@@ -141,9 +141,9 @@ declare global {
   providedIn: 'root',
 })
 export class GoogleAuthService {
-  private clientId: string = '727951335686-psv9svhulcsrpv2sc1aqjs7oc87ggg61.apps.googleusercontent.com';  
-  // private backendApiUrl: string = 'https://devapi.studiflats.com/api/Users/SocialSign_WS'; 
-  private backendApiUrl: string = `${environment.apiUrl}/Users/SocialSign_WS`;  
+  private clientId: string = '727951335686-hmd6iausl6d6msus18nahfgal3sluorr.apps.googleusercontent.com';
+  // private backendApiUrl: string = 'https://devapi.studiflats.com/api/Users/SocialSign_WS';
+  private backendApiUrl: string = `${environment.apiUrl}/Users/SocialSign_WS`;
 
 
   constructor(private http: HttpClient, private messagingService: MessagingService,private userService:UserService ,private authService:AuthService) {
@@ -157,7 +157,7 @@ export class GoogleAuthService {
       .then((token) => {
 
         console.log('Device token:', token);
-        this.deviceToken = token;  
+        this.deviceToken = token;
       })
       .catch((error: any) => {
         console.error('Error getting device token:', error);
@@ -179,7 +179,7 @@ export class GoogleAuthService {
     });
   }
 
- 
+
 
   private handleCredentialResponse(response: any) {
     const jwt = response.credential; // This is the JWT token
@@ -205,7 +205,7 @@ export class GoogleAuthService {
       Email: userInfo.email,
       Provider: 'Google',
       img: userInfo.picture,
-      deviceToken: this.deviceToken,  
+      deviceToken: this.deviceToken,
     };
 
     // Send data to the backend
@@ -216,10 +216,10 @@ export class GoogleAuthService {
   //   this.http.post<any>(this.backendApiUrl, userData).subscribe({
   //     next: (response) => {
   //       console.log('Data successfully sent to backend:', response);
-       
+
   //     if (!response.account_Confirmed || !response.profileCompleted) {
   //       console.warn('Account not confirmed or profile not completed');
-  //       this.userService.openModalComplete();  
+  //       this.userService.openModalComplete();
   //     }
   //       this. signOut();
   //     },
@@ -238,12 +238,12 @@ export class GoogleAuthService {
       .set('Provider', userData.Provider)
       .set('img', userData.img)
       .set('deviceToken', userData.deviceToken);
-  
+
     // Send the POST request with query parameters
     this.http.post<any>(this.backendApiUrl, null, { params }).subscribe({
       next: (response) => {
         console.log('Data successfully sent to backend:', response);
-  
+
         // Check flags and trigger the modal if needed
         // if (!response.account_Confirmed || !response.profileCompleted) {
           if (
@@ -261,7 +261,7 @@ export class GoogleAuthService {
           this.userService.closeModalComplete()
 
         }
-  
+
         this.signOut();
       },
       error: (error) => {
@@ -269,7 +269,7 @@ export class GoogleAuthService {
       },
     });
   }
-  
+
 
   renderButton(buttonId: string) {
     if (!window.google || !window.google.accounts) {
@@ -290,7 +290,7 @@ export class GoogleAuthService {
         console.error('Google Identity Services script not loaded.');
         return;
       }
-  
+
       window.google.accounts.id.prompt(); // Display the Google Sign-In dialog
     }
 
