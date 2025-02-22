@@ -29,8 +29,8 @@ jobs:
 
     - name: Zip Build Files
       run: |
-          cd dist/browser/
-          zip -r ../../website.zip .  # Creates website.zip in root directory
+          cd dist/studiflat-frontend  # ✅ Change directory to correct output folder
+          zip -r ../../website.zip .  # ✅ Create ZIP in repo root
 
    # Step to send "Workflow Started" email notification
     - name: 🚀 Send mail notification (Workflow Started)
