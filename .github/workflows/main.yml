@@ -43,9 +43,11 @@ jobs:
           password: ${{ secrets.SMTP_PASSWORD }}
           subject: "Workflow Started: ${{ github.workflow }} on ${{ github.ref }} Website Development"
           body: |
-            The workflow **${{ github.workflow }}** has started on branch **${{ github.ref }}**.
-            Repository: ${{ github.repository }}
-            Commit: ${{ github.sha }}
+            🚀 The workflow **${{ github.workflow }}** has started on branch **${{ github.ref }}**.
+            🏢 Repository: **${{ github.repository }}**
+            👤 Pushed by: **${{ github.actor }}**
+            🔗 Commit: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            📅 Timestamp: **${{ github.event.head_commit.timestamp }}**
           to: ${{ secrets.Dev_Mails }}
           from: "StudiFlat_Automation <${{ secrets.SMTP_USERNAME }}>"
           secure: false
@@ -71,7 +73,7 @@ jobs:
               \"chat_id\": \"${chat_id}\",
               \"type\": \"TEXT\",
               \"schedule_at\": \"${SCHEDULE_AT}\",
-              \"message\": \" The workflow **${{ github.workflow }}** has started on branch **${{ github.ref }}** .Repository: ${{ github.repository }} Commit: ${{ github.sha }}\"
+              \"message\": \" 🚀 The workflow **${{ github.workflow }}** has started on branch **${{ github.ref }}**. 🏢 Repository: **${{ github.repository }}** 👤 Pushed by: **${{ github.actor }}** 🔗 Commit: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) 📅 Timestamp: **${{ github.event.head_commit.timestamp }}**\"
             }"
         done      
     
@@ -88,7 +90,14 @@ jobs:
         source: "website.zip"
         target: "C:\\inetpub\\wwwroot\\Frontend\\Websitie\\Development"
 
-
+    - name: 🚀 Deploy to IIS Website on Remote Server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.IIS_ADDRESS }}
+        username: ${{ secrets.IIS_USER }}
+        password: ${{ secrets.IIS_PASSWORD }}
+        script: |
+          powershell.exe -ExecutionPolicy Bypass -File C:\AirflowTasks\WebsiteDevelopmentDeploy.ps1
     
  # Step to send "Workflow Started" email notification
     - name: 🚀 Send mail notification (Workflow Finished)
@@ -99,12 +108,14 @@ jobs:
           server_port: 587
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "Workflow Finished: ${{ github.workflow }} on ${{ github.ref }} Website Development"
+          subject: "Workflow ${{ job.status }} : ${{ github.workflow }} on ${{ github.ref }} Website Development"
           body: |
-            The workflow **${{ github.workflow }}** has finished on branch **${{ github.ref }}**.
-            Repository: ${{ github.repository }}
-            Commit: ${{ github.sha }}
-            Status: ${{ job.status }}
+            🚀 The workflow **${{ github.workflow }}** has ${{ job.status }} on branch **${{ github.ref }}**.
+            🏢 Repository: **${{ github.repository }}**
+            👤 Pushed by: **${{ github.actor }}**
+            🔗 Commit: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
+            📅 Timestamp: **${{ github.event.head_commit.timestamp }}**
+            📶 Status: ${{ job.status }}
           to: ${{ secrets.Dev_Mails }}
           from: "StudiFlat_Automation <${{ secrets.SMTP_USERNAME }}>"
           secure: false
@@ -130,7 +141,7 @@ jobs:
               \"chat_id\": \"${chat_id}\",
               \"type\": \"TEXT\",
               \"schedule_at\": \"${SCHEDULE_AT}\",
-              \"message\": \" The workflow **${{ github.workflow }}** has finished on branch **${{ github.ref }}**.Repository: ${{ github.repository }} Commit: ${{ github.sha }} Status: ${{ job.status }}\"
+              \"message\": \"🚀 The workflow **${{ github.workflow }}** has ${{ job.status }} on branch **${{ github.ref }}**. 🏢 Repository: **${{ github.repository }}** 👤 Pushed by: **${{ github.actor }}** 🔗 Commit: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }}) 📅 Timestamp: **${{ github.event.head_commit.timestamp }}** 📶 Status: ${{ job.status }}\"
             }"
         done      
     - name: ✅ Deployment Completed!
