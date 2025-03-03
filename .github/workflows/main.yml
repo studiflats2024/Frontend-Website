@@ -3,7 +3,7 @@ name: 🚀 Deploy Development Website to Remote VPS IIS
 on:
   push:
     branches:
-      - main
+      - Development
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
