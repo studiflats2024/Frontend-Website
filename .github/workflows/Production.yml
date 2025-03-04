@@ -88,7 +88,7 @@ jobs:
         username: ${{ secrets.IIS_USER }}
         password: ${{ secrets.IIS_PASSWORD }}
         source: "website.zip"
-        target: "C:\\inetpub\\wwwroot\\Frontend\\Websitie\\Prod .com"
+        target: "C:\\inetpub\\wwwroot\\Frontend\\Websitie\\Prod"
 
     - name: 🚀 Deploy to IIS Website on Remote Server
       uses: appleboy/ssh-action@master
