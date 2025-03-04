@@ -402,11 +402,14 @@ this.totalPriceBooking = totalPrice;
 console.log(this.totalPriceBooking)
 ////////////////////////////////////////////////////full apart
 if(this.selectfullaprt){
+  console.log(this.selectedRooms)
+  console.log(this.selectedBeds)
+
   this.selectedRooms.forEach((room: any) => {
     // totalPrice += Number(room.bed_Price) || 0;
     // totalPrice += Number(room.bed_SecuirtyDeposit) || 0;
     // totalPrice += Number(room.bed_Service_Fees) || 0;
-    this.selectedBeds.forEach((bed: any) => {
+    room.room_Beds.forEach((bed: any) => {
       if (room.room_ID === bed.room_ID) {
         totalPrice += room.bed_Price || 0;
         totalPrice +=room.bed_SecuirtyDeposit||0
