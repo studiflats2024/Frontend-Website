@@ -315,9 +315,13 @@
               <span>Total Service Fee</span>
               <span class="amount">€{{bookingDetails?.full_Service||0 }}</span>
             </div>
+            <div class="summary-item">
+              <span>Total Rent</span>
+              <span class="amount">€{{bookingDetails?.full_Rent||0 }}</span>
+            </div>
             <div class="summary-item final-total">
               <span>Final Total</span>
-              <span class="amount">€{{bookingDetails?.full_Rent ||0}}</span>
+              <span class="amount">€{{ getFinalTotal() }}</span>
             </div>
 
 

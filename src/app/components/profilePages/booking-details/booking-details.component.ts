@@ -528,4 +528,11 @@ const formattedEndDate = new Date(this.endDate).toISOString().split('T')[0];
     );
 }
 
+
+getFinalTotal(): number {
+  return (this.bookingDetails?.full_Secuirty || 0) + 
+         (this.bookingDetails?.full_Service || 0) + 
+         (this.bookingDetails?.full_Rent || 0);
+}
+
 }
