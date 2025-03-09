@@ -41,7 +41,7 @@ export class WishlistComponent  implements OnInit {
 
   pageNumber:any=1;
   pageSize:any=100;
- wishList:any;
+ wishList:any[]=[];
  totalData:any;
   loadWishList() {
     this.bookingService.getWishList(this.pageNumber, this.pageSize,this.deviceToken )

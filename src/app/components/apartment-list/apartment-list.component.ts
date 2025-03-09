@@ -248,6 +248,7 @@ fixxxx:boolean=false;
     }
 
     this.apartments_maps.forEach(apartment => {
+      console.log(apartment)
       if (!apartment.latitude || !apartment.longitude) {
         console.error('Invalid coordinates for apartment:', apartment);
         return;

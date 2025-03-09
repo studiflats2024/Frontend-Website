@@ -1,8 +1,9 @@
 import { Component,OnInit } from '@angular/core';
 import { BookingService } from '../../../services/booking.service';  // Adjust path based on your project structure
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute ,Router} from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-invoices',
@@ -13,7 +14,7 @@ export class InvoicesComponent implements OnInit {
 
 
   items!: any;
-  constructor( private messageService: MessageService,private userService:UserService,private bookingService: BookingService, private route: ActivatedRoute) {}
+  constructor( private messageService: MessageService,private userService:UserService,private bookingService: BookingService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.items = [
@@ -22,7 +23,23 @@ export class InvoicesComponent implements OnInit {
     ];
 
     this.loadInvoices(1, 100, 'All');
+     this.checkPaymentSuccess()
   }
+
+
+
+  checkPaymentSuccess() {
+    // 🔍 احصل على رابط الصفحة الحالي
+    const url = window.location.href;
+    console.log(url);
+  
+    // 🔄 إذا كان المستخدم على صفحة Backend، أعد توجيهه إلى `/payments-invoices`
+    if (url.includes('devapi.studiflats.com/api/ApartmentV2/SuccessPayment')) {
+      console.log('⚠️ المستخدم موجود على صفحة API! إرجاعه إلى الموقع...');
+      window.location.replace('http://localhost:54850/payments-invoices'); // 🔄 يرجع المستخدم مباشرةً
+    }
+  }
+  
 
   displayDetails:string='none';
   onCloseModal(){
@@ -78,6 +95,16 @@ export class InvoicesComponent implements OnInit {
 
           // window.location.href = response;
           window.open(response, '_blank');
+
+                  // 🛑 التحقق بعد 5 ثوانٍ مما إذا كان المستخدم ذهب إلى صفحة أخرى، وإعادته لموقعك
+        // setTimeout(() => {
+        //   if (document.visibilityState === 'hidden') {
+        //     console.log('User was redirected away. Bringing them back!');
+        //     window.location.href = '/payments-invoices';
+        //   }
+        // }, 7000);
+
+       
         } else {
           console.error('Invalid response from the server');
         }

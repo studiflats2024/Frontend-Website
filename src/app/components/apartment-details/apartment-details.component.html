@@ -72,7 +72,8 @@
 
           <!-- <i class="bi bi-heart"></i> -->
           <i class="pi pi-heart-fill"
-          [ngClass]="{'red-heart': allResponse?.is_Wish}"
+          [ngClass]="{'red-heart': isRedHeart}"
+
          (click)="toggleFavorite(aprt.apartment_ID)"></i>
 
          <!-- <i style="cursor: pointer;
@@ -537,7 +538,8 @@
                 <div class="item-title">Special Features</div>
               </div>
               <div *ngFor="let feature of apartmentsEquipment.apartment_Features" class="d-flex align-items-center gap-3 mb-3">
-                <img [src]="getIconForFeature(feature)" />
+                <!-- <img [src]="getIconForFeature(feature)" /> -->
+                 <i class="pi pi-info-circle"></i>
                 <div class="item-title">{{ feature }}</div>
               </div>
               <!-- <div class="d-flex align-items-center gap-3 mb-3">

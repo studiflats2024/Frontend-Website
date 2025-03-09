@@ -3410,11 +3410,25 @@ openverifyModal(){
   }
 
 
-
+  get isRedHeart(): boolean {
+    return this.allResponse?.is_Wish && !!localStorage.getItem('token');
+  }
+  
 
 
   favoriteApartments: { [key: string]: boolean } = {};
   toggleFavorite(apt_ID: string) {
+
+    if (!localStorage.getItem('token')) {
+      this.messageService.add({
+        severity: 'info', 
+        summary: 'Sign In Required', 
+        detail: 'Please sign in to your account to use this feature.'
+      });
+      return;
+    }
+    
+
     if(this.allResponse.is_Wish){
       this.removeWish(this.wishID)
       return;
