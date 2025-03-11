@@ -2106,9 +2106,33 @@ input.addEventListener("countrychange", function() {
 
 
  updateBedAvailability(apartmentRooms: any[], checkin: string, checkout: string): void {
+ 
+
     const checkinDate = new Date(checkin);
     const checkoutDate = new Date(checkout);
     console.log(checkinDate,checkoutDate)
+
+
+  ////////////////////////case full booking period////////////////////////
+  let fullStart = new Date(this.allResponse.fullBooking_StartDate);
+  let fullEnd = new Date(this.allResponse.fullBooking_EndDate);
+
+ 
+    if (this.allResponse.is_FullBooking &&
+     ( (checkinDate >= fullStart &&checkinDate <= fullEnd) ||
+     (checkoutDate >= fullStart && checkoutDate <= fullEnd) ||
+     (checkinDate <= fullStart && checkoutDate >= fullEnd) ) 
+    ) {
+      this.messageService.add({
+        severity: 'Error',
+        summary: 'error',
+        detail: "⚠️ Booking conflict: The selected check-in and check-out dates overlap with a fully booked period!",
+        life:8000
+      });
+      return ;
+   
+  }
+  ////////////////////////case full booking period////////////////////////
     
     // const minimumDurationInDays = this.minStay * 30;
     
