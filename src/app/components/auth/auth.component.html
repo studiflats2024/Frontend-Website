@@ -62,10 +62,10 @@
                   <div class="col-6 position-relative">
                     <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password*"> -->
                     <div class="input-group position-relative">
-                      <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="Password*">
+                      <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="Password*" (focus)="onFocus()" (blur)="onBlur()">
                       <i class="toggle-password-icon"
                          [class]="passwordFieldType === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
-                         (click)="togglePasswordVisibility()"
+                         (click)="togglePasswordVisibilitty($event)"
                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;  "></i>
                     </div>
                     <div *ngIf="signupForm.get('password')?.errors && signupForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
@@ -394,10 +394,11 @@
                   <div class="mb-3">
                     <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password*" autocomplete="off"> -->
                     <div class="input-group position-relative">
-                      <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="Password*">
+                      <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="Password*"  (focus)="onFocus()" 
+                      (blur)="onBlur()" >
                       <i class="toggle-password-icon"
                          [class]="passwordFieldType === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
-                         (click)="togglePasswordVisibility()"
+                         (click)="togglePasswordVisibilitty($event)"
                          style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer;  "></i>
                     </div>
                       <!-- <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">
@@ -479,10 +480,10 @@
                 <div class="mb-3">
                   <!-- <input type="password" formControlName="password" class="form-control" placeholder="Password*" autocomplete="off"> -->
                   <div class="input-group position-relative">
-                    <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="New Password*">
+                    <input [type]="passwordFieldType" formControlName="password" class="form-control" placeholder="New Password*" (focus)="onFocus()" (blur)="onBlur()">
                     <i class="toggle-password-icon"
                        [class]="passwordFieldType === 'password' ?  'fa fa-eye-slash' :'fa fa-eye'  "
-                       (click)="togglePasswordVisibility()"
+                       (click)="togglePasswordVisibilitty($event)"
                        style="position: absolute; right: 10px; top: 50%; transform: translateY(-50%); cursor: pointer; z-index: 11;"></i>
                   </div>
                     <div *ngIf="forgetForm.get('password')?.errors && forgetForm.get('password')?.touched" class="text-danger" style="font-size: 12px;">

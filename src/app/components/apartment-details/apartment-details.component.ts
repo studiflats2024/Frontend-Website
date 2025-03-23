@@ -2117,6 +2117,7 @@ input.addEventListener("countrychange", function() {
   let fullStart = new Date(this.allResponse.fullBooking_StartDate);
   let fullEnd = new Date(this.allResponse.fullBooking_EndDate);
 
+  console.log(fullStart,fullEnd )
  
     if (this.allResponse.is_FullBooking &&
      ( (checkinDate >= fullStart &&checkinDate <= fullEnd) ||

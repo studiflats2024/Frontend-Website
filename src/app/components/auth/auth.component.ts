@@ -53,6 +53,21 @@ export class AuthComponent {
   passwordFieldTypee: string = 'password';
   togglePasswordVisibility(): void {
     this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+    this.cdr.detectChanges();
+  }
+  togglePasswordVisibilitty(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation(); // Prevent focus loss
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+    this.cdr.detectChanges(); // Force update
+  }
+  isFocused: boolean = false;
+  onFocus() {
+    this.isFocused = true;
+  }
+
+  onBlur() {
+    this.isFocused = false;
   }
 
   onGoogleSignIn() {

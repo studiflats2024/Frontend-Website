@@ -322,3 +322,17 @@
   /* background-color: #0d6efd !important; */
   border:3px solid #0d6efd !important;
 }
+
+
+.input-group .toggle-password-icon {
+  z-index: 10; /* Ensure it stays on top */
+  color: #6c757d;
+}
+
+.input-group input:focus + .toggle-password-icon {
+  color: #007bff; /* Change color on focus */
+}
+
+.input-group input {
+  padding-right: 40px; /* Make space for the eye icon */
+}
