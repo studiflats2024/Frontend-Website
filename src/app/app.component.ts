@@ -151,6 +151,8 @@ export class AppComponent implements OnInit  {
  
   ngOnInit(): void {
 
+  
+
     // this.userService.modalVisibility$.subscribe(show => {
       
     //   this.isVisiblelogin = show ? 'block' : 'none';

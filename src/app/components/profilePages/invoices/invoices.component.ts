@@ -93,16 +93,61 @@ export class InvoicesComponent implements OnInit {
       (response) => {
         if (response) {
 
-          // window.location.href = response;
-          window.open(response, '_blank');
+           
 
-                  // 🛑 التحقق بعد 5 ثوانٍ مما إذا كان المستخدم ذهب إلى صفحة أخرى، وإعادته لموقعك
-        // setTimeout(() => {
-        //   if (document.visibilityState === 'hidden') {
-        //     console.log('User was redirected away. Bringing them back!');
-        //     window.location.href = '/payments-invoices';
-        //   }
-        // }, 7000);
+ 
+          const popup = window.open(response, '_blank', 'width=500,height=700');
+ 
+
+          const interval = setInterval(() => {
+            try {
+              const href = popup?.location?.href || '';
+      
+              
+              if (href.includes('/SuccessPayment')) {
+                clearInterval(interval);
+                
+                const html = `
+                  <html>
+                    <body style="font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh;">
+                      <div>
+                        <h2>✅ Payment successful</h2>
+                        <p>Closing window...</p>
+                      </div>
+                      <script>
+                        window.opener?.postMessage('checkout-success', '*');
+                        setTimeout(() => window.close(), 1000);
+                      </script>
+                    </body>
+                  </html>
+                `;
+              
+                // Force overwrite content
+                const doc = popup!.document;
+                doc.open();
+                doc.write(html);
+                doc.close();
+              }
+              
+              
+            } catch (err) {
+           
+            }
+       
+            if (popup?.closed) {
+              clearInterval(interval);
+            }
+          }, 1000);
+ 
+          window.addEventListener('message', (event) => {
+            if (event.data === 'checkout-success') {
+              clearInterval(interval);
+              console.log('✅ Payment completed!');
+          
+            }
+          });
+      
+ 
 
        
         } else {
