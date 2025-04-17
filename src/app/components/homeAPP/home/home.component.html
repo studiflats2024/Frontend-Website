@@ -157,8 +157,9 @@
           </div>
           <div class="divider"></div>
           <div class="apartment-details">
-            <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid">{{ apartment.apartment_No_Bedrooms }} beds</div>
-            <div class="detail-item"><i class="pi pi-user"></i>{{ apartment.apartment_Persons_No }} persons</div>
+            <div class="detail-item"><img src="bed.png" alt="bed" class="img-fluid"> {{ apartment.apartment_No_Bedrooms }} 
+              {{ apartment.apartment_No_Bedrooms === 1 ? 'room' : 'rooms' }}</div>
+            <div class="detail-item"><i class="pi pi-user"></i>{{ apartment.apartment_Persons_No }} {{ apartment.apartment_Persons_No === 1 ? 'person' : 'persons' }}</div>
             <div class="detail-item"><i class="pi pi-home"></i>{{ apartment.apartment_Area_Square }} m²</div>
           </div>
           <div class="amenities">

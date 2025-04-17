@@ -4,4 +4,5 @@ export interface Apartment_Maps {
   imageUrl: string;
   title: string;
   price: string;
+  apartment_ID:string;
 }

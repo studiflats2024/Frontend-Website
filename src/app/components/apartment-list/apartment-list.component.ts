@@ -132,7 +132,7 @@ fixxxx:boolean=false;
         this.clear();
         console.log('Received search results in other component:', this.searchResults);
       }else{
-        this.applyFilter();
+        this.applyFilter('not');
         console.log(this.apartmentList)
 
       }
@@ -250,7 +250,7 @@ fixxxx:boolean=false;
     this.apartments_maps.forEach(apartment => {
       console.log(apartment)
       if (!apartment.latitude || !apartment.longitude) {
-        console.error('Invalid coordinates for apartment:', apartment);
+        // console.error('Invalid coordinates for apartment:', apartment);
         return;
       }
 
@@ -416,6 +416,9 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
 
       // Update the heart color
       heartElement.style.color = !isFavorite ? 'red' : 'white';
+
+      // Call the single toggle function
+       this.toggleFavorite(apartment.apartment_ID);
     });
   }
 });
@@ -526,17 +529,17 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
     // this.filterData.end_Price=null
     this.priceRange[1]=5000
     this.priceRange[0]=0
-    this.applyFilter()
+    this.applyFilter('not')
   }
   clearGuests(){
     // this.filterData.guest_No=null
     this.guests=null
-     this.applyFilter()
+     this.applyFilter('not')
   }
   clearPlaceType(){
     // this.filterData.place_Type=null
     this.selectedOptionsplace=[]
-    this.applyFilter()
+    this.applyFilter('not')
   }
   clearFilters(){
   //  this.filterData.rooms_No=null
@@ -549,7 +552,7 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
    this.single=null
    this.double=null
 
-   this.applyFilter()
+   this.applyFilter('not')
 
   }
 
@@ -627,7 +630,13 @@ console.log('why')
   };
 
 
-  applyFilter() {
+  applyFilter(key:string) {
+
+    if (key === 'search') {
+      this.pageNumber = 1;
+      this.pagesize=20000
+    }
+    
     this.apartmentList = [];
     this.filterData = {
       page_No: this.pageNumber,
@@ -735,7 +744,7 @@ console.log('why')
        return;
 
       }else{
-        this.applyFilter();
+        this.applyFilter('not');
         console.log(this.apartmentList)
 
       }

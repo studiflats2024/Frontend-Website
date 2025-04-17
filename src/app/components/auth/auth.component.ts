@@ -901,7 +901,7 @@ onFinishSignSubmit() {
     this.userService.sendUserData(
       formData.email,
       genderName,
-      formData.country.name,
+      formData.country.code,
       formData.birthday,
       this.uuid,
       this.mobileSocial,
