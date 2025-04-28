@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ApplicationRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GoogleAuthService } from '../../services/google-auth.service';
+import { environment } from 'src/environments/environment';
 
 
 declare var intlTelInput: any;
@@ -231,6 +232,11 @@ export class AuthComponent {
   private isStableSubscription!: Subscription;
 
   ngOnInit(): void {
+  //   this.http.get(`${environment.apiUrl}/Basics/GetCityes`, { responseType: 'text' })
+  // .subscribe(data => {
+  //   console.log(data);  
+  // });
+
   this.socialSign=false
     // this.loginForm.reset();
     //////////////////////open complete profile//////////////////////////////////

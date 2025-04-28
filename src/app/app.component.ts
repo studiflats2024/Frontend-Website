@@ -49,6 +49,9 @@ interface Country {
   ]
 })
 export class AppComponent implements OnInit  {
+  isHomePage(): boolean {
+    return this.router.url === '/'; // أو '/home' لو الهوم عندك عليه روت اسمه كده
+  }
 
   // signupForm!: FormGroup;
   // forgetForm!: FormGroup;

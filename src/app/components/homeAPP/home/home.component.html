@@ -215,28 +215,73 @@
     <h1>How StudiFlats works</h1>
     <p>From Search to Stay, We’ve Got You Covered</p>
   </div>
-  <div class="row g-3">
-    <div class="col-lg-4 col-md-6 col-sm-12">
-      <p-card header="Search & Select"   [style]="{  padding: '24px',height: '389px'}">
-        <ng-template pTemplate="header">
+  <div class="flex justify-content-between   fixw">
+    <div class="col-lg-4   gap-4">
+      <!-- <p-card header="Search & Select"   [style]="{  padding: '24px',height: '389px'}"> -->
+        <!-- <ng-template pTemplate="header"> -->
 
+          <div class="flex flex-column gap-3">
 
 <div  class="iconwork"><img alt="Card" src="select.svg"  style="width:45px; height: 45px;"/></div>
 
 
+        <div class="titCard">Search & Select</div>
 
-
-        </ng-template>
-        <p>
-          Students can set their search criteria in the StudiFlats app to receive personalized apartment suggestions. They can then browse and select the perfect option that fits their needs.
+        <!-- </ng-template> -->
+        <p class="pCard">
+          Students can set their search criteria in the StudiFlats app to receive personalized apartment suggestions. 
         </p>
+        </div>
 
-    </p-card>
+    <!-- </p-card> -->
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-12">
-      <p-card header="Lease & Documents"   [style]="{  padding: '24px',height: '389px'}">
-        <ng-template pTemplate="header">
+    
 
+    <div class="col-lg-4 ">
+      <!-- <p-card header="Manage & Pay"   [style]="{  padding: '24px',height: '389px'}">
+        <ng-template pTemplate="header"> -->
+    <div class="flex flex-column gap-3">
+       
+
+          <div  class="iconwork">
+            <img alt="Card" src="payment.svg"   style="width:45px; height: 45px;"/>
+          </div>
+
+
+          <div class="titCard">Manage & Pay</div>
+
+          <!-- </ng-template> -->
+          <!-- <p class="pCard"> -->
+        <p class="pCard">
+          The app lets students manage their rental, handle payments, and report issues seamlessly, ensuring a hassle-free rental experience.
+        </p>
+</div>
+    <!-- </p-card> -->
+    </div>
+    
+    
+  </div>
+
+  <!------------------------------------>
+  
+
+   
+  <div class="container">
+    <img src="dash-ellipse-home.svg" class="ellipse" alt="Dashed Ellipse">
+    <img src="ellipse-blue.svg" class="blue-circle" alt="Blue Circle">
+    <img src="mop-home.svg" class="mobile" alt="Mobile Image">
+  </div>
+  
+  <!------------------------------------>
+
+  <!-- <div class="row g-3"> -->
+  <div class="flex justify-content-between  fixw">
+
+    <div class="col-lg-4  ">
+      <!-- <p-card header="Lease & Documents"   [style]="{  padding: '24px',height: '389px'}">
+        <ng-template pTemplate="header"> -->
+
+          <div class="flex flex-column gap-3">
 
           <div  class="iconwork">
             <img alt="Card" src="doc.svg"    style="width:45px; height: 45px;"/>
@@ -244,32 +289,44 @@
 
 
 
-        </ng-template>
-        <p>
+          <div class="titCard">Lease & Documents</div>
+
+          <!-- </ng-template> -->
+          <!-- <p class="pCard"> -->
+        <p  class="pCard">
           After selecting an apartment, users can confirm their inquiry and upload the necessary documents to sign the lease agreement directly through the app.
         </p>
-
-    </p-card>
+</div>
+    <!-- </p-card> -->
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-12">
-      <p-card header="Manage & Pay"   [style]="{  padding: '24px',height: '389px'}">
-        <ng-template pTemplate="header">
+    <div class="col-lg-4  ">
+    
+    <div class="flex flex-column gap-3">
+      <!-- <p-card header="Scan QR Code For Room"   [style]="{  padding: '24px',height: '389px'}">
+        <ng-template pTemplate="header"> -->
 
 
           <div  class="iconwork">
-            <img alt="Card" src="payment.svg"   style="width:45px; height: 45px;"/>
+            <img alt="Card" src="scan.svg"   style="width:45px; height: 45px;"/>
           </div>
 
 
+          <div class="titCard">Scan QR Code For Room</div>
 
-        </ng-template>
-        <p>
+          <!-- </ng-template> -->
+       
+        <p class="pCard">
           The app lets students manage their rental, handle payments, and report issues seamlessly, ensuring a hassle-free rental experience.
         </p>
 
-    </p-card>
+    <!-- </p-card> -->
+    </div>
     </div>
   </div>
+
+  <!-------------------------------test--------------------------------------->
+  
+  <!----------------------------------test--------------------------->
 
   <div style="height: 45px;"></div>
 
@@ -331,5 +388,48 @@
 
 <!-- <app-footer ></app-footer> -->
 
+<!------------------------our Partner----------------------->
+<div  style="background: #EBEBEB; padding-right:40px; padding-left:80px; padding-bottom: 63px; " >
+  <div style="height: 63px;"></div>
+  <div class="header " style="margin-bottom: 50px;" >
+    <h1>our partners</h1>
+    <p>Forward-thinking partners collaborate with StudiFlats </p>
+  </div>
+  <div class="flex justify-content-center align-items-center mt-4 flex-wrap gap-2 ">
+    <img src="ourPartner.svg"/>
+    <img src="ourPartner.svg"/>
+    <img src="ourPartner.svg"/>
+
+  </div>
+
+</div>
+
+<!------------------------------------------------->
+ 
+<!-- <div style="background: #fff; display: flex; justify-content: center; ">
+  <div class="subscribe-container flex justify-content-center align-items-center">
+     <div class="formS">
+      <h2>Subscribe to our newsletter</h2>
+      <p>
+        Stay updated with the latest news, exclusive offers, and inspiring ideas
+        delivered straight to your inbox.
+      </p>
+    
+      <form (submit)="subscribe()" class="subscribe-form">
+        <input
+          type="email"
+          [(ngModel)]="email"
+          name="email"
+          placeholder="Enter Your Email"
+          required
+        />
+        <button type="submit">Subscribe</button>
+      </form>
+     </div>
+  </div>
+  
+</div> -->
+
+ 
 
 

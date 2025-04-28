@@ -1,0 +1,27 @@
+ 
+<div style="  background: linear-gradient(
+    to bottom,
+    #fff 80%,    
+    #e9f0f7 80%,   
+    #e9f0f7 100%   
+  ); display: flex; justify-content: center;padding-top: 82px; ">
+    <div class="subscribe-container flex justify-content-center align-items-center">
+       <div class="formS">
+        <h2>Subscribe to our newsletter</h2>
+        <p>
+          Stay updated with the latest news, exclusive offers, and inspiring ideas
+          delivered straight to your inbox.
+        </p>
+      
+        <form (submit)="subscribe()" class="subscribe-form">
+          <input
+            type="email"
+            [(ngModel)]="email"
+            name="email"
+            placeholder="Enter Your Email"
+            required
+          />
+          <button type="submit">Subscribe</button>
+        </form>
+       </div>
+    </div>
