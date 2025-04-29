@@ -54,7 +54,7 @@ export class AppComponent implements OnInit  {
   // }
 
   isHomePage(): boolean {
-    const homeRoutes = ['/', '/dashboard','/#']; // ضيف أي روت تاني هنا
+    const homeRoutes = ['/', '/dashboard','/#','/#/dashboard']; // ضيف أي روت تاني هنا
     return homeRoutes.includes(this.router.url);
   }
   
