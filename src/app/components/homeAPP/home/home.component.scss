@@ -794,3 +794,9 @@ line-height: 28px; /* 155.556% */
   max-width: 50%;
  
 }
+
+@media (max-width:768px) {
+   .fixsmall{
+    max-width: 300px;
+   }
+}

@@ -78,3 +78,69 @@
     max-width: 50%;
    
   }
+
+
+
+ 
+  
+  @media (max-width: 1024px) {
+    .subscribe-container {
+      width: 95%;
+      padding: 40px 20px;
+    }
+  
+    .formS {
+      max-width: 100%;
+    }
+  
+    .subscribe-form {
+      flex-direction: row; /* زي الديسكتوب */
+      flex-wrap: nowrap;
+      gap: 8px;
+      background: white;
+      border-radius: 30px;
+      overflow: hidden;
+    }
+  
+    .subscribe-form input[type="email"] {
+      flex: 1;
+      padding: 12px 20px;
+      font-size: 14px;
+      border: none;
+      border-radius: 30px 0 0 30px;
+    }
+  
+    .subscribe-form button {
+      padding: 12px 24px;
+      font-size: 14px;
+      border-radius:  30px ;
+      white-space: nowrap;
+    }
+  }
+  
+
+  @media (max-width: 768px) {
+    .subscribe-container {
+      width: 90%;
+      padding: 40px 20px;
+    }
+  
+    .formS {
+      max-width: 100%; /* خلي النص والفورم ياخدوا عرض الموبايل */
+    }
+  
+    .subscribe-form {
+      flex-direction: column; /* نخليهم سطر تحت بعض */
+      gap: 12px;
+    }
+  
+    .subscribe-form input[type="email"],
+    .subscribe-form button {
+      width: 100%; /* يخلي الزر والإنبوت بعرض كامل */
+      border-radius: 30px;
+    }
+  
+    .subscribe-form input[type="email"] {
+      text-align: center; /* تحسين شكل النص داخل الإنبت */
+    }
+  }
