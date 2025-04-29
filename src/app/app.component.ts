@@ -49,9 +49,15 @@ interface Country {
   ]
 })
 export class AppComponent implements OnInit  {
+  // isHomePage(): boolean {
+  //   return this.router.url === '/';  
+  // }
+
   isHomePage(): boolean {
-    return this.router.url === '/'; // أو '/home' لو الهوم عندك عليه روت اسمه كده
+    const homeRoutes = ['/', '/dashboard']; // ضيف أي روت تاني هنا
+    return homeRoutes.includes(this.router.url);
   }
+  
 
   // signupForm!: FormGroup;
   // forgetForm!: FormGroup;
