@@ -402,11 +402,14 @@ this.totalPriceBooking = totalPrice;
 console.log(this.totalPriceBooking)
 ////////////////////////////////////////////////////full apart
 if(this.selectfullaprt){
+  console.log(this.selectedRooms)
+  console.log(this.selectedBeds)
+
   this.selectedRooms.forEach((room: any) => {
     // totalPrice += Number(room.bed_Price) || 0;
     // totalPrice += Number(room.bed_SecuirtyDeposit) || 0;
     // totalPrice += Number(room.bed_Service_Fees) || 0;
-    this.selectedBeds.forEach((bed: any) => {
+    room.room_Beds.forEach((bed: any) => {
       if (room.room_ID === bed.room_ID) {
         totalPrice += room.bed_Price || 0;
         totalPrice +=room.bed_SecuirtyDeposit||0
@@ -2103,9 +2106,34 @@ input.addEventListener("countrychange", function() {
 
 
  updateBedAvailability(apartmentRooms: any[], checkin: string, checkout: string): void {
+ 
+
     const checkinDate = new Date(checkin);
     const checkoutDate = new Date(checkout);
     console.log(checkinDate,checkoutDate)
+
+
+  ////////////////////////case full booking period////////////////////////
+  let fullStart = new Date(this.allResponse.fullBooking_StartDate);
+  let fullEnd = new Date(this.allResponse.fullBooking_EndDate);
+
+  console.log(fullStart,fullEnd )
+ 
+    if (this.allResponse.is_FullBooking &&
+     ( (checkinDate >= fullStart &&checkinDate <= fullEnd) ||
+     (checkoutDate >= fullStart && checkoutDate <= fullEnd) ||
+     (checkinDate <= fullStart && checkoutDate >= fullEnd) ) 
+    ) {
+      this.messageService.add({
+        severity: 'Error',
+        summary: 'error',
+        detail: "⚠️ Booking conflict: The selected check-in and check-out dates overlap with a fully booked period!",
+        life:8000
+      });
+      return ;
+   
+  }
+  ////////////////////////case full booking period////////////////////////
     
     // const minimumDurationInDays = this.minStay * 30;
     
@@ -3407,11 +3435,25 @@ openverifyModal(){
   }
 
 
-
+  get isRedHeart(): boolean {
+    return this.allResponse?.is_Wish && !!localStorage.getItem('token');
+  }
+  
 
 
   favoriteApartments: { [key: string]: boolean } = {};
   toggleFavorite(apt_ID: string) {
+
+    if (!localStorage.getItem('token')) {
+      this.messageService.add({
+        severity: 'info', 
+        summary: 'Sign In Required', 
+        detail: 'Please sign in to your account to use this feature.'
+      });
+      return;
+    }
+    
+
     if(this.allResponse.is_Wish){
       this.removeWish(this.wishID)
       return;

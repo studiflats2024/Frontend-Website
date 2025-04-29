@@ -238,18 +238,18 @@
                   <!-- Display bed name and price -->
                   <div class="d-flex justify-content-between align-items-center my-2 mb-3">
                     <div class="bed-title">{{ guest.bed_Name }}</div>
-                    <div class="bed-price">{{ guest.bed_Price | currency:'EUR':'symbol':'1.2-2' }}</div>
+                    <div class="bed-price">€{{ guest.bed_Price  }}</div>
                   </div>
                   <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
                     <div>
                       <span class="fee-title">Security Deposit for {{ guest.bed_Name }}</span>
                       <span class="refundable">(Refundable)</span>
                     </div>
-                    <div class="fee-price">{{ guest.secuirty_Deposit | currency:'EUR':'symbol':'1.2-2'}}</div>
+                    <div class="fee-price">€{{ guest.secuirty_Deposit }}</div>
                   </div>
                   <div   class="d-flex justify-content-between align-items-center my-2 mb-3">
                     <div class="fee-title">Service Fee for {{ guest.bed_Name }}</div>
-                    <div class="fee-price">{{ guest.service_Fee | currency:'EUR':'symbol':'1.2-2' }}</div>
+                    <div class="fee-price">€{{ guest.service_Fee  }}</div>
                   </div>
             <div  class="dividerr mt-3 mb-3"></div>
 
@@ -282,7 +282,7 @@
             <!-- Total amount (placeholder) -->
             <div class="d-flex justify-content-between align-items-center w-100">
               <div class="total-label">Total</div>
-              <div class="total-price">{{total | currency:'EUR':'symbol':'1.2-2' }}</div>
+              <div class="total-price">€{{total }}</div>
             </div>
           </div>
         </div>

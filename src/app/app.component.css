@@ -304,3 +304,16 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   z-index: 9999;
 }
+/**************************************/
+/* app-subscribe {
+  position: relative;
+  z-index: 10;
+  margin-bottom: -60px;  
+  display: block;
+}
+
+app-footer {
+  position: relative;
+  z-index: 5;
+  padding-top: 80px;  
+} */

@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 import { ApplicationRef } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { GoogleAuthService } from '../../services/google-auth.service';
+import { environment } from 'src/environments/environment';
 
 
 declare var intlTelInput: any;
@@ -53,6 +54,21 @@ export class AuthComponent {
   passwordFieldTypee: string = 'password';
   togglePasswordVisibility(): void {
     this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+    this.cdr.detectChanges();
+  }
+  togglePasswordVisibilitty(event: MouseEvent) {
+    event.preventDefault();
+    event.stopPropagation(); // Prevent focus loss
+    this.passwordFieldType = this.passwordFieldType === 'password' ? 'text' : 'password';
+    this.cdr.detectChanges(); // Force update
+  }
+  isFocused: boolean = false;
+  onFocus() {
+    this.isFocused = true;
+  }
+
+  onBlur() {
+    this.isFocused = false;
   }
 
   onGoogleSignIn() {
@@ -216,6 +232,11 @@ export class AuthComponent {
   private isStableSubscription!: Subscription;
 
   ngOnInit(): void {
+  //   this.http.get(`${environment.apiUrl}/Basics/GetCityes`, { responseType: 'text' })
+  // .subscribe(data => {
+  //   console.log(data);  
+  // });
+
   this.socialSign=false
     // this.loginForm.reset();
     //////////////////////open complete profile//////////////////////////////////
@@ -886,7 +907,7 @@ onFinishSignSubmit() {
     this.userService.sendUserData(
       formData.email,
       genderName,
-      formData.country.name,
+      formData.country.code,
       formData.birthday,
       this.uuid,
       this.mobileSocial,

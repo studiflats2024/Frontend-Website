@@ -318,6 +318,11 @@ getTransitionSearch(): string {
   return 'transform 0.5s ease-in-out';
 }
 
+////////////////////////////////////////////////
+email:any
+subscribe(){
+  
+}
 
 }
 

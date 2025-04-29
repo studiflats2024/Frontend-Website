@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { HomeAPPModule } from './components/homeAPP/homeAPP.module';
 //  import { HeaderComponent } from './components/homeAPP/header/header.component';
  import { FooterComponent } from './components/homeAPP/footer/footer.component';
+ import { SubscribeComponent } from './components/homeAPP/subscribe/subscribe.component';
+
 
 // import { SearchBarComponent } from './components/homeAPP/search-bar/search-bar.component';
 import { CommonModule } from '@angular/common';
@@ -44,7 +46,8 @@ import { TokenInterceptor } from './services/refreshToken-interceptor.service';
      FooterComponent,
     //  FaqComponent
     // AppSiderComponent,
-    SitemapComponent
+    SitemapComponent,
+    
 
   ],
   imports: [
@@ -64,7 +67,8 @@ import { TokenInterceptor } from './services/refreshToken-interceptor.service';
     AuthModule,
     BlogsModule,
     BlogDetailsModule,
-    DialogModule
+    DialogModule,
+    SubscribeComponent
 
   ],
  

@@ -1,8 +1,9 @@
 import { Component,OnInit } from '@angular/core';
 import { BookingService } from '../../../services/booking.service';  // Adjust path based on your project structure
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute ,Router} from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-invoices',
@@ -13,7 +14,7 @@ export class InvoicesComponent implements OnInit {
 
 
   items!: any;
-  constructor( private messageService: MessageService,private userService:UserService,private bookingService: BookingService, private route: ActivatedRoute) {}
+  constructor( private messageService: MessageService,private userService:UserService,private bookingService: BookingService, private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit() {
     this.items = [
@@ -22,7 +23,23 @@ export class InvoicesComponent implements OnInit {
     ];
 
     this.loadInvoices(1, 100, 'All');
+     this.checkPaymentSuccess()
   }
+
+
+
+  checkPaymentSuccess() {
+    // 🔍 احصل على رابط الصفحة الحالي
+    const url = window.location.href;
+    console.log(url);
+  
+    // 🔄 إذا كان المستخدم على صفحة Backend، أعد توجيهه إلى `/payments-invoices`
+    if (url.includes('devapi.studiflats.com/api/ApartmentV2/SuccessPayment')) {
+      console.log('⚠️ المستخدم موجود على صفحة API! إرجاعه إلى الموقع...');
+      window.location.replace('http://localhost:54850/payments-invoices'); // 🔄 يرجع المستخدم مباشرةً
+    }
+  }
+  
 
   displayDetails:string='none';
   onCloseModal(){
@@ -76,8 +93,63 @@ export class InvoicesComponent implements OnInit {
       (response) => {
         if (response) {
 
-          // window.location.href = response;
-          window.open(response, '_blank');
+           
+
+ 
+          const popup = window.open(response, '_blank', 'width=500,height=700');
+ 
+
+          const interval = setInterval(() => {
+            try {
+              const href = popup?.location?.href || '';
+      
+              
+              if (href.includes('/SuccessPayment')) {
+                clearInterval(interval);
+                
+                const html = `
+                  <html>
+                    <body style="font-family: sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh;">
+                      <div>
+                        <h2>✅ Payment successful</h2>
+                        <p>Closing window...</p>
+                      </div>
+                      <script>
+                        window.opener?.postMessage('checkout-success', '*');
+                        setTimeout(() => window.close(), 1000);
+                      </script>
+                    </body>
+                  </html>
+                `;
+              
+                // Force overwrite content
+                const doc = popup!.document;
+                doc.open();
+                doc.write(html);
+                doc.close();
+              }
+              
+              
+            } catch (err) {
+           
+            }
+       
+            if (popup?.closed) {
+              clearInterval(interval);
+            }
+          }, 1000);
+ 
+          window.addEventListener('message', (event) => {
+            if (event.data === 'checkout-success') {
+              clearInterval(interval);
+              console.log('✅ Payment completed!');
+          
+            }
+          });
+      
+ 
+
+       
         } else {
           console.error('Invalid response from the server');
         }

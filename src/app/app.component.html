@@ -11,6 +11,9 @@
  
 
 <router-outlet ></router-outlet>
+<ng-container *ngIf="isHomePage()">
+  <app-subscribe></app-subscribe> <!-- سكشن الأزرق -->
+</ng-container>
 <app-footer></app-footer>
 
  
