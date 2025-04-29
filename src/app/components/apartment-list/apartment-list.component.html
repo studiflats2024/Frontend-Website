@@ -334,7 +334,9 @@
           <div class="divider"></div>
           <div class="apartment-details">
             <div *ngIf="apartment.apartment_SharedType==='Shared Apartment' " class="shared-area">shared apartment</div>
-            <div class="bed-left"> beds left: {{ apartment.available_Beds }}</div>
+            <!-- <div class="bed-left"> beds left: {{ apartment.available_Beds }}</div> -->
+            <div *ngIf="apartment.nearest_available" class="bed-left">   {{ apartment.nearest_available }}</div>
+
           </div>
 
           <!-- <div class="amenities">
