@@ -272,15 +272,25 @@ currentInfoWindow:any
   // });
 
     // Update wishlist status for map markers
-    this.apartments_maps = this.apartments_maps.map((apartment: any) => {
-      const isInWishlist = this.wishList.some((wishItem: any) =>
-        wishItem.apt_Name === apartment.title
-      );
-      return {
-        ...apartment,
-        isInWishlist: isInWishlist
-      };
-    });
+    // this.apartments_maps = this.apartments_maps.map((apartment: any) => {
+    //   const isInWishlist = this.wishList.some((wishItem: any) =>
+    //     wishItem.apt_Name === apartment.title
+    //   );
+    //   return {
+    //     ...apartment,
+    //     isInWishlist: isInWishlist
+    //   };
+    // });
+    const wishListArr = Array.isArray(this.wishList) ? this.wishList : [];
+this.apartments_maps = this.apartments_maps.map((apartment: any) => {
+  const isInWishlist = wishListArr.some((wishItem: any) =>
+    wishItem.apt_Name === apartment.title
+  );
+  return {
+    ...apartment,
+    isInWishlist: isInWishlist
+  };
+});
    
     
     /////////////////////////////////////////////////////////////////////////////////////
