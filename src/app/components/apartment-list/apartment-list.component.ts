@@ -225,8 +225,8 @@ fixxxx:boolean=false;
     this.apartmentService.apartment_maps().subscribe(
       response => {
         this.apartments_maps = response;
-
-        this.addMarkers();
+        this.addMarkers()
+        // this.addMarkers(); i add it after load wishlist to highlight heart if in wishlist
         console.log("Eslam Code", this.apartments_maps);  // Logs the response data
       },
       error => {
@@ -235,7 +235,8 @@ fixxxx:boolean=false;
     );
   }
 
-
+logged:boolean=false
+currentInfoWindow:any
   addMarkers(): void {
     if (!this.map) {
       console.error('Map is not initialized.');
@@ -247,8 +248,45 @@ fixxxx:boolean=false;
       return;
     }
 
+    ///////////////////////////////////////////////////////////////////////////////////
+
+  //     this.authService.loginStatus$.subscribe((status: boolean) => {
+  //   if (status) {
+  //     this.logged=true
+  //       this.apartments_maps = this.apartments_maps.map((apartment:any) => {
+  //   const isInWishlist = this.wishList.some((wishItem :any)=>
+  //     wishItem.apt_Name === apartment.title  
+      
+  //   );
+  //   if(isInWishlist){
+  //     console.log(apartment.title)
+  //   }
+
+  //   return {
+  //     ...apartment,
+  //     isInWishlist: isInWishlist  
+  //   };    
+  // })
+  // console.log('apartment with wishlist',this.apartments_maps)
+  //   }
+  // });
+
+    // Update wishlist status for map markers
+    this.apartments_maps = this.apartments_maps.map((apartment: any) => {
+      const isInWishlist = this.wishList.some((wishItem: any) =>
+        wishItem.apt_Name === apartment.title
+      );
+      return {
+        ...apartment,
+        isInWishlist: isInWishlist
+      };
+    });
+   
+    
+    /////////////////////////////////////////////////////////////////////////////////////
+
     this.apartments_maps.forEach(apartment => {
-      console.log(apartment)
+      // console.log(apartment)
       if (!apartment.latitude || !apartment.longitude) {
         // console.error('Invalid coordinates for apartment:', apartment);
         return;
@@ -264,7 +302,7 @@ fixxxx:boolean=false;
         console.error('Failed to create marker for apartment:', apartment);
         return;
       }
-
+ 
       // console.log('Marker created:', marker);
 
     //   const infoWindowContent = `
@@ -339,7 +377,7 @@ fixxxx:boolean=false;
         border-radius: 50%;
         left: 10px;">&#10094;</button>
 
-      <img src="${apartment.imageUrl}" alt="${apartment.title}" class="slider-image" style="
+      <img onclick="window.location.href='/apartment-details/${apartment.apartment_ID}'" src="${apartment.imageUrl}" alt="${apartment.title}" class="slider-image" style="
         width: 100%;
         height: 100%;
         object-fit: cover;">
@@ -357,12 +395,12 @@ fixxxx:boolean=false;
         border-radius: 50%;
         right: 10px;">&#10095;</button>
 
-      <div id="heart-${apartment.title}" class="heart-icon" style="
+      <div id="heart-${apartment.apartment_ID}" class="heart-icon" onclick="toggleHeartColor(${apartment.apartment_ID})" style="
         position: absolute;
         top: 10px;
         right: 10px;
         background-color: rgba(0, 0, 0, 0.5);
-        color: white;
+        color: ${apartment.isInWishlist ? '#ff0000' : '#ffffff'};
         padding: 5px;
         padding: 3px 5px;
         border-radius: 50%;
@@ -394,11 +432,25 @@ fixxxx:boolean=false;
 
 `;
 
+      //////////////////////////////////////////////
+//   const heartElement = document.getElementById(`heart-${apartment.title}`);
+ 
+
+// if (heartElement) {
+ 
+//       heartElement!.style.color = apartment.isInWishlist ? 'red' : 'white';
+
+//  console.log(heartElement!.style.color)
+// }
+      /////////////////////////////////////////////
+
+
+
 
       const infoWindow = new google.maps.InfoWindow({
         content: infoWindowContent
       });
-
+      this.currentInfoWindow = infoWindow;
       marker.addListener('click', () => {
         console.log('Marker hovered:', apartment.title);
         infoWindow.open(this.map, marker);
@@ -406,22 +458,57 @@ fixxxx:boolean=false;
 
       // Add event listener for the heart icon after the info window is opened
 google.maps.event.addListener(infoWindow, 'domready', () => {
-  const heartElement = document.getElementById(`heart-${apartment.title}`);
-  if (heartElement) {
-    // Toggle favorite manually
-    heartElement.addEventListener('click', () => {
-      // Toggle the favorite status (you may need to update this to match your logic)
-      const isFavorite = this.favoriteApartments[apartment.title];
-      this.favoriteApartments[apartment.title] = !isFavorite;
+  // const heartElement = document.getElementById(`heart-${apartment.title}`);
+  // if (heartElement) {
+    
+  //   heartElement.addEventListener('click', () => {
+     
+  //     const isFavorite = this.favoriteApartments[apartment.title];
+  //     this.favoriteApartments[apartment.title] = !isFavorite;
 
-      // Update the heart color
-      heartElement.style.color = !isFavorite ? 'red' : 'white';
+ 
+  //     heartElement.style.color = isFavorite ? 'red' : 'white';
+ 
+     
+ 
+  //      this.toggleFavorite(apartment.apartment_ID);
+  //   });
 
-      // Call the single toggle function
-       this.toggleFavorite(apartment.apartment_ID);
-    });
-  }
+
+  // }
+  /////////////////////////////////////////////////////////////////////////////
+
+  //  const heartElement = document.getElementById(`heart-${apartment.apartment_ID}`);
+  // if (heartElement) {
+ 
+  //   const isFavorite = this.favoriteApartments[apartment.apartment_ID];
+  //   heartElement.style.color = isFavorite ? 'red' : 'white';
+
+   
+  //   heartElement.addEventListener('click', () => {
+  //     const newFavorite = !this.favoriteApartments[apartment.apartment_ID];
+  //     this.favoriteApartments[apartment.apartment_ID] = newFavorite;
+  //     heartElement.style.color = newFavorite ? 'red' : 'white';
+
+  //     this.toggleFavorite(apartment.apartment_ID);  
+  //   });
+  // }
+  const heartElement = document.getElementById(`heart-${apartment.apartment_ID}`);
+if (heartElement) {
+  // ضبط اللون عند الفتح
+  heartElement.style.color = apartment.isInWishlist ? 'red' : 'white';
+
+  // عند الضغط على القلب
+  heartElement.addEventListener('click', () => {
+    this.toggleFavorite(apartment.apartment_ID);
+    // تحديث لون القلب بعد التغيير
+    heartElement.style.color = !apartment.isInWishlist ? 'red' : 'white';
+    apartment.isInWishlist = !apartment.isInWishlist;
+  });
+}
+///////////////////////////////////////////////////////////////////////////////////
 });
+ 
 
       // setTimeout(() => {
       //   marker.addListener('mouseout', () => {
@@ -430,6 +517,31 @@ google.maps.event.addListener(infoWindow, 'domready', () => {
       // },  1000);
     });
   }
+
+
+
+  toggleHeartColor(id:any) {
+     if (
+      !localStorage.getItem('token') &&
+      !localStorage.getItem('userToken') &&
+      !localStorage.getItem('userName')
+    ) {
+      
+      return;
+    }
+  const heart = document.getElementById(`heart-${id}`);
+  const currentColor = heart!.style.color;
+ 
+  // if (currentColor == 'red') {
+  //   heart!.style.color = 'white';
+  // } else {
+  //   heart!.style.color = 'red';
+  // }
+
+  // لو حابة كمان تعدلي الحالة في Angular متغير:
+  // ابعتي event لـ component مثلاً أو استخدمي event emitter لو رابطينهم
+}
+
 
   // addMarkers(): void {
   //   this.apartments_maps.forEach(apartment => {
@@ -635,6 +747,17 @@ console.log('why')
     if (key === 'search') {
       this.pageNumber = 1;
       this.pagesize=20000
+    }else if(localStorage.getItem('listNo')){
+        this.pageNumber=Number(localStorage.getItem('listNo'))
+        this.first=Number(localStorage.getItem('listF'))
+        this.rows=Number(localStorage.getItem('listR'))
+
+        // localStorage.removeItem('listNo')
+        // localStorage.removeItem('listF')
+        // localStorage.removeItem('listR')
+
+
+        console.log(this.pageNumber)
     }
     
     this.apartmentList = [];
@@ -672,6 +795,7 @@ console.log('why')
            console.log('logged')
         }
          
+        
         // this.clear();
       },
       error => {
@@ -715,6 +839,11 @@ console.log('why')
     let calcPageNumber = Math.floor(this.first / this.rows) + 1;
 
     this.pageNumber = calcPageNumber;
+    localStorage.setItem('listNo',this.pageNumber.toString())
+    localStorage.setItem('listF',this.first.toString())
+
+    localStorage.setItem('listR',this.rows.toString())
+
     // this.filterData = {
     //   page_No: this.pageNumber,
     //   page_Size: this.pagesize,
@@ -1083,16 +1212,28 @@ emaill=''
       });
       return;
     }
+
+
+    ///////////////////
+//     const item = this.apartments_maps.find(item => item.apartment_ID === apt_ID);
+
+// if (item) {
+//   item.isInWishlist = !item.isInWishlist;  
+ 
+// }
+    ////////////////////
   
     // Find the apartment by ID
     const apartment = this.apartmentList.find(
       (apartment: any) => apartment.apartment_ID === apt_ID
     );
+
+     
   
     if (apartment) {
       // Toggle 'isInWishlist' flag
       apartment.isInWishlist = !apartment.isInWishlist;
-  
+      
       // Device token logic
       this.messagingService
         .requestPermission()
@@ -1114,6 +1255,25 @@ emaill=''
               console.log('Removing from wishlist, Wish_ID:', wishID);
               this.removeWish(wishID);
             }
+          }
+
+          const mapApartment = this.apartments_maps.find((apt: any) => apt.apartment_ID === apt_ID);
+          if (mapApartment) {
+            mapApartment.isInWishlist = !mapApartment.isInWishlist;
+             // تحديث لون القلب في الـ info window
+            //  const heartElement = document.getElementById(`heart-${apt_ID}`);
+            //  if (heartElement) {
+            //    heartElement.style.color = mapApartment.isInWishlist ? '#ff0000' : '#ffffff';
+            //  }
+              // تحديث محتوى الـ info window إذا كان مفتوحاً
+              if (this.currentInfoWindow) {
+                const content = this.currentInfoWindow.getContent() as string;
+                const updatedContent = content.replace(
+                  /color: (?:#ff0000|#ffffff)/,
+                  `color: ${mapApartment.isInWishlist ? '#ff0000' : '#ffffff'}`
+                );
+                this.currentInfoWindow.setContent(updatedContent);
+              }
           }
         })
         .catch((error: any) => {
@@ -1137,6 +1297,17 @@ emaill=''
         console.log('API call success:', response);
         this.messageService.add({severity: 'success', summary: 'Success', detail: "Added successfully to wishlist"});
 
+          // تحديث حالة isInWishlist في apartments_maps
+          const mapApartment = this.apartments_maps.find((apt: any) => apt.apartment_ID === apt_ID);
+          if (mapApartment) {
+            mapApartment.isInWishlist = true;
+             // تحديث لون القلب
+          const heartElement = document.getElementById(`heart-${apt_ID}`);
+          if (heartElement) {
+            heartElement.style.color = '#ff0000';
+          }
+          }
+
       },
       (error) => {
         console.error('API call error:', error);
@@ -1150,6 +1321,15 @@ emaill=''
             // تعيين الخاصية isInWishlist إلى false
             apartment.isInWishlist = false;
         } 
+
+        const mapApartment = this.apartments_maps.find((apt: any) => apt.apartment_ID === apt_ID);
+        if (mapApartment) {
+          mapApartment.isInWishlist = false;
+          const heartElement = document.getElementById(`heart-${apt_ID}`);
+          if (heartElement) {
+            heartElement.style.color =   '#ffffff' ;
+          }
+        }
       }
     );
   }
@@ -1167,6 +1347,7 @@ emaill=''
             // Assign the response to the wishlist array
           console.log('WishList:', this.wishList);
           this.highlightWishlist()
+          this.addMarkers()
         },
         (error) => {
           console.error('Error fetching wishlist:', error);
@@ -1202,6 +1383,17 @@ removeWish(wish_ID: string) {
   this.bookingService.removeFromWishlist(wish_ID).subscribe({
     next: (response) => {
       console.log('Item successfully removed:', response);
+         // تحديث حالة isInWishlist في apartments_maps
+         const mapApartment = this.apartments_maps.find((apt: any) => apt.wish_ID === wish_ID);
+         if (mapApartment) {
+           mapApartment.isInWishlist = false;
+           
+         // تحديث لون القلب
+         const heartElement = document.getElementById(`heart-${mapApartment.apartment_ID}`);
+         if (heartElement) {
+           heartElement.style.color = '#ffffff';
+         }
+         }
     },
     error: (error) => {
       console.error('Error removing item:', error);

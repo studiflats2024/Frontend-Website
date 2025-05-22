@@ -14,7 +14,7 @@
     <source src="https://youtu.be/ZGRlxoqg994" type="video/mp4">
     Your browser does not support the video tag.
   </video> -->
-  <div class="overlay"></div>
+  <!-- <div class="overlay"></div> -->
   <!-- <div class="video-background">
     <iframe
       src="https://www.youtube.com/embed/ZGRlxoqg994?autoplay=1&mute=1&loop=1&playlist=ZGRlxoqg994"
@@ -27,18 +27,20 @@
 
   <div class="video-background">
     <div class="video-foreground">
-      <iframe
+      <!-- <iframe
       src="https://www.youtube.com/embed/ZGRlxoqg994?autoplay=1&mute=1&loop=1&playlist=ZGRlxoqg994&controls=0&modestbranding=1"
       frameborder="0"
       allow="autoplay; fullscreen"
       allowfullscreen
       id="background-video">
-    </iframe>
+    </iframe> -->
+    <!-- <img src="homeImg.png" style="width: 100%; height: 100%; object-fit: cover;"/> -->
     </div>
   </div>
+  
   <div class="hero-text">
-    <h1>Find your dream apartment</h1>
-    <p>Discovering your perfect apartment is effortless with Studiflat.</p>
+    <h1>Find your furnished apartments</h1>
+    <h2> Studiflats is your No.1 platform apartments for rent in Germany</h2>
   </div>
   <app-search-bar (searchResults)="handleSearchResults($event)"></app-search-bar>
 </div>
@@ -101,8 +103,9 @@
 
 
       </div>
-
+  
     </div>
+    
     <div class="mapp" >
 
     </div>
@@ -117,9 +120,15 @@
     <button pButton type="button" icon="pi pi-arrow-left" class="p-button-rounded p-button-outlined p-button-secondary carousel-control scroll-button" (click)="prevSearch()"></button>
     <button pButton type="button" icon="pi pi-arrow-right " class="p-button-rounded p-button-primary ml-2 carousel-control scroll-button" (click)="nextSearch()"></button>
   </div>
+ 
 
 </div>
 
+<!-- <div style="text-align: center; padding: 40px 20px; z-index: 1;">
+  <p style="color: #1C1B1F; font-family: Inter; font-size: 24px; font-style: normal; font-weight: 400; line-height: 32px; margin: 0;  ">
+    Find your perfect furnished apartment to live, work, or study — all in one click. Enjoy the freedom and flexibility you need to focus on your goals, whether you're moving for university, starting a new job, or working
+  </p>
+</div> -->
 
 
 
@@ -135,8 +144,8 @@
 
 
   <div class="header" >
-    <h1>Best Offers</h1>
-    <p>find questions and answers related to your booking</p>
+    <h1> Discover Rental Homes That Fit Your Lifestyle</h1>
+    <h2 style="color:#344054">Browse Rental Apartments and Studios</h2>
   </div>
 
 
@@ -190,6 +199,14 @@
       </div>
 
     </div>
+
+    <div style="text-align: start; padding: 40px 20px; z-index: 1;">
+      <p class="sm-txt" style="color: #1C1B1F; font-family: Inter; font-size: 24px; font-style: normal; font-weight: 400; line-height: 32px; margin: 0;  ">
+        Find your perfect furnished apartment to live, work, or study — all in one click. Enjoy the freedom and flexibility you need to focus on your goals, whether you're moving for university, starting a new job, or working
+      </p>
+    </div>
+
+
     <div class="mapp" >
 
     </div>
@@ -331,6 +348,26 @@
   <div style="height: 45px;"></div>
 
 </div>
+
+<!----------------------text section----------------->
+<!-- <section class="sf-hero-section d-flex justify-content-center align-items-center text-center">
+  <div class="sf-hero-wrapper">
+    <h2 class="sf-hero-headline">
+      Find your perfect furnished apartment to live, work, or study — all in one click.
+    </h2>
+    <p class="sf-hero-description">
+      Enjoy the freedom and flexibility you need to focus on your goals, whether you're moving for university, starting a new job, or working.
+    </p>
+
+    <button type="button" class="sf-custom-btn" routerLink="/apartment-list">
+  Explore Apartments
+</button>
+
+  </div>
+</section> -->
+
+
+
 
 
 

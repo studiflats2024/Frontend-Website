@@ -8,7 +8,8 @@ import { HttpClient } from '@angular/common/http';
 import { Globals, isValidEmail } from '../app/globals/global';
 import { ApartmentSearchService } from './services/apartment-search.service';
 import { AuthService } from './services/auth.service';
-import { Router } from '@angular/router';
+import { Router , NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 declare var intlTelInput: any;
 declare var intlTelInputUtils: any;
@@ -54,8 +55,9 @@ export class AppComponent implements OnInit  {
   // }
 
   isHomePage(): boolean {
-    const homeRoutes = ['/', '/dashboard','/#','/#/dashboard']; // ضيف أي روت تاني هنا
-    return homeRoutes.includes(this.router.url);
+    // const homeRoutes = ['/', '/dashboard','/#','/#/dashboard']; 
+    // return homeRoutes.includes(this.router.url);
+    return this.currentUrl === '/' || this.currentUrl === '/dashboard';
   }
   
 
@@ -65,8 +67,16 @@ export class AppComponent implements OnInit  {
   // countries: { name: string; code: string; flag: string }[] = [];
   // selectedCountry: any;
   // isLoggedIn:any;
-
-  constructor(private router: Router,private authService: AuthService,private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef,private apartmentSearchService: ApartmentSearchService) {}
+  currentUrl = '';
+  constructor(private router: Router,private authService: AuthService,private renderer: Renderer2,private fb: FormBuilder, private userService: UserService,  private messageService: MessageService,  private http: HttpClient, private cdr: ChangeDetectorRef,private apartmentSearchService: ApartmentSearchService) {
+    this.router.events
+    .pipe(
+      filter((event: any): event is NavigationEnd => event instanceof NavigationEnd)
+    )
+    .subscribe(event => {
+      this.currentUrl = event.url;
+    });
+  }
   // passwordFieldType: string = 'password';  
   // passwordFieldTypee: string = 'password';
   // togglePasswordVisibility(): void {

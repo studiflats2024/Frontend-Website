@@ -35,6 +35,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MaintenanceInterceptor } from './services/maintenance-interceptor.service';
 import { PrerenderInterceptor } from './services/prerender-interceptor.service';
 import { TokenInterceptor } from './services/refreshToken-interceptor.service';
+import { UserOffsetInterceptor } from './services/user-offset.interceptor';
+
 
 
 @NgModule({
@@ -92,6 +94,11 @@ import { TokenInterceptor } from './services/refreshToken-interceptor.service';
     provide: HTTP_INTERCEPTORS,
     useClass: TokenInterceptor,
     multi: true,
+  },
+  {
+    provide: HTTP_INTERCEPTORS,
+    useClass: UserOffsetInterceptor,
+    multi: true
   }
   ],
   bootstrap: [AppComponent ],

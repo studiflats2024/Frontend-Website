@@ -5,4 +5,5 @@ export interface Apartment_Maps {
   title: string;
   price: string;
   apartment_ID:string;
+  isInWishlist:any;
 }

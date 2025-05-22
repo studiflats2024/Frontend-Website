@@ -1745,7 +1745,7 @@ text-transform: capitalize;
 }
 
 .red-heart {
-  color: red;
+  color: red !important;
   
   /* background-color: red; */
   -webkit-text-stroke: 1px red;
