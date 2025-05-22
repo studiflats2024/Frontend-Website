@@ -55,9 +55,9 @@ export class AppComponent implements OnInit  {
   // }
 
   isHomePage(): boolean {
-    // const homeRoutes = ['/', '/dashboard','/#','/#/dashboard']; 
-    // return homeRoutes.includes(this.router.url);
-    return this.currentUrl === '/' || this.currentUrl === '/dashboard';
+    const homeRoutes = ['/', '/dashboard','/#','/#/dashboard']; 
+    return homeRoutes.includes(this.router.url);
+    // return this.currentUrl === '/' || this.currentUrl === '/dashboard' || this.currentUrl === '/#/dashboard';
   }
   
 
