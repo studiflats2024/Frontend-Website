@@ -297,8 +297,8 @@
       <img [src]="mapImage" alt="Map" (click)="navigateToMap()">
     </div>
   </div> -->
-  <div *ngIf="apartmentList[0] !==null  " class="main-content">
-    <div class="apartment-list mt-3">
+  <div *ngIf="apartmentList[0] !==null  " class="main-content"  >
+    <div class="apartment-list mt-3"  style="flex: 1; display: flex; flex-direction: column;">
       <div *ngFor="let apartment of apartmentList" class="apartment-card fix-card" >
         <img [src]="apartment.apartment_Image" alt="{{ apartment.apartment_Name }}" class="apartment-image" routerLink="/apartment-details/{{apartment?.apartment_ID}}">
         <div class="apartment-content">
@@ -366,250 +366,28 @@
 
       </div>
 
-     <div class="waitingList">
-       <div class="text-wait">
-        <p class="adWait">No suitable apartment found?</p>
-        <p class="txtWait">
-          Put yourself on the waiting list and we will inform you as soon as a suitable apartment is available
-        </p>
-       </div>
-       <!-- <button p-button (onClick)="showDialog()">Set on waiting list</button> -->
-       <p-button (onClick)="showDialog()" label="Set on waiting list" />
-<p-dialog
-    header="Waiting List"
-    [modal]="true"
-    [(visible)]="visible"
-    [style]="{ width: '50rem' }"
-    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
-    <div class="sectionTwo" >
-
-      <!-- <form #infoForm="ngForm"   class="sectionTwo"> -->
-        <p class="pWait">place yourself on the waiting list</p>
-        <div class="waittext">
-          <p class="wp1">enter guests details</p>
-          <p class="wp2">Please provide the names, email addresses, and phone numbers of the guests who will be staying with you </p>
-        </div>
-        <div class="sectionTwo">
-          <div class="waittext">
-            <p class="wp1">place your details here</p>
-            <p class="wp2">Please provide your name, email address, and phone number . </p>
-          </div>
-          <div class="row w-full ">
-
-            <div class="col-lg-6 col-sm-12 ">
-              <div class="flex flex-column gap-2 full-width col">
-                <input
-                    pInputText
-                    id="usernameM"
-                    aria-describedby="username-help"
-                    [(ngModel)]="userName"
-                    name="username"
-                    #usernameM="ngModel"
-                    required
-                    placeholder="User Name"
-                    minlength="3"/>
-
-                <div *ngIf="usernameM.invalid && (usernameM.dirty || usernameM.touched)" class="error">
-                  <small *ngIf="usernameM.errors?.['required']">Username is required.</small>
-                  <small *ngIf="usernameM.errors?.['minlength']">Username must be at least 3 characters long.</small>
-                </div>
-              </div>
-
-              <!-----phone input ------->
-              <div class="flex flex-column gap-2 full-width col">
-
-                <input
-                pInputText
-                placeholder="Email"
-                id="emailM"
-                aria-describedby="email-help"
-                [(ngModel)]="emaill"
-                name="email"
-                #emailM="ngModel"
-                required
-              />
-              <div *ngIf="emailM.invalid && (emailM.dirty || emailM.touched)" class="error">
-                <small *ngIf="emailM.errors?.['required']">Email is required.</small>
-                <small *ngIf="emailM.errors?.['email']">Please enter a valid email address.</small>
-              </div>
-              </div>
-            </div>
-          <div  class="col-lg-6 col-sm-12 ">
-            <div class="flex flex-column gap-2 full-width col">
-              <input
-              id="waitPhone"
-              name="phone"
-              [(ngModel)]="phoneNumber"
-              required
-              #phone="ngModel"
-              placeholder="Phone"
-              class="form-control">
-          <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="error">
-            <small *ngIf="phone.errors?.['required']">Phone number is required.</small>
-          </div>
-            </div>
-
-            <div class="flex flex-column gap-2 full-width col">
-            <input type="number" name="repeatCount" [(ngModel)]="repeatCount" (ngModelChange)="onRepeatCountChange()" id="repeatCount" min="1" placeholder="No Of Guests"  class="form-control" style="width:100%; height:100%; padding: 12px 10px"  />
-            </div>
+     
+    
 
 
-          </div>
-            </div>
-        </div>
-
-
-
-        <div class="sectionTwo">
-          <div class="waittext">
-            <p class="wp1">booking details.</p>
-            <p class="wp2">Please enter the booking details in the form provided below.</p>
-          </div>
-          <div class="row w-full ">
-
-            <div class="col-lg-6 col-sm-12 ">
-              <div class="flex flex-column gap-2 full-width col">
-                <p-calendar
-                [(ngModel)]="startDate"
-                [iconDisplay]="'input'"
-                [showIcon]="true"
-                placeholder="Add Start date" />
-
-
-              </div>
-
-              <!-----End Date input ------->
-              <div class="flex flex-column gap-2 full-width col">
-
-                <p-calendar
-                [(ngModel)]="endDate"
-                [iconDisplay]="'input'"
-                [showIcon]="true"
-                placeholder="Add End date"
-                 ></p-calendar>
-              </div>
-            </div>
-          <div  class="col-lg-6 col-sm-12 ">
-            <div class="flex flex-column gap-2 full-width col">
-              <p-dropdown
-              [options]="cities"
-              [(ngModel)]="selectedCity"
-              placeholder="Select a City" />
-            </div>
-
-            <div class="flex flex-column gap-2 full-width col">
-            <input type="number" name="repeatCount" [(ngModel)]="rentFee" (ngModelChange)="onRepeatCountChange()" id="repeatCount" min="1" placeholder="Maximum budget for rent ?"  class="form-control" style="width:100%; height:100%; padding: 12px 10px" />
-            </div>
-
-
-
-
-
-          </div>
-          <div class="w-full row mx-auto flex justify-content-center align-items-center p-0">
-            <textarea
-            rows="5"
-            cols="30"
-            pInputTextarea
-            [(ngModel)]="tellMore"
-            placeholder="Do you want to tell us more?">
-        </textarea>
-           </div>
-            </div>
-        </div>
-
-
-
-      <div *ngFor="let user of users; let i = index" class="sectionTwo">
-        <div class="waittext">
-          <p class="wp1">place your details here</p>
-          <p class="wp2">Please provide your name, email address, and phone number . </p>
-        </div>
-        <span class="spanwait">guests {{i+1}}</span>
-        <div class="row w-full  ">
-
-          <div class="col-lg-6 col-sm-12 ">
-            <div class="flex flex-column gap-2 full-width col">
-              <input
-                  pInputText
-                  id="username{{i}}"
-                  aria-describedby="username-help"
-                  [(ngModel)]="user.guest_Name"
-                  name="username{{i}}"
-                  #usernameI="ngModel"
-                  required
-                  placeholder="User Name"
-                  minlength="3"/>
-
-              <div *ngIf="usernameI.invalid && (usernameI.dirty || usernameI.touched)" class="error">
-                <small *ngIf="usernameI.errors?.['required']">Username is required.</small>
-                <small *ngIf="usernameI.errors?.['minlength']">Username must be at least 3 characters long.</small>
-              </div>
-            </div>
-
-            <!-----phone input ------->
-            <div class="flex flex-column gap-2 full-width col">
-
-              <input
-              pInputText
-              placeholder="Email"
-              id="email{{i}}"
-              aria-describedby="email-help"
-              [(ngModel)]="user.guest_Email"
-              name="email{{i}}"
-              #emailI="ngModel"
-              required
-            />
-            <div *ngIf="emailI.invalid && (emailI.dirty || emailI.touched)" class="error">
-              <small *ngIf="emailI.errors?.['required']">Email is required.</small>
-              <small *ngIf="emailI.errors?.['email']">Please enter a valid email address.</small>
-            </div>
-            </div>
-          </div>
-        <div  class="col-lg-6 col-sm-12 ">
-          <div class="flex flex-column gap-2 full-width col">
-            <input
-            id="phone{{i}}"
-            name="phone{{i}}"
-            [(ngModel)]="user.guest_Phone"
-            required
-            #phoneI="ngModel"
-            placeholder="Phone"
-            class="form-control iti-phone-input" >
-        <div *ngIf="phoneI.invalid && (phoneI.dirty || phoneI.touched)" class="error">
-          <small *ngIf="phoneI.errors?.['required']">Phone number is required.</small>
-        </div>
-          </div>
-
-
-
-
-        </div>
-          </div>
-      </div>
-
-
-      <div class=" modal-footer container mt-4 d-flex justify-content-between" style="max-width: 948px;">
-
-        <button   class="btn btn-outline-dark custom-btn" style="background-color: #fff; text-transform: capitalize; font-weight: 300; color:#333" (click)="backstep()"   type="button">Back</button>
-
-        <button   class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;"  (click)="submitForm()"  >confirm</button><!--(click)="onSubmitBooking()" -->
-      </div>
-
-      <!-- </form> -->
-
-     </div>
-</p-dialog>
-     </div>
-
-
-
-      <p-paginator *ngIf="apartmentList.length > 0 && this.fromSearch===false" (onPageChange)="tiggerPageChange($event)" [rows]="rows"
+      <!-- <p-paginator *ngIf="apartmentList.length > 0 && this.fromSearch===false" (onPageChange)="tiggerPageChange($event)" [rows]="rows"
         [totalRecords]="totalRecords" [first]="first" [showPageLinks]="showPageLinks" [ngStyle]="{'z-index': '12', }" ></p-paginator>
-    </div>
-    <div class="mapp" style="z-index:0" >
+
+       -->
+
+    
+
 
     </div>
+
+    <div  class="map-c" style="width: 600px; margin-left: 20px; flex-shrink: 0; position: sticky; top: 20px;">
+      <div class="map" style="  width: 600px; height: 80vh; align-self: flex-start; z-index: 10;">
+        <div   id="googlemap" style="width: 100%; height: 100%; z-index: 10;"></div>
+      </div>
+    </div>
+    <!-- <div class="mapp" style="z-index:0" >
+
+    </div> -->
 
     <!-- <div class="map smallmap"  >
       <img [src]="mapImage" alt="Map"  (click)="navigateToMap()">
@@ -631,14 +409,264 @@
   </div> -->
 
 
-  <div *ngIf="isVisible"  class="map"  >
-    <!-- <img *ngIf="isVisible" [src]="mapImage" alt="Map"  (click)="navigateToMap()"> -->
+  <!-- <div *ngIf="isVisible"  class="map"  >
+  
         <div   id="googlemap"    >
 
         </div>
+  </div> -->
+   
+  <div class="accommodation-title mt-4" >Student Accommodation in Berlin</div>
+
+  <p-accordion class="mt-2">
+    <p-accordionTab *ngFor="let item of accordionData" [header]="item.title">
+      {{ item.content }}
+    </p-accordionTab>
+  </p-accordion>
+
+  <div class="waitingList mt-4">
+    <div class="text-wait">
+     <p class="adWait">No suitable apartment found?</p>
+     <p class="txtWait">
+       Put yourself on the waiting list and we will inform you as soon as a suitable apartment is available
+     </p>
+    </div>
+    <!-- <button p-button (onClick)="showDialog()">Set on waiting list</button> -->
+    <p-button (onClick)="showDialog()" label="Set on waiting list" />
+ 
   </div>
 
+
+  <p-paginator *ngIf="apartmentList.length > 0 && this.fromSearch===false" (onPageChange)="tiggerPageChange($event)" [rows]="rows"
+    [totalRecords]="totalRecords" [first]="first" [showPageLinks]="showPageLinks" [ngStyle]="{'z-index': '12', }" ></p-paginator>
+
   
+    
+  <p-dialog
+ header="Waiting List"
+ [modal]="true"
+ [(visible)]="visible"
+ [style]="{ width: '50rem' }"
+ [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+ <div class="sectionTwo" >
+
+   <!-- <form #infoForm="ngForm"   class="sectionTwo"> -->
+     <p class="pWait">place yourself on the waiting list</p>
+     <div class="waittext">
+       <p class="wp1">enter guests details</p>
+       <p class="wp2">Please provide the names, email addresses, and phone numbers of the guests who will be staying with you </p>
+     </div>
+     <div class="sectionTwo">
+       <div class="waittext">
+         <p class="wp1">place your details here</p>
+         <p class="wp2">Please provide your name, email address, and phone number . </p>
+       </div>
+       <div class="row w-full ">
+
+         <div class="col-lg-6 col-sm-12 ">
+           <div class="flex flex-column gap-2 full-width col">
+             <input
+                 pInputText
+                 id="usernameM"
+                 aria-describedby="username-help"
+                 [(ngModel)]="userName"
+                 name="username"
+                 #usernameM="ngModel"
+                 required
+                 placeholder="User Name"
+                 minlength="3"/>
+
+             <div *ngIf="usernameM.invalid && (usernameM.dirty || usernameM.touched)" class="error">
+               <small *ngIf="usernameM.errors?.['required']">Username is required.</small>
+               <small *ngIf="usernameM.errors?.['minlength']">Username must be at least 3 characters long.</small>
+             </div>
+           </div>
+
+           <!-----phone input ------->
+           <div class="flex flex-column gap-2 full-width col">
+
+             <input
+             pInputText
+             placeholder="Email"
+             id="emailM"
+             aria-describedby="email-help"
+             [(ngModel)]="emaill"
+             name="email"
+             #emailM="ngModel"
+             required
+           />
+           <div *ngIf="emailM.invalid && (emailM.dirty || emailM.touched)" class="error">
+             <small *ngIf="emailM.errors?.['required']">Email is required.</small>
+             <small *ngIf="emailM.errors?.['email']">Please enter a valid email address.</small>
+           </div>
+           </div>
+         </div>
+       <div  class="col-lg-6 col-sm-12 ">
+         <div class="flex flex-column gap-2 full-width col">
+           <input
+           id="waitPhone"
+           name="phone"
+           [(ngModel)]="phoneNumber"
+           required
+           #phone="ngModel"
+           placeholder="Phone"
+           class="form-control">
+       <div *ngIf="phone.invalid && (phone.dirty || phone.touched)" class="error">
+         <small *ngIf="phone.errors?.['required']">Phone number is required.</small>
+       </div>
+         </div>
+
+         <div class="flex flex-column gap-2 full-width col">
+         <input type="number" name="repeatCount" [(ngModel)]="repeatCount" (ngModelChange)="onRepeatCountChange()" id="repeatCount" min="1" placeholder="No Of Guests"  class="form-control" style="width:100%; height:100%; padding: 12px 10px"  />
+         </div>
+
+
+       </div>
+         </div>
+     </div>
+
+
+
+     <div class="sectionTwo">
+       <div class="waittext">
+         <p class="wp1">booking details.</p>
+         <p class="wp2">Please enter the booking details in the form provided below.</p>
+       </div>
+       <div class="row w-full ">
+
+         <div class="col-lg-6 col-sm-12 ">
+           <div class="flex flex-column gap-2 full-width col">
+             <p-calendar
+             [(ngModel)]="startDate"
+             [iconDisplay]="'input'"
+             [showIcon]="true"
+             placeholder="Add Start date" />
+
+
+           </div>
+
+           <!-----End Date input ------->
+           <div class="flex flex-column gap-2 full-width col">
+
+             <p-calendar
+             [(ngModel)]="endDate"
+             [iconDisplay]="'input'"
+             [showIcon]="true"
+             placeholder="Add End date"
+              ></p-calendar>
+           </div>
+         </div>
+       <div  class="col-lg-6 col-sm-12 ">
+         <div class="flex flex-column gap-2 full-width col">
+           <p-dropdown
+           [options]="cities"
+           [(ngModel)]="selectedCity"
+           placeholder="Select a City" />
+         </div>
+
+         <div class="flex flex-column gap-2 full-width col">
+         <input type="number" name="repeatCount" [(ngModel)]="rentFee" (ngModelChange)="onRepeatCountChange()" id="repeatCount" min="1" placeholder="Maximum budget for rent ?"  class="form-control" style="width:100%; height:100%; padding: 12px 10px" />
+         </div>
+
+
+
+
+
+       </div>
+       <div class="w-full row mx-auto flex justify-content-center align-items-center p-0">
+         <textarea
+         rows="5"
+         cols="30"
+         pInputTextarea
+         [(ngModel)]="tellMore"
+         placeholder="Do you want to tell us more?">
+     </textarea>
+        </div>
+         </div>
+     </div>
+
+
+
+   <div *ngFor="let user of users; let i = index" class="sectionTwo">
+     <div class="waittext">
+       <p class="wp1">place your details here</p>
+       <p class="wp2">Please provide your name, email address, and phone number . </p>
+     </div>
+     <span class="spanwait">guests {{i+1}}</span>
+     <div class="row w-full  ">
+
+       <div class="col-lg-6 col-sm-12 ">
+         <div class="flex flex-column gap-2 full-width col">
+           <input
+               pInputText
+               id="username{{i}}"
+               aria-describedby="username-help"
+               [(ngModel)]="user.guest_Name"
+               name="username{{i}}"
+               #usernameI="ngModel"
+               required
+               placeholder="User Name"
+               minlength="3"/>
+
+           <div *ngIf="usernameI.invalid && (usernameI.dirty || usernameI.touched)" class="error">
+             <small *ngIf="usernameI.errors?.['required']">Username is required.</small>
+             <small *ngIf="usernameI.errors?.['minlength']">Username must be at least 3 characters long.</small>
+           </div>
+         </div>
+
+         <!-----phone input ------->
+         <div class="flex flex-column gap-2 full-width col">
+
+           <input
+           pInputText
+           placeholder="Email"
+           id="email{{i}}"
+           aria-describedby="email-help"
+           [(ngModel)]="user.guest_Email"
+           name="email{{i}}"
+           #emailI="ngModel"
+           required
+         />
+         <div *ngIf="emailI.invalid && (emailI.dirty || emailI.touched)" class="error">
+           <small *ngIf="emailI.errors?.['required']">Email is required.</small>
+           <small *ngIf="emailI.errors?.['email']">Please enter a valid email address.</small>
+         </div>
+         </div>
+       </div>
+     <div  class="col-lg-6 col-sm-12 ">
+       <div class="flex flex-column gap-2 full-width col">
+         <input
+         id="phone{{i}}"
+         name="phone{{i}}"
+         [(ngModel)]="user.guest_Phone"
+         required
+         #phoneI="ngModel"
+         placeholder="Phone"
+         class="form-control iti-phone-input" >
+     <div *ngIf="phoneI.invalid && (phoneI.dirty || phoneI.touched)" class="error">
+       <small *ngIf="phoneI.errors?.['required']">Phone number is required.</small>
+     </div>
+       </div>
+
+
+
+
+     </div>
+       </div>
+   </div>
+
+
+   <div class=" modal-footer container mt-4 d-flex justify-content-between" style="max-width: 948px;">
+
+     <button   class="btn btn-outline-dark custom-btn" style="background-color: #fff; text-transform: capitalize; font-weight: 300; color:#333" (click)="backstep()"   type="button">Back</button>
+
+     <button   class="btn btn-primary custom-btn" style="background-color: #1151B4; text-transform: capitalize; font-weight: 300;"  (click)="submitForm()"  >confirm</button><!--(click)="onSubmitBooking()" -->
+   </div>
+
+   <!-- </form> -->
+
+  </div>
+</p-dialog>
   <!-- <div   class="maponsmall"  >
 
         <div   id="googlemap-small"    >
@@ -752,3 +780,16 @@
     </div>
   </div>
 </div>
+
+<!-- <p-card header="Discover Student Accommodation"  >
+  <ng-template pTemplate="content">
+    <p>
+      Welcome to the best student accommodation platform in Berlin! Here you can find a variety of options tailored for students, with modern amenities and great locations.
+    </p>
+    <p>
+      Start your search now and enjoy a comfortable stay during your studies.
+    </p>
+  </ng-template>
+</p-card> -->
+
+ 

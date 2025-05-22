@@ -59,6 +59,14 @@ export class ApartmentListComponent implements OnInit {
   selectedOptions: string[] = [];
   selectedOptionsplace: any = [];
 
+  accordionData = [
+    { title: 'Student Accommodation Berlin 1', content: 'Details about accommodation option 1 in Berlin.' },
+    { title: 'Student Accommodation Berlin 2', content: 'Details about accommodation option 2 in Berlin.' },
+    { title: 'Student Accommodation Berlin 3', content: 'Details about accommodation option 3 in Berlin.' },
+    { title: 'Student Accommodation Berlin 4', content: 'Details about accommodation option 4 in Berlin.' },
+    { title: 'Student Accommodation Berlin 5', content: 'Details about accommodation option 5 in Berlin.' },
+  ];
+
 
 
 
@@ -68,11 +76,11 @@ export class ApartmentListComponent implements OnInit {
     console.log(this.single,this.double,this.rooms)
   }
   showPageLinks: boolean = true;
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any): void {
-    this.checkWindowSize(event.target.innerWidth);
+  // @HostListener('window:resize', ['$event'])
+  // onResize(event: any): void {
+  //   this.checkWindowSize(event.target.innerWidth);
 
-  }
+  // }
 fixxxx:boolean=false;
   checkWindowSize(width: number): void {
     // if (width < 600) {
@@ -156,7 +164,7 @@ fixxxx:boolean=false;
 
 
 
-    this.onWindowScroll();
+    // this.onWindowScroll();
     this.get_Google_Maps();
 
     // this.fixPriceRangeApi()
@@ -896,28 +904,28 @@ console.log('why')
 
 isVisible:boolean=true;
 
-  @HostListener('window:scroll', [])
-  onWindowScroll() {
-    const section1 = document.querySelector('.d-grid.out.section-to-watch') as HTMLElement;
-    const section2 = document.querySelector('.custom-footer.section-to-watch') as HTMLElement;
-    const mapElement = document.getElementById('googlemap');
+  // @HostListener('window:scroll', [])
+  // onWindowScroll() {
+  //   const section1 = document.querySelector('.d-grid.out.section-to-watch') as HTMLElement;
+  //   const section2 = document.querySelector('.custom-footer.section-to-watch') as HTMLElement;
+  //   const mapElement = document.getElementById('googlemap');
 
-    if ( section1 && section2 && mapElement) { 
-      const rect1 = section1.getBoundingClientRect();
-      const rect2 = section2.getBoundingClientRect();
-      const windowHeight = window.innerHeight;
+  //   if ( section1 && section2 && mapElement) { 
+  //     const rect1 = section1.getBoundingClientRect();
+  //     const rect2 = section2.getBoundingClientRect();
+  //     const windowHeight = window.innerHeight;
 
 
-      const section1Visible = rect1.top < windowHeight && rect1.bottom > 0;
-      const section2Visible = rect2.top < windowHeight && rect2.bottom > 0;
+  //     const section1Visible = rect1.top < windowHeight && rect1.bottom > 0;
+  //     const section2Visible = rect2.top < windowHeight && rect2.bottom > 0;
 
-      if (( section1Visible ||section2Visible)&&!this.fixxxx) {  
-        this.deactivateMap();
-      } else {
-        this.activateMap();
-      }
-    }
-  }
+  //     if (( section1Visible ||section2Visible)&&!this.fixxxx) {  
+  //       this.deactivateMap();
+  //     } else {
+  //       this.activateMap();
+  //     }
+  //   }
+  // }
   activateMap() {
     this.isVisible=true;
     const mapElement = document.getElementById('googlemap'); // استبدل 'map-id' بالمعرف الفعلي للعنصر
