@@ -27,6 +27,9 @@ import { AvatarModule } from 'primeng/avatar';
 import { AvatarGroupModule } from 'primeng/avatargroup';
 import { AuthModule } from '../auth/auth.module';
 
+import { SubscribeComponent } from '../../components/homeAPP/subscribe/subscribe.component';
+
+
 @NgModule({
   declarations: [
     HeaderComponent,
@@ -57,7 +60,8 @@ import { AuthModule } from '../auth/auth.module';
     ChipModule,
     AvatarModule,
     AvatarGroupModule,
-    AuthModule
+    AuthModule,
+    SubscribeComponent
   ],
   exports: [
     HeaderComponent,

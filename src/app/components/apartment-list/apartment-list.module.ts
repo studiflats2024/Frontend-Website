@@ -18,7 +18,7 @@ import { DialogModule } from 'primeng/dialog';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { InputTextareaModule } from 'primeng/inputtextarea';
-
+import { AccordionModule } from 'primeng/accordion';
 
 
 
@@ -47,6 +47,7 @@ const routes: Routes = [
     InputTextModule,
     CalendarModule ,
     InputTextareaModule,
+    AccordionModule,
     RouterModule.forChild(routes),
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
