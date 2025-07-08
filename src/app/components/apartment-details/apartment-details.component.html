@@ -261,12 +261,17 @@
           </div>
           <div *ngIf="aprt.apartment_Description" class="description-title">Descriptions</div>
 
-          <div class="description-content">
-            <span>{{ isFullDescription ? aprt.apartment_Description : truncatedDescription }}</span>
+          <div *ngIf="aprt.apartment_Description!==''"  class="description-content">
+            <!-- <span>{{ isFullDescription ? aprt.apartment_Description : truncatedDescription }}</span> -->
+            <!-- <span>{{  truncatedDescription }}</span>  -->
+
+            <span>{{  getTruncatedDescription(aprt.apartment_Description, 100)}}</span>
 
           </div>
-          <div class="read-more text-decoration-none"><a href="#" (click)="toggleDescription($event)" *ngIf="isFullDescription">
-            Read More. . .
+          <!-- <div class="read-more text-decoration-none"><a href="#" *ngIf="isFullDescription" (click)="toggleDescription()"> -->
+          <div *ngIf="aprt.apartment_Description!==''" class="read-more text-decoration-none" style="cursor: pointer;"><a  class="text-decoration-none" (click)="toggleDescription()">
+
+             {{ isExpanded ? 'Show Less' : 'Show More' }}
           </a> </div>
           <!-- <hr  /> -->
 

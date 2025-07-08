@@ -54,7 +54,7 @@ const routes: Routes = [
   // },
   {
     path: 'blogs',
-    component: BlogsComponent  
+    component: BlogsComponent
   },
   {
     path: 'blog-details/:slug',
@@ -73,6 +73,16 @@ const routes: Routes = [
     path: 'privacy-policy', loadComponent: () =>  import('./components/privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent) // Lazy load FAQ module
   },
   { path: 'Share/:code', component: ShareDeepLinkComponentComponent },
+
+{
+    path: 'Download',
+    loadChildren: () =>
+      import('./device-redirect/device-redirect.module')
+        .then(m => m.DeviceRedirectModule)
+  },
+
+  // Optional: make /download (lowercase) redirect to /Download
+  { path: 'download', redirectTo: 'Download', pathMatch: 'full' }
 
 
 ];

@@ -3094,19 +3094,37 @@ console.log(this.maxCheckOut);
 
   truncatedDescription: string = '';
   isFullDescription: boolean = false;
-  getTruncatedDescription(text: string, wordLimit: number): string {
-    const words = text.split(' ');
-    // console.log(words)
-    if (words.length <= wordLimit) {
-      return text;
-    }
-    return words.slice(0, wordLimit).join(' ') + '...';
+  // getTruncatedDescription(text: string, wordLimit: number): string {
+  //   const words = text.split(' ');
+     
+  //   if (words.length <= wordLimit) {
+  //     return text;
+  //   }
+  //   return words.slice(0, wordLimit).join(' ') + '...';
+  // }
+  isExpanded: boolean = false;
+
+getTruncatedDescription(text: string, wordLimit: number): string {
+  if (this.isExpanded) {
+    return text; // عرض كامل
   }
 
-  toggleDescription(event: Event): void {
-    event.preventDefault();
-    this.isFullDescription = true;
+  const words = text.split(' ');
+  if (words.length <= wordLimit) {
+    return text;
   }
+  return words.slice(0, wordLimit).join(' ') + '...';
+}
+
+toggleDescription() {
+  this.isExpanded = !this.isExpanded;
+}
+
+
+  // toggleDescription(event: Event): void {
+  //   event.preventDefault();
+  //   this.isFullDescription = true;
+  // }
 
 
   showAllTransports: boolean = false;
