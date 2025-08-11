@@ -5,6 +5,7 @@ import {BlogDetailsComponent}from './components/blog-details/blog-details.compon
 import { SitemapComponent } from '../sitemap-generator/sitemap.component';
 import { ShareDeepLinkComponentComponent } from './components/ShareDeepLinkComponent/ShareDeepLinkComponent.component';
 import { BlogResolver } from './resolvers/blog.resolver';
+import { deviceRedirectGuard } from './device-redirect/device-redirect.guard';
 
 const routes: Routes = [
   { path: 'sitemap', component: SitemapComponent },
@@ -72,7 +73,12 @@ const routes: Routes = [
   {
     path: 'privacy-policy', loadComponent: () =>  import('./components/privacy-policy/privacy-policy.component').then(m => m.PrivacyPolicyComponent) // Lazy load FAQ module
   },
-  { path: 'Share/:code', component: ShareDeepLinkComponentComponent },
+  // { path: 'Share/:code', component: ShareDeepLinkComponentComponent },
+  { 
+  path: 'Share/:code',
+  canActivate: [deviceRedirectGuard],         // ✅ ضيفي الجارد هنا
+  component: ShareDeepLinkComponentComponent
+},
 
 {
     path: 'Download',

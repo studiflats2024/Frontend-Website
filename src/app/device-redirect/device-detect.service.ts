@@ -9,6 +9,7 @@ export class DeviceDetectService {
   constructor(private readonly dd: DeviceDetectorService) {}
 
   get platform(): Platform {
+    console.log('Detected OS:', this.dd.os);
     if (this.dd.os === 'iOS')      { return 'ios';     }
     if (this.dd.os === 'Android')  { return 'android'; }
     return 'other';
