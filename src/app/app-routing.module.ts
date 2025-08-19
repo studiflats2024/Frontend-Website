@@ -76,7 +76,7 @@ const routes: Routes = [
   // { path: 'Share/:code', component: ShareDeepLinkComponentComponent },
   { 
   path: 'Share/:code',
-  canActivate: [deviceRedirectGuard],         // ✅ ضيفي الجارد هنا
+  canActivate: [deviceRedirectGuard],         
   component: ShareDeepLinkComponentComponent
 },
 
