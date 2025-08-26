@@ -3,7 +3,7 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { UserService,UserAccount } from '../../services/user.service';
 import {  MessageService } from 'primeng/api';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Globals, isValidEmail } from '../../globals/global';
 import { ApartmentSearchService } from '../../services/apartment-search.service';
 import { AuthService } from '../../services/auth.service';
@@ -392,7 +392,11 @@ export class AuthComponent {
         birthday: ['', Validators.required],
         mobile:['']
       });
-      this.http.get<any>('https://restcountries.com/v3.1/all').subscribe((data) => {
+      this.http.get<any>('https://restcountries.com/v3.1/all',  {
+    // اطبي الحقول اللي فعلاً محتاجاها
+    params: new HttpParams().set('fields', 'name,cca2,cca3,idd,flags'),
+    
+  }).subscribe((data) => {
         console.log(data);
         this.countries = data.map((country:any) => ({
           name: country.name.common,

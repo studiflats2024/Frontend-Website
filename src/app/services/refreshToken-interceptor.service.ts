@@ -20,6 +20,10 @@ import {
     constructor(private authService: AuthService) {}
   
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+       if (req.url.startsWith('https://restcountries.com')) {
+    return next.handle(req); // ما تضيفيش هيدرز/تعديلات
+  }
+  
       return next.handle(req).pipe(
         
         catchError((error: HttpErrorResponse) => {

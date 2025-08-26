@@ -7,6 +7,9 @@ export class PrerenderInterceptor implements HttpInterceptor {
   private excludedUrls = ['https://www.primefaces.org/cdn/api/upload.php'];
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+     if (request.url.startsWith('https://restcountries.com')) {
+    return next.handle(request); // ما تضيفيش هيدرز/تعديلات
+  }
 
        // Check if the request URL matches any excluded URL
        if (this.excludedUrls.some(url => request.url.includes(url))) {

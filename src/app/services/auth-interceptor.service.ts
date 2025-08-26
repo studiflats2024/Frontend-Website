@@ -49,6 +49,7 @@ import {
 import { Observable, from } from 'rxjs';
 import { switchMap, catchError  } from 'rxjs/operators';
 import { MessagingService } from './messaging.service';
+import { isExternalUrl } from './interceptor-helper';
 
 @Injectable()
 export class AuthInterceptorService implements HttpInterceptor {
@@ -61,6 +62,11 @@ export class AuthInterceptorService implements HttpInterceptor {
     const excludedUrls = ['https://www.primefaces.org/cdn/api/upload.php'];
 
      
+    //////////////////////////////////////////////////////////
+      if (request.url.startsWith('https://restcountries.com')) {
+    return next.handle(request); // ما تضيفيش هيدرز/تعديلات
+  }
+    //////////////////////////////////////////////////////////////////
     // if (excludedUrls.some(url => request.url.includes(url))) {
     //   return next.handle(request);  
     // }

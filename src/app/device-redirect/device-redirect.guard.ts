@@ -20,6 +20,7 @@ export const deviceRedirectGuard: CanActivateFn = (
       return false;
     default:
       // Let Angular continue to a fallback route / component
-      return router.parseUrl(DESKTOP_LANDING);
+      // return router.parseUrl(DESKTOP_LANDING);
+      return true;
   }
 };

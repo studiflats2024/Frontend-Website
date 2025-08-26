@@ -51,6 +51,10 @@ export class MaintenanceInterceptor implements HttpInterceptor {
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
+     if (req.url.startsWith('https://restcountries.com')) {
+    return next.handle(req); // ما تضيفيش هيدرز/تعديلات
+  }
+
       // Check if the URL is in the excluded list
       if (this.excludedUrls.some(url => req.url.includes(url))) {
         console.log('MaintenanceInterceptor: Skipping excluded URL:', req.url);
