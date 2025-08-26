@@ -1,9 +1,9 @@
-name: 🚀 Deploy Development Website to Remote VPS IIS
+name: 🚀 Deploy Production Website to Remote VPS IIS
 
 on:
   push:
     branches:
-      - Development
+      - Production
   workflow_dispatch:  # Allows manual trigger
 
 jobs:
@@ -41,7 +41,7 @@ jobs:
           server_port: 587
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "Workflow Started: ${{ github.workflow }} on ${{ github.ref }} Website Development"
+          subject: "Workflow Started: ${{ github.workflow }} on ${{ github.ref }} Website Production"
           body: |
             🚀 The workflow **${{ github.workflow }}** has started on branch **${{ github.ref }}**.
             🏢 Repository: **${{ github.repository }}**
@@ -88,7 +88,7 @@ jobs:
         username: ${{ secrets.IIS_USER }}
         password: ${{ secrets.IIS_PASSWORD }}
         source: "website.zip"
-        target: "C:\\inetpub\\wwwroot\\Frontend\\Websitie\\Development"
+        target: "C:\\inetpub\\wwwroot\\Frontend\\Websitie\\Prod"
 
     - name: 🚀 Deploy to IIS Website on Remote Server
       uses: appleboy/ssh-action@master
@@ -97,7 +97,7 @@ jobs:
         username: ${{ secrets.IIS_USER }}
         password: ${{ secrets.IIS_PASSWORD }}
         script: |
-          powershell.exe -ExecutionPolicy Bypass -File C:\AirflowTasks\WebsiteDevelopmentDeploy.ps1
+          powershell.exe -ExecutionPolicy Bypass -File C:\AirflowTasks\WebsiteProductionDeploy.ps1
     
  # Step to send "Workflow Started" email notification
     - name: 🚀 Send mail notification (Workflow Finished)
@@ -108,7 +108,7 @@ jobs:
           server_port: 587
           username: ${{ secrets.SMTP_USERNAME }}
           password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "Workflow ${{ job.status }} : ${{ github.workflow }} on ${{ github.ref }} Website Development"
+          subject: "Workflow ${{ job.status }} : ${{ github.workflow }} on ${{ github.ref }} Website Production"
           body: |
             🚀 The workflow **${{ github.workflow }}** has ${{ job.status }} on branch **${{ github.ref }}**.
             🏢 Repository: **${{ github.repository }}**

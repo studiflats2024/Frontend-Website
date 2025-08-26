@@ -1,6 +1,6 @@
 // src/app/device-redirect/device-redirect.guard.ts
 import { inject } from '@angular/core';
-import { CanActivateFn, Router, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivateFn, Router, UrlTree } from '@angular/router';
 
 import { DeviceDetectService } from './device-detect.service';
 import { APP_STORE_URL, PLAY_STORE_URL, DESKTOP_LANDING } from './store-links';
@@ -10,6 +10,9 @@ export const deviceRedirectGuard: CanActivateFn = (
 ): boolean | UrlTree => {
   const device = inject(DeviceDetectService);
   const router = inject(Router);
+  // const route = inject(ActivatedRouteSnapshot);
+
+  // const code = route.paramMap.get('code');
 
   switch (device.platform) {
     case 'ios':
@@ -21,6 +24,9 @@ export const deviceRedirectGuard: CanActivateFn = (
     default:
       // Let Angular continue to a fallback route / component
       // return router.parseUrl(DESKTOP_LANDING);
-      return true;
+      //  return router.parseUrl(`/apartment-details/${code}`);
+    // router.navigate(['/apartment-details', code]);
+    return true;
+
   }
 };

@@ -59,13 +59,63 @@ export class ApartmentListComponent implements OnInit {
   selectedOptions: string[] = [];
   selectedOptionsplace: any = [];
 
-  accordionData = [
-    { title: 'Student Accommodation Berlin 1', content: 'Details about accommodation option 1 in Berlin.' },
-    { title: 'Student Accommodation Berlin 2', content: 'Details about accommodation option 2 in Berlin.' },
-    { title: 'Student Accommodation Berlin 3', content: 'Details about accommodation option 3 in Berlin.' },
-    { title: 'Student Accommodation Berlin 4', content: 'Details about accommodation option 4 in Berlin.' },
-    { title: 'Student Accommodation Berlin 5', content: 'Details about accommodation option 5 in Berlin.' },
+  // accordionData = [
+  //   { title: 'Student Accommodation Berlin 1', content: 'Details about accommodation option 1 in Berlin.' },
+  //   { title: 'Student Accommodation Berlin 2', content: 'Details about accommodation option 2 in Berlin.' },
+  //   { title: 'Student Accommodation Berlin 3', content: 'Details about accommodation option 3 in Berlin.' },
+  //   { title: 'Student Accommodation Berlin 4', content: 'Details about accommodation option 4 in Berlin.' },
+  //   { title: 'Student Accommodation Berlin 5', content: 'Details about accommodation option 5 in Berlin.' },
+  // ];
+   accordionData = [
+    {
+      title: 'When is the best time to book student accommodation in Berlin?',
+      content:
+        'The ideal time to start searching for student accommodation in Berlin is 3–4 months before your intended move-in date. While options are available year-round, early booking ensures access to the best studio flats and shared apartments. Many international and first-year students begin their search in January, as providers list properties for the upcoming academic year. Early movers enjoy a wider selection and better deals on Studiflats.',
+    },
+    {
+      title: 'What types of student accommodation does Studiflats offer in Berlin?',
+      content:
+        'Studiflats provides a variety of housing options to match every student’s lifestyle and budget:' +
+        '• Private Studio Apartments: Fully self-contained units with a bedroom, kitchenette, and private bathroom. Ideal for solo living and maximum privacy.\n' +
+        '• Single Rooms: Perfect for students seeking a private sleeping space with access to shared facilities.\n' +
+        '• Shared Accommodation (WGs): Includes a private study/sleep area with shared kitchen and common spaces.\n' +
+        '• 1/2/3-Bedroom Flats: Great for students looking to live with friends or flatmates, offering separate bedrooms, a kitchen, and bathrooms.\n' +
+        '• Short-Term Stays: Need a place for a summer course or internship? Filter listings by “Duration” and “Move-in Month,” or contact our team for flexible options.',
+    },
+    {
+      title: 'How can I find affordable student flats in Berlin?',
+      content:
+        'Finding a budget-friendly apartment in Berlin is easy with Studiflats:\n\n' +
+        '• Use Filters: Search by price, room type, location, and move-in date to match your exact needs.\n' +
+        '• Explore Listings: View high-quality images, detailed descriptions, and rental terms.\n' +
+        '• Book or Inquire: Use the “Apply Now” or “Enquire Now” buttons, and our advisors will guide you through the process—stress-free.',
+    },
+    {
+      title: 'How much does student accommodation cost in Berlin?',
+      content:
+        'On average, rent for student accommodation in Berlin is around €1,150/month. Here’s a general breakdown:\n\n' +
+        '• Studio Apartment: From €1,200/month\n' +
+        '• Single Room: Around €550/month\n' +
+        '• Shared Flat (WG): From €450/month\n\n' +
+        'Prices may vary based on location, amenities, and property type.',
+    },
+    {
+      title: 'Are there discounts available on Studiflats?',
+      content:
+        'Yes! Studiflats offers exclusive deals throughout the year:\n\n' +
+        '• Early Bird Discounts for advance bookings\n' +
+        '• Group Booking Offers\n' +
+        '• Cashback and Voucher Codes\n' +
+        '• Seasonal Promotions\n\n' +
+        'Bookmark your favorite listings and keep an eye on special deals.',
+    },
+    {
+      title: 'What’s the most affordable student housing option in Berlin?',
+      content:
+        'For budget-conscious students, shared flats (WGs) are the most economical. You share living spaces and amenities while paying significantly less than for private studios. Studiflats can also help you match with roommates—whether from your home country or your university.',
+    },
   ];
+  
 
 
 
