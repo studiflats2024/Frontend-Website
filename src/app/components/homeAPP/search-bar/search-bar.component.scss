@@ -431,17 +431,37 @@
 }
 
 @media (max-width: 75rem) {
-  .search-fields .field:nth-child(2), .search-fields .field:nth-child(3) {
-    display: none;
+  // .search-fields .field:nth-child(2), .search-fields .field:nth-child(3) {
+  //   display: none;
+  // }
+  // .search-fields{
+  //   flex-direction: column;
+  // }
+
+    .search-fields {
+    display: flex;
+    padding: 0;
+    // gap: 0.625rem;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    // flex-wrap: wrap;
+    border-radius: 0.625rem; /* 10px */
+    position: relative;
+    z-index: 10;
+    width:690px;
   }
 }
 
 @media (max-width: 47.9375rem) {
-  .search-fields .field:nth-child(3), .search-fields .field:nth-child(4) {
-    display: none;
+  // .search-fields .field:nth-child(3), .search-fields .field:nth-child(4) {
+  //   display: none;
+  // }
+  .search-fields{
+    flex-direction: column;
   }
   .search-button {
-    width: 6rem; /* 135px */
+    width: 100% !important; /* 135px */
     background-color: #08509d;
     color: white;
     border: none;
@@ -451,6 +471,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem; /* 8px */
   }
   .search-fields {
@@ -466,6 +487,41 @@
     z-index: 10;
     width:290px;
   }
+  .search-fields{
+    flex-direction: column;
+  }
+  .field{
+    width: 100% !important;
+    border-bottom: 1px solid #eee;
+  }
+
+
+
+ 
+.field:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  right: -0.3125rem; /* 5px */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3.125rem; /* 50px */
+  width: 0; /* 1px */
+  background-color: #ddd;
+}
+
+.field:nth-child(4)::before {
+  display: none;
+}
+
+.field:nth-child(4){
+  width: 100% !important;
+}
+.field:nth-child(1){
+  width: 100% !important;
+}
+
+
+  
 }
 :host ::ng-deep .p-calendar .p-datepicker {
   top: 100% !important; /* Example: Adjusting the position */
