@@ -19,7 +19,7 @@ import { Apartment } from '../../../models/apartment.model';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ApartmentSearchService } from '../../../services/apartment-search.service';
-import { DOCUMENT } from '@angular/common';
+ 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
@@ -54,10 +54,9 @@ export class SearchBarComponent {
   disabledDates: Date[] = [];
   requestDataFromSearch:any;
 
-   bodyEl!: HTMLElement;
-  isMobile = window.matchMedia('(max-width: 768px)').matches;
+  
 
-  constructor(@Inject(DOCUMENT) doc: Document,private apartmentService: ApartmentService, private router: Router,private messageService: MessageService, private apartmentSearchService: ApartmentSearchService) {
+  constructor( private apartmentService: ApartmentService, private router: Router,private messageService: MessageService, private apartmentSearchService: ApartmentSearchService) {
     
     // const minDate = new Date(this.checkInDate!);
     // minDate.setMonth(minDate.getMonth() + 1);
