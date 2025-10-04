@@ -431,17 +431,47 @@
 }
 
 @media (max-width: 75rem) {
-  .search-fields .field:nth-child(2), .search-fields .field:nth-child(3) {
-    display: none;
+  // .search-fields .field:nth-child(2), .search-fields .field:nth-child(3) {
+  //   display: none;
+  // }
+  // .search-fields{
+  //   flex-direction: column;
+  // }
+
+    .search-fields {
+    display: flex;
+    padding: 0;
+    // gap: 0.625rem;
+    background-color: white;
+    justify-content: center;
+    align-items: center;
+    // flex-wrap: wrap;
+    border-radius: 0.625rem; /* 10px */
+    position: relative;
+    z-index: 10;
+    width:690px;
   }
 }
 
+ .mobile-only {
+    max-height: none  ;
+    opacity: 1;
+    pointer-events: auto ;
+    transform: none ;
+  }
+
 @media (max-width: 47.9375rem) {
-  .search-fields .field:nth-child(3), .search-fields .field:nth-child(4) {
-    display: none;
+  // .search-fields .field:nth-child(3), .search-fields .field:nth-child(4) {
+  //   display: none;
+  // }
+  .search-bar{
+    padding-bottom: 0.9375rem;;
+  }
+  .search-fields{
+    flex-direction: column;
   }
   .search-button {
-    width: 6rem; /* 135px */
+    width: 100% !important; /* 135px */
     background-color: #08509d;
     color: white;
     border: none;
@@ -451,6 +481,7 @@
     cursor: pointer;
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem; /* 8px */
   }
   .search-fields {
@@ -466,7 +497,87 @@
     z-index: 10;
     width:290px;
   }
+  .search-fields{
+    flex-direction: column;
+    gap:20px;
+  }
+  .field{
+    width: 100% !important;
+    border-bottom: 1px solid #eee;
+    padding-left: 0;
+    margin-bottom: 0 !important;
+  }
+
+
+
+ 
+.field:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  right: -0.3125rem; /* 5px */
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3.125rem; /* 50px */
+  width: 0; /* 1px */
+  background-color: #ddd;
 }
+
+.field:nth-child(4)::before {
+  display: none;
+}
+
+.field:nth-child(4){
+  width: 100% !important;
+}
+.field:nth-child(1){
+  width: 100% !important;
+}
+
+/*******************************************************/
+
+/* Collapsible fields default hidden on mobile */
+.collapsible {
+  transition: all 0.3s ease;
+}
+
+/* Only hide on mobile */
+.mobile-only {
+  max-height: 0;
+  opacity: 0;
+  display: none;
+  // overflow: hidden;
+  pointer-events: none;
+  // transform: translateY(-6px);
+  transition: max-height 300ms ease, opacity 250ms ease, transform 250ms ease;
+}
+
+/* Expand when focused */
+.mobile-only.open {
+  max-height: 120px;
+  opacity: 1;
+  display: block;
+//  overflow: visible; 
+  pointer-events: auto;
+  // transform: translateY(0);
+  transition: max-height 300ms ease, opacity 250ms ease, transform 250ms ease;
+
+}
+
+.guests-picker{
+  position: relative;
+  z-index: 9999999 !important;
+}
+
+  
+}
+
+
+
+ 
+
+
+
+  
 :host ::ng-deep .p-calendar .p-datepicker {
   top: 100% !important; /* Example: Adjusting the position */
 }

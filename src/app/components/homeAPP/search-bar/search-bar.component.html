@@ -1,16 +1,27 @@
-<div class="search-bar smooth-transition"  (click)="onSearchBarClick($event)">
+<div class="search-bar smooth-transition" (click)="onSearchBarClick($event)">
   <div class="search-fields">
-    <div class="field">
+    <div class="field collapsible mobile-only" [class.open]="showExtra">
       <label for="city">City</label>
-      <input type="text" [value]="selectedCity" id="city" [placeholder]="selectedCity!==''?selectedCity:'Where are you going?'" (click)="showPicker('city')"  readonly>
+      <input
+        type="text"
+        [value]="selectedCity"
+        id="city"
+        [placeholder]="
+          selectedCity !== '' ? selectedCity : 'Where are you going?'
+        "
+        (click)="showPicker('city')"
+        readonly
+      />
       <!-- <div style="width:100px" *ngIf="toggle" class="date-picker ">
         <ul style="list-style-type: none;" >
           <li >Berlin</li>
         </ul>
       </div> -->
-      <div style="width: 100px;" *ngIf="toggle" class="date-pickerr">
+      <div style="width: 100px" *ngIf="toggle" class="date-pickerr guests-picker">
         <ul class="city-picker-list">
-          <li class="city-picker-item"  (click)="selectCity('Berlin')">Berlin</li>
+          <li class="city-picker-item" (click)="selectCity('Berlin')">
+            Berlin
+          </li>
           <!-- Add more cities as needed -->
         </ul>
       </div>
@@ -18,50 +29,84 @@
     <div class="field">
       <label for="check-in date">Check in</label>
 
-      <p-calendar [(ngModel)]="checkInDate" placeholder="Add dates"  (click)="hidePicker('city')"  [minDate]="today" [disabledDates]="disabledDates"
-      (onSelect)="onCheckInDateSelect()"></p-calendar><!--(focus)="showPicker('check-in')-->
+      <p-calendar
+        (onFocus)="onCheckInFocus()"
+        [(ngModel)]="checkInDate"
+        placeholder="Add dates"
+        (click)="hidePicker('city')"
+        [minDate]="today"
+        [disabledDates]="disabledDates"
+        (onSelect)="onCheckInDateSelect()"
+
+
+      ></p-calendar
+      ><!--(focus)="showPicker('check-in')-->
     </div>
-    <div class="field date">
+    <div class="field date collapsible mobile-only" [class.open]="showExtra">
       <label for="check-out">Check out</label>
 
-      <p-calendar [(ngModel)]="checkOutDate" placeholder="Add dates" (click)="hidePicker('city')"  [minDate]="checkOutMinDate"></p-calendar><!--(focus)="showPicker('check-out')"-->
+      <p-calendar
+        [(ngModel)]="checkOutDate"
+        placeholder="Add dates"
+        (click)="hidePicker('city')"
+        [minDate]="checkOutMinDate"
+      ></p-calendar
+      ><!--(focus)="showPicker('check-out')"-->
     </div>
-    <div class="field">
+    <div class="field collapsible mobile-only" [class.open]="showExtra">
       <label for="guests">Guests</label>
 
-      <input type="text" (click)="onFocusGuests()" [placeholder]="guests > 0 ? guests : 'Add guests'"   readonly  >
-      <div *ngIf="showGuestsPicker" class="guests-picker"  (keydown)="onGuestsKeyDown($event)">
+      <input
+        type="text"
+        (click)="onFocusGuests()"
+        [placeholder]="guests > 0 ? guests : 'Add guests'"
+        readonly
+      />
+      <div
+        *ngIf="showGuestsPicker"
+        class="guests-picker"
+        (keydown)="onGuestsKeyDown($event)"
+      >
+        <p-floatLabel>
+          <div
+            class="d-flex justify-content-between fix"
+            style="
+              display: flex;
+              align-items: center;
+              position: absolute !important;
+              top: 100%;
+              z-index: 1000;
+              background: white;
+              border: 1px solid #ccc;
+              border-radius: 8px;
 
-
- <p-floatLabel>
-
-  <div class="d-flex justify-content-between fix " style="display: flex; align-items: center;  position: absolute !important;
-  top: 100%;
-  z-index: 1000;
-  background: white;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
-  display: flex;
-width: 300px;
-padding: 10px 10px;
-">
-
-    <span>Guests</span>
-    <p-inputNumber [(ngModel)]="guests" [showButtons]="true" [min]="0" [max]="10" buttonLayout="horizontal" inputId="horizontal" spinnerMode="horizontal" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
-
-    </p-inputNumber>
-  </div>
-</p-floatLabel>
-
-
-
-
+              box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+              display: flex;
+              width: 300px;
+              padding: 10px 10px;
+            "
+          >
+            <span>Guests</span>
+            <p-inputNumber
+              [(ngModel)]="guests"
+              [showButtons]="true"
+              [min]="0"
+              [max]="10"
+              buttonLayout="horizontal"
+              inputId="horizontal"
+              spinnerMode="horizontal"
+              incrementButtonIcon="pi pi-plus"
+              decrementButtonIcon="pi pi-minus"
+            >
+            </p-inputNumber>
+          </div>
+        </p-floatLabel>
       </div>
     </div>
     <div class="field">
-      <button class="search-button" (click)="onSearchBarSubmit()"><i class="fa fa-search"></i> Search</button>
+      <button class="search-button" (click)="onSearchBarSubmit()">
+        <i class="fa fa-search"></i> Search
+      </button>
     </div>
   </div>
 </div>

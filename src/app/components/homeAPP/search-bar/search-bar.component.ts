@@ -11,7 +11,7 @@
 
 // }
 
-import { Component, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, HostListener, Output, EventEmitter, Inject } from '@angular/core';
 
 import { Router } from '@angular/router';
 import { ApartmentService } from '../../../services/apartment.service';
@@ -19,7 +19,7 @@ import { Apartment } from '../../../models/apartment.model';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ApartmentSearchService } from '../../../services/apartment-search.service';
-
+ 
 @Component({
   selector: 'app-search-bar',
   templateUrl: './search-bar.component.html',
@@ -53,7 +53,11 @@ export class SearchBarComponent {
   toggle:boolean=false;
   disabledDates: Date[] = [];
   requestDataFromSearch:any;
-  constructor(private apartmentService: ApartmentService, private router: Router,private messageService: MessageService, private apartmentSearchService: ApartmentSearchService) {
+
+  
+
+  constructor( private apartmentService: ApartmentService, private router: Router,private messageService: MessageService, private apartmentSearchService: ApartmentSearchService) {
+    
     // const minDate = new Date(this.checkInDate!);
     // minDate.setMonth(minDate.getMonth() + 1);
     // this.checkInDate=minDate
@@ -172,5 +176,12 @@ export class SearchBarComponent {
 
 
     return d.toISOString().split('T')[0]; // Format as YYYY-MM-DD
+  }
+
+
+   showExtra = false;
+
+  onCheckInFocus() {
+    this.showExtra = true; // expand hidden fields on mobile
   }
 }

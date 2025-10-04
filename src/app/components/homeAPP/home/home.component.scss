@@ -910,13 +910,14 @@ line-height: 28px; /* 155.556% */
   background-size: cover;         /* هذا هو المطلوب */
   background-position: center;
   width: 100%;
-  height: 37.5rem; /* أو أي ارتفاع مناسب */
+  // height: 37.5rem;  
+  padding-top: 170px;
 }
  
 
-@media (max-width: 480px) {
-  .hero-section {
-    height: 33rem; // قيمة أصغر للموبايل الصغير
-  }
-}
+// @media (max-width: 480px) {
+//   .hero-section {
+//     height: 33rem;  
+//   }
+// }
 
