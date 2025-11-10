@@ -117,6 +117,7 @@ line-height: 1.625rem;
   padding: 40px;
   padding-bottom: 0px;
   width:200px !important;
+  height: 500px;
 }
 
 .contact-form .form-group {
@@ -223,4 +224,27 @@ line-height: 1.625rem;
   .contact-item .icon {
     margin-bottom: 10px;
   }
+}
+
+
+
+.reach-title {
+  font-size:20px;
+  font-weight: 500;
+  color: #0A0C0F;
+  text-align: center;
+  margin: 0 0 20px;
+  letter-spacing: -0.5px;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+}
+
+.reach-title::after {
+  content: "";
+  display: block;
+  width: 80px;
+  height: 4px;
+  margin: 12px auto 0;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #1151B4, #3AA2FF);
 }
