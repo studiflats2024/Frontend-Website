@@ -34,24 +34,7 @@ jobs:
           zip -r ../../../website.zip .  # ✅ Create ZIP in repo root
 
    # Step to send "Workflow Started" email notification
-    - name: 🚀 Send mail notification (Workflow Started)
-      if: always()
-      uses: dawidd6/action-send-mail@v3
-      with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.SMTP_USERNAME }}
-          password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "Workflow Started: ${{ github.workflow }} on ${{ github.ref }} Website Development"
-          body: |
-            🚀 The workflow **${{ github.workflow }}** has started on branch **${{ github.ref }}**.
-            🏢 Repository: **${{ github.repository }}**
-            👤 Pushed by: **${{ github.actor }}**
-            🔗 Commit: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-            📅 Timestamp: **${{ github.event.head_commit.timestamp }}**
-          to: ${{ secrets.Dev_Mails }}
-          from: "StudiFlat_Automation <${{ secrets.SMTP_USERNAME }}>"
-          secure: false
+   
     - name: 🚀 Send WhatsApp Message (Workflow Started)
       if: always()
       run: |
@@ -101,25 +84,7 @@ jobs:
           powershell.exe -ExecutionPolicy Bypass -File C:\AirflowTasks\WebsiteDevelopmentDeploy.ps1
     
  # Step to send "Workflow Started" email notification
-    - name: 🚀 Send mail notification (Workflow Finished)
-      if: always()
-      uses: dawidd6/action-send-mail@v3
-      with:
-          server_address: smtp.gmail.com
-          server_port: 587
-          username: ${{ secrets.SMTP_USERNAME }}
-          password: ${{ secrets.SMTP_PASSWORD }}
-          subject: "Workflow ${{ job.status }} : ${{ github.workflow }} on ${{ github.ref }} Website Development"
-          body: |
-            🚀 The workflow **${{ github.workflow }}** has ${{ job.status }} on branch **${{ github.ref }}**.
-            🏢 Repository: **${{ github.repository }}**
-            👤 Pushed by: **${{ github.actor }}**
-            🔗 Commit: [${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
-            📅 Timestamp: **${{ github.event.head_commit.timestamp }}**
-            📶 Status: ${{ job.status }}
-          to: ${{ secrets.Dev_Mails }}
-          from: "StudiFlat_Automation <${{ secrets.SMTP_USERNAME }}>"
-          secure: false
+    
     - name: 🚀 Send WhatsApp Message (Workflow Finished)
       if: always()
       run: |
