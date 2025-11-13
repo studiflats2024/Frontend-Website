@@ -6,6 +6,7 @@ import { SitemapComponent } from '../sitemap-generator/sitemap.component';
 import { ShareDeepLinkComponentComponent } from './components/ShareDeepLinkComponent/ShareDeepLinkComponent.component';
 import { BlogResolver } from './resolvers/blog.resolver';
 import { deviceRedirectGuard } from './device-redirect/device-redirect.guard';
+ 
 
 const routes: Routes = [
   { path: 'sitemap', component: SitemapComponent },
@@ -14,6 +15,9 @@ const routes: Routes = [
   },
   {
      path: 'contact', loadChildren: () => import('./components/contact/contact.module').then(m => m.ContactModule)
+  },
+  {
+     path: 'job-offer-form', loadChildren: () => import('./components/outPages/job-offer-form/job-offer.module').then(m => m.JobOfferModule)
   },
   {
     path: 'faq', loadChildren: () => import('./components/faq/faq.module').then(m => m.FaqModule) // Lazy load FAQ module

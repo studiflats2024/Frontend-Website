@@ -30,6 +30,7 @@
     "bootstrap": "^5.3.3",
     "cors": "^2.8.5",
     "express": "^4.21.2",
+    "intl-tel-input": "^25.12.5",
     "jquery": "^3.7.1",
     "ngx-device-detector": "^10.0.2",
     "primeflex": "^3.3.1",
