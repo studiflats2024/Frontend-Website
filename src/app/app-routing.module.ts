@@ -20,6 +20,12 @@ const routes: Routes = [
      path: 'job-offer-form', loadChildren: () => import('./components/outPages/job-offer-form/job-offer.module').then(m => m.JobOfferModule)
   },
   {
+     path: 'accommodation-form', loadChildren: () => import('./components/outPages/accommodation-form/accommodation.module').then(m => m.AccommodationModule)
+  },
+   {
+     path: 'german-course-form', loadChildren: () => import('./components/outPages/german-coure-form/german-course.module').then(m => m.GermanCourseModule)
+  },
+  {
     path: 'faq', loadChildren: () => import('./components/faq/faq.module').then(m => m.FaqModule) // Lazy load FAQ module
   },
   {

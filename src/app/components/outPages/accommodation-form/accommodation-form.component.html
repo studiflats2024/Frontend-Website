@@ -1,0 +1,154 @@
+<div class="contact-section">
+  <div class="contact-info">
+    <h3>Contact Us</h3>
+    <h2>Get In Touch With Us</h2>
+    <p>We’re here to help! Whether you have questions, need support with your booking, or want to share feedback, our team is ready to assist.</p>
+    <div class="contact-details">
+      <div class="contact-item ">
+        <div class="icon justify-content-center align-items-center"> <img class="mb-3" src="houseicon.svg"  /> </div>
+        <div>
+          <h4>Our Location</h4>
+          <p>Berliner allee 199, 13088 Berlin</p>
+        </div>
+      </div>
+      <div class="contact-item">
+        <div class="icon justify-content-center align-items-center"> <img class="mb-3"   src="phoneicon.png" alt="ringer-volume"/></div>
+        <div>
+          <h4>Phone Number</h4>
+          <p>+49 1520 3290607</p>
+        </div>
+      </div>
+      <div class="contact-item">
+    
+        <div class="icon justify-content-center align-items-center"> <img class="mb-3" src="emailicon.png"  /> </div>
+        <div>
+          <h4>Email Address</h4>
+          <p>Info&#64;studiflats.de</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="contact-form">
+    
+    <p-toast></p-toast>
+
+    <h1 class="reach-title">Reach Out to Our Team</h1>
+
+
+    <!-- <form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+      <div class="form-group">
+        <input type="text" formControlName="sender_Name" class="form-control" placeholder="Your Name">
+      </div>
+    
+      <div class="form-group">
+        <input type="email" formControlName="sender_Mail" class="form-control" placeholder="Your Email" #senderMail>
+<div *ngIf="contactForm.get('sender_Mail')?.invalid && (contactForm.get('sender_Mail')?.dirty || contactForm.get('sender_Mail')?.touched)" class="text-danger">
+  <small *ngIf="contactForm.get('sender_Mail')?.errors?.['required']">Email is required.</small>
+  <small *ngIf="contactForm.get('sender_Mail')?.errors?.['email']">Please enter a valid email.</small>
+</div>
+
+      </div>
+      <div class="form-group">
+        <input type="text" formControlName="sender_Phone" class="form-control" placeholder="Your Phone">
+      </div>
+      <div class="form-group">
+        <textarea formControlName="sender_Message" class="form-control" rows="4" placeholder="Your Message"></textarea>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Send Message</button>
+    </form> -->
+
+
+    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" novalidate>
+
+        <!-- Full Name -->
+        <div class="form-group">
+            <input
+            type="text"
+            formControlName="full_name"
+            class="form-control my-3"
+            placeholder="Full Name" />
+
+            <div *ngIf="contactForm.get('full_name')?.invalid && (contactForm.get('full_name')?.dirty || contactForm.get('full_name')?.touched)"
+                class="text-danger">
+            <small *ngIf="contactForm.get('full_name')?.errors?.['required']">
+                Full name is required.
+            </small>
+            </div>
+        </div>
+
+        <!-- Mobile -->
+        <!-- <div class="form-group">
+            <input
+            type="text"
+            formControlName="mobile"
+            class="form-control my-3"
+            placeholder="Phone Number" />
+
+            <div *ngIf="contactForm.get('mobile')?.invalid && (contactForm.get('mobile')?.dirty || contactForm.get('mobile')?.touched)"
+                class="text-danger">
+            <small *ngIf="contactForm.get('mobile')?.errors?.['required']">
+                Phone number is required.
+            </small>
+            </div>
+        </div> -->
+
+
+        
+        <!-- Phone (with intl-tel-input) -->
+        <div class="form-group">
+            <input
+            id="phone"                         
+            type="tel"
+            formControlName="mobile"
+            class="form-control my-3"
+            placeholder="Phone Number" />
+
+            <div *ngIf="contactForm.get('mobile')?.invalid && (contactForm.get('mobile')?.dirty || contactForm.get('mobile')?.touched)"
+                class="text-danger">
+            <small *ngIf="contactForm.get('mobile')?.errors?.['required']">
+                Phone number is required.
+            </small>
+            </div>
+        </div>
+        <!-- Email -->
+        <div class="form-group">
+            <input
+            type="email"
+            formControlName="email"
+            class="form-control my-3"
+            placeholder="Email Address" />
+
+            <div *ngIf="contactForm.get('email')?.invalid && (contactForm.get('email')?.dirty || contactForm.get('email')?.touched)"
+                class="text-danger">
+            <small *ngIf="contactForm.get('email')?.errors?.['required']">
+                Email is required.
+            </small>
+            <small *ngIf="contactForm.get('email')?.errors?.['email']">
+                Please enter a valid email address.
+            </small>
+            </div>
+        </div>
+
+        <!-- Message (Optional) -->
+        <!-- <div class="form-group">
+            <textarea
+            formControlName="message"
+            class="form-control my-3"
+            rows="4"
+            placeholder="Your Message (optional)"></textarea>
+        </div> -->
+     <!--[disabled]="contactForm.invalid || loading"-->
+        <div class="text-right">
+            <button
+            class="btn btn-sm btn-danger"
+            type="submit"
+             >
+            {{ loading ? 'Sending...' : 'Submit' }}
+            </button>
+        </div>
+
+</form>
+
+  </div>
+</div>
+<app-footer></app-footer>
