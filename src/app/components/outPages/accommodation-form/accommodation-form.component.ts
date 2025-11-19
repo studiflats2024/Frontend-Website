@@ -14,7 +14,8 @@ export class AccommodationFormComponent {
   loading = false;
 
   private engazUrl =
-    'https://api.engazcrm.net/api/company3/save/ACCOMMODATION1026915c5dd3addf?subdomain=extech';
+    // 'https://api.engazcrm.net/api/company3/save/ACCOMMODATION1026915c5dd3addf?subdomain=extech';
+    "https://api.engazcrm.net/api/company3/save/ACCOMMODATION102691d9f5f11be5?subdomain=extech";
 
   constructor(
     private fb: FormBuilder,

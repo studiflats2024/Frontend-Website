@@ -14,7 +14,8 @@ export class GermanCoureFormComponent {
   loading = false;
 
   private engazUrl =
-    'https://api.engazcrm.net/api/company3/save/GERMANCOURSE1026915c5ee87b5c?subdomain=extech';
+    // 'https://api.engazcrm.net/api/company3/save/GERMANCOURSE1026915c5ee87b5c?subdomain=extech';
+    "https://api.engazcrm.net/api/company3/save/GERMANCOURSE102691d9f6b77990?subdomain=extech";
 
   constructor(
     private fb: FormBuilder,
