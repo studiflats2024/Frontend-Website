@@ -26,6 +26,9 @@ const routes: Routes = [
      path: 'german-course-form', loadChildren: () => import('./components/outPages/german-coure-form/german-course.module').then(m => m.GermanCourseModule)
   },
   {
+     path: 'community-club-form', loadChildren: () => import('./components/outPages/community-club-form/community-club.module').then(m => m.CommunityClubModule)
+  },
+  {
     path: 'faq', loadChildren: () => import('./components/faq/faq.module').then(m => m.FaqModule) // Lazy load FAQ module
   },
   {
