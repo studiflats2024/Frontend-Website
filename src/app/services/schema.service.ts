@@ -8,6 +8,7 @@ export class SchemaService {
 
   constructor(rendererFactory: RendererFactory2) {
     this.renderer = rendererFactory.createRenderer(null, null);
+    console.log(this.renderer)
   }
 
   addSchema(schema: object, id: string): void {
