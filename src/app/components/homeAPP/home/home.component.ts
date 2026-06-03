@@ -8,6 +8,7 @@ import { Apartment } from '../../../models/apartment.model';
 import { MessageService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { ApartmentSearchService } from '../../../services/apartment-search.service';
+import { SchemaService } from '../../../services/schema.service';
 
 @Component({
   selector: 'app-home',
@@ -92,7 +93,7 @@ export class HomeComponent implements OnInit, AfterViewInit  {
 /////////////////////////////////////////////////////////////////////end pretty scrollable////////////////////////////////////////
 
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2,private apartmentSearchService: ApartmentSearchService, private apartmentService: ApartmentService, private router: Router,private messageService: MessageService) {}
+  constructor(private elementRef: ElementRef, private renderer: Renderer2,private apartmentSearchService: ApartmentSearchService, private apartmentService: ApartmentService, private router: Router,private messageService: MessageService,private schemaService: SchemaService) {}
   searchResults: any;
   ngOnInit(): void {
     this.getAllApartment();
@@ -105,6 +106,21 @@ export class HomeComponent implements OnInit, AfterViewInit  {
     //   }
     // });
 
+
+       this.schemaService.addSchema({
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "StudiFlats",
+      "url": "https://studiflats.com",
+      "logo": "https://studiflats.com/assets/images/logo.png",
+      "description": "Find your perfect furnished apartment, studio, or shared flat to live, work, or study in Berlin.",
+      "sameAs": [
+        "https://www.facebook.com/your-profile",
+        "https://www.linkedin.com/company/your-profile"
+      ]
+    }, 'organization-schema');
+
+    
   }
 
   userComments = [

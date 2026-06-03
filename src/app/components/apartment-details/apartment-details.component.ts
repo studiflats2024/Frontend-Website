@@ -24,6 +24,7 @@ import { HttpClient } from '@angular/common/http';
 import { AuthComponent } from '../auth/auth.component';
 import { Globals, isValidEmail } from '../../globals/global';
 import { ApartmentSearchService } from '../../services/apartment-search.service';
+import { SchemaService } from '../../services/schema.service';
 
 
 
@@ -1492,7 +1493,8 @@ indexMainTenant!:number;
     private authService: AuthService,
     private cdr: ChangeDetectorRef,
     private resolver: ComponentFactoryResolver,
-    private apartmentSearchService: ApartmentSearchService)
+    private apartmentSearchService: ApartmentSearchService,
+    private schemaService: SchemaService)
      {
       
       this.apartmentSearchService.requestData$.subscribe((data) => {
@@ -2024,6 +2026,43 @@ input.addEventListener("countrychange", function() {
    this.host=true;
   }
 
+
+
+ addApartmentSchema(): void {
+  if (!this.aprt) return;
+
+  const firstRoom = this.aprt.apartment_Rooms?.[0];
+  const firstBed = firstRoom?.room_Beds?.[0];
+
+  this.schemaService.addSchema({
+    "@context": "https://schema.org",
+    "@type": "Accommodation",
+    "name": this.aprt.apartment_Name,
+    "description": this.aprt.apartment_Description,
+    "image": this.aprt.apartment_Images?.[0]?.image_Path,
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": this.aprt.apartment_Area,
+      "addressLocality": "Berlin",
+      "addressCountry": "DE"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": firstRoom?.bed_Price || firstBed?.bed_Price || 0,
+      "priceCurrency": "EUR",
+      "priceSpecification": {
+        "@type": "UnitPriceSpecification",
+        "price": firstRoom?.bed_Price || firstBed?.bed_Price || 0,
+        "priceCurrency": "EUR",
+        "referenceQuantity": {
+          "@type": "QuantitativeValue",
+          "value": "1",
+          "unitCode": "MON"
+        }
+      }
+    }
+  }, 'accommodation-schema');
+}
   ////////////////////////////////////////////////////updates on booking and checkin/out dates//////////////////////////////////
 
 
@@ -2827,6 +2866,7 @@ checkNotAvailable(){
           console.log(res)
           this.allResponse=res;
           this.aprt = res.apartment_Basic_Info || {};
+           this.addApartmentSchema();
           this.checkNotAvailableVar=this.checkNotAvailable()
           this. loadWishList()
           ///////////////////minstay///////////////////////

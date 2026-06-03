@@ -5,7 +5,7 @@ import { BlogService } from '../blogs/blog.service';
 import { Title, Meta } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
-
+import { SchemaService } from '../../services/schema.service';
 
 @Component({
   selector: 'app-blog-details',
@@ -19,7 +19,7 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
 
   blogId: string | null = null;
   blogSlug: string | null = null;
-  constructor( private sanitizer: DomSanitizer, private route: ActivatedRoute,private titleService: Title, private metaService: Meta,private blogService: BlogService) {
+  constructor( private schemaService: SchemaService, private sanitizer: DomSanitizer, private route: ActivatedRoute,private titleService: Title, private metaService: Meta,private blogService: BlogService) {
     // this.blogId = this.blogService.getBlogId()|| localStorage.getItem('blogId');
 
   // الحصول على بيانات الـ Resolver
@@ -116,7 +116,36 @@ export class BlogDetailsComponent implements OnInit, AfterViewInit {
 
 }
 
+addBlogSchema(blog: any): void {
+  if (!blog) return;
 
+  this.schemaService.addSchema({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": blog.blog_Title,
+    "description": blog.blog_Meta_Desc || blog.blog_Desc,
+    "image": blog.blog_Main_Image,
+    "datePublished": blog.blog_Created_at,
+    "dateModified": blog.blog_Created_at,
+    "author": {
+      "@type": "Organization",
+      "name": blog.blog_Author || "StudiFlats",
+      "url": "https://studiflats.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "StudiFlats",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://studiflats.com/assets/images/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": window.location.href
+    }
+  }, 'blog-schema');
+}
 
    /**
   * addItem
@@ -193,6 +222,8 @@ loadBlogDetails(blogSlug: string): void {
 
     console.log(`Canonical tag added: ${canonicalUrl}`);
 
+
+    this.addBlogSchema(blog);
     },
     (error) => {
       console.error('Error loading blog details:', error);
