@@ -217,7 +217,7 @@ loadBlogDetails(blogSlug: string): void {
     this.metaService.updateTag({ property: 'og:description', content: this.metaDes});
     this.metaService.updateTag({ property: 'og:url', content: window.location.href });
 
-    const canonicalUrl = `https://studiflats.de/blog-details/${this.blogSlug}`;
+    const canonicalUrl = `https://studiflats.com/blog-details/${this.blogSlug}`;
     this.metaService.updateTag({ rel: 'canonical', href: canonicalUrl });
 
     console.log(`Canonical tag added: ${canonicalUrl}`);
