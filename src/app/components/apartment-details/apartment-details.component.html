@@ -1116,7 +1116,7 @@
                       <div class="full-apartment">Single Room</div>
                       <div class="frame-checkbox-aprt">
                         <!-- <input type="checkbox" class="form-check-input"  [disabled]="!room.room_Beds[0].bed_Available"  (change)="onBedSelected($event, room.room_Beds[0],room.room_Type,room )" [checked]="selectedRooms.includes(room)"    />isAvailable -->
-                        <input type="checkbox" class="form-check-input"  [disabled]="!room.room_Beds[0].isAvailable"  (change)="onBedSelected($event, room.room_Beds[0],room.room_Type,room )" [checked]="selectedRooms.includes(room)"    /> 
+                        <input type="checkbox" class="form-check-input"  [disabled]="!room.room_Beds[0]?.isAvailable"  (change)="onBedSelected($event, room.room_Beds[0],room.room_Type,room )" [checked]="selectedRooms.includes(room)"    />
 
                       </div>
 
@@ -1125,7 +1125,7 @@
                       <span class="price-label">Room Price: </span>
                       <span class="price-value">€{{room.bed_Price}}</span>
                       <!-- <div *ngIf="!room.room_Beds[0].bed_Available" class="badge-unavailable">isAvailable -->
-                      <div *ngIf="!room.room_Beds[0].isAvailable" class="badge-unavailable"> 
+                      <div *ngIf="!room.room_Beds[0]?.isAvailable" class="badge-unavailable">
 
                         <span class="text-unavailable">Unavailable</span>
                       </div>

@@ -5,7 +5,7 @@
 
 
 
-import { Component , DoCheck , OnInit ,  HostListener,  AfterViewInit, ElementRef, ViewChild , OnChanges, SimpleChanges, AfterViewChecked, QueryList, ViewChildren,ChangeDetectorRef, ViewContainerRef, ComponentFactoryResolver   } from '@angular/core';
+import { Component , DoCheck , OnInit , OnDestroy ,  HostListener,  AfterViewInit, ElementRef, ViewChild , OnChanges, SimpleChanges, AfterViewChecked, QueryList, ViewChildren,ChangeDetectorRef, ViewContainerRef, ComponentFactoryResolver   } from '@angular/core';
 import { Router,  ActivatedRoute } from '@angular/router';
 import { ApartmentService } from '../../services/apartment.service';
 import { Apartment } from '../../models/apartment.model';
@@ -44,7 +44,7 @@ interface FAQ {
   templateUrl: './apartment-details.component.html',
   styleUrls: ['./apartment-details.component.css']
 })
-export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChanges, AfterViewChecked , DoCheck  {
+export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChanges, AfterViewChecked , DoCheck , OnDestroy  {
     @ViewChild('container', { read: ViewContainerRef, static: true }) container!: ViewContainerRef;
     renderAuthComponent() {
       // Clear the container (optional, in case you're re-rendering)
@@ -115,6 +115,14 @@ export class ApartmentDetailsComponent implements OnInit,AfterViewInit, OnChange
       console.log(`Globals.authg changed from ${this.auth} to ${Globals.authg}`);
       this.auth = Globals.authg;
     }
+  }
+
+  ngOnDestroy(): void {
+    // Release every subscription collected in this.subscriptions (the search
+    // request stream from the constructor and the apartment details request),
+    // otherwise they stay alive after navigating away and stack up on the next visit.
+    this.subscriptions.forEach(subscription => subscription.unsubscribe());
+    this.subscriptions = [];
   }
 
   passwordFieldType: string = 'password'; // This controls the input type
@@ -1497,6 +1505,7 @@ indexMainTenant!:number;
     private schemaService: SchemaService)
      {
       
+      this.subscriptions.push(
       this.apartmentSearchService.requestData$.subscribe((data) => {
         this.requestDataFromSearch = data;
         console.log('Shared Request Data From Search:', this.requestDataFromSearch);
@@ -1508,7 +1517,8 @@ indexMainTenant!:number;
         } 
         
         console.log(this.checkinDate, this.checkoutDate)
-      });
+      })
+      );
 
     this.apt_UUID = _ActivatedRoute.snapshot.paramMap.get('id');
     this.initializeGuestsAPI();
@@ -1575,7 +1585,7 @@ ngOnChanges(changes: SimpleChanges) {
         this.initializeIntlTelInput('#bookingphone', this.bookingForm);
 
       }, 0);
-    debugger;
+    // debugger;
   }
 
   // const input = document.querySelector("#phoneid");
@@ -2858,6 +2868,26 @@ checkNotAvailable(){
   maxCheckOut:any;
   minStay:any;
   checkNotAvailableVar:any;
+  /**
+   * Beds with bed_Publish !== 'Published' (drafts) are not offered on the website.
+   * They are stripped here, straight after the response lands, so that every
+   * consumer downstream — availability, guest count, pricing and the booking
+   * flow — works from the same filtered data. Rooms are kept even when all of
+   * their beds are drafts; only beds_No is re-synced to the remaining count.
+   */
+  filterPublishedBeds() {
+    if (!Array.isArray(this.aprt?.apartment_Rooms)) {
+      return;
+    }
+
+    this.aprt.apartment_Rooms.forEach((room: any) => {
+      room.room_Beds = (room.room_Beds || []).filter(
+        (bed: any) => bed?.bed_Publish === 'Published'
+      );
+      room.beds_No = room.room_Beds.length;
+    });
+  }
+
   getApartmentDetails() {
 
     this.subscriptions.push(
@@ -2866,6 +2896,7 @@ checkNotAvailable(){
           console.log(res)
           this.allResponse=res;
           this.aprt = res.apartment_Basic_Info || {};
+          this.filterPublishedBeds();
            this.addApartmentSchema();
           this.checkNotAvailableVar=this.checkNotAvailable()
           this. loadWishList()
